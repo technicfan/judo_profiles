@@ -1,8 +1,12 @@
 <html>
     <form method="post">
         {% csrf_token %}
-        <input type="name" value={{ name }}>
-        <input type="last_name" value={{ last_name }}>
+        <input type="name" value={{ fighter.name }}>
+        <input type="last_name" value={{ fighter.last_name }}>
+        {% for i in techniques %}
+        {{ i.number }}
+        {{ i.technique.name }}
+        {% endfor %}
         <input type="submit">
     </form>
 </html>

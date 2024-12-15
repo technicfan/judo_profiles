@@ -1,0 +1,10 @@
+<html>
+    {% for i in profiles %}
+        <a href="/{{ i.id }}">{{ i }}</a>
+        {% if i.created_by == user %}
+            <a href="/{{ i.id }}/edit">Bearbeiten</a>
+            <a href="/{{ i.id }}/manage">Zugriff verwalten</a>
+        {% endif %}
+        <br>
+    {% endfor %}
+</html>

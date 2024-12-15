@@ -1,0 +1,8 @@
+<html>
+    {{ fighter.name }}
+    {{ fighter.last_name }}
+    {% for i in techniques %}
+    {{ i.number }}
+    {{ i.technique.name }}
+    {% endfor %}
+</html>
