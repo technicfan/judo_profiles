@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .move {
+            position: absolute;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+        }
+        .option {
+            display: inline-block;
+            cursor: pointer;
+        }
+        .position {
+            height: 20px;
+            width: 20px;
+            border-width: 5px;
+            border-color: grey;
+            border-style: solid;
+            background-color: white;
+            text-align: center;
+            font-weight: bold;
+            user-select: none;
+        }
+        .r {
+            border-radius: 0px;
+        }
+        .l {
+            border-radius: 15px;
+        }
+        #image {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        #choices {
+            width: max-content;
+            height: max-content;
+            border-width: 3px;
+            border-color: black;
+            border-style: solid;
+            padding: 6px;
+            margin: 3px;
+        }
+        #image_container {
+            width: fit-content;
+            border-width: 3px;
+            border-color: black;
+            border-style: solid;
+            padding: 6px;
+            margin: 3px;
+        }
+        #image_desc {
+            border-width: 3px;
+            border-color: black;
+            border-style: solid;
+            width: fit-content;
+        }
+        #delete {
+            border-width: 3px;
+            border-color: black;
+            border-style: solid;
+            width: fit-content;
+            background-color: white;
+        }
+    </style>
+    <body>
+        <div id="choices">
+            <a>Rechte Hand =</a>
+            <div class="r position option 1" id="oR1">1</div>
+            <div class="r position option 2" id="oR2">2</div>
+            <div class="r position option 3" id="oR3">3</div>
+            <div class="r position option 4" id="oR4">4</div>
+            <br>
+            <br>
+            <a>Linke Hand =</a>
+            <div class="l position option 1" id="oL1">1</div>
+            <div class="l position option 2" id="oL2">2</div>
+            <div class="l position option 3" id="oL3">3</div>
+            <div class="l position option 4" id="oL4">4</div>
+        </div>
+        <div id="image_container">
+            <h2 id="image_desc">Griffposition</h2>
+            <button id="delete" onclick="delClick()">Löschen</button>
+            <img src="../resources/image.png" id="image">
+            <div class="r move position 1" id="pR1">1</div>
+            <div class="r move position 2" id="pR2">2</div>
+            <div class="r move position 3" id="pR3">3</div>
+            <div class="r move position 4" id="pR4">4</div>
+            <div class="l move position 1" id="pL1">1</div>
+            <div class="l move position 2" id="pL2">2</div>
+            <div class="l move position 3" id="pL3">3</div>
+            <div class="l move position 4" id="pL4">4</div>
+        </div>
+    </body>
+    <script>
+        let newX = 0, newY = 0, startX = 0, startY = 0, delete_mode = false, move = null;
+        const image = document.getElementById("image")
+        const options = document.getElementsByClassName("option")
+        const positions = document.getElementsByClassName("move")
+        for (let i = 0; i < options.length; i++) {
+            options.item(i).addEventListener("mousedown", mouseDownOpt)
+        }
+        
+        function mouseDownOpt(e){
+            if (move != null){
+                mouseDownDoc(e)
+            }
+            target = e.target
+            move = document.getElementById(getMatchingID(target.id))
+            colorSelected(target.className[0] + " " + target.className.slice(-1), "black")
+            image.addEventListener("mousedown", mouseDownImg)
+            document.addEventListener("mousedown", mouseDownDoc)
+        }
+
+        function mouseDownDoc(e){
+            if (e.target.id != "image" && e.target.id != getMatchingID(move.id) && move.style.display != "flex"){
+                colorSelected(move.className[0] + " " + move.className.slice(-1), "grey")
+                image.removeEventListener("mousedown", mouseDownImg)
+            }
+            if (e.target.id != getMatchingID(move.id)){
+                document.removeEventListener("mousedown", mouseDownDoc)
+            }
+        }
+
+        function mouseDownImg(e){
+            if (move != null){
+                move.style.display = "flex"
+                placeRelative((e.clientY - move.clientHeight / 2 - image.offsetTop) / image.clientHeight, 
+                                (e.clientX - move.clientWidth / 2 - image.offsetLeft) / image.clientWidth)
+                move.addEventListener("mousedown", mouseDownPos)
+            }
+        }
+
+        function delClick(){
+            for (let i = 0; i < positions.length; i++) {
+                if (positions.item(i).style.display == "flex"){
+                    positions.item(i).style.borderColor = "red"
+                    positions.item(i).style.cursor = "not-allowed"
+                    delete_mode = true
+                }
+            }
+        }
+
+        function mouseDownPos(e){
+            move = document.getElementById(e.target.id)
+            if (delete_mode){
+                move.style.display = "none"
+                document.getElementById(getMatchingID(move.id)).style.borderColor = "grey"
+                for (let i = 0; i < positions.length; i++) {
+                    if (positions.item(i).style.display == "flex"){
+                        positions.item(i).style.borderColor = "black"
+                        positions.item(i).style.cursor = "grab"
+                    }
+                }
+                delete_mode = false
+                move = null
+            } else {
+                startX = e.clientX
+                startY = e.clientY
+                move.style.cursor = "grabbing"
+                move.addEventListener("mousemove", mouseMovePos)
+                document.addEventListener("mouseup", mouseUpPos)
+            }
+        }
+
+        function mouseMovePos(e){
+            newX = startX - e.clientX
+            newY = startY - e.clientY
+            startX = e.clientX
+            startY = e.clientY
+            placeRelative((move.offsetTop - newY - image.offsetTop) / image.clientHeight,
+                            (move.offsetLeft - newX - image.offsetLeft) / image.clientWidth)
+        }
+
+        function mouseUpPos(e){
+            move.style.cursor = "grab"
+            move.removeEventListener("mousemove", mouseMovePos)
+        }
+
+        function placeRelative(relativeY, relativeX){
+            borderWidth = parseInt(window.getComputedStyle(move).borderWidth)
+            maxY = 1 - (move.clientHeight + 2 * borderWidth) / image.clientHeight
+            maxX = 1 - (move.clientWidth + 2 * borderWidth) / image.clientWidth
+
+            if (relativeY >= maxY){
+                relativeY = maxY
+            } else if (relativeY <= 0){
+                relativeY = 0
+            }
+            if (relativeX >= maxX){
+                relativeX = maxX
+            } else if (relativeX <= 0){
+                relativeX = 0
+            }
+
+            move.style.top = relativeY * image.clientHeight + image.offsetTop + "px"
+            move.style.left = relativeX * image.clientWidth + image.offsetLeft + "px"
+
+            console.log({relativeY, relativeX})
+        }
+
+        function colorSelected(classes, color){
+            selected = document.getElementsByClassName(classes)
+            for (let i = 0; i < selected.length; i++) {
+                selected.item(i).style.borderColor = color
+            }
+        }
+
+        function getMatchingID(id){
+            if (id[0] == "p"){
+                return "o" + id.slice(1)
+            } else if (id[0] == "o"){
+                return "p" + id.slice(1)
+            }
+        }
+    </script>
+</html>

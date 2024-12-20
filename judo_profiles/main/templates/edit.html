@@ -1,12 +1,27 @@
 <html>
     <form method="post">
         {% csrf_token %}
-        <input type="name" value={{ fighter.name }}>
-        <input type="last_name" value={{ fighter.last_name }}>
-        {% for i in techniques %}
-        {{ i.number }}
-        {{ i.technique.name }}
-        {% endfor %}
-        <input type="submit">
+        <div id="data">
+            <input type="name" value={{ fighter.name }}>
+            <input type="last_name" value={{ fighter.last_name }}>
+            <input type="weight" value={{ fighter.weight }}>
+            <input type="year" value={{ fighter.year }}>
+            <input type="nationality" value={{ fighter.nationality }}>
+        </div>
+        <div id="best">
+            {% for i in best %}
+                {{ i.number }}
+                <select id="best_{{ i.number }}">
+                    {% for j in techniques %}
+                        {% if i.technique == j %}
+                            <option value="{{ j.id }}" selected>{{ j.name }}</option>
+                        {% else %}
+                            <option value="{{ j.id }}">{{ j.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <br>
+            {% endfor %}
+        </div>
     </form>
 </html>

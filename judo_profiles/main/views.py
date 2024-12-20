@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.db.models import Q
-from . models import Fighter, OwnTechnique, SpecialTechnique
+from .models import Fighter, OwnTechnique, SpecialTechnique, Technique
 
 # Create your views here.
 def index(request):
@@ -12,8 +12,10 @@ def edit_profile(request, profile_id):
         return
     else:
         fighter = Fighter.objects.get(id=profile_id)
-        techniques = SpecialTechnique.objects.filter(fighter_profile=fighter).order_by("number")
-        return render(request, "edit.html", {"fighter": fighter, "techniques": techniques})
+        own = OwnTechnique.objects.filter(fighter_profile=fighter)
+        best = SpecialTechnique.objects.filter(fighter_profile=fighter).order_by("number")
+        techniques = Technique.objects.all()
+        return render(request, "edit.html", {"fighter": fighter, "best": best, "own": own, "techniques": techniques})
 
 def profile(request, profile_id):
     fighter = Fighter.objects.get(id=profile_id)
