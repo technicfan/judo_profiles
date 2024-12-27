@@ -21,3 +21,6 @@ def profile(request, profile_id):
     fighter = Fighter.objects.get(id=profile_id)
     techniques = SpecialTechnique.objects.filter(fighter_profile=fighter).order_by("number")
     return render(request, "profile.html", {"fighter": fighter, "techniques": techniques})
+
+def new_profile(request):
+    pass

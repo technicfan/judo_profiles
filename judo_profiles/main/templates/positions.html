@@ -97,7 +97,7 @@
                 </div>
                 <br>
                 <button id="delete" onclick="delClick()">Löschen</button>
-                <button id="submit" onclick="submit()">Submit</button>
+                <button id="submit" onclick="submit()" disabled autocomplete="off">Submit</button>
                 <div id="image_container">
                     <img src="../resources/image.png" id="image">
                     <div class="r move position 1" id="pR1">1</div>
@@ -168,26 +168,30 @@
                 startX = e.clientX
                 startY = e.clientY
                 move.style.cursor = "grabbing"
-                move.addEventListener("mousemove", mouseMovePos)
+                document.addEventListener("mousemove", mouseMovePos)
                 document.addEventListener("mouseup", mouseUpPos)
             }
         }
 
         function mouseMovePos(e){
-            newX = startX - e.clientX
-            newY = startY - e.clientY
-            startX = e.clientX
-            startY = e.clientY
+            if (e.clientX <= image.offsetLeft - window.scrollX + image.offsetWidth && e.clientX >= image.offsetLeft - window.scrollX){
+                newX = startX - e.clientX
+                startX = e.clientX
+            }
+            if (e.clientY <= image.offsetTop - window.scrollY + image.clientHeight && e.clientY >= image.offsetTop - window.scrollY){
+                newY = startY - e.clientY
+                startY = e.clientY
+            }
             placeRelative(move, (move.offsetTop - newY - image.offsetTop) / image.clientHeight,
                             (move.offsetLeft - newX - image.offsetLeft) / image.clientWidth)
         }
 
         function mouseUpPos(e){
             move.style.cursor = "grab"
-            move.removeEventListener("mousemove", mouseMovePos)
+            document.removeEventListener("mousemove", mouseMovePos)
         }
 
-        function placeRelative(object, relativeY, relativeX){
+        function placeRelative(object, relativeY, relativeX, change = true){
             borderWidth = parseInt(window.getComputedStyle(move).borderWidth)
             maxY = 1 - (object.clientHeight + 2 * borderWidth) / image.clientHeight
             maxX = 1 - (object.clientWidth + 2 * borderWidth) / image.clientWidth
@@ -205,6 +209,10 @@
 
             object.style.top = relativeY * image.clientHeight + image.offsetTop + "px"
             object.style.left = relativeX * image.clientWidth + image.offsetLeft + "px"
+
+            if (change){
+                document.getElementById("submit").disabled = false
+            }
         }
 
         function getRelative(object){

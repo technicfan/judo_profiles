@@ -51,6 +51,7 @@ class OwnTechnique(models.Model):
     technique = models.ForeignKey(Technique, on_delete=models.CASCADE)
     side = models.BooleanField(choices=SIDE_CHOICES)
     state = models.CharField(max_length=1)
+    direction = models.PositiveIntegerField()
     left_position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name="left_position_owntechniques")
     right_position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name="right_position_owntechniques")
 
