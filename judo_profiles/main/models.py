@@ -10,14 +10,11 @@ class Fighter(models.Model):
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name="fighter")
-    can_be_seen_by = models.ManyToManyField(User, blank=True, related_name="fighters_visible")
+    #can_be_seen_by = models.ManyToManyField(User, blank=True, related_name="fighters_visible")
     weight = models.FloatField()
     primary_side = models.PositiveIntegerField(choices=PRIMARY_SIDE_CHOICES)
     year = models.PositiveIntegerField()
-    nationality = models.CharField(max_length=10)
-    positive_comments = models.TextField(null=True, blank=True)
-    negative_comments = models.TextField(null=True, blank=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="fighters_created")
+    #created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="fighters_created")
     updated_on = models.DateField(auto_now=True)
 
     def __str__(self):
@@ -47,10 +44,15 @@ class OwnTechnique(models.Model):
         (True, "l"),
         (False, "r")
     ]
+    STATE_CHOICES = [
+        ("W", "wettkampfstabil"),
+        ("T", "Training"),
+        ("Z", "zu lernen"),
+    ]
     fighter_profile = models.ForeignKey(Fighter, on_delete=models.CASCADE)
     technique = models.ForeignKey(Technique, on_delete=models.CASCADE)
     side = models.BooleanField(choices=SIDE_CHOICES)
-    state = models.CharField(max_length=1)
+    state = models.CharField(max_length=1, choices=STATE_CHOICES)
     direction = models.PositiveIntegerField()
     left_position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name="left_position_owntechniques")
     right_position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name="right_position_owntechniques")
@@ -58,10 +60,16 @@ class OwnTechnique(models.Model):
     def __str__(self):
         return self.technique.name
 
-class SpecialTechnique(models.Model):
+class TechniqueRank(models.Model):
+    TYPE_CHOICES = [
+        ("S", "Spezial"),
+        ("U", "Übergang"),
+        ("B", "Boden")
+    ]
     fighter_profile = models.ForeignKey(Fighter, on_delete=models.CASCADE)
     technique = models.ForeignKey(Technique, on_delete=models.CASCADE)
     number = models.PositiveIntegerField()
+    type = models.CharField(choices=TYPE_CHOICES, max_length=1)
 
     def __str__(self):
         return self.technique.name

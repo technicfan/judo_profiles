@@ -8,8 +8,8 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("csv_file", type=str, help="The CSV file to be imported")
 
-    def handle(self, *args, **options):
-        csv_file = options["csv_file"]
+    def handle(self, *args, **kwargs):
+        csv_file = kwargs["csv_file"]
 
         with open(csv_file, "r") as file:
             reader = csv.reader(file)

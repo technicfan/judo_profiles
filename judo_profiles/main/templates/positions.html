@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <style>
@@ -32,6 +33,7 @@
         #image {
             -moz-user-select: none;
             -webkit-user-select: none;
+            -ms-user-select: none;
             user-select: none;
         }
         #choices {
@@ -75,187 +77,90 @@
         }
         #visual {
             width: fit-content;
+            display: inline;
+        }
+        .own_techniques {
+            border-width: 3px;
+            border-color: black;
+            border-style: solid;
+            padding: .25cm;
+            height: 5cm;
+            width: 15cm;
+        }
+        #hidden_thing {
+            display: none;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <body>
-        <div id="visual">
-            <div id="positions">
-                <p id="image_desc">Griffpositionen</p>
-                <div id="choices">
-                    <a>Rechte Hand =</a>
-                    <div class="r position option 1" id="oR1">1</div>
-                    <div class="r position option 2" id="oR2">2</div>
-                    <div class="r position option 3" id="oR3">3</div>
-                    <div class="r position option 4" id="oR4">4</div>
-                    <br>
-                    <br>
-                    <a>Linke Hand =</a>
-                    <div class="l position option 1" id="oL1">1</div>
-                    <div class="l position option 2" id="oL2">2</div>
-                    <div class="l position option 3" id="oL3">3</div>
-                    <div class="l position option 4" id="oL4">4</div>
-                </div>
-                <br>
-                <button id="delete" onclick="delClick()">Löschen</button>
-                <button id="submit" onclick="submit()" disabled autocomplete="off">Submit</button>
-                <div id="image_container">
-                    <img src="../resources/image.png" id="image">
-                    <div class="r move position 1" id="pR1">1</div>
-                    <div class="r move position 2" id="pR2">2</div>
-                    <div class="r move position 3" id="pR3">3</div>
-                    <div class="r move position 4" id="pR4">4</div>
-                    <div class="l move position 1" id="pL1">1</div>
-                    <div class="l move position 2" id="pL2">2</div>
-                    <div class="l move position 3" id="pL3">3</div>
-                    <div class="l move position 4" id="pL4">4</div>
-                </div>
-            </div>
-        </div>
+        <form method="post">
+            {% csrf_token %}
+            <table id="main">
+                <tr>
+                    <td>
+                        <div id="visual">
+                            <div id="positions">
+                                <p id="image_desc">Griffpositionen</p>
+                                <div id="choices">
+                                    <a>Rechte Hand =</a>
+                                    <div class="r position option 1" id="oR1">1</div>
+                                    <div class="r position option 2" id="oR2">2</div>
+                                    <div class="r position option 3" id="oR3">3</div>
+                                    <div class="r position option 4" id="oR4">4</div>
+                                    <br>
+                                    <br>
+                                    <a>Linke Hand =</a>
+                                    <div class="l position option 1" id="oL1">1</div>
+                                    <div class="l position option 2" id="oL2">2</div>
+                                    <div class="l position option 3" id="oL3">3</div>
+                                    <div class="l position option 4" id="oL4">4</div>
+                                </div>
+                                <br>
+                                <button id="delete" onclick="delClick()">Löschen</button>
+                                <button id="submit" onclick="submit()" disabled autocomplete="off">Submit</button>
+                                <div id="image_container">
+                                    <img src="{% static "images/image.png" %}" id="image">
+                                    <div class="r move position 1" id="pR1">1</div>
+                                    <div class="r move position 2" id="pR2">2</div>
+                                    <div class="r move position 3" id="pR3">3</div>
+                                    <div class="r move position 4" id="pR4">4</div>
+                                    <div class="l move position 1" id="pL1">1</div>
+                                    <div class="l move position 2" id="pL2">2</div>
+                                    <div class="l move position 3" id="pL3">3</div>
+                                    <div class="l move position 4" id="pL4">4</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select id="hidden_thing">
+                            {% for t in techniques %}
+                                <option value="{{ t.id }}">{{ t.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <table id="own">
+                            <caption id="own_techniques">Eigene Techniken</caption>
+                            <tr>
+                                <td class="own_techniques" id="own4">
+                                    <button onclick="add_own(4)">+</button>
+                                </td>
+                                <td class="own_techniques" id="own1">
+                                    <button onclick="add_own(1)">+</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="own_techniques" id="own3">
+                                    <button onclick="add_own(3)">+</button>
+                                </td>
+                                <td class="own_techniques" id="own2">
+                                    <button onclick="add_own(2)">+</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </body>
-    <script>
-        let newX = 0, newY = 0, startX = 0, startY = 0, delete_mode = false, move = null;
-        const image = document.getElementById("image")
-        const options = document.getElementsByClassName("option")
-        const positions = document.getElementsByClassName("move")
-        for (let i = 0; i < options.length; i++) {
-            options.item(i).addEventListener("mousedown", mouseDownOpt)
-        }
-        
-        function mouseDownOpt(e){
-            if (move != null){
-                mouseDownDoc(e)
-            }
-            target = e.target
-            move = document.getElementById(getMatchingID(target.id))
-            colorSelected(target.className[0] + " " + target.className.slice(-1), "black")
-            image.addEventListener("mousedown", mouseDownImg)
-            document.addEventListener("mousedown", mouseDownDoc)
-        }
-
-        function mouseDownDoc(e){
-            if (e.target.id != "image" && e.target.id != getMatchingID(move.id) && move.style.display != "flex"){
-                colorSelected(move.className[0] + " " + move.className.slice(-1), "grey")
-                image.removeEventListener("mousedown", mouseDownImg)
-            }
-            if (e.target.id != getMatchingID(move.id)){
-                document.removeEventListener("mousedown", mouseDownDoc)
-            }
-        }
-
-        function mouseDownImg(e){
-            if (move != null){
-                move.style.display = "flex"
-                placeRelative(move, (e.clientY + window.scrollY - move.clientHeight / 2 - image.offsetTop) / image.clientHeight, 
-                                (e.clientX + window.scrollX - move.clientWidth / 2 - image.offsetLeft) / image.clientWidth)
-                move.addEventListener("mousedown", mouseDownPos)
-            }
-        }
-
-        function mouseDownPos(e){
-            move = document.getElementById(e.target.id)
-            if (delete_mode){
-                move.style.display = "none"
-                document.getElementById(getMatchingID(move.id)).style.borderColor = "grey"
-                for (let i = 0; i < positions.length; i++) {
-                    if (positions.item(i).style.display == "flex"){
-                        positions.item(i).style.borderColor = "black"
-                        positions.item(i).style.cursor = "grab"
-                    }
-                }
-                delete_mode = false
-                move = null
-            } else {
-                startX = e.clientX
-                startY = e.clientY
-                move.style.cursor = "grabbing"
-                document.addEventListener("mousemove", mouseMovePos)
-                document.addEventListener("mouseup", mouseUpPos)
-            }
-        }
-
-        function mouseMovePos(e){
-            if (e.clientX <= image.offsetLeft - window.scrollX + image.offsetWidth && e.clientX >= image.offsetLeft - window.scrollX){
-                newX = startX - e.clientX
-                startX = e.clientX
-            }
-            if (e.clientY <= image.offsetTop - window.scrollY + image.clientHeight && e.clientY >= image.offsetTop - window.scrollY){
-                newY = startY - e.clientY
-                startY = e.clientY
-            }
-            placeRelative(move, (move.offsetTop - newY - image.offsetTop) / image.clientHeight,
-                            (move.offsetLeft - newX - image.offsetLeft) / image.clientWidth)
-        }
-
-        function mouseUpPos(e){
-            move.style.cursor = "grab"
-            document.removeEventListener("mousemove", mouseMovePos)
-        }
-
-        function placeRelative(object, relativeY, relativeX, change = true){
-            borderWidth = parseInt(window.getComputedStyle(move).borderWidth)
-            maxY = 1 - (object.clientHeight + 2 * borderWidth) / image.clientHeight
-            maxX = 1 - (object.clientWidth + 2 * borderWidth) / image.clientWidth
-
-            if (relativeY >= maxY){
-                relativeY = maxY
-            } else if (relativeY <= 0){
-                relativeY = 0
-            }
-            if (relativeX >= maxX){
-                relativeX = maxX
-            } else if (relativeX <= 0){
-                relativeX = 0
-            }
-
-            object.style.top = relativeY * image.clientHeight + image.offsetTop + "px"
-            object.style.left = relativeX * image.clientWidth + image.offsetLeft + "px"
-
-            if (change){
-                document.getElementById("submit").disabled = false
-            }
-        }
-
-        function getRelative(object){
-            y = (parseInt(object.style.top) - image.offsetTop) / image.clientHeight
-            x = (parseInt(object.style.left) - image.offsetLeft) / image.clientWidth
-            
-            return [y, x]
-        }
-
-        function colorSelected(classes, color){
-            selected = document.getElementsByClassName(classes)
-            for (let i = 0; i < selected.length; i++) {
-                selected.item(i).style.borderColor = color
-            }
-        }
-
-        function getMatchingID(id){
-            if (id[0] == "p"){
-                return "o" + id.slice(1)
-            } else if (id[0] == "o"){
-                return "p" + id.slice(1)
-            }
-        }
-
-        function delClick(){
-            for (let i = 0; i < positions.length; i++) {
-                if (positions.item(i).style.display == "flex"){
-                    positions.item(i).style.borderColor = "red"
-                    positions.item(i).style.cursor = "not-allowed"
-                    delete_mode = true
-                }
-            }
-        }
-
-        function submit(){
-            pos = []
-            for (let i = 0; i < positions.length; i++) {
-                if (positions.item(i).style.display == "flex"){
-                    x = getRelative(positions.item(i))
-                    pos.push([positions.item(i).className.slice(-1), positions.item(i).className[0], x[0], x[1]])
-                }
-            }
-            console.log(pos)
-        }
-    </script>
+    <script src="{% static "script/positions.js" %}"></script>
 </html>

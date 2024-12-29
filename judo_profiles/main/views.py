@@ -1,11 +1,12 @@
 from django.shortcuts import render, HttpResponse
 from django.db.models import Q
-from .models import Fighter, OwnTechnique, SpecialTechnique, Technique
+from .models import Fighter, OwnTechnique, TechniqueRank, Technique
 
 # Create your views here.
 def index(request):
-    shown_profiles = Fighter.objects.filter(Q(created_by=request.user) | Q(can_be_seen_by=request.user))
-    return render(request, "index.html", {"profiles": shown_profiles})
+    #shown_profiles = Fighter.objects.filter(Q(created_by=request.user) | Q(can_be_seen_by=request.user))
+    #return render(request, "index.html", {"profiles": shown_profiles})
+    return HttpResponse("test")
 
 def edit_profile(request, profile_id):
     if request.method == "POST":
@@ -13,14 +14,15 @@ def edit_profile(request, profile_id):
     else:
         fighter = Fighter.objects.get(id=profile_id)
         own = OwnTechnique.objects.filter(fighter_profile=fighter)
-        best = SpecialTechnique.objects.filter(fighter_profile=fighter).order_by("number")
+        best = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
         techniques = Technique.objects.all()
         return render(request, "edit.html", {"fighter": fighter, "best": best, "own": own, "techniques": techniques})
 
 def profile(request, profile_id):
     fighter = Fighter.objects.get(id=profile_id)
-    techniques = SpecialTechnique.objects.filter(fighter_profile=fighter).order_by("number")
+    techniques = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
     return render(request, "profile.html", {"fighter": fighter, "techniques": techniques})
 
 def new_profile(request):
-    pass
+    techniques = Technique.objects.filter(type="S").order_by("name")
+    return render(request, "positions.html", {"techniques": techniques})
