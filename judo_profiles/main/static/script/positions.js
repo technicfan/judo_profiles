@@ -1,6 +1,9 @@
+// disable submitting for unwanted buttons
+document.querySelectorAll("button").forEach(button => { button.addEventListener("click", event => { event.preventDefault() }) })
+
 // Own Techniques
-let own1 = 0, own2 = 0, own3 = 0, own4 = 0;
-const techniques = $("#hidden_thing").html()
+let own1 = 1, own2 = 1, own3 = 1, own4 = 1;
+const techniques = $("#hidden_techniques").html()
 
 function add_own(field){
     switch(field){
@@ -17,7 +20,7 @@ function add_own(field){
             number = own4
             break
     }
-    if (number < 3){
+    if (number <= 3){
         own_technique_html = `
         <div class="own_technique" id="own` + field + "_" + number + `">
             <select id="own` + field + "_" + "d" + number + `" class="direction">
@@ -41,20 +44,15 @@ function add_own(field){
                 <option value="T">Training</option>
                 <option value="Z">zu lernen</option>
             </select>
-            <button onclick="remove_own(` + field + ", " + number + `)">Löschen</button>
+            <button onclick="remove_own(` + field + ", " + number + `)" class="dont_submit">Löschen</button>
         </div>
         `
 
         $("#own" + field).append(own_technique_html)
         for (let i = 0; i < positions.length; i++) {
             let position = positions.item(i)
-            if (position.className[0] == "l"){
-                side = "left"
-            } else {
-                side = "right"
-            }
             if (position.style.display == "flex"){
-                $("." + side).append(
+                $("#" + "own" + field + "_" + "p" + position.className[0] + number).append(
                     '<option value="' + position.className.slice(-1) + '">' + position.className.slice(-1) + '</option>'
                 )
             }
@@ -128,16 +126,18 @@ function mouseDownDoc(e){
 function mouseDownImg(e){
     if (move != null){
         move.style.display = "flex"
-        placeRelative(move, (e.clientY + window.scrollY - move.clientHeight / 2 - image.offsetTop) / image.clientHeight, 
-                        (e.clientX + window.scrollX - move.clientWidth / 2 - image.offsetLeft) / image.clientWidth)
+        placeRelative(move, (e.clientY - move.clientHeight / 2 - image.getBoundingClientRect().top) / image.clientHeight, 
+                        (e.clientX - move.clientWidth / 2 - image.getBoundingClientRect().left) / image.clientWidth)
         if (move.className[0] == "l"){
             side = "left"
         } else {
             side = "right"
         }
-        if ($("." + side).find("[value='" + move.className.slice(-1) + "']").text() == ""){
-            $("." + side).append('<option value="' + move.className.slice(-1) + '">' + move.className.slice(-1) + '</option>')
-        }
+        document.querySelectorAll("." + side).forEach(select => {
+            if ($("#" + select.id).find("[value='" + move.className.slice(-1) + "']").text() == ""){
+                $("#" + select.id).append('<option value="' + move.className.slice(-1) + '">' + move.className.slice(-1) + '</option>')
+            }
+        })
         move.addEventListener("mousedown", mouseDownPos)
     }
 }
@@ -173,16 +173,16 @@ function mouseDownPos(e){
 
 function mouseMovePos(e){
     if (move != null){
-        if (e.clientX <= image.offsetLeft - window.scrollX + image.offsetWidth && e.clientX >= image.offsetLeft - window.scrollX){
+        if (e.clientX <= image.getBoundingClientRect().left + image.offsetWidth && e.clientX >= image.getBoundingClientRect().left){
             newX = startX - e.clientX
             startX = e.clientX
         }
-        if (e.clientY <= image.offsetTop - window.scrollY + image.clientHeight && e.clientY >= image.offsetTop - window.scrollY){
+        if (e.clientY <= image.getBoundingClientRect().top + image.clientHeight && e.clientY >= image.getBoundingClientRect().top){
             newY = startY - e.clientY
             startY = e.clientY
         }
-        placeRelative(move, (move.offsetTop - newY - image.offsetTop) / image.clientHeight,
-                        (move.offsetLeft - newX - image.offsetLeft) / image.clientWidth)
+        placeRelative(move, (move.getBoundingClientRect().top - newY - image.getBoundingClientRect().top) / image.clientHeight,
+                        (move.getBoundingClientRect().left - newX - image.getBoundingClientRect().left) / image.clientWidth)
     }
 }
 
@@ -193,7 +193,7 @@ function mouseUpPos(e){
     }
 }
 
-function placeRelative(object, relativeY, relativeX, change = true){
+function placeRelative(object, relativeY, relativeX){
     borderWidth = parseInt(window.getComputedStyle(object).borderWidth)
     maxY = 1 - (object.clientHeight + 2 * borderWidth) / image.clientHeight
     maxX = 1 - (object.clientWidth + 2 * borderWidth) / image.clientWidth
@@ -209,17 +209,16 @@ function placeRelative(object, relativeY, relativeX, change = true){
         relativeX = 0
     }
 
-    object.style.top = relativeY * image.clientHeight + image.offsetTop + "px"
-    object.style.left = relativeX * image.clientWidth + image.offsetLeft + "px"
+    console.log(window.scrollY)
+    console.log(relativeX, relativeY)
 
-    if (change){
-        document.getElementById("submit").disabled = false
-    }
+    object.style.top = relativeY * image.clientHeight + image.getBoundingClientRect().top + window.scrollY + "px"
+    object.style.left = relativeX * image.clientWidth + image.getBoundingClientRect().left + window.scrollX + "px"
 }
 
 function getRelative(object){
-    y = (parseInt(object.style.top) - image.offsetTop) / image.clientHeight
-    x = (parseInt(object.style.left) - image.offsetLeft) / image.clientWidth
+    y = (parseInt(object.style.top) - image.getBoundingClientRect().top - window.scrollY) / image.clientHeight
+    x = (parseInt(object.style.left) - image.getBoundingClientRect().left - window.scrollX) / image.clientWidth
     
     return [y, x]
 }
@@ -249,7 +248,7 @@ function delClick(){
     }
 }
 
-function submit(){
+function submit_positions(){
     pos = []
     for (let i = 0; i < positions.length; i++) {
         if (positions.item(i).style.display == "flex"){

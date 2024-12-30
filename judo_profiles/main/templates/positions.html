@@ -84,17 +84,58 @@
             border-color: black;
             border-style: solid;
             padding: .25cm;
-            height: 5cm;
+            height: 7cm;
             width: 15cm;
         }
-        #hidden_thing {
+        .own_technique {
+            padding: 2%;
+        }
+        #own_container {
+            border-width: 3px;
+            border-color: black;
+            border-style: solid;
+        }
+        #side_container {
+            border-width: 3px;
+            border-color: black;
+            border-style: solid;
+            margin-bottom: 7%;
+            padding: 2.5%;
+        }
+        #general_container {
+            border-width: 3px;
+            border-color: black;
+            border-style: solid;
+            padding: 1%;
+        }
+        label {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .hidden {
             display: none;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <body>
+        <div id="hidden_container" class="hidden">
+            <select id="hidden_techniques" class="hidden">
+                {% for t in techniques %}
+                    <option value="{{ t.id }}">{{ t.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <form method="post">
             {% csrf_token %}
+            <div id="general_container">
+                <p id="title">Kämpferprofil von</p>
+                <input type="text" placeholder="Nachname">, 
+                <input type="text" placeholder="Vorname">
+                <input type="number" min="1900" max="2099" step="1" value="2007" placeholder="Jahrgang">
+                <input type="number" min="30" max="200" step="1" placeholder="Gewicht (kg)">
+            </div>
             <table id="main">
                 <tr>
                     <td>
@@ -117,7 +158,6 @@
                                 </div>
                                 <br>
                                 <button id="delete" onclick="delClick()">Löschen</button>
-                                <button id="submit" onclick="submit()" disabled autocomplete="off">Submit</button>
                                 <div id="image_container">
                                     <img src="{% static "images/image.png" %}" id="image">
                                     <div class="r move position 1" id="pR1">1</div>
@@ -133,30 +173,45 @@
                         </div>
                     </td>
                     <td>
-                        <select id="hidden_thing">
-                            {% for t in techniques %}
-                                <option value="{{ t.id }}">{{ t.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <table id="own">
-                            <caption id="own_techniques">Eigene Techniken</caption>
-                            <tr>
-                                <td class="own_techniques" id="own4">
-                                    <button onclick="add_own(4)">+</button>
-                                </td>
-                                <td class="own_techniques" id="own1">
-                                    <button onclick="add_own(1)">+</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="own_techniques" id="own3">
-                                    <button onclick="add_own(3)">+</button>
-                                </td>
-                                <td class="own_techniques" id="own2">
-                                    <button onclick="add_own(2)">+</button>
-                                </td>
-                            </tr>
-                        </table>
+                        <div id="side_container">
+                            <table id="side_table">
+                                <tr>
+                                    <td>
+                                        <label for="side_left">Linkskämpfer*in</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" id="side_left" value="L">
+                                    </td>
+                                </tr>
+                                    <td>
+                                        <label for="side_right">Rechtskämpfer*in</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" id="side_right" value="R">
+                                    </td>
+                            </table>
+                        </div>
+                        <div id="own_container">
+                            <table id="own">
+                                <caption id="own_techniques">Eigene Techniken</caption>
+                                <tr>
+                                    <td class="own_techniques" id="own4">
+                                        <button onclick="add_own(4)">+</button>
+                                    </td>
+                                    <td class="own_techniques" id="own1">
+                                        <button onclick="add_own(1)">+</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="own_techniques" id="own3">
+                                        <button onclick="add_own(3)">+</button>
+                                    </td>
+                                    <td class="own_techniques" id="own2">
+                                        <button onclick="add_own(2)">+</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </td>
                 </tr>
             </table>
