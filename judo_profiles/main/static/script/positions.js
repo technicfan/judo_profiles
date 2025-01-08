@@ -258,3 +258,13 @@ function submit_positions(){
     }
     console.log(pos)
 }
+
+function get_own_techniques(){
+    document.querySelectorAll(".own_technique").forEach(div => {
+        this.direction = div.querySelector(".direction").value
+        this.technique = div.querySelector(".technique").value
+        this.left = div.querySelector(".select_position.left").value
+        this.right = div.querySelector(".select_position.right").value
+        this.state = div.querySelector(".state").value
+    })
+}
