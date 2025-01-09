@@ -3,7 +3,6 @@ document.querySelectorAll("button").forEach(button => { button.addEventListener(
 
 // Own Techniques
 let own1 = 1, own2 = 1, own3 = 1, own4 = 1;
-const techniques = $("#hidden_techniques").html()
 
 function add_own(field){
     switch(field){
@@ -49,8 +48,6 @@ function add_own(field){
         `
 
         $("#own" + field).append(own_technique_html)
-        //for (let i = 0; i < positions.length; i++) {
-        //    let position = positions.item(i)
         document.querySelectorAll(".move").forEach(position => {
             if (position.style.display == "flex"){
                 $("#" + "own" + field + "_" + "p" + position.className[0] + number).append(
@@ -148,7 +145,6 @@ function mouseDownPos(e){
     if (delete_mode){
         move.style.display = "none"
         document.getElementById(getMatchingID(move.id)).style.borderColor = "grey"
-        //for (let i = 0; i < positions.length; i++) {
         document.querySelectorAll(".move").forEach(position => {
             if (position.style.display == "flex"){
                 position.style.borderColor = "black"
@@ -238,7 +234,6 @@ function getMatchingID(id){
 }
 
 function delClick(){
-    //for (let i = 0; i < positions.length; i++) {
     document.querySelectorAll(".move").forEach(position => {
         if (position.style.display == "flex"){
             position.style.borderColor = "red"
@@ -248,17 +243,18 @@ function delClick(){
     })
 }
 
+
+// POST data
+
 function get_positions(){
-    pos = []
-    //for (let i = 0; i < positions.length; i++) {
+    let pos = []
     document.querySelectorAll(".move").forEach(position => {
         if (position.style.display == "flex"){
-            x = getRelative(position)
-            //pos.push([positions.item(i).className.slice(-1), positions.item(i).className[0], x[0], x[1]])
+            let x = getRelative(position)
             pos.push(
                 {
                     "number": parseInt(position.className.slice(-1)),
-                    "side": position.className[0],
+                    "side": position.className[0] == "l" ? true : false,
                     "x": x[1],
                     "y": x[0]
                 }
@@ -269,19 +265,19 @@ function get_positions(){
 }
 
 function get_own_techniques(){
-    own_techniques = []
+    let own_techniques = []
     document.querySelectorAll(".own_technique").forEach(div => {
-        side = div.querySelector(".direction").value
-        technique = div.querySelector(".technique").value
-        left = div.querySelector(".select_position.left").value
-        right = div.querySelector(".select_position.right").value
-        state = div.querySelector(".state").value
-        direction = div.id[3]
-        if (side && technique && left && right && state && direction){
+        let side = div.querySelector(".direction").value == "l" ? true : false
+        let technique = div.querySelector(".technique").value
+        let left = div.querySelector(".select_position.left").value
+        let right = div.querySelector(".select_position.right").value
+        let state = div.querySelector(".state").value
+        let direction = div.id[3]
+        if (technique && left && right && state && direction){
             own_techniques.push(
                 {
                     "side": side,
-                    "technique": technique,
+                    "technique": parseInt(technique),
                     "left": parseInt(left),
                     "right": parseInt(right),
                     "state": state,
@@ -294,18 +290,42 @@ function get_own_techniques(){
 }
 
 function post_data(){
-    //let formData = new FormData(document.getElementById("form"));
-    let formData = $('form').serializeArray()
-    formData.push(
-        {
-            "name": document.getElementById("name").value,
-            "last_name": document.getElementById("last_name").value,
-            "year": document.getElementById("year").value,
-            "left": document.getElementById("side_left").checked,
-            "right": document.getElementById("side_right").checked,
-            "postions": get_positions(),
+    let name = document.getElementById("name").value
+    let last_name = document.getElementById("last_name").value
+    let year = document.getElementById("year").value
+    let weight = document.getElementById("weight").value
+    let left = document.getElementById("side_left").checked
+    let right = document.getElementById("side_right").checked
+    let side = ""
+    if (left && right){
+        side = 2
+    } else if (left){
+        side = 1
+    } else if (right){
+        side = 0
+    }
+    if (name && last_name && year && weight && side){
+        let data = {
+            "name": name,
+            "last_name": last_name,
+            "year": year,
+            "weight": weight,
+            "side": side,
+            "positions": get_positions(),
             "own_techniques": get_own_techniques()
         }
-    )
-    console.log(formData)
+        const request = new Request(
+            window.location.href,
+            {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': CSRF_TOKEN,
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                mode: 'same-origin',
+                body: JSON.stringify(data)
+            }
+        )
+        fetch(request).then(response => { location.href = response.url })
+    }
 }

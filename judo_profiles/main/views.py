@@ -1,6 +1,8 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect
 from django.db.models import Q
-from .models import Fighter, OwnTechnique, TechniqueRank, Technique
+import json
+
+from .models import Fighter, OwnTechnique, TechniqueRank, Technique, Position
 
 # Create your views here.
 def index(request):
@@ -24,5 +26,37 @@ def profile(request, profile_id):
     return render(request, "profile.html", {"fighter": fighter, "techniques": techniques})
 
 def new_profile(request):
-    techniques = Technique.objects.filter(type="S").order_by("name")
-    return render(request, "positions.html", {"techniques": techniques})
+    if request.method == "POST":
+        data = json.loads(request.body)
+        fighter = Fighter()
+        fighter.name = data["name"]
+        fighter.last_name = data["last_name"]
+        fighter.year = data["year"]
+        fighter.weight = data["weight"]
+        fighter.primary_side = data["side"]
+        fighter.save()
+
+        for position in data["positions"]:
+            new_position = Position()
+            new_position.number = position["number"]
+            new_position.side = position["side"]
+            new_position.x = position["x"]
+            new_position.y = position["y"]
+            new_position.fighter_profile = fighter
+            new_position.save()
+
+        for own_technique in data["own_techniques"]:
+            new_own_technique = OwnTechnique()
+            new_own_technique.side = own_technique["side"]
+            new_own_technique.state = own_technique["state"]
+            new_own_technique.direction = own_technique["direction"]
+            new_own_technique.fighter_profile = fighter
+            new_own_technique.technique = Technique.objects.get(id=own_technique["technique"])
+            new_own_technique.left_position = Position.objects.get(fighter_profile=fighter, side=True, number=own_technique["left"])
+            new_own_technique.right_position = Position.objects.get(fighter_profile=fighter, side=False, number=own_technique["right"])
+            new_own_technique.save()
+
+        return HttpResponseRedirect("")
+    else:
+        techniques = Technique.objects.filter(type="S").order_by("name")
+        return render(request, "positions.html", {"techniques": techniques})

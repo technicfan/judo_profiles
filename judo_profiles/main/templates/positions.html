@@ -114,19 +114,9 @@
             -ms-user-select: none;
             user-select: none;
         }
-        .hidden {
-            display: none;
-        }
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <body>
-        <div id="hidden_container" class="hidden">
-            <select id="hidden_techniques" class="hidden">
-                {% for t in techniques %}
-                    <option value="{{ t.id }}">{{ t.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
         <form method="post">
             {% csrf_token %}
             <button onclick="post_data()">test</button>
@@ -218,5 +208,13 @@
             </table>
         </form>
     </body>
+    <script>
+        var CSRF_TOKEN = "{{ csrf_token }}"
+        const techniques = `
+            {% for t in techniques %}
+                <option value="{{ t.id }}">{{ t.name }}</option>
+            {% endfor %}
+        `
+    </script>        
     <script src="{% static "script/positions.js" %}"></script>
 </html>
