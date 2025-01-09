@@ -129,13 +129,13 @@
         </div>
         <form method="post">
             {% csrf_token %}
-            <button onclick="get_own_techniques()">test</button>
+            <button onclick="post_data()">test</button>
             <div id="general_container">
                 <p id="title">Kämpferprofil von</p>
-                <input type="text" placeholder="Nachname">, 
-                <input type="text" placeholder="Vorname">
-                <input type="number" min="1900" max="2099" step="1" value="2007" placeholder="Jahrgang">
-                <input type="number" min="30" max="200" step="1" placeholder="Gewicht (kg)">
+                <input type="text" id="last_name" placeholder="Nachname">, 
+                <input type="text" id="name" placeholder="Vorname">
+                <input type="number" id="year" min="1900" max="2099" step="1" value="2007" placeholder="Jahrgang">
+                <input type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)">
             </div>
             <table id="main">
                 <tr>

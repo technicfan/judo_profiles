@@ -49,14 +49,15 @@ function add_own(field){
         `
 
         $("#own" + field).append(own_technique_html)
-        for (let i = 0; i < positions.length; i++) {
-            let position = positions.item(i)
+        //for (let i = 0; i < positions.length; i++) {
+        //    let position = positions.item(i)
+        document.querySelectorAll(".move").forEach(position => {
             if (position.style.display == "flex"){
                 $("#" + "own" + field + "_" + "p" + position.className[0] + number).append(
                     '<option value="' + position.className.slice(-1) + '">' + position.className.slice(-1) + '</option>'
                 )
             }
-        }
+        })
 
         switch(field){
             case 1:
@@ -147,12 +148,13 @@ function mouseDownPos(e){
     if (delete_mode){
         move.style.display = "none"
         document.getElementById(getMatchingID(move.id)).style.borderColor = "grey"
-        for (let i = 0; i < positions.length; i++) {
-            if (positions.item(i).style.display == "flex"){
-                positions.item(i).style.borderColor = "black"
-                positions.item(i).style.cursor = "grab"
+        //for (let i = 0; i < positions.length; i++) {
+        document.querySelectorAll(".move").forEach(position => {
+            if (position.style.display == "flex"){
+                position.style.borderColor = "black"
+                position.style.cursor = "grab"
             }
-        }
+        })
         if (move.className[0] == "l"){
             side = "left"
         } else {
@@ -209,9 +211,6 @@ function placeRelative(object, relativeY, relativeX){
         relativeX = 0
     }
 
-    console.log(window.scrollY)
-    console.log(relativeX, relativeY)
-
     object.style.top = relativeY * image.clientHeight + image.getBoundingClientRect().top + window.scrollY + "px"
     object.style.left = relativeX * image.clientWidth + image.getBoundingClientRect().left + window.scrollX + "px"
 }
@@ -239,32 +238,74 @@ function getMatchingID(id){
 }
 
 function delClick(){
-    for (let i = 0; i < positions.length; i++) {
-        if (positions.item(i).style.display == "flex"){
-            positions.item(i).style.borderColor = "red"
-            positions.item(i).style.cursor = "not-allowed"
+    //for (let i = 0; i < positions.length; i++) {
+    document.querySelectorAll(".move").forEach(position => {
+        if (position.style.display == "flex"){
+            position.style.borderColor = "red"
+            position.style.cursor = "not-allowed"
             delete_mode = true
         }
-    }
+    })
 }
 
-function submit_positions(){
+function get_positions(){
     pos = []
-    for (let i = 0; i < positions.length; i++) {
-        if (positions.item(i).style.display == "flex"){
-            x = getRelative(positions.item(i))
-            pos.push([positions.item(i).className.slice(-1), positions.item(i).className[0], x[0], x[1]])
+    //for (let i = 0; i < positions.length; i++) {
+    document.querySelectorAll(".move").forEach(position => {
+        if (position.style.display == "flex"){
+            x = getRelative(position)
+            //pos.push([positions.item(i).className.slice(-1), positions.item(i).className[0], x[0], x[1]])
+            pos.push(
+                {
+                    "number": parseInt(position.className.slice(-1)),
+                    "side": position.className[0],
+                    "x": x[1],
+                    "y": x[0]
+                }
+            )
         }
-    }
-    console.log(pos)
+    })
+    return pos
 }
 
 function get_own_techniques(){
+    own_techniques = []
     document.querySelectorAll(".own_technique").forEach(div => {
-        this.direction = div.querySelector(".direction").value
-        this.technique = div.querySelector(".technique").value
-        this.left = div.querySelector(".select_position.left").value
-        this.right = div.querySelector(".select_position.right").value
-        this.state = div.querySelector(".state").value
+        side = div.querySelector(".direction").value
+        technique = div.querySelector(".technique").value
+        left = div.querySelector(".select_position.left").value
+        right = div.querySelector(".select_position.right").value
+        state = div.querySelector(".state").value
+        direction = div.id[3]
+        if (side && technique && left && right && state && direction){
+            own_techniques.push(
+                {
+                    "side": side,
+                    "technique": technique,
+                    "left": parseInt(left),
+                    "right": parseInt(right),
+                    "state": state,
+                    "direction": parseInt(direction)
+                }
+            )
+        }
     })
+    return own_techniques
+}
+
+function post_data(){
+    //let formData = new FormData(document.getElementById("form"));
+    let formData = $('form').serializeArray()
+    formData.push(
+        {
+            "name": document.getElementById("name").value,
+            "last_name": document.getElementById("last_name").value,
+            "year": document.getElementById("year").value,
+            "left": document.getElementById("side_left").checked,
+            "right": document.getElementById("side_right").checked,
+            "postions": get_positions(),
+            "own_techniques": get_own_techniques()
+        }
+    )
+    console.log(formData)
 }
