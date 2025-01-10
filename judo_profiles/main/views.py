@@ -4,11 +4,13 @@ import json
 
 from .models import Fighter, OwnTechnique, TechniqueRank, Technique, Position
 
+
 # Create your views here.
 def index(request):
-    #shown_profiles = Fighter.objects.filter(Q(created_by=request.user) | Q(can_be_seen_by=request.user))
-    #return render(request, "index.html", {"profiles": shown_profiles})
+    # shown_profiles = Fighter.objects.filter(Q(created_by=request.user) | Q(can_be_seen_by=request.user))
+    # return render(request, "index.html", {"profiles": shown_profiles})
     return HttpResponse("test")
+
 
 def edit_profile(request, profile_id):
     if request.method == "POST":
@@ -20,10 +22,12 @@ def edit_profile(request, profile_id):
         techniques = Technique.objects.all()
         return render(request, "edit.html", {"fighter": fighter, "best": best, "own": own, "techniques": techniques})
 
+
 def profile(request, profile_id):
     fighter = Fighter.objects.get(id=profile_id)
     techniques = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
     return render(request, "profile.html", {"fighter": fighter, "techniques": techniques})
+
 
 def new_profile(request):
     if request.method == "POST":
