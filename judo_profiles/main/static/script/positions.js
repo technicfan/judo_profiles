@@ -296,7 +296,7 @@ function post_data(){
     let weight = document.getElementById("weight").value
     let left = document.getElementById("side_left").checked
     let right = document.getElementById("side_right").checked
-    let side = ""
+    let side
     if (left && right){
         side = 2
     } else if (left){
@@ -304,7 +304,7 @@ function post_data(){
     } else if (right){
         side = 0
     }
-    if (name && last_name && year && weight && side){
+    if (name && last_name && year && weight && side != ""){
         let data = {
             "name": name,
             "last_name": last_name,

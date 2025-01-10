@@ -56,7 +56,7 @@ def new_profile(request):
             new_own_technique.right_position = Position.objects.get(fighter_profile=fighter, side=False, number=own_technique["right"])
             new_own_technique.save()
 
-        return HttpResponseRedirect("")
+        return HttpResponseRedirect("/" + str(fighter.id))
     else:
         techniques = Technique.objects.filter(type="S").order_by("name")
         return render(request, "positions.html", {"techniques": techniques})
