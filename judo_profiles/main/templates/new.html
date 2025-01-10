@@ -1,120 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <style>
-        .move {
-            position: absolute;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            cursor: grab;
-        }
-        .option {
-            display: inline-block;
-            cursor: pointer;
-        }
-        .position {
-            height: 20px;
-            width: 20px;
-            border-width: 5px;
-            border-color: grey;
-            border-style: solid;
-            background-color: white;
-            text-align: center;
-            font-weight: bold;
-            user-select: none;
-        }
-        .r {
-            border-radius: 0px;
-        }
-        .l {
-            border-radius: 15px;
-        }
-        #image {
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        #choices {
-            width: max-content;
-            height: max-content;
-            border-width: 3px;
-            border-color: black;
-            border-style: solid;
-            padding: 6px;
-            margin: 3px;
-            display: inline-block;
-            margin-left: 15%;
-        }
-        #image_container {
-            width: fit-content;
-        }
-        #image_desc {
-            border-width: 3px;
-            border-color: black;
-            border-style: solid;
-            width: fit-content;
-            display: inline-block;
-            font-weight: bold;
-            font-size: x-large;
-        }
-        button {
-            border-width: 3px;
-            border-color: black;
-            border-style: solid;
-            width: fit-content;
-            background-color: white;
-            cursor: pointer;
-        }
-        #positions {
-            width: fit-content;
-            border-width: 3px;
-            border-color: black;
-            border-style: solid;
-            padding: 6px;
-            margin: 3px;
-        }
-        #visual {
-            width: fit-content;
-            display: inline;
-        }
-        .own_techniques {
-            border-width: 3px;
-            border-color: black;
-            border-style: solid;
-            padding: .25cm;
-            height: 7cm;
-            width: 15cm;
-        }
-        .own_technique {
-            padding: 2%;
-        }
-        #own_container {
-            border-width: 3px;
-            border-color: black;
-            border-style: solid;
-        }
-        #side_container {
-            border-width: 3px;
-            border-color: black;
-            border-style: solid;
-            margin-bottom: 7%;
-            padding: 2.5%;
-        }
-        #general_container {
-            border-width: 3px;
-            border-color: black;
-            border-style: solid;
-            padding: 1%;
-        }
-        label {
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static "style/new.css" %}">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <body>
         <form method="post">
@@ -150,7 +37,7 @@
                                 <br>
                                 <button id="delete" onclick="delClick()">Löschen</button>
                                 <div id="image_container">
-                                    <img src="{% static "images/image.png" %}" id="image">
+                                    <img src="{% static "image/image.png" %}" id="image">
                                     <div class="r move position 1" id="pR1">1</div>
                                     <div class="r move position 2" id="pR2">2</div>
                                     <div class="r move position 3" id="pR3">3</div>
@@ -217,4 +104,6 @@
         `
     </script>        
     <script src="{% static "script/positions.js" %}"></script>
+    <script src="{% static "script/own_techniques.js" %}"></script>
+    <script src="{% static "script/post_new.js" %}"></script>
 </html>

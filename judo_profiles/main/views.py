@@ -59,4 +59,4 @@ def new_profile(request):
         return HttpResponseRedirect("/" + str(fighter.id))
     else:
         techniques = Technique.objects.filter(type="S").order_by("name")
-        return render(request, "positions.html", {"techniques": techniques})
+        return render(request, "new.html", {"techniques": techniques})
