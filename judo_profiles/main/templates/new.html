@@ -102,8 +102,12 @@
                 <option value="{{ t.id }}">{{ t.name }}</option>
             {% endfor %}
         `
-    </script>        
+        
+    </script> 
     <script src="{% static "script/positions.js" %}"></script>
+    <script>
+        document.querySelectorAll(".option").forEach(element => { element.addEventListener("mousedown", mouseDownOpt) })
+    </script>
     <script src="{% static "script/own_techniques.js" %}"></script>
     <script src="{% static "script/post_new.js" %}"></script>
 </html>

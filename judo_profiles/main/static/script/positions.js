@@ -1,14 +1,9 @@
 // disable submitting for unwanted buttons
 document.querySelectorAll("button").forEach(button => { button.addEventListener("click", event => { event.preventDefault() }) })
 
-// Own Techniques
-
-
 // Positions
 let newX = 0, newY = 0, startX = 0, startY = 0, delete_mode = false, move = null;
 const image = document.getElementById("image")
-const positions = document.getElementsByClassName("move")
-document.querySelectorAll(".option").forEach(element => { element.addEventListener("mousedown", mouseDownOpt) })
 
 function mouseDownOpt(e){
     if (move != null){

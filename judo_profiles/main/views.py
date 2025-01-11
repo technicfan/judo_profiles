@@ -25,8 +25,10 @@ def edit_profile(request, profile_id):
 
 def profile(request, profile_id):
     fighter = Fighter.objects.get(id=profile_id)
-    techniques = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
-    return render(request, "profile.html", {"fighter": fighter, "techniques": techniques})
+    best = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
+    own_techniques = OwnTechnique.objects.filter(fighter_profile=fighter)
+    positons = Position.objects.filter(fighter_profile=fighter)
+    return render(request, "profile.html", {"fighter": fighter, "best": best, "own_techniques": own_techniques, "positions": positons})
 
 
 def new_profile(request):

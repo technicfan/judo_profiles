@@ -1,0 +1,12 @@
+.position {
+    cursor: auto;
+}
+.table {
+    display: inline-block;
+    margin-right: 10%;
+    border-color: black;
+}
+.own_technique {
+    padding: 0px;
+    margin-left: 30%;
+}

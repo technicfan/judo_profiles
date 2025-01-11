@@ -1,8 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
 <html>
-    {{ fighter.name }}
-    {{ fighter.last_name }}
-    {% for i in techniques %}
-    {{ i.number }}
-    {{ i.technique.name }}
-    {% endfor %}
+    <link rel="stylesheet" href="{% static "style/new.css" %}">
+    <link rel="stylesheet" href="{% static "style/profile.css" %}">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <body>
+        <div id="general_container">
+            <p id="title">Kämpferprofil von</p>
+            <p>{{ fighter.name }}, {{ fighter.last_name }} - Jahrgang: {{ fighter.year }}, Gewicht: {{ fighter.weight }}kg</p>
+        </div>
+        <table id="main">
+            <tr>
+                <td>
+                    <div id="visual">
+                        <div id="positions">
+                            <p id="image_desc">Griffpositionen</p>
+                            <div id="choices">
+                                <a>Rechte Hand =</a>
+                                <div class="r position option 1" id="oR1">1</div>
+                                <div class="r position option 2" id="oR2">2</div>
+                                <div class="r position option 3" id="oR3">3</div>
+                                <div class="r position option 4" id="oR4">4</div>
+                                <br>
+                                <br>
+                                <a>Linke Hand =</a>
+                                <div class="l position option 1" id="oL1">1</div>
+                                <div class="l position option 2" id="oL2">2</div>
+                                <div class="l position option 3" id="oL3">3</div>
+                                <div class="l position option 4" id="oL4">4</div>
+                            </div>
+                            <br>
+                            <div id="image_container">
+                                <img src="{% static "image/image.png" %}" id="image">
+                                <div class="r move position 1" id="pR1">1</div>
+                                <div class="r move position 2" id="pR2">2</div>
+                                <div class="r move position 3" id="pR3">3</div>
+                                <div class="r move position 4" id="pR4">4</div>
+                                <div class="l move position 1" id="pL1">1</div>
+                                <div class="l move position 2" id="pL2">2</div>
+                                <div class="l move position 3" id="pL3">3</div>
+                                <div class="l move position 4" id="pL4">4</div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div id="side_container">
+                        <table id="side_table">
+                            <tr>
+                                <td>
+                                    <label for="side_left">Linkskämpfer*in</label>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="side_left" value="L" onclick="return false" {% if fighter.primary_side != 2 %} checked {% endif %}>
+                                </td>
+                            </tr>
+                                <td>
+                                    <label for="side_right">Rechtskämpfer*in</label>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="side_right" value="R" onclick="return false" {% if fighter.primary_side != 1 %} checked {% endif %}>
+                                </td>
+                        </table>
+                    </div>
+                    <div id="own_container">
+                        <table id="own">
+                            <caption id="own_techniques">Eigene Techniken</caption>
+                            <tr>
+                                <td class="own_techniques" id="own4"></td>
+                                <td class="own_techniques" id="own1"></td>
+                            </tr>
+                            <tr>
+                                <td class="own_techniques" id="own3"></td>
+                                <td class="own_techniques" id="own2"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+    <script>
+        const techniques = `
+            {% for t in techniques %}
+                <option value="{{ t.id }}">{{ t.name }}</option>
+            {% endfor %}
+        `
+    </script>        
+    <script src="{% static "script/positions.js" %}"></script>
+    <script>
+        {% for position in positions %}
+            id = "p"
+            {% if position.side %}
+                id += "L"
+            {% else %}
+                id += "R"
+            {% endif %}
+            id += {{ position.number }}
+            console.log(id)
+            position = document.getElementById(id)
+            position.style.display = "flex"
+            colorSelected(position.className[0] + " " + position.className.slice(-1), "black")
+            placeRelative(
+                position,
+                {{ position.y }},
+                {{ position.x }}
+            )
+        {% endfor %}
+        
+        {% for t in own_techniques %}
+            html = `
+                <div class="own_technique">
+                    <p>{{ t.technique.name }}</p>
+                    {% if t.side %}
+                        <div class="table position l">L</div>
+                    {% else %}
+                        <div class="table position r">R</div>
+                    {% endif %}
+                    {% if t.left_position.side %}
+                        <div class="table position l">{{ t.left_position.number }}</div>
+                    {% else %}
+                        <div class="table position r">{{ t.left_position.number }}</div>
+                    {% endif %}
+                    {% if t.right_position.side %}
+                        <div class="table position l">{{ t.right_position.number }}</div>
+                    {% else %}
+                        <div class="table position r">{{ t.right_position.number }}</div>
+                    {% endif %}
+                    {{ t.state }}
+                </div>
+            `
+            $("#own" + {{ t.direction }}).append(html)
+        {% endfor %}
+    </script>
 </html>
