@@ -34,33 +34,34 @@ def profile(request, profile_id):
 def new_profile(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        fighter = Fighter()
-        fighter.name = data["name"]
-        fighter.last_name = data["last_name"]
-        fighter.year = data["year"]
-        fighter.weight = data["weight"]
-        fighter.primary_side = data["side"]
+        fighter = Fighter(
+            name=data["name"],
+            last_name=data["last_name"],
+            year=data["year"],
+            weight=data["weight"],
+            primary_side=data["side"]
+        )
         fighter.save()
 
         for position in data["positions"]:
-            new_position = Position()
-            new_position.number = position["number"]
-            new_position.side = position["side"]
-            new_position.x = position["x"]
-            new_position.y = position["y"]
-            new_position.fighter_profile = fighter
-            new_position.save()
+            Position(
+                number=position["number"],
+                side=position["side"],
+                x=position["x"],
+                y=position["y"],
+                fighter_profile=fighter
+            ).save()
 
         for own_technique in data["own_techniques"]:
-            new_own_technique = OwnTechnique()
-            new_own_technique.side = own_technique["side"]
-            new_own_technique.state = own_technique["state"]
-            new_own_technique.direction = own_technique["direction"]
-            new_own_technique.fighter_profile = fighter
-            new_own_technique.technique = Technique.objects.get(id=own_technique["technique"])
-            new_own_technique.left_position = Position.objects.get(fighter_profile=fighter, side=True, number=own_technique["left"])
-            new_own_technique.right_position = Position.objects.get(fighter_profile=fighter, side=False, number=own_technique["right"])
-            new_own_technique.save()
+            OwnTechnique(
+                side=own_technique["side"],
+                state=own_technique["state"],
+                direction=own_technique["direction"],
+                fighter_profile=fighter,
+                technique=Technique.objects.get(id=own_technique["technique"]),
+                left_position=Position.objects.get(fighter_profile=fighter, side=True, number=own_technique["left"]),
+                right_position=Position.objects.get(fighter_profile=fighter, side=False, number=own_technique["right"])
+            ).save()
 
         return HttpResponseRedirect("/" + str(fighter.id))
     else:
