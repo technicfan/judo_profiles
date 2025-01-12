@@ -6,7 +6,7 @@ function get_positions(){
             pos.push(
                 {
                     "number": parseInt(position.className.slice(-1)),
-                    "side": position.className[0] == "l" ? true : false,
+                    "side": position.className[0] == "l",
                     "x": x[1],
                     "y": x[0]
                 }
@@ -19,7 +19,7 @@ function get_positions(){
 function get_own_techniques(){
     let own_techniques = []
     document.querySelectorAll(".own_technique").forEach(div => {
-        let side = div.querySelector(".direction").value == "l" ? true : false
+        let side = div.querySelector(".direction").value == "l"
         let technique = div.querySelector(".technique").value
         let left = div.querySelector(".select_position.left").value
         let right = div.querySelector(".select_position.right").value

@@ -149,7 +149,3 @@ function delClick(){
         }
     })
 }
-
-
-// POST data
-
