@@ -1,8 +1,12 @@
 <html>
+    {% load guardian_tags %}
     {% for i in profiles %}
+        {% get_obj_perms request.user for i as "i_perms" %}
         <a href="/{{ i.id }}">{{ i }}</a>
-        {% if i.created_by == user %}
+        {% if "change_fighter" in i_perms %}
             <a href="/{{ i.id }}/edit">Bearbeiten</a>
+        {% endif %}
+        {% if "manage_fighter" in i_perms %}
             <a href="/{{ i.id }}/manage">Zugriff verwalten</a>
         {% endif %}
         <br>

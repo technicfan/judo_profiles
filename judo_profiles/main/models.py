@@ -21,6 +21,11 @@ class Fighter(models.Model):
     def __str__(self):
         return f"{self.last_name}, {self.name}"
 
+    class Meta:
+        permissions = (
+            ("manage_fighter", "Manage Permissions"),
+        )
+
 
 class Position(models.Model):
     SIDE_CHOICES = [

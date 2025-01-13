@@ -1,5 +1,5 @@
-from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect
-from django.db.models import Q
+from django.shortcuts import render, HttpResponseRedirect
+from guardian.shortcuts import assign_perm, get_objects_for_user
 import json
 
 from .models import Fighter, OwnTechnique, TechniqueRank, Technique, Position
@@ -7,9 +7,8 @@ from .models import Fighter, OwnTechnique, TechniqueRank, Technique, Position
 
 # Create your views here.
 def index(request):
-    # shown_profiles = Fighter.objects.filter(Q(created_by=request.user) | Q(can_be_seen_by=request.user))
-    # return render(request, "index.html", {"profiles": shown_profiles})
-    return HttpResponse("test")
+    shown_profiles = get_objects_for_user(request.user, "view_fighter", Fighter)
+    return render(request, "index.html", {"profiles": shown_profiles})
 
 
 def edit_profile(request, profile_id):
@@ -42,18 +41,26 @@ def new_profile(request):
             primary_side=data["side"]
         )
         fighter.save()
+        assign_perm('change_fighter', request.user, fighter)
+        assign_perm('delete_fighter', request.user, fighter)
+        assign_perm('view_fighter', request.user, fighter)
+        assign_perm('manage_fighter', request.user, fighter)
 
         for position in data["positions"]:
-            Position(
+            new_position = Position(
                 number=position["number"],
                 side=position["side"],
                 x=position["x"],
                 y=position["y"],
                 fighter_profile=fighter
-            ).save()
+            )
+            new_position.save()
+            # assign_perm('change_position', request.user, new_position)
+            # assign_perm('delete_position', request.user, new_position)
+            # assign_perm('view_position', request.user, new_position)
 
         for own_technique in data["own_techniques"]:
-            OwnTechnique(
+            new_own_technique = OwnTechnique(
                 side=own_technique["side"],
                 state=own_technique["state"],
                 direction=own_technique["direction"],
@@ -61,7 +68,11 @@ def new_profile(request):
                 technique=Technique.objects.get(id=own_technique["technique"]),
                 left_position=Position.objects.get(fighter_profile=fighter, side=True, number=own_technique["left"]),
                 right_position=Position.objects.get(fighter_profile=fighter, side=False, number=own_technique["right"])
-            ).save()
+            )
+            new_own_technique.save()
+            # assign_perm('change_own_position', request.user, new_own_technique)
+            # assign_perm('delete_own_position', request.user, new_own_technique)
+            # assign_perm('view_own_position', request.user, new_own_technique)
 
         return HttpResponseRedirect("/" + str(fighter.id))
     else:
