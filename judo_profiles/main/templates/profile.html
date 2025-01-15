@@ -80,13 +80,6 @@
             </tr>
         </table>
     </body>
-    <script>
-        const techniques = `
-            {% for t in techniques %}
-                <option value="{{ t.id }}">{{ t.name }}</option>
-            {% endfor %}
-        `
-    </script>        
     <script src="{% static "script/positions.js" %}"></script>
     <script>
         {% for position in positions %}
@@ -97,7 +90,6 @@
                 id += "R"
             {% endif %}
             id += {{ position.number }}
-            console.log(id)
             position = document.getElementById(id)
             position.style.display = "flex"
             colorSelected(position.className[0] + " " + position.className.slice(-1), "black")

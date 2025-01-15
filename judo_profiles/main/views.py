@@ -42,7 +42,6 @@ def new_profile(request):
         )
         fighter.save()
         assign_perm('change_fighter', request.user, fighter)
-        assign_perm('delete_fighter', request.user, fighter)
         assign_perm('view_fighter', request.user, fighter)
         assign_perm('manage_fighter', request.user, fighter)
 
@@ -56,7 +55,6 @@ def new_profile(request):
             )
             new_position.save()
             # assign_perm('change_position', request.user, new_position)
-            # assign_perm('delete_position', request.user, new_position)
             # assign_perm('view_position', request.user, new_position)
 
         for own_technique in data["own_techniques"]:
@@ -71,7 +69,6 @@ def new_profile(request):
             )
             new_own_technique.save()
             # assign_perm('change_own_position', request.user, new_own_technique)
-            # assign_perm('delete_own_position', request.user, new_own_technique)
             # assign_perm('view_own_position', request.user, new_own_technique)
 
         return HttpResponseRedirect("/" + str(fighter.id))
