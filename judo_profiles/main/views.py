@@ -16,10 +16,10 @@ def edit_profile(request, profile_id):
         return
     else:
         fighter = Fighter.objects.get(id=profile_id)
-        own = OwnTechnique.objects.filter(fighter_profile=fighter)
-        best = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
+        own_techniques = OwnTechnique.objects.filter(fighter_profile=fighter)
         techniques = Technique.objects.all()
-        return render(request, "edit.html", {"fighter": fighter, "best": best, "own": own, "techniques": techniques})
+        positions = Position.objects.filter(fighter_profile=fighter)
+        return render(request, "edit.html", {"fighter": fighter, "own_techniques": own_techniques, "techniques": techniques, "positions": positions})
 
 
 def profile(request, profile_id):

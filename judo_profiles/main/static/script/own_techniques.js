@@ -44,12 +44,10 @@ function add_own(field, context = null){
         `
 
         $("#own" + field).append(own_technique_html)
+        let div = document.getElementById("own" + field + "_" + number)
         document.getElementById("own" + field + "_" + number).querySelectorAll("button").forEach(button => {
             button.addEventListener("click", event => { event.preventDefault() })
         })
-        if (context != null) {
-            document.getElementById("own" + field + "_t" + number).value = number
-        }
         document.querySelectorAll(".move").forEach(position => {
             if (position.style.display == "flex"){
                 $("#" + "own" + field + "_" + "p" + position.className[0] + number).append(
@@ -57,6 +55,13 @@ function add_own(field, context = null){
                 )
             }
         })
+        if (context != null) {
+            div.querySelector(".direction").value = context["side"]
+            div.querySelector(".technique").value = context["technique"]
+            div.querySelector(".left").value = context["left"]
+            div.querySelector(".right").value = context["right"]
+            div.querySelector(".state").value = context["state"]
+        }
 
         switch(field){
             case 1:
