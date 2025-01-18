@@ -10,9 +10,9 @@
     cursor: pointer;
 }
 .position {
-    height: 20px;
-    width: 20px;
-    border-width: 5px;
+    height: 16pt;
+    width: 16pt;
+    border-width: 4pt;
     border-color: grey;
     border-style: solid;
     background-color: white;
@@ -24,7 +24,7 @@
     border-radius: 0px;
 }
 .l {
-    border-radius: 15px;
+    border-radius: 50%;
 }
 #image {
     -moz-user-select: none;

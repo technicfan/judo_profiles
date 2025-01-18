@@ -6,7 +6,10 @@
     margin-right: 10%;
     border-color: black;
 }
+.table.l.no_margin {
+    margin-right: 0%;
+}
 .own_technique {
     padding: 0px;
-    margin-left: 30%;
+    text-align: center;
 }

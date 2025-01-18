@@ -110,16 +110,8 @@
                     {% else %}
                         <div class="table position r">R</div>
                     {% endif %}
-                    {% if t.left_position.side %}
-                        <div class="table position l">{{ t.left_position.number }}</div>
-                    {% else %}
-                        <div class="table position r">{{ t.left_position.number }}</div>
-                    {% endif %}
-                    {% if t.right_position.side %}
-                        <div class="table position l">{{ t.right_position.number }}</div>
-                    {% else %}
-                        <div class="table position r">{{ t.right_position.number }}</div>
-                    {% endif %}
+                    <div class="table position l no_margin">{{ t.left_position.number }}</div>
+                    <div class="table position r">{{ t.right_position.number }}</div>
                     {{ t.state }}
                 </div>
             `
