@@ -6,7 +6,6 @@
     <body>
         <form method="post">
             {% csrf_token %}
-            <button onclick="post_data()">test</button>
             <div id="general_container">
                 <p id="title">Kämpferprofil von</p>
                 <input type="text" id="last_name" placeholder="Nachname" value="{{ fighter.last_name }}">, 
@@ -94,6 +93,10 @@
                     </td>
                 </tr>
             </table>
+            <button onclick="if (confirm('Wirklich löschen?')){ post_data('delete') }">Löschen</button>
+            <button onclick="location.href = location.href">Zurücksetzen</button>
+            <button onclick="post_data('save')">Speichern</button>
+            <button onclick="post_data()">Fertig</button>
         </form>
     </body>
     <script>
@@ -106,6 +109,8 @@
     </script> 
     <script src="{% static "script/positions.js" %}"></script>
     <script src="{% static "script/change_positions.js" %}"></script>
+    <script src="{% static "script/own_techniques.js" %}"></script>
+    <script src="{% static "script/post.js" %}"></script>
     <script> 
         {% for position in positions %}
             id = "p"
@@ -124,11 +129,9 @@
                 {{ position.x }}
             )
             position.addEventListener("mousedown", mouseDownPos)
-            position.className = position.className.split(" ").slice(0, 3).join(" ") + " id={{ position.id }} " + position.className.split(" ").slice(3, 4).join(" ")
+            position.setAttribute("data-id", "{{ position.id }}")
         {% endfor %}
-    </script>
-    <script src="{% static "script/own_techniques.js" %}"></script>
-    <script>
+
         {% for own_technique in own_techniques %}
             context = {
                 "id": "{{ own_technique.id }}",
@@ -141,5 +144,4 @@
             add_own({{ own_technique.direction }}, context)
         {% endfor %}
     </script>
-    <script src="{% static "script/post_new.js" %}"></script>
 </html>

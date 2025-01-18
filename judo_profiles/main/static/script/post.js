@@ -1,6 +1,13 @@
 function get_positions(){
     let pos = []
     document.querySelectorAll(".move").forEach(position => {
+        if (position.getAttribute("data-id")) {
+            type = "update"
+            id = parseInt(position.getAttribute("data-id"))
+        } else {
+            type = "add"
+            id = null
+        }
         if (position.style.display == "flex"){
             let x = getRelative(position)
             pos.push(
@@ -8,7 +15,16 @@ function get_positions(){
                     "number": parseInt(position.className.slice(-1)),
                     "side": position.className[0] == "l",
                     "x": x[1],
-                    "y": x[0]
+                    "y": x[0],
+                    "type": type,
+                    "id": id
+                }
+            )
+        } else if (id != null) {
+            pos.push(
+                {
+                    "type": "delete",
+                    "id": id
                 }
             )
         }
@@ -26,6 +42,13 @@ function get_own_techniques(){
         let state = div.querySelector(".state").value
         let direction = div.id[3]
         if (technique && left && right && state && direction){
+            if (div.getAttribute("data-id")) {
+                type = "update"
+                id = parseInt(div.getAttribute("data-id"))
+            } else {
+                type = "add"
+                id = null
+            }
             own_techniques.push(
                 {
                     "side": side,
@@ -33,15 +56,25 @@ function get_own_techniques(){
                     "left": parseInt(left),
                     "right": parseInt(right),
                     "state": state,
-                    "direction": parseInt(direction)
+                    "direction": parseInt(direction),
+                    "type": type,
+                    "id": id
                 }
             )
         }
     })
+    deleted_own_techniques.forEach(id => {
+        own_techniques.push(
+            {
+                "type": "delete",
+                "id": id
+            }
+        )
+    })
     return own_techniques
 }
 
-function post_data(){
+function post_data(type = "redirect"){
     let name = document.getElementById("name").value
     let last_name = document.getElementById("last_name").value
     let year = document.getElementById("year").value
@@ -63,6 +96,7 @@ function post_data(){
             "year": year,
             "weight": weight,
             "side": side,
+            "type": type,
             "positions": get_positions(),
             "own_techniques": get_own_techniques()
         }

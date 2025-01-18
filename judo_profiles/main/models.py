@@ -85,7 +85,7 @@ class TechniqueRank(models.Model):
         return self.technique.name
 
 
-class Combination(models.Model):
+class CombinationRank(models.Model):
     fighter_profile = models.ForeignKey(Fighter, on_delete=models.CASCADE)
     technique1 = models.ForeignKey(Technique, on_delete=models.CASCADE, related_name="technique1_combinations")
     technique2 = models.ForeignKey(Technique, on_delete=models.CASCADE, related_name="technique2_combinations")

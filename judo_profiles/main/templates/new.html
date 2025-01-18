@@ -6,7 +6,6 @@
     <body>
         <form method="post">
             {% csrf_token %}
-            <button onclick="post_data()">test</button>
             <div id="general_container">
                 <p id="title">Kämpferprofil von</p>
                 <input type="text" id="last_name" placeholder="Nachname">, 
@@ -93,6 +92,7 @@
                     </td>
                 </tr>
             </table>
+            <button onclick="post_data()">Fertig</button>
         </form>
     </body>
     <script>
@@ -106,5 +106,5 @@
     <script src="{% static "script/positions.js" %}"></script>
     <script src="{% static "script/change_positions.js" %}"></script>
     <script src="{% static "script/own_techniques.js" %}"></script>
-    <script src="{% static "script/post_new.js" %}"></script>
+    <script src="{% static "script/post.js" %}"></script>
 </html>

@@ -1,4 +1,4 @@
-let own1 = 1, own2 = 1, own3 = 1, own4 = 1;
+let own1 = 1, own2 = 1, own3 = 1, own4 = 1, deleted_own_techniques = []
 
 function add_own(field, context = null){
     switch(field){
@@ -56,6 +56,7 @@ function add_own(field, context = null){
             }
         })
         if (context != null) {
+            div.setAttribute("data-id", context["id"])
             div.querySelector(".direction").value = context["side"]
             div.querySelector(".technique").value = context["technique"]
             div.querySelector(".left").value = context["left"]
@@ -81,11 +82,13 @@ function add_own(field, context = null){
 }
 
 function remove_own(field, number){
+    if (document.getElementById("own" + field + "_" + number).getAttribute("data-id")){
+        deleted_own_techniques.push(parseInt(document.getElementById("own" + field + "_" + number).getAttribute("data-id")))
+    }
     $("#own" + field + "_" + number).remove()
     if (number < 3) {
         document.getElementById("own" + field).querySelectorAll("div").forEach(div => {
             curr_number = parseInt(div.id.slice(-1))
-            console.log(curr_number)
             div.querySelectorAll("select").forEach(select => {
                 if(curr_number > number) {
                     select.id = select.id.slice(0, -1) + (curr_number - 1)

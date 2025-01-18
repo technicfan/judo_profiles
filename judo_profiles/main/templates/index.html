@@ -1,4 +1,8 @@
 <html>
+    {% if "main.add_fighter" in perms %}
+        <button onclick="location.href = '/new'">Neu</button>
+        <br>
+    {% endif %}
     {% load guardian_tags %}
     {% for i in profiles %}
         {% get_obj_perms request.user for i as "i_perms" %}
