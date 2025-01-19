@@ -121,3 +121,6 @@ label {
 #delete {
     display: block;
 }
+.number {
+    display: inline;
+}

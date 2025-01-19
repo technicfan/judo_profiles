@@ -4,7 +4,7 @@ from guardian.shortcuts import assign_perm, get_objects_for_user
 from guardian.decorators import permission_required as object_permission_required
 import json
 
-from .models import Fighter, OwnTechnique, Technique, Position
+from .models import Fighter, OwnTechnique, Technique, Position, CombinationRank, TechniqueRank
 
 
 # Create your views here.
@@ -96,8 +96,10 @@ def edit_profile(request, profile_id):
         own_techniques = OwnTechnique.objects.filter(fighter_profile=fighter)
         techniques = Technique.objects.filter(type="S").order_by("name")
         positions = Position.objects.filter(fighter_profile=fighter)
+        technique_ranks = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
+        combination_rank = CombinationRank.objects.filter(fighter_profile=fighter).order_by("number")
 
-        return render(request, "edit.html", {"fighter": fighter, "own_techniques": own_techniques, "techniques": techniques, "positions": positions})
+        return render(request, "edit.html", {"fighter": fighter, "own_techniques": own_techniques, "techniques": techniques, "positions": positions, "technique_ranks": technique_ranks, "combination_rank": combination_rank})
 
 
 @object_permission_required("main.view_fighter", (Fighter, "id", "profile_id"))
@@ -150,7 +152,26 @@ def new_profile(request):
             # assign_perm('change_own_position', request.user, new_own_technique)
             # assign_perm('view_own_position', request.user, new_own_technique)
 
+        for rank_item in data["rank_items"]:
+            if rank_item["type"] == "combination":
+                new_rank_item = CombinationRank(
+                    number=rank_item["number"],
+                    technique1=Technique.objects.get(id=rank_item["technique1"]),
+                    technique2=Technique.objects.get(id=rank_item["technique2"]),
+                    fighter_profile=fighter
+                )
+            else:
+                new_rank_item = TechniqueRank(
+                    number=rank_item["number"],
+                    technique=Technique.objects.get(id=rank_item["technique"]),
+                    fighter_profile=fighter,
+                    type=rank_item["type"]
+                )
+            new_rank_item.save()
+
         return HttpResponseRedirect("/" + str(fighter.id))
     else:
-        techniques = Technique.objects.filter(type="S").order_by("name")
-        return render(request, "new.html", {"techniques": techniques})
+        stechniques = Technique.objects.filter(type="S").order_by("name")
+        gtechniques = Technique.objects.filter(type="B").order_by("name")
+        techniques = Technique.objects.all().order_by("name")
+        return render(request, "new.html", {"techniques": techniques, "stechniques": stechniques, "gtechniques": gtechniques})

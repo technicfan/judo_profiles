@@ -29,7 +29,7 @@ function add_own(field, context = null){
             </select>
             <select id="own` + field + "_t" + number + `" class="technique">
                 <option value="" selected>Technik</option>` +
-            techniques +
+            stechniques +
             `</select>
             <select id="own` + field + "_pl" + number + `" class="select_position left">
                 <option value="" selected>linke Griffposition</option>

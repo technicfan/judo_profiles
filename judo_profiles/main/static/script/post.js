@@ -74,6 +74,59 @@ function get_own_techniques(){
     return own_techniques
 }
 
+function get_rank_items(){
+    let rank_items = []
+    document.querySelectorAll(".rank_item").forEach(div => {
+        let type = div.classList[0]
+        if (div.getAttribute("data-id")) {
+            action = "update"
+            id = parseInt(div.getAttribute("data-id"))
+        } else {
+            action = "add"
+            id = null
+        }
+        if (type == "combination"){
+            let technique1 = div.querySelector(".technique1").value
+            let technique2 = div.querySelector(".technique2").value
+            if (technique1 && technique2){
+                rank_items.push(
+                    {
+                        "number": parseInt(div.id.slice(-1)),
+                        "technique1": parseInt(technique1),
+                        "technique2": parseInt(technique2),
+                        "action": action,
+                        "type": type,
+                        "id": id
+                    }
+                )
+            }
+        } else {
+            let technique = div.querySelector(".technique").value
+            if (technique){
+                rank_items.push(
+                    {
+                        "number": parseInt(div.id.slice(-1)),
+                        "technique": parseInt(technique),
+                        "action": action,
+                        "type": type,
+                        "id": id
+                    }
+                )
+            }
+        }
+    })
+    deleted_rank_items.forEach(id => {
+        ranks_items.push(
+            {
+                "action": "delete",
+                "type": id[0],
+                "id": id[1]
+            }
+        )
+    })
+    return rank_items
+}
+
 function post_data(action = "redirect"){
     let name = document.getElementById("name").value
     let last_name = document.getElementById("last_name").value
@@ -98,7 +151,8 @@ function post_data(action = "redirect"){
             "side": side,
             "action": action,
             "positions": get_positions(),
-            "own_techniques": get_own_techniques()
+            "own_techniques": get_own_techniques(),
+            "rank_items": get_rank_items()
         }
         const request = new Request(
             window.location.href,

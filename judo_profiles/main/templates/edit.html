@@ -28,8 +28,37 @@
                     ></li>
                 {% endfor %}
             </ul>
+            <ul id="hidden_ranks">
+                {% for item in technique_ranks %}
+                    <li class="rank_data"
+                        data-id="{{ item.id }}"
+                        data-type="{{ item.type }}"
+                        data-technique="{{ item.technique.id }}"
+                        data-number="{{ item.number }}"
+                    ></li>
+                {% endfor %}
+                {% for item in combination_rank %}
+                    <li class="rank_data"
+                        data-id="{{ item.id }}"
+                        data-type="combination"
+                        data-technique1="{{ item.technique1.id }}"
+                        data-technique2="{{ item.technique2.id }}"
+                        data-number="{{ item.number }}"
+                    ></li>
+                {% endfor %}
+            </ul>
             <div id="hidden_t">
                 {% for t in techniques %}
+                    <option value="{{ t.id }}">{{ t.name }}</option>
+                {% endfor %}
+            </div>
+            <div id="hidden_st">
+                {% for t in stechniques %}
+                    <option value="{{ t.id }}">{{ t.name }}</option>
+                {% endfor %}
+            </div>
+            <div id="hidden_gt">
+                {% for t in gtechniques %}
                     <option value="{{ t.id }}">{{ t.name }}</option>
                 {% endfor %}
             </div>
@@ -98,7 +127,6 @@
                                 </td>
                         </table>
                     </div>
-
                         <div id="own_container">
                             <table id="own">
                                 <caption id="own_techniques">Eigene Techniken</caption>
@@ -123,6 +151,66 @@
                     </td>
                 </tr>
             </table>
+            <table id="ranks">
+                <tr>
+                    <td>
+                        <table id="special_rank">
+                            <caption>Spezialtechniken</caption>
+                            <button onclick="add_rank_item('special')">+</button>
+                            <tr>
+                                <td id="special1" class="special"></td>
+                            </tr>
+                            <tr>
+                                <td id="special2" class="special"></td>
+                            </tr>
+                            <tr>
+                                <td id="special3" class="special"></td>
+                            </tr>
+                            <tr>
+                                <td id="special4" class="special"></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table id="ground_rank">
+                            <caption>Bodentechniken</caption>
+                            <button onclick="add_rank_item('ground')">+</button>
+                            <tr>
+                                <td id="ground1" class="ground"></td>
+                            </tr>
+                            <tr>
+                                <td id="ground2" class="ground"></td>
+                            </tr>
+                            <tr>
+                                <td id="ground3" class="ground"></td>
+                            </tr>
+                            <tr>
+                                <td id="ground4" class="ground"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="combination_rank">
+                            <caption>Kombinationen</caption>
+                            <button onclick="add_rank_item('combination')">+</button>
+                            <tr>
+                                <td id="combination1" class="combination"></td>
+                            </tr>
+                            <tr>
+                                <td id="combination2" class="combination"></td>
+                            </tr>
+                            <tr>
+                                <td id="combination3" class="combination"></td>
+                            </tr>
+                            <tr>
+                                <td id="combination4" class="combination"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
             <button onclick="if (confirm('Wirklich löschen?')){ post_data('delete') }">Löschen</button>
             <button onclick="location.href = location.href">Zurücksetzen</button>
             <button onclick="post_data('save')">Speichern</button>
@@ -132,10 +220,13 @@
     <script>
         const CSRF_TOKEN = document.querySelector("[name=csrfmiddlewaretoken]").value
         const techniques = document.getElementById("hidden_t").innerHTML
+        const stechniques = document.getElementById("hidden_st").innerHTML
+        const gtechniques = document.getElementById("hidden_gt").innerHTML
     </script> 
     <script src="{% static "script/positions.js" %}"></script>
     <script src="{% static "script/change_positions.js" %}"></script>
     <script src="{% static "script/own_techniques.js" %}"></script>
+    <script src="{% static "script/ranks.js" %}"></script>
     <script src="{% static "script/post.js" %}"></script>
     <script> 
         document.querySelectorAll(".pos_data").forEach(pos => {
@@ -153,6 +244,10 @@
 
         document.querySelectorAll(".own_data").forEach(own => {
             add_own(parseInt(own.dataset["direction"]), own.dataset)
+        })
+
+        document.querySelectorAll(".rank_data").forEach(item => {
+            add_rank_item(item.dataset["type"], item.dataset)
         })
     </script>
 </html>
