@@ -1,9 +1,39 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <link rel="stylesheet" href="{% static "style/new.css" %}">
+    <link rel="stylesheet" href="{% static "style/main.css" %}">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <body>
+        <div id="hidden_data" class="hidden">
+            <ul id="hidden_own">
+                {% for t in own_techniques %}
+                    <li class="own_data"
+                        data-id="{{ t.id }}"
+                        data-technique="{{ t.technique.id }}"
+                        data-left="{{ t.left_position.number }}"
+                        data-right="{{ t.right_position.number }}"
+                        data-state="{{ t.state }}"
+                        data-side="{% if t.side %}l{% else %}r{% endif %}"
+                        data-direction="{{ t.direction }}"
+                    ></li>
+                {% endfor %}
+            </ul>
+            <ul id="hidden_pos">
+                {% for p in positions %}
+                    <li class="pos_data"
+                        data-id="p{% if p.side %}L{% else %}R{% endif %}{{ p.number }}"
+                        data-y="{{ p.y }}"
+                        data-x="{{ p.x }}"
+                        data-model_id="{{ p.id }}"
+                    ></li>
+                {% endfor %}
+            </ul>
+            <div id="hidden_t">
+                {% for t in techniques %}
+                    <option value="{{ t.id }}">{{ t.name }}</option>
+                {% endfor %}
+            </div>
+        </div>
         <form method="post">
             {% csrf_token %}
             <div id="general_container">
@@ -100,48 +130,29 @@
         </form>
     </body>
     <script>
-        var CSRF_TOKEN = "{{ csrf_token }}"
-        const techniques = `
-            {% for t in techniques %}
-                <option value="{{ t.id }}">{{ t.name }}</option>
-            {% endfor %}
-        `
+        const CSRF_TOKEN = document.querySelector("[name=csrfmiddlewaretoken]").value
+        const techniques = document.getElementById("hidden_t").innerHTML
     </script> 
     <script src="{% static "script/positions.js" %}"></script>
     <script src="{% static "script/change_positions.js" %}"></script>
     <script src="{% static "script/own_techniques.js" %}"></script>
     <script src="{% static "script/post.js" %}"></script>
     <script> 
-        {% for position in positions %}
-            id = "p"
-            {% if position.side %}
-                id += "L"
-            {% else %}
-                id += "R"
-            {% endif %}
-            id += {{ position.number }}
-            position = document.getElementById(id)
+        document.querySelectorAll(".pos_data").forEach(pos => {
+            position = document.getElementById(pos.dataset["id"])
             position.style.display = "flex"
             colorSelected(position.className[0] + " " + position.className.slice(-1), "black")
             placeRelative(
                 position,
-                {{ position.y }},
-                {{ position.x }}
+                pos.dataset["y"],
+                pos.dataset["x"]
             )
             position.addEventListener("mousedown", mouseDownPos)
-            position.setAttribute("data-id", "{{ position.id }}")
-        {% endfor %}
+            position.setAttribute("data-id", pos.dataset["model_id"])
+        })
 
-        {% for own_technique in own_techniques %}
-            context = {
-                "id": "{{ own_technique.id }}",
-                "technique": "{{ own_technique.technique.id }}",
-                "left": "{{ own_technique.left_position.number }}",
-                "right": "{{ own_technique.right_position.number }}",
-                "state": "{{ own_technique.state }}",
-                "side": "{% if own_technique.side %}l{% else %}r{% endif %}"
-            }
-            add_own({{ own_technique.direction }}, context)
-        {% endfor %}
+        document.querySelectorAll(".own_data").forEach(own => {
+            add_own(parseInt(own.dataset["direction"]), own.dataset)
+        })
     </script>
 </html>

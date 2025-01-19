@@ -1,45 +1,49 @@
-let own1 = 1, own2 = 1, own3 = 1, own4 = 1, deleted_own_techniques = []
+let own1 = 0, own2 = 0, own3 = 0, own4 = 0, deleted_own_techniques = []
 
 function add_own(field, context = null){
     switch(field){
         case 1:
+            own1 += 1
             number = own1
             break
         case 2:
+            own2 += 1
             number = own2
             break
         case 3:
+            own3 += 1
             number = own3
             break
         case 4:
+            own4 += 1
             number = own4
             break
     }
     if (number <= 3){
         own_technique_html = `
         <div class="own_technique" id="own` + field + "_" + number + `">
-            <select id="own` + field + "_" + "d" + number + `" class="direction">
+            <select id="own` + field + "_d" + number + `" class="direction">
                 <option value="" selected>Auslage</option>
                 <option value="l">Links</option>
                 <option value="r">Rechts</option>
             </select>
-            <select id="own` + field + "_" + "t" + number + `" class="technique">
+            <select id="own` + field + "_t" + number + `" class="technique">
                 <option value="" selected>Technik</option>` +
             techniques +
             `</select>
-            <select id="own` + field + "_" + "pl" + number + `" class="select_position left">
+            <select id="own` + field + "_pl" + number + `" class="select_position left">
                 <option value="" selected>linke Griffposition</option>
             </select>
-            <select id="own` + field + "_" + "pr" + number + `" class="select_position right">
+            <select id="own` + field + "_pr" + number + `" class="select_position right">
                 <option value="" selected>rechte Griffposition</option>
             </select>
-            <select id="own` + field + "_" + "s" + number + `" class="state">
+            <select id="own` + field + "_s" + number + `" class="state">
                 <option value="" selected>Stand</option>
                 <option value="W">wettkampfsicher</option>
                 <option value="T">Training</option>
                 <option value="Z">zu lernen</option>
             </select>
-            <button onclick="remove_own(` + field + ", " + number + `)">Löschen</button>
+            <button id="own` + field + "_b" + number + `" onclick="remove_own(` + field + `, this)">Löschen</button>
         </div>
         `
 
@@ -63,25 +67,11 @@ function add_own(field, context = null){
             div.querySelector(".right").value = context["right"]
             div.querySelector(".state").value = context["state"]
         }
-
-        switch(field){
-            case 1:
-                own1 += 1
-                break
-            case 2:
-                own2 += 1
-                break
-            case 3:
-                own3 += 1
-                break
-            case 4:
-                own4 += 1
-                break
-        }
     }
 }
 
-function remove_own(field, number){
+function remove_own(field, element){
+    number = element.id.slice(-1)
     if (document.getElementById("own" + field + "_" + number).getAttribute("data-id")){
         deleted_own_techniques.push(parseInt(document.getElementById("own" + field + "_" + number).getAttribute("data-id")))
     }
@@ -89,7 +79,7 @@ function remove_own(field, number){
     if (number < 3) {
         document.getElementById("own" + field).querySelectorAll("div").forEach(div => {
             curr_number = parseInt(div.id.slice(-1))
-            div.querySelectorAll("select").forEach(select => {
+            div.querySelectorAll("select, button").forEach(select => {
                 if(curr_number > number) {
                     select.id = select.id.slice(0, -1) + (curr_number - 1)
                 }

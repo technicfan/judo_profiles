@@ -86,7 +86,7 @@ button {
 .own_technique {
     padding: 2%;
 }
-#own_container {
+#own_container, #ranks {
     border-width: 3px;
     border-color: black;
     border-style: solid;
@@ -109,4 +109,7 @@ label {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+.hidden {
+    display: none;
 }

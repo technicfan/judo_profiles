@@ -1,9 +1,16 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <link rel="stylesheet" href="{% static "style/new.css" %}">
+    <link rel="stylesheet" href="{% static "style/main.css" %}">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <body>
+        <div id="hidden_data" class="hidden">
+            <div id="hidden_t">
+                {% for t in techniques %}
+                    <option value="{{ t.id }}">{{ t.name }}</option>
+                {% endfor %}
+            </div>
+        </div>
         <form method="post">
             {% csrf_token %}
             <div id="general_container">
@@ -92,16 +99,72 @@
                     </td>
                 </tr>
             </table>
+            <table id="ranks">
+                <tr>
+                    <td>
+                        <table id="special_rank">
+                            <caption>Spezialtechniken</caption>
+                            <button>+</button>
+                            <tr>
+                                <td id="special1" class="special"></td>
+                            </tr>
+                            <tr>
+                                <td id="special2" class="special"></td>
+                            </tr>
+                            <tr>
+                                <td id="special3" class="special"></td>
+                            </tr>
+                            <tr>
+                                <td id="special4" class="special"></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table id="ground_rank">
+                            <caption>Bodentechniken</caption>
+                            <button>+</button>
+                            <tr>
+                                <td id="ground1" class="ground"></td>
+                            </tr>
+                            <tr>
+                                <td id="ground2" class="ground"></td>
+                            </tr>
+                            <tr>
+                                <td id="ground3" class="ground"></td>
+                            </tr>
+                            <tr>
+                                <td id="ground4" class="ground"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="combination_rank">
+                            <caption>Kombinationen</caption>
+                            <button>+</button>
+                            <tr>
+                                <td id="combination1" class="combination"></td>
+                            </tr>
+                            <tr>
+                                <td id="combination2" class="combination"></td>
+                            </tr>
+                            <tr>
+                                <td id="combination3" class="combination"></td>
+                            </tr>
+                            <tr>
+                                <td id="combination4" class="combination"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
             <button onclick="post_data()">Fertig</button>
         </form>
     </body>
     <script>
-        var CSRF_TOKEN = "{{ csrf_token }}"
-        const techniques = `
-            {% for t in techniques %}
-                <option value="{{ t.id }}">{{ t.name }}</option>
-            {% endfor %}
-        `
+        const CSRF_TOKEN = document.querySelector("[name=csrfmiddlewaretoken]").value
+        const techniques = document.getElementById("hidden_t").innerHTML
     </script> 
     <script src="{% static "script/positions.js" %}"></script>
     <script src="{% static "script/change_positions.js" %}"></script>

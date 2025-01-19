@@ -20,8 +20,11 @@ def edit_profile(request, profile_id):
 
         fighter = Fighter.objects.get(id=profile_id)
 
-        if data["type"] != "delete":
+        if data["action"] == "delete":
+            fighter.delete()
 
+            return HttpResponseRedirect("/")
+        else:
             # fighter
             fighter.name = data["name"]
             fighter.last_name = data["last_name"]
@@ -32,7 +35,7 @@ def edit_profile(request, profile_id):
 
             # own_techniques
             for own_technique in data["own_techniques"]:
-                match own_technique["type"]:
+                match own_technique["action"]:
                     case "add":
                         new_own_technique = OwnTechnique(
                             side=own_technique["side"],
@@ -59,7 +62,7 @@ def edit_profile(request, profile_id):
 
             # positions
             for position in data["positions"]:
-                match position["type"]:
+                match position["action"]:
                     case "add":
                         new_position = Position(
                             number=position["number"],
@@ -80,18 +83,20 @@ def edit_profile(request, profile_id):
                     case "delete":
                         Position.objects.get(id=position["id"]).delete()
 
-            if data["type"] == "save":
+            if data["action"] == "save":
+
                 return HttpResponseRedirect("/" + str(fighter.id) + "/edit")
+
             else:
+
                 return HttpResponseRedirect("/" + str(fighter.id))
-        else:
-            fighter.delete()
-            return HttpResponseRedirect("/")
+
     else:
         fighter = Fighter.objects.get(id=profile_id)
         own_techniques = OwnTechnique.objects.filter(fighter_profile=fighter)
-        techniques = Technique.objects.all()
+        techniques = Technique.objects.filter(type="S").order_by("name")
         positions = Position.objects.filter(fighter_profile=fighter)
+
         return render(request, "edit.html", {"fighter": fighter, "own_techniques": own_techniques, "techniques": techniques, "positions": positions})
 
 

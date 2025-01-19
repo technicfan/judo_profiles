@@ -1,10 +1,36 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <link rel="stylesheet" href="{% static "style/new.css" %}">
+    <link rel="stylesheet" href="{% static "style/main.css" %}">
     <link rel="stylesheet" href="{% static "style/profile.css" %}">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <body>
+        <div id="hidden_data" class="hidden">
+            <div id="hidden_own">
+                {% for t in own_techniques %}
+                    <div class="own_technique" data-direction={{ t.direction }}>
+                        <p>{{ t.technique.name }}</p>
+                        {% if t.side %}
+                            <div class="table position l">L</div>
+                        {% else %}
+                            <div class="table position r">R</div>
+                        {% endif %}
+                        <div class="table position l no_margin">{{ t.left_position.number }}</div>
+                        <div class="table position r">{{ t.right_position.number }}</div>
+                        {{ t.state }}
+                    </div>
+                {% endfor %}
+            </div>
+            <ul id="hidden_pos">
+                {% for p in positions %}
+                    <li class="pos_data"
+                        data-id="p{% if p.side %}L{% else %}R{% endif %}{{ p.number }}"
+                        data-y={{ p.y }}
+                        data-x={{ p.x }}
+                    ></li>
+                {% endfor %}
+            </ul>
+        </div>
         <div id="general_container">
             <p id="title">Kämpferprofil von</p>
             <p>{{ fighter.last_name }}, {{ fighter.name }} - Jahrgang: {{ fighter.year }}, Gewicht: {{ fighter.weight }}kg</p>
@@ -83,39 +109,19 @@
     </body>
     <script src="{% static "script/positions.js" %}"></script>
     <script>
-        {% for position in positions %}
-            id = "p"
-            {% if position.side %}
-                id += "L"
-            {% else %}
-                id += "R"
-            {% endif %}
-            id += {{ position.number }}
-            position = document.getElementById(id)
+        document.querySelectorAll(".pos_data").forEach(pos => {
+            position = document.getElementById(pos.dataset["id"])
             position.style.display = "flex"
             colorSelected(position.className[0] + " " + position.className.slice(-1), "black")
             placeRelative(
                 position,
-                {{ position.y }},
-                {{ position.x }}
+                pos.dataset["y"],
+                pos.dataset["x"]
             )
-        {% endfor %}
-        
-        {% for t in own_techniques %}
-            html = `
-                <div class="own_technique">
-                    <p>{{ t.technique.name }}</p>
-                    {% if t.side %}
-                        <div class="table position l">L</div>
-                    {% else %}
-                        <div class="table position r">R</div>
-                    {% endif %}
-                    <div class="table position l no_margin">{{ t.left_position.number }}</div>
-                    <div class="table position r">{{ t.right_position.number }}</div>
-                    {{ t.state }}
-                </div>
-            `
-            $("#own" + {{ t.direction }}).append(html)
-        {% endfor %}
+        })
+
+        document.querySelectorAll(".own_technique").forEach(div => {
+            $("#own" + div.dataset["direction"]).append(div)
+        })
     </script>
 </html>
