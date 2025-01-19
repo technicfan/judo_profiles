@@ -1,23 +1,26 @@
-const image = document.getElementById("image")
+const image = document.getElementById("image_container")
 
 function placeRelative(object, relativeY, relativeX){
-    borderWidth = parseInt(window.getComputedStyle(object).borderWidth)
-    maxY = 1 - (object.clientHeight + 2 * borderWidth) / image.clientHeight
-    maxX = 1 - (object.clientWidth + 2 * borderWidth) / image.clientWidth
+    image_rect = image.getBoundingClientRect()
+    object_rect = object.getBoundingClientRect()
+    maxY = 1 - object_rect.height / 2 / image_rect.height
+    maxX = 1 - object_rect.width / 2 / image_rect.width
+    minY = object_rect.height / 2 / image_rect.height
+    minX = object_rect.width / 2 / image_rect.width
 
     if (relativeY >= maxY){
         relativeY = maxY
-    } else if (relativeY <= 0){
-        relativeY = 0
+    } else if (relativeY <= minY){
+        relativeY = minY
     }
     if (relativeX >= maxX){
         relativeX = maxX
-    } else if (relativeX <= 0){
-        relativeX = 0
+    } else if (relativeX <= minX){
+        relativeX = minX
     }
 
-    object.style.top = relativeY * image.clientHeight + image.getBoundingClientRect().top + window.scrollY + "px"
-    object.style.left = relativeX * image.clientWidth + image.getBoundingClientRect().left + window.scrollX + "px"
+    object.style.top = relativeY * 100 - object_rect.height / 2 / image_rect.height * 100 + "%"
+    object.style.left = relativeX * 100 - object_rect.width / 2 / image_rect.width * 100 + "%"
 }
 
 function colorSelected(classes, color){

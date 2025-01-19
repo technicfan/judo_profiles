@@ -31,6 +31,8 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    display:inline;
+    visibility: hidden;
 }
 #choices {
     width: max-content;
@@ -45,6 +47,9 @@
 }
 #image_container {
     width: fit-content;
+    position: relative;
+    display: inline-block;
+    background-repeat: no-repeat;
 }
 #image_desc {
     border-width: 3px;
@@ -64,7 +69,7 @@ button {
     cursor: pointer;
 }
 #positions {
-    width: fit-content;
+    width: auto;
     border-width: 3px;
     border-color: black;
     border-style: solid;
@@ -112,4 +117,7 @@ label {
 }
 .hidden {
     display: none;
+}
+#delete {
+    display: block;
 }

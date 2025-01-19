@@ -29,10 +29,10 @@ function mouseDownDoc(e){
 }
 
 function mouseDownImg(e){
-    if (move != null){
+    if (e.target != move){
         move.style.display = "flex"
-        placeRelative(move, (e.clientY - move.clientHeight / 2 - image.getBoundingClientRect().top) / image.clientHeight, 
-                        (e.clientX - move.clientWidth / 2 - image.getBoundingClientRect().left) / image.clientWidth)
+        image_rect = image.getBoundingClientRect()
+        placeRelative(move, e.offsetY / image_rect.height, e.offsetX / image_rect.width)
         if (move.className[0] == "l"){
             side = "left"
         } else {
@@ -55,8 +55,8 @@ function mouseDownPos(e){
         document.querySelectorAll(".move").forEach(position => {
             if (position.style.display == "flex"){
                 position.style.borderColor = "black"
-                position.style.cursor = "grab"
             }
+            position.style.cursor = "grab"
         })
         if (move.className[0] == "l"){
             side = "left"
@@ -78,16 +78,9 @@ function mouseDownPos(e){
 
 function mouseMovePos(e){
     if (move != null){
-        if (e.clientX <= image.getBoundingClientRect().left + image.offsetWidth && e.clientX >= image.getBoundingClientRect().left){
-            newX = startX - e.clientX
-            startX = e.clientX
-        }
-        if (e.clientY <= image.getBoundingClientRect().top + image.clientHeight && e.clientY >= image.getBoundingClientRect().top){
-            newY = startY - e.clientY
-            startY = e.clientY
-        }
-        placeRelative(move, (move.getBoundingClientRect().top - newY - image.getBoundingClientRect().top) / image.clientHeight,
-                        (move.getBoundingClientRect().left - newX - image.getBoundingClientRect().left) / image.clientWidth)
+        image_rect = image.getBoundingClientRect()
+        placeRelative(move, (e.clientY - image_rect.top) / image_rect.height,
+                        (e.clientX - image_rect.left) / image_rect.width)
     }
 }
 
@@ -99,8 +92,10 @@ function mouseUpPos(e){
 }
 
 function getRelative(object){
-    y = (parseInt(object.style.top) - image.getBoundingClientRect().top - window.scrollY) / image.clientHeight
-    x = (parseInt(object.style.left) - image.getBoundingClientRect().left - window.scrollX) / image.clientWidth
+    image_rect = image.getBoundingClientRect()
+    object_rect = object.getBoundingClientRect()
+    y = parseFloat(object.style.top) / 100 + object_rect.height / 2 / image_rect.height
+    x = parseFloat(object.style.left) / 100 + object_rect.width / 2 / image_rect.width
     
     return [y, x]
 }
