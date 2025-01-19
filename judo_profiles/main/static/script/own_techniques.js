@@ -67,6 +67,21 @@ function add_own(field, context = null){
             div.querySelector(".right").value = context["right"]
             div.querySelector(".state").value = context["state"]
         }
+    } else {
+        switch(field){
+            case 1:
+                own1 -= 1
+                break
+            case 2:
+                own2 -= 1
+                break
+            case 3:
+                own3 -= 1
+                break
+            case 4:
+                own4 -= 1
+                break
+        }
     }
 }
 
