@@ -124,3 +124,10 @@ label {
 .number {
     display: inline;
 }
+#ranks {
+    width: 100%;
+}
+.rank_item {
+    text-align: center;
+    vertical-align: middle;
+}

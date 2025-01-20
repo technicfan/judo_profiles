@@ -5,11 +5,16 @@
     <link rel="stylesheet" href="{% static "style/profile.css" %}">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <body>
+        {% load guardian_tags %}
+        {% get_obj_perms request.user for fighter as "fighter_perms" %}
+        {% if "change_fighter" in fighter_perms %}
+            <button onclick="location.href += '/edit'">Bearbeiten</button>
+        {% endif %}
         <div id="hidden_data" class="hidden">
             <div id="hidden_own">
                 {% for t in own_techniques %}
                     <div class="own_technique" data-direction={{ t.direction }}>
-                        <p>{{ t.technique.name }}</p>
+                        <p>{{ t.technique }}</p>
                         {% if t.side %}
                             <div class="table position l">L</div>
                         {% else %}
@@ -103,6 +108,43 @@
                             </tr>
                         </table>
                     </div>
+                </td>
+            </tr>
+        </table>
+        <table id="ranks">
+            <tr>
+                <td>
+                    <table id="special_rank">
+                        <caption>Spezialtechniken</caption>
+                        {% for item in special_rank %}
+                            <tr class="rank_item">
+                                <td> <b>{{ item.number }}</b> </td>
+                                <td>{{ item.technique }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+                <td>
+                    <table id="ground_rank">
+                        <caption>Bodentechniken</caption>
+                        {% for item in ground_rank %}
+                            <tr class="rank_item">
+                                <td> <b>{{ item.number }}</b> </td>
+                                <td>{{ item.technique }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+                <td>
+                    <table id="combination_rank">
+                        <caption>Kombinationen</caption>
+                        {% for item in combination_rank %}
+                            <tr class="rank_item">
+                                <td> <b>{{ item.number }}</b> </td>
+                                <td>{{ item.technique1 }} + {{ item.technique2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
                 </td>
             </tr>
         </table>

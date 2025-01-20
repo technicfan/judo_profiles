@@ -9,7 +9,7 @@ from .models import Fighter, OwnTechnique, Technique, Position, CombinationRank,
 
 # Create your views here.
 def index(request):
-    shown_profiles = get_objects_for_user(request.user, "view_fighter", Fighter)
+    shown_profiles = get_objects_for_user(request.user, "view_fighter", Fighter).order_by("last_name")
     return render(request, "index.html", {"profiles": shown_profiles})
 
 
@@ -32,6 +32,29 @@ def edit_profile(request, profile_id):
             fighter.weight = data["weight"]
             fighter.primary_side = data["side"]
             fighter.save()
+
+            # positions
+            for position in data["positions"]:
+                match position["action"]:
+                    case "add":
+                        new_position = Position(
+                            number=position["number"],
+                            side=position["side"],
+                            x=position["x"],
+                            y=position["y"],
+                            fighter_profile=fighter
+                        )
+                        new_position.save()
+                    case "update":
+                        changed_position = Position.objects.get(id=position["id"])
+                        changed_position.number = position["number"]
+                        changed_position.side = position["side"]
+                        changed_position.x = position["x"]
+                        changed_position.y = position["y"]
+                        changed_position.fighter_profile = fighter
+                        changed_position.save()
+                    case "delete":
+                        Position.objects.get(id=position["id"]).delete()
 
             # own_techniques
             for own_technique in data["own_techniques"]:
@@ -60,28 +83,43 @@ def edit_profile(request, profile_id):
                     case "delete":
                         OwnTechnique.objects.get(id=own_technique["id"]).delete()
 
-            # positions
-            for position in data["positions"]:
-                match position["action"]:
+            for rank_item in data["rank_items"]:
+                match rank_item["action"]:
                     case "add":
-                        new_position = Position(
-                            number=position["number"],
-                            side=position["side"],
-                            x=position["x"],
-                            y=position["y"],
-                            fighter_profile=fighter
-                        )
-                        new_position.save()
+                        if rank_item["type"] == "combination":
+                            new_rank_item = CombinationRank(
+                                number=rank_item["number"],
+                                technique1=Technique.objects.get(id=rank_item["technique1"]),
+                                technique2=Technique.objects.get(id=rank_item["technique2"]),
+                                fighter_profile=fighter
+                            )
+                        else:
+                            new_rank_item = TechniqueRank(
+                                number=rank_item["number"],
+                                technique=Technique.objects.get(id=rank_item["technique"]),
+                                fighter_profile=fighter,
+                                type=rank_item["type"]
+                            )
+                        new_rank_item.save()
                     case "update":
-                        changed_position = Position.objects.get(id=position["id"])
-                        changed_position.number = position["number"]
-                        changed_position.side = position["side"]
-                        changed_position.x = position["x"]
-                        changed_position.y = position["y"]
-                        changed_position.fighter_profile = fighter
-                        changed_position.save()
+                        if rank_item["type"] == "combination":
+                            changed_rank_item = CombinationRank.objects.get(id=rank_item["id"])
+                            changed_rank_item.number = rank_item["number"]
+                            changed_rank_item.technique1 = Technique.objects.get(id=rank_item["technique1"])
+                            changed_rank_item.technique2 = Technique.objects.get(id=rank_item["technique2"])
+                            changed_rank_item.fighter_profile = fighter
+                        else:
+                            changed_rank_item = TechniqueRank.objects.get(id=rank_item["id"])
+                            changed_rank_item.number = rank_item["number"]
+                            changed_rank_item.technique = Technique.objects.get(id=rank_item["technique"])
+                            changed_rank_item.fighter_profile = fighter
+                            changed_rank_item.type = rank_item["type"]
+                        changed_rank_item.save()
                     case "delete":
-                        Position.objects.get(id=position["id"]).delete()
+                        if rank_item["type"] == "combination":
+                            CombinationRank.objects.get(id=rank_item["id"]).delete()
+                        else:
+                            TechniqueRank.objects.get(id=rank_item["id"]).delete()
 
             if data["action"] == "save":
 
@@ -94,12 +132,23 @@ def edit_profile(request, profile_id):
     else:
         fighter = Fighter.objects.get(id=profile_id)
         own_techniques = OwnTechnique.objects.filter(fighter_profile=fighter)
+        stechniques = Technique.objects.filter(type="S").order_by("name")
+        gtechniques = Technique.objects.filter(type="B").order_by("name")
         techniques = Technique.objects.filter(type="S").order_by("name")
         positions = Position.objects.filter(fighter_profile=fighter)
         technique_ranks = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
         combination_rank = CombinationRank.objects.filter(fighter_profile=fighter).order_by("number")
 
-        return render(request, "edit.html", {"fighter": fighter, "own_techniques": own_techniques, "techniques": techniques, "positions": positions, "technique_ranks": technique_ranks, "combination_rank": combination_rank})
+        return render(request, "edit.html", {
+            "fighter": fighter,
+            "own_techniques": own_techniques,
+            "stechniques": stechniques,
+            "gtechniques": gtechniques,
+            "techniques": techniques,
+            "positions": positions,
+            "technique_ranks": technique_ranks,
+            "combination_rank": combination_rank
+        })
 
 
 @object_permission_required("main.view_fighter", (Fighter, "id", "profile_id"))
@@ -107,7 +156,17 @@ def profile(request, profile_id):
     fighter = Fighter.objects.get(id=profile_id)
     own_techniques = OwnTechnique.objects.filter(fighter_profile=fighter)
     positons = Position.objects.filter(fighter_profile=fighter)
-    return render(request, "profile.html", {"fighter": fighter, "own_techniques": own_techniques, "positions": positons})
+    special_rank = TechniqueRank.objects.filter(fighter_profile=fighter, type="special").order_by("number")
+    ground_rank = TechniqueRank.objects.filter(fighter_profile=fighter, type="ground").order_by("number")
+    combination_rank = CombinationRank.objects.filter(fighter_profile=fighter).order_by("number")
+    return render(request, "profile.html", {
+        "fighter": fighter,
+        "own_techniques": own_techniques,
+        "positions": positons,
+        "special_rank": special_rank,
+        "ground_rank": ground_rank,
+        "combination_rank": combination_rank
+    })
 
 
 @permission_required("main.add_fighter")
@@ -135,8 +194,6 @@ def new_profile(request):
                 fighter_profile=fighter
             )
             new_position.save()
-            # assign_perm('change_position', request.user, new_position)
-            # assign_perm('view_position', request.user, new_position)
 
         for own_technique in data["own_techniques"]:
             new_own_technique = OwnTechnique(
@@ -149,8 +206,6 @@ def new_profile(request):
                 right_position=Position.objects.get(fighter_profile=fighter, side=False, number=own_technique["right"])
             )
             new_own_technique.save()
-            # assign_perm('change_own_position', request.user, new_own_technique)
-            # assign_perm('view_own_position', request.user, new_own_technique)
 
         for rank_item in data["rank_items"]:
             if rank_item["type"] == "combination":
