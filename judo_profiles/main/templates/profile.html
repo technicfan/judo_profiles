@@ -10,6 +10,9 @@
         {% if "change_fighter" in fighter_perms %}
             <button onclick="location.href += '/edit'">Bearbeiten</button>
         {% endif %}
+        {% if "manage_fighter" in fighter_perms %}
+            <button onclick="location.href += '/manage'">Verwalten</button>
+        {% endif %}
         <div id="hidden_data" class="hidden">
             <div id="hidden_own">
                 {% for t in own_techniques %}

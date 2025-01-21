@@ -11,11 +11,10 @@ class Fighter(models.Model):
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name="fighter")
-    # can_be_seen_by = models.ManyToManyField(User, blank=True, related_name="fighters_visible")
     weight = models.FloatField()
     primary_side = models.PositiveIntegerField(choices=PRIMARY_SIDE_CHOICES)
     year = models.PositiveIntegerField()
-    # created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="fighters_created")
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="fighters_created")
     updated_on = models.DateField(auto_now=True)
 
     def __str__(self):

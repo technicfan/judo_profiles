@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Permissions</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% load guardian_tags %}
+            <div id="view">
+                <h3>View</h3>
+                <select name="view_users" multiple>
+                    {% for user in users %}
+                        {% get_obj_perms user for fighter as "fighter_perms" %}
+                        {% if "view_fighter" in fighter_perms %}
+                            <option value="{{ user.id }}" selected>{{ user }}</option>
+                        {% else %}
+                            <option value="{{ user.id }}">{{ user }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="edit">
+                <h3>Edit</h3>
+                <select name="edit_users" multiple>
+                    {% for user in users %}
+                        {% get_obj_perms user for fighter as "fighter_perms" %}
+                        {% if "change_fighter" in fighter_perms %}
+                            <option value="{{ user.id }}" selected>{{ user }}</option>
+                        {% else %}
+                            <option value="{{ user.id }}">{{ user }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="manage">
+                <h3>Manage (this page)</h3>
+                <select name="manage_users" multiple>
+                    {% for user in users %}
+                        {% get_obj_perms user for fighter as "fighter_perms" %}
+                        {% if "manage_fighter" in fighter_perms %}
+                            <option value="{{ user.id }}" selected>{{ user }}</option>
+                        {% else %}
+                            <option value="{{ user.id }}">{{ user }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+            <button>Speichern</button>
+        </form>
+    </body>
+</html>

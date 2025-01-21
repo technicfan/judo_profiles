@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.db.models import Q
 from django.contrib.auth.decorators import permission_required
-from guardian.shortcuts import assign_perm, get_objects_for_user
+from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from guardian.decorators import permission_required as object_permission_required
 import json
 
@@ -178,7 +180,8 @@ def new_profile(request):
             last_name=data["last_name"],
             year=data["year"],
             weight=data["weight"],
-            primary_side=data["side"]
+            primary_side=data["side"],
+            created_by=request.user
         )
         fighter.save()
         assign_perm('change_fighter', request.user, fighter)
@@ -229,4 +232,40 @@ def new_profile(request):
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
         techniques = Technique.objects.all().order_by("name")
+
         return render(request, "new.html", {"techniques": techniques, "stechniques": stechniques, "gtechniques": gtechniques})
+
+
+@object_permission_required("main.manage_fighter", (Fighter, "id", "profile_id"))
+def manage(request, profile_id):
+    fighter = Fighter.objects.get(id=profile_id)
+    users = User.objects.exclude(Q(id=profile_id) & Q(id=fighter.created_by.id))
+
+    if request.method == "POST":
+        no_view = users
+        no_edit = users
+        no_manage = users
+        print(request.POST)
+        if "view_users" in request.POST:
+            for user in request.POST["view_users"]:
+                assign_perm('view_fighter', User.objects.get(id=user), fighter)
+                no_view = no_view.exclude(id=user)
+        for user in no_view:
+            remove_perm('view_fighter', user, fighter)
+        if "edit_users" in request.POST:
+            for user in request.POST["edit_users"]:
+                assign_perm('change_fighter', User.objects.get(id=user), fighter)
+                no_edit = no_edit.exclude(id=user)
+        for user in no_edit:
+            remove_perm('change_fighter', user, fighter)
+        if "manage_users" in request.POST:
+            for user in request.POST["manage_users"]:
+                assign_perm('manage_fighter', User.objects.get(id=user), fighter)
+                no_manage = no_manage.exclude(id=user)
+        for user in no_manage:
+            remove_perm('manage_fighter', user, fighter)
+
+        return HttpResponseRedirect("")
+    else:
+
+        return render(request, "manage.html", {"users": users, "fighter": fighter})
