@@ -27,8 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-STATIC_URL = "/static/"
-
 
 # Application definition
 
@@ -130,9 +128,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = "/login"
 
+# disable guardians anonymous user
 ANONYMOUS_USER_NAME = None
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # this is default
+    # guardian for object permissions
     'guardian.backends.ObjectPermissionBackend',
 )

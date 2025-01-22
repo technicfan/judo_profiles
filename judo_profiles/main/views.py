@@ -136,7 +136,7 @@ def edit_profile(request, profile_id):
         own_techniques = OwnTechnique.objects.filter(fighter_profile=fighter)
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
-        techniques = Technique.objects.filter(type="S").order_by("name")
+        techniques = Technique.objects.all().order_by("name")
         positions = Position.objects.filter(fighter_profile=fighter)
         technique_ranks = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
         combination_rank = CombinationRank.objects.filter(fighter_profile=fighter).order_by("number")
@@ -239,7 +239,7 @@ def new_profile(request):
 @object_permission_required("main.manage_fighter", (Fighter, "id", "profile_id"))
 def manage(request, profile_id):
     fighter = Fighter.objects.get(id=profile_id)
-    users = User.objects.exclude(Q(id=profile_id) & Q(id=fighter.created_by.id))
+    users = User.objects.exclude(Q(id=profile_id) & Q(id=fighter.created_by.id)).order_by("username")
 
     if request.method == "POST":
         no_view = users
