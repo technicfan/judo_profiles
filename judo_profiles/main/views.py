@@ -1,6 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth.models import User
-from django.db.models import Q
 from django.contrib.auth.decorators import permission_required
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from guardian.decorators import permission_required as object_permission_required
@@ -239,7 +238,7 @@ def new_profile(request):
 @object_permission_required("main.manage_fighter", (Fighter, "id", "profile_id"))
 def manage(request, profile_id):
     fighter = Fighter.objects.get(id=profile_id)
-    users = User.objects.exclude(Q(id=profile_id) & Q(id=fighter.created_by.id)).order_by("username")
+    users = User.objects.exclude(id__in=[request.user.id, fighter.created_by.id]).order_by("username")
 
     if request.method == "POST":
         no_view = users
