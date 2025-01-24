@@ -1,7 +1,11 @@
-let own1 = 0, own2 = 0, own3 = 0, own4 = 0, deleted_own_techniques = []
+let own0 = 0, own1 = 0, own2 = 0, own3 = 0, own4 = 0, own5 = 0, deleted_own_techniques = []
 
 function add_own(field, context = null){
     switch(field){
+        case 0:
+            own0 += 1
+            number = own0
+            break
         case 1:
             own1 += 1
             number = own1
@@ -17,6 +21,10 @@ function add_own(field, context = null){
         case 4:
             own4 += 1
             number = own4
+            break
+        case 5:
+            own5 += 1
+            number = own5
             break
     }
     if (number <= 3){
@@ -69,6 +77,9 @@ function add_own(field, context = null){
         }
     } else {
         switch(field){
+            case 0:
+                own0 -= 1
+                break
             case 1:
                 own1 -= 1
                 break
@@ -80,6 +91,9 @@ function add_own(field, context = null){
                 break
             case 4:
                 own4 -= 1
+                break
+            case 5:
+                own5 -= 1
                 break
         }
     }
@@ -106,6 +120,9 @@ function remove_own(field, element){
     }
 
     switch(field){
+            case 0:
+                own0 -= 1
+                break
             case 1:
                 own1 -= 1
                 break
@@ -117,6 +134,9 @@ function remove_own(field, element){
                 break
             case 4:
                 own4 -= 1
+                break
+            case 5:
+                own5 -= 1
                 break
         }
 }

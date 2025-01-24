@@ -85,8 +85,12 @@ button {
     border-color: black;
     border-style: solid;
     padding: .25cm;
-    height: 7cm;
+    /*height: 7cm;*/
     width: 15cm;
+}
+#own0, #own3 {
+    left: 25%;
+    position: relative;
 }
 .own_technique {
     padding: 2%;
