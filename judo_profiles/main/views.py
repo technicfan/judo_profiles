@@ -241,28 +241,49 @@ def manage(request, profile_id):
     users = User.objects.exclude(id__in=[request.user.id, fighter.created_by.id]).order_by("username")
 
     if request.method == "POST":
-        no_view = users
-        no_edit = users
-        no_manage = users
-        print(request.POST)
-        if "view_users" in request.POST:
-            for user in request.POST["view_users"]:
-                assign_perm('view_fighter', User.objects.get(id=user), fighter)
-                no_view = no_view.exclude(id=user)
-        for user in no_view:
-            remove_perm('view_fighter', user, fighter)
-        if "edit_users" in request.POST:
-            for user in request.POST["edit_users"]:
-                assign_perm('change_fighter', User.objects.get(id=user), fighter)
-                no_edit = no_edit.exclude(id=user)
-        for user in no_edit:
-            remove_perm('change_fighter', user, fighter)
-        if "manage_users" in request.POST:
-            for user in request.POST["manage_users"]:
-                assign_perm('manage_fighter', User.objects.get(id=user), fighter)
-                no_manage = no_manage.exclude(id=user)
-        for user in no_manage:
-            remove_perm('manage_fighter', user, fighter)
+        if "password" in request.POST:
+            if request.POST["password"] == request.POST["password_confirm"]:
+                newuser = User(
+                    username=fighter.name + "." + fighter.last_name
+                )
+                newuser.set_password(request.POST["password"])
+                newuser.save()
+                assign_perm('view_fighter', newuser, fighter)
+                fighter.user = newuser
+                fighter.save()
+        elif "delete" in request.POST:
+            fighter.user.delete()
+        else:
+            no_view = users
+            no_edit = users
+            no_manage = users
+
+            if "view_users" in request.POST:
+                for user in request.POST["view_users"]:
+                    assign_perm('view_fighter', User.objects.get(id=user), fighter)
+                    no_view = no_view.exclude(id=user)
+            if "edit_users" in request.POST:
+                for user in request.POST["edit_users"]:
+                    assign_perm('view_fighter', User.objects.get(id=user), fighter)
+                    assign_perm('change_fighter', User.objects.get(id=user), fighter)
+                    no_edit = no_edit.exclude(id=user)
+            if "manage_users" in request.POST:
+                for user in request.POST["manage_users"]:
+                    assign_perm('view_fighter', User.objects.get(id=user), fighter)
+                    assign_perm('change_fighter', User.objects.get(id=user), fighter)
+                    assign_perm('manage_fighter', User.objects.get(id=user), fighter)
+                    no_manage = no_manage.exclude(id=user)
+
+            for user in no_view:
+                if user in no_edit and user in no_manage:
+                    remove_perm('view_fighter', user, fighter)
+
+            for user in no_edit:
+                if user in no_manage:
+                    remove_perm('change_fighter', user, fighter)
+
+            for user in no_manage:
+                remove_perm('manage_fighter', user, fighter)
 
         return HttpResponseRedirect("")
     else:

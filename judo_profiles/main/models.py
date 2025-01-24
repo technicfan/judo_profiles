@@ -10,7 +10,7 @@ class Fighter(models.Model):
     ]
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name="fighter")
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, blank=True, null=True, related_name="fighter")
     weight = models.FloatField()
     primary_side = models.PositiveIntegerField(choices=PRIMARY_SIDE_CHOICES)
     year = models.PositiveIntegerField()

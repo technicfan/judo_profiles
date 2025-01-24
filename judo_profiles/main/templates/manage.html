@@ -47,6 +47,22 @@
             </div>
             <br>
             <button>Speichern</button>
+            <br><br>
+
         </form>
+        {% if user == fighter.created_by %}
+            {% if fighter.user == None %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="password" name="password">
+                    <input type="password" name="password_confirm">
+                    <button>Nutzer zum Profil hinzufügen</button>
+                </form>
+            {% else %}
+                <form method="post">
+                    {% csrf_token %}
+                    <button name="delete">Nutzter vom Profil entfernen</button>
+            {% endif %}
+        {% endif %}
     </body>
 </html>
