@@ -4,11 +4,11 @@ from django.contrib.auth.decorators import permission_required
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from guardian.decorators import permission_required as object_permission_required
 import json
+import re
 
 from .models import Fighter, OwnTechnique, Technique, Position, CombinationRank, TechniqueRank
 
 
-# Create your views here.
 def index(request):
     shown_profiles = get_objects_for_user(request.user, "view_fighter", Fighter).order_by("last_name")
     return render(request, "index.html", {"profiles": shown_profiles})
@@ -243,9 +243,11 @@ def manage(request, profile_id):
     if request.method == "POST":
         if "password" in request.POST:
             if request.POST["password"] == request.POST["password_confirm"]:
-                newuser = User(
-                    username=fighter.name + "." + fighter.last_name
-                )
+                username = fighter.name + "." + fighter.last_name
+                number = User.objects.filter(username__regex=rf"^{username}(\.[0-9]*)?$").count()
+                if number != 0:
+                    username += f".{number}"
+                newuser = User(username=username)
                 newuser.set_password(request.POST["password"])
                 newuser.save()
                 assign_perm('view_fighter', newuser, fighter)

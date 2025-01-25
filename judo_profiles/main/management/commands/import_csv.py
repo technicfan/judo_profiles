@@ -15,6 +15,8 @@ class Command(BaseCommand):
             reader = csv.reader(file)
             next(reader)
 
+            imported = 0
+            duplicates = 0
             for row in reader:
                 _, created = Technique.objects.get_or_create(
                     codename=row[0],
@@ -22,6 +24,11 @@ class Command(BaseCommand):
                     type=row[2]
                 )
                 if created:
-                    self.stdout.write(f"Successfully imported {row[1]}")
+                    imported += 1
                 else:
-                    self.stdout.write(f"Technique {row[1]} already exists")
+                    duplicates += 1
+
+        if imported > 0:
+            self.stdout.write(f"Successfully imported {imported} Techniques")
+        if duplicates > 0:
+            self.stdout.write(f"{duplicates} Techniques did already exsist")

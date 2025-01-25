@@ -61,7 +61,7 @@
             {% else %}
                 <form method="post">
                     {% csrf_token %}
-                    <button name="delete">Nutzter vom Profil entfernen</button>
+                <button name="delete">Nutzer "{{ fighter.user }}" entfernen</button>
             {% endif %}
         {% endif %}
     </body>
