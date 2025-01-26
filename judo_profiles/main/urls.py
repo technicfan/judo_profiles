@@ -4,8 +4,8 @@ from . import views
 
 urlpatterns = [
     path("", views.index),
-    path("new", views.new_profile),
-    path("<int:profile_id>", views.profile),
-    path("<int:profile_id>/edit", views.edit_profile),
-    path("<int:profile_id>/manage", views.manage)
+    path("profile/new", views.new_profile),
+    path("profile/<uuid:profile_uuid>", views.profile),
+    path("profile/<uuid:profile_uuid>/edit", views.edit_profile),
+    path("profile/<uuid:profile_uuid>/manage", views.manage)
 ]
