@@ -4,8 +4,8 @@ function add_rank_item(type, context = null){
     switch(type){
         case "special":
             special += 1
-            number = special
-            html = `
+            var number = special
+            var html = `
             <div class="special rank_item" id="special_item` + number + `">
                 <p class="number">` + number + `: </p>
                 <select id="special_t` + number + `" class="technique">
@@ -18,8 +18,8 @@ function add_rank_item(type, context = null){
             break
         case "ground":
             ground += 1
-            number = ground
-            html = `
+            var number = ground
+            var html = `
             <div class="ground rank_item" id="ground_item` + number + `">
                 <p class="number">` + number + `: </p>
                 <select id="ground_t` + number + `" class="technique">
@@ -32,8 +32,8 @@ function add_rank_item(type, context = null){
             break
         case "combination":
             combination += 1
-            number = combination
-            html = `
+            var number = combination
+            var html = `
             <div class="combination rank_item" id="combination_item` + number + `">
                 <p class="number">` + number + `: </p>
                 <select id="combination_t1` + number + `" class="technique1">
@@ -51,7 +51,7 @@ function add_rank_item(type, context = null){
     }
     if (number <= 4){
         $("#" + type + number).append(html)
-        let div = document.getElementById(type + "_item" + number)
+        var div = document.getElementById(type + "_item" + number)
         div.querySelector("button").addEventListener("click", event => { event.preventDefault() })
 
         if (context != null) {
@@ -79,23 +79,26 @@ function add_rank_item(type, context = null){
 }
 
 function remove_rank(type, element){
-    number = element.id.slice(-1)
+    var number = element.id.slice(-1)
     if (document.getElementById(type + "_item" + number).getAttribute("data-id")){
-        deleted_own_techniques.push([type, parseInt(document.getElementById(type + "_item" + number).getAttribute("data-id"))])
+        deleted_rank_items.push({
+            "type": type,
+            "id": parseInt(document.getElementById(type + "_item" + number).getAttribute("data-id"))
+        })
     }
     $("#" + type + "_item" + number).remove()
     if (number < 4) {
         document.querySelectorAll("." + type + ".rank_item").forEach(div => {
-            curr_number = parseInt(div.id.slice(-1))
+            var curr_number = parseInt(div.id.slice(-1))
             div.querySelectorAll("select, button").forEach(select => {
                 if(curr_number > number) {
                     select.id = select.id.slice(0, -1) + (curr_number - 1)
                 }
             })
             if(curr_number > number) {
-                id = div.id
+                let id = div.id
                 $("#" + type + (curr_number - 1)).append(div)
-                div = document.getElementById(id)
+                var div = document.getElementById(id)
                 div.querySelector("p").innerHTML = curr_number - 1  + ": "
                 div.id = div.id.slice(0, -1) + (curr_number - 1)
             }

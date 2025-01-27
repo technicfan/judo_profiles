@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
-from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm, get_users_with_perms
+from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from guardian.decorators import permission_required as object_permission_required
 import json
 

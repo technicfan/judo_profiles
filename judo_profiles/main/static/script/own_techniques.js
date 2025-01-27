@@ -4,31 +4,31 @@ function add_own(field, context = null){
     switch(field){
         case 0:
             own0 += 1
-            number = own0
+            var number = own0
             break
         case 1:
             own1 += 1
-            number = own1
+            var number = own1
             break
         case 2:
             own2 += 1
-            number = own2
+            var number = own2
             break
         case 3:
             own3 += 1
-            number = own3
+            var number = own3
             break
         case 4:
             own4 += 1
-            number = own4
+            var number = own4
             break
         case 5:
             own5 += 1
-            number = own5
+            var number = own5
             break
     }
     if (number <= 3){
-        own_technique_html = `
+        let own_technique_html = `
         <div class="own_technique" id="own` + field + "_" + number + `">
             <select id="own` + field + "_d" + number + `" class="direction">
                 <option value="" selected>Auslage</option>
@@ -56,7 +56,7 @@ function add_own(field, context = null){
         `
 
         $("#own" + field).append(own_technique_html)
-        let div = document.getElementById("own" + field + "_" + number)
+        var div = document.getElementById("own" + field + "_" + number)
         document.getElementById("own" + field + "_" + number).querySelectorAll("button").forEach(button => {
             button.addEventListener("click", event => { event.preventDefault() })
         })
@@ -100,14 +100,14 @@ function add_own(field, context = null){
 }
 
 function remove_own(field, element){
-    number = element.id.slice(-1)
+    var number = element.id.slice(-1)
     if (document.getElementById("own" + field + "_" + number).getAttribute("data-id")){
         deleted_own_techniques.push(parseInt(document.getElementById("own" + field + "_" + number).getAttribute("data-id")))
     }
     $("#own" + field + "_" + number).remove()
     if (number < 3) {
         document.getElementById("own" + field).querySelectorAll("div").forEach(div => {
-            curr_number = parseInt(div.id.slice(-1))
+            var curr_number = parseInt(div.id.slice(-1))
             div.querySelectorAll("select, button").forEach(select => {
                 if(curr_number > number) {
                     select.id = select.id.slice(0, -1) + (curr_number - 1)

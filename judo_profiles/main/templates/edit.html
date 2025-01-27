@@ -77,25 +77,30 @@
                     <td>
                         <div id="visual">
                             <div id="positions">
-                                <p id="image_desc">Griffpositionen</p>
-                                <div id="choices">
-                                    <a>Rechte Hand =</a>
-                                    <div class="r position option 1" id="oR1">1</div>
-                                    <div class="r position option 2" id="oR2">2</div>
-                                    <div class="r position option 3" id="oR3">3</div>
-                                    <div class="r position option 4" id="oR4">4</div>
-                                    <br>
-                                    <br>
-                                    <a>Linke Hand =</a>
-                                    <div class="l position option 1" id="oL1">1</div>
-                                    <div class="l position option 2" id="oL2">2</div>
-                                    <div class="l position option 3" id="oL3">3</div>
-                                    <div class="l position option 4" id="oL4">4</div>
-                                </div>
-                                <br>
-                                <button id="delete" onclick="delClick()">Löschen</button>
-                                <div id="image_container" style="background-image: url('{% static "image/image.png" %}');">
-                                    <img src="{% static "image/image.png" %}" id="image">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p id="image_desc">Griffpositionen</p>
+                                            <button id="delete" onclick="delClick()">Löschen</button>
+                                        </td>
+                                        <td id="choices">
+                                            <a>Rechte Hand =</a>
+                                            <div class="r position option 1" id="oR1">1</div>
+                                            <div class="r position option 2" id="oR2">2</div>
+                                            <div class="r position option 3" id="oR3">3</div>
+                                            <div class="r position option 4" id="oR4">4</div>
+                                            <br>
+                                            <br>
+                                            <a>Linke Hand =</a>
+                                            <div class="l position option 1" id="oL1">1</div>
+                                            <div class="l position option 2" id="oL2">2</div>
+                                            <div class="l position option 3" id="oL3">3</div>
+                                            <div class="l position option 4" id="oL4">4</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div id="image_container" style="background-image: url('{% static "image/image.svg" %}');">
+                                    <img src="{% static "image/image.svg" %}"  id="image">
                                     <div class="r move position 1" id="pR1">1</div>
                                     <div class="r move position 2" id="pR2">2</div>
                                     <div class="r move position 3" id="pR3">3</div>

@@ -2,14 +2,14 @@
 document.querySelectorAll("button").forEach(button => { button.addEventListener("click", event => { event.preventDefault() }) })
 
 // Positions
-let newX = 0, newY = 0, startX = 0, startY = 0, delete_mode = false, move = null;
+let delete_mode = false, move = null;
 document.querySelectorAll(".option").forEach(element => { element.addEventListener("mousedown", mouseDownOpt) })
 
 function mouseDownOpt(e){
     if (move != null){
         mouseDownDoc(e)
     }
-    target = e.target
+    let target = e.target
     move = document.getElementById(getMatchingID(target.id))
     colorSelected(target.className[0] + " " + target.className.slice(-1), "black")
     image.addEventListener("mousedown", mouseDownImg)
@@ -31,12 +31,12 @@ function mouseDownDoc(e){
 function mouseDownImg(e){
     if (e.target != move){
         move.style.display = "flex"
-        image_rect = image.getBoundingClientRect()
+        let image_rect = image.getBoundingClientRect()
         placeRelative(move, e.offsetY / image_rect.height, e.offsetX / image_rect.width)
         if (move.className[0] == "l"){
-            side = "left"
+            var side = "left"
         } else {
-            side = "right"
+            var side = "right"
         }
         document.querySelectorAll("." + side).forEach(select => {
             if ($("#" + select.id).find("[value='" + move.className.slice(-1) + "']").text() == ""){
@@ -59,17 +59,15 @@ function mouseDownPos(e){
             position.style.cursor = "grab"
         })
         if (move.className[0] == "l"){
-            side = "left"
+            var side = "left"
         } else {
-            side = "right"
+            var side = "right"
         }
         $('.' + side + ' [value="' + move.className.slice(-1) + '"]').remove()
         $('.' + side).val('').trigger('chosen:updated')
         delete_mode = false
         move = null
     } else {
-        startX = e.clientX
-        startY = e.clientY
         move.style.cursor = "grabbing"
         document.addEventListener("mousemove", mouseMovePos)
         document.addEventListener("mouseup", mouseUpPos)
@@ -92,8 +90,8 @@ function mouseUpPos(e){
 }
 
 function getRelative(object){
-    image_rect = image.getBoundingClientRect()
-    object_rect = object.getBoundingClientRect()
+    let image_rect = image.getBoundingClientRect()
+    let object_rect = object.getBoundingClientRect()
     y = parseFloat(object.style.top) / 100 + object_rect.height / 2 / image_rect.height
     x = parseFloat(object.style.left) / 100 + object_rect.width / 2 / image_rect.width
     

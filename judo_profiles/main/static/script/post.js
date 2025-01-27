@@ -1,12 +1,12 @@
 function get_positions(){
-    let pos = []
+    var pos = []
     document.querySelectorAll(".move").forEach(position => {
         if (position.getAttribute("data-id")) {
-            action = "update"
-            id = parseInt(position.getAttribute("data-id"))
+            var action = "update"
+            var id = parseInt(position.getAttribute("data-id"))
         } else {
-            action = "add"
-            id = null
+            var action = "add"
+            var id = null
         }
         if (position.style.display == "flex"){
             let x = getRelative(position)
@@ -33,7 +33,7 @@ function get_positions(){
 }
 
 function get_own_techniques(){
-    let own_techniques = []
+    var own_techniques = []
     document.querySelectorAll(".own_technique").forEach(div => {
         let side = div.querySelector(".direction").value == "l"
         let technique = div.querySelector(".technique").value
@@ -43,11 +43,11 @@ function get_own_techniques(){
         let direction = div.id[3]
         if (technique && left && right && state && direction){
             if (div.getAttribute("data-id")) {
-                action = "update"
-                id = parseInt(div.getAttribute("data-id"))
+                var action = "update"
+                var id = parseInt(div.getAttribute("data-id"))
             } else {
-                action = "add"
-                id = null
+                var action = "add"
+                var id = null
             }
             own_techniques.push(
                 {
@@ -75,15 +75,15 @@ function get_own_techniques(){
 }
 
 function get_rank_items(){
-    let rank_items = []
+    var rank_items = []
     document.querySelectorAll(".rank_item").forEach(div => {
         let type = div.classList[0]
         if (div.getAttribute("data-id")) {
-            action = "update"
-            id = parseInt(div.getAttribute("data-id"))
+            var action = "update"
+            var id = parseInt(div.getAttribute("data-id"))
         } else {
-            action = "add"
-            id = null
+            var action = "add"
+            var id = null
         }
         if (type == "combination"){
             let technique1 = div.querySelector(".technique1").value
@@ -115,12 +115,12 @@ function get_rank_items(){
             }
         }
     })
-    deleted_rank_items.forEach(id => {
-        ranks_items.push(
+    deleted_rank_items.forEach(item => {
+        rank_items.push(
             {
                 "action": "delete",
-                "type": id[0],
-                "id": id[1]
+                "type": item["type"],
+                "id": item["id"]
             }
         )
     })
@@ -143,7 +143,7 @@ function post_data(action = "redirect"){
         var side = 2
     }
     if (name && last_name && year && weight && side != null){
-        let data = {
+        var data = {
             "name": name,
             "last_name": last_name,
             "year": year,

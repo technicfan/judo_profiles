@@ -31,8 +31,9 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    display:inline;
+    display: inline;
     visibility: hidden;
+    width: 100%;
 }
 #choices {
     width: max-content;
@@ -41,15 +42,14 @@
     border-color: black;
     border-style: solid;
     padding: 6px;
-    margin: 3px;
-    display: inline-block;
-    margin-left: 15%;
+    transform: translateX(40%);
 }
 #image_container {
-    width: fit-content;
     position: relative;
     display: inline-block;
     background-repeat: no-repeat;
+    background-size: contain;
+    height: fit-content;
 }
 #image_desc {
     border-width: 3px;
@@ -94,6 +94,8 @@ button {
 }
 .own_technique {
     padding: 2%;
+    margin-bottom: 5%;
+    margin-top: 0%;
 }
 #own_container, #ranks {
     border-width: 3px;
