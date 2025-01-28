@@ -23,7 +23,7 @@ def edit_profile(request, profile_uuid):
         if data["action"] == "delete":
             fighter.delete()
 
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/" + request.path.split("/")[1])
         else:
             # fighter
             fighter.name = data["name"]
@@ -233,7 +233,7 @@ def new_profile(request):
                 )
             new_rank_item.save()
 
-        return HttpResponseRedirect("/profile/" + str(fighter.uuid))
+        return HttpResponseRedirect("/" + request.path.split("/")[1] + "/" + str(fighter.uuid))
     else:
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")

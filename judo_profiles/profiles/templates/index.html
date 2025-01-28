@@ -1,17 +1,17 @@
 <html>
     {% if "main.add_fighter" in perms %}
-        <a href="/profile/new">Neu</a>
+        <a href="new">Neu</a>
         <br>
     {% endif %}
     {% load guardian_tags %}
     {% for i in profiles %}
         {% get_obj_perms request.user for i as "i_perms" %}
-        <a href="/profile/{{ i.uuid }}">{{ i }}</a>
+        <a href="{{ i.uuid }}">{{ i }}</a>
         {% if "change_fighter" in i_perms %}
-            <a href="/profile/{{ i.uuid }}/edit">Bearbeiten</a>
+            <a href="{{ i.uuid }}/edit">Bearbeiten</a>
         {% endif %}
         {% if "manage_fighter" in i_perms %}
-            <a href="/profile/{{ i.uuid }}/manage">Zugriff verwalten</a>
+            <a href="{{ i.uuid }}/manage">Zugriff verwalten</a>
         {% endif %}
         <br>
     {% endfor %}

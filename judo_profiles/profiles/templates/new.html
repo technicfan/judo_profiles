@@ -1,0 +1,133 @@
+{% extends "profile_base.html" %}
+{% load static %}
+
+{% block hidden_data %}
+    <div id="hidden_t">
+        {% for t in techniques %}
+            <option value="{{ t.id }}">{{ t.name }}</option>
+        {% endfor %}
+    </div>
+    <div id="hidden_st">
+        {% for t in stechniques %}
+            <option value="{{ t.id }}">{{ t.name }}</option>
+        {% endfor %}
+    </div>
+    <div id="hidden_gt">
+        {% for t in gtechniques %}
+            <option value="{{ t.id }}">{{ t.name }}</option>
+        {% endfor %}
+    </div>
+    {% block hidden_data2 %}{% endblock %}
+{% endblock %}
+
+{% block form_container %}
+    <form method="post">
+        {% csrf_token %}
+{% endblock %}
+
+{% block form_container_end %}
+    </form>
+{% endblock %}
+
+{% block general_info %}
+    <p id="title">Kämpferprofil von</p>
+    <input type="text" id="last_name" placeholder="Nachname" value="{{ fighter.last_name|default:"" }}">, 
+    <input type="text" id="name" placeholder="Vorname" value="{{ fighter.name|default:"" }}">
+    <input type="number" id="year" min="1900" max="2099" step="1" value="{{ fighter.year|default:2007 }}" placeholder="Jahrgang">
+    <input type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)" value="{{ fighter.weight|default:"" }}">
+{% endblock %}
+
+{% block delete_positions %}
+    <button id="delete" onclick="delClick()">Löschen</button>
+{% endblock %}
+
+{% block own0 %}
+    <button onclick="add_own(0)">+</button>
+{% endblock %}
+
+{% block own1 %}
+    <button onclick="add_own(1)">+</button>
+{% endblock %}
+
+{% block own2 %}
+    <button onclick="add_own(2)">+</button>
+{% endblock %}
+
+{% block own3 %}
+    <button onclick="add_own(3)">+</button>
+{% endblock %}
+
+{% block own4 %}
+    <button onclick="add_own(4)">+</button>
+{% endblock %}
+
+{% block own5 %}
+    <button onclick="add_own(5)">+</button>
+{% endblock %}
+
+{% block special %}
+    <button onclick="add_rank_item('special')">+</button>
+    <tr>
+        <td id="special1" class="special"></td>
+    </tr>
+    <tr>
+        <td id="special2" class="special"></td>
+    </tr>
+    <tr>
+        <td id="special3" class="special"></td>
+    </tr>
+    <tr>
+        <td id="special4" class="special"></td>
+    </tr>
+{% endblock %}
+
+{% block ground %}
+    <button onclick="add_rank_item('ground')">+</button>
+    <tr>
+        <td id="ground1" class="ground"></td>
+    </tr>
+    <tr>
+        <td id="ground2" class="ground"></td>
+    </tr>
+    <tr>
+        <td id="ground3" class="ground"></td>
+    </tr>
+    <tr>
+        <td id="ground4" class="ground"></td>
+    </tr>
+{% endblock %}
+
+{% block combination %}
+    <button onclick="add_rank_item('combination')">+</button>
+    <tr>
+        <td id="combination1" class="combination"></td>
+    </tr>
+    <tr>
+        <td id="combination2" class="combination"></td>
+    </tr>
+    <tr>
+        <td id="combination3" class="combination"></td>
+    </tr>
+    <tr>
+        <td id="combination4" class="combination"></td>
+    </tr>
+{% endblock %}
+
+{% block buttons %}
+    {% block buttons2 %}{% endblock %}
+    <button onclick="post_data()">Fertig</button>
+{% endblock %}
+
+{% block script %}
+    <script>
+        const CSRF_TOKEN = document.querySelector("[name=csrfmiddlewaretoken]").value
+        const techniques = document.getElementById("hidden_t").innerHTML
+        const stechniques = document.getElementById("hidden_st").innerHTML
+        const gtechniques = document.getElementById("hidden_gt").innerHTML
+    </script> 
+    <script src="{% static "script/change_positions.js" %}"></script>
+    <script src="{% static "script/own_techniques.js" %}"></script>
+    <script src="{% static "script/ranks.js" %}"></script>
+    <script src="{% static "script/post.js" %}"></script>
+    {% block script2 %}{% endblock %}
+{% endblock %}
