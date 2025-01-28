@@ -33,7 +33,6 @@
     user-select: none;
     display: inline;
     visibility: hidden;
-    width: 100%;
 }
 #choices {
     width: max-content;
@@ -49,7 +48,8 @@
     display: inline-block;
     background-repeat: no-repeat;
     background-size: contain;
-    height: fit-content;
+    min-width: 100%;
+    /*min-height: 100%;*/
 }
 #image_desc {
     border-width: 3px;
@@ -69,7 +69,6 @@ button {
     cursor: pointer;
 }
 #positions {
-    width: auto;
     border-width: 3px;
     border-color: black;
     border-style: solid;
@@ -85,7 +84,6 @@ button {
     border-color: black;
     border-style: solid;
     padding: .25cm;
-    /*height: 7cm;*/
     width: 15cm;
 }
 #own0, #own3 {
@@ -96,6 +94,7 @@ button {
     padding: 2%;
     margin-bottom: 5%;
     margin-top: 0%;
+    width: 10cm;
 }
 #own_container, #ranks {
     border-width: 3px;

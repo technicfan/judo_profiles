@@ -8,17 +8,23 @@
 {% block hidden_data %}
     <div id="hidden_own">
         {% for t in own_techniques %}
-            <div class="own_technique" data-direction={{ t.direction }}>
-                <p>{{ t.technique }}</p>
-                {% if t.side %}
-                    <div class="table position l">L</div>
-                {% else %}
-                    <div class="table position r">R</div>
-                {% endif %}
-                <div class="table position l no_margin">{{ t.left_position.number }}</div>
-                <div class="table position r">{{ t.right_position.number }}</div>
-                {{ t.state }}
-            </div>
+            <table class="own_row" data-direction={{ t.direction }}>
+                <tr>
+                    <td class="own_technique">
+                        <div class="center">
+                            <p>{{ t.technique }}</p>
+                            {% if t.side %}
+                                <div class="table position l">L</div>
+                            {% else %}
+                                <div class="table position r">R</div>
+                            {% endif %}
+                            <div class="table position l no_margin">{{ t.left_position.number }}</div>
+                            <div class="table position r">{{ t.right_position.number }}</div>
+                            {{ t.state }}
+                        </div>
+                    </td>
+                </tr>
+            </table>
         {% endfor %}
     </div>
     <ul id="hidden_pos">
@@ -93,8 +99,8 @@
             )
         })
 
-        document.querySelectorAll(".own_technique").forEach(div => {
-            $("#own" + div.dataset["direction"]).append(div)
+        document.querySelectorAll(".own_row").forEach(div => {
+            $("#own" + div.dataset["direction"]).append(div.innerHTML)
         })
     </script>
 {% endblock %}
