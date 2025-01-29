@@ -41,7 +41,6 @@
     border-color: black;
     border-style: solid;
     padding: 6px;
-    transform: translateX(40%);
 }
 #image_container {
     position: relative;
@@ -49,7 +48,6 @@
     background-repeat: no-repeat;
     background-size: contain;
     min-width: 100%;
-    /*min-height: 100%;*/
 }
 #image_desc {
     border-width: 3px;
@@ -77,17 +75,18 @@ button {
 }
 #visual {
     width: fit-content;
-    display: inline;
+    /*display: inline;*/
 }
 .own_techniques {
     border-width: 3px;
     border-color: black;
     border-style: solid;
     padding: .25cm;
-    width: 15cm;
+    width: 100%;
+    height: 100%;
 }
 #own0, #own3 {
-    left: 25%;
+    left: 50%;
     position: relative;
 }
 .own_technique {
@@ -132,7 +131,29 @@ label {
 #ranks {
     width: 100%;
 }
+.big_rank {
+    width: 40%;
+}
+.small_rank {
+    width: 30%;
+}
 .rank_item {
     text-align: center;
     vertical-align: middle;
+}
+#own {
+    table-layout: fixed;
+}
+#main {
+    table-layout: fixed;
+    width: 100%;
+}
+table {
+    table-layout: fixed;
+}
+#own td {
+    width: 50%;
+}
+#own tr {
+    display: flex;
 }

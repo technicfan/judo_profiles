@@ -299,7 +299,7 @@ def manage(request, profile_uuid):
             for user in no_manage:
                 remove_perm('manage_fighter', user, fighter)
 
-        return HttpResponseRedirect("")
+        return HttpResponseRedirect(request.path)
     else:
 
         return render(request, "manage.html", {"users": users, "fighter": fighter})

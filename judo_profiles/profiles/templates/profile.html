@@ -11,17 +11,15 @@
             <table class="own_row" data-direction={{ t.direction }}>
                 <tr>
                     <td class="own_technique">
-                        <div class="center">
-                            <p>{{ t.technique }}</p>
-                            {% if t.side %}
-                                <div class="table position l">L</div>
-                            {% else %}
-                                <div class="table position r">R</div>
-                            {% endif %}
-                            <div class="table position l no_margin">{{ t.left_position.number }}</div>
-                            <div class="table position r">{{ t.right_position.number }}</div>
-                            {{ t.state }}
-                        </div>
+                        <p>{{ t.technique }}</p>
+                        {% if t.side %}
+                            <div class="table position l">L</div>
+                        {% else %}
+                            <div class="table position r">R</div>
+                        {% endif %}
+                        <div class="table position l no_margin">{{ t.left_position.number }}</div>
+                        <div class="table position r">{{ t.right_position.number }}</div>
+                        {{ t.state }}
                     </td>
                 </tr>
             </table>

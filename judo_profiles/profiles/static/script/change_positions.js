@@ -29,7 +29,7 @@ function mouseDownDoc(e){
 }
 
 function mouseDownImg(e){
-    if (e.target != move){
+    if (move != null && e.target != move){
         move.style.display = "flex"
         let image_rect = image.getBoundingClientRect()
         placeRelative(move, e.offsetY / image_rect.height, e.offsetX / image_rect.width)
