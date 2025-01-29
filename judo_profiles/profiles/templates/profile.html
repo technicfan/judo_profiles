@@ -97,8 +97,8 @@
             )
         })
 
-        document.querySelectorAll(".own_row").forEach(div => {
-            $("#own" + div.dataset["direction"]).append(div.innerHTML)
+        document.querySelectorAll(".own_row").forEach(table => {
+            $("#own" + table.dataset["direction"]).append(table.rows[0])
         })
     </script>
 {% endblock %}

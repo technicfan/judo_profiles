@@ -91,9 +91,12 @@ button {
 }
 .own_technique {
     padding: 2%;
-    margin-bottom: 5%;
+    /*margin-bottom: 5%;*/
     margin-top: 0%;
-    width: 10cm;
+    /*width: 10cm;*/
+    text-align: center;
+    vertical-align: middle;
+    display: inline;
 }
 #own_container, #ranks {
     border-width: 3px;
@@ -148,7 +151,7 @@ label {
     table-layout: fixed;
     width: 100%;
 }
-table {
+.own_techniques {
     table-layout: fixed;
 }
 #own td {
@@ -156,4 +159,13 @@ table {
 }
 #own tr {
     display: flex;
+}
+.pos {
+    width: 40%;
+}
+.own_t {
+    width: 60%;
+}
+.own_techniques td {
+    width: 100%;
 }
