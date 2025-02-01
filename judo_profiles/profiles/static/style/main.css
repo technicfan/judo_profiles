@@ -75,7 +75,6 @@ button {
 }
 #visual {
     width: fit-content;
-    /*display: inline;*/
 }
 .own_techniques {
     border-width: 3px;
@@ -91,9 +90,7 @@ button {
 }
 .own_technique {
     padding: 2%;
-    /*margin-bottom: 5%;*/
     margin-top: 0%;
-    /*width: 10cm;*/
     text-align: center;
     vertical-align: middle;
     display: inline;
