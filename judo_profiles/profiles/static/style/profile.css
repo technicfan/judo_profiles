@@ -4,7 +4,7 @@
 .table {
     display: inline-block;
     margin-right: 10%;
-    border-color: black;
+    border-color: unset;
 }
 .table.l.no_margin {
     margin-right: 0%;

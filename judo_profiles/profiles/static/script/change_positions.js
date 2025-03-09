@@ -1,5 +1,18 @@
 // disable submitting for unwanted buttons
-document.querySelectorAll("button").forEach(button => { button.addEventListener("click", event => { event.preventDefault() }) })
+document.querySelectorAll("button").forEach(button => {
+    if (!button.classList.contains("submit")){
+        button.addEventListener("click", event => { event.preventDefault() })
+    }
+})
+// only post if form is valid
+document.querySelector("form").addEventListener("submit", event => {
+    event.preventDefault()
+    if (document.activeElement.dataset.type){
+        post_data(document.activeElement.dataset.type)
+    } else {
+        post_data()
+    }
+})
 
 // Positions
 let delete_mode = false, move = null;
@@ -11,7 +24,7 @@ function mouseDownOpt(e){
     }
     let target = e.target
     move = document.getElementById(getMatchingID(target.id))
-    colorSelected(target.className[0] + " " + target.className.slice(-1), "black")
+    colorSelected(target.className[0] + " " + target.className.slice(-1), "unset")
     image.addEventListener("mousedown", mouseDownImg)
     document.addEventListener("mousedown", mouseDownDoc)
 }
@@ -45,6 +58,9 @@ function mouseDownImg(e){
         })
         move.addEventListener("mousedown", mouseDownPos)
     }
+    if (delete_mode){
+        delClick()
+    }
 }
 
 function mouseDownPos(e){
@@ -52,12 +68,6 @@ function mouseDownPos(e){
     if (delete_mode){
         move.style.display = "none"
         document.getElementById(getMatchingID(move.id)).style.borderColor = "grey"
-        document.querySelectorAll(".move").forEach(position => {
-            if (position.style.display == "flex"){
-                position.style.borderColor = "black"
-            }
-            position.style.cursor = "grab"
-        })
         if (move.className[0] == "l"){
             var side = "left"
         } else {
@@ -65,7 +75,6 @@ function mouseDownPos(e){
         }
         $('.' + side + ' [value="' + move.className.slice(-1) + '"]').remove()
         $('.' + side).val('').trigger('chosen:updated')
-        delete_mode = false
         move = null
     } else {
         move.style.cursor = "grabbing"
@@ -107,11 +116,21 @@ function getMatchingID(id){
 }
 
 function delClick(){
-    document.querySelectorAll(".move").forEach(position => {
-        if (position.style.display == "flex"){
-            position.style.borderColor = "red"
-            position.style.cursor = "not-allowed"
-            delete_mode = true
-        }
-    })
+    if (delete_mode){
+        document.querySelectorAll(".move").forEach(position => {
+            if (position.style.display == "flex"){
+                position.style.borderColor = "unset"
+            }
+            position.style.cursor = "grab"
+        })
+        delete_mode = false
+    } else {
+        document.querySelectorAll(".move").forEach(position => {
+            if (position.style.display == "flex"){
+                position.style.borderColor = "red"
+                position.style.cursor = "not-allowed"
+            }
+        })
+        delete_mode = true
+    }
 }

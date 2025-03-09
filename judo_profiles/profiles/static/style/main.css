@@ -15,10 +15,10 @@
     border-width: 4pt;
     border-color: grey;
     border-style: solid;
-    background-color: white;
     text-align: center;
     font-weight: bold;
     user-select: none;
+    box-sizing: unset;
 }
 .r {
     border-radius: 0px;
@@ -38,7 +38,6 @@
     width: max-content;
     height: max-content;
     border-width: 3px;
-    border-color: black;
     border-style: solid;
     padding: 6px;
 }
@@ -51,7 +50,6 @@
 }
 #image_desc {
     border-width: 3px;
-    border-color: black;
     border-style: solid;
     width: fit-content;
     display: inline-block;
@@ -60,15 +58,12 @@
 }
 button {
     border-width: 3px;
-    border-color: black;
     border-style: solid;
     width: fit-content;
-    background-color: white;
     cursor: pointer;
 }
 #positions {
     border-width: 3px;
-    border-color: black;
     border-style: solid;
     padding: 6px;
     margin: 3px;
@@ -78,7 +73,6 @@ button {
 }
 .own_techniques {
     border-width: 3px;
-    border-color: black;
     border-style: solid;
     padding: .25cm;
     width: 100%;
@@ -97,19 +91,16 @@ button {
 }
 #own_container, #ranks {
     border-width: 3px;
-    border-color: black;
     border-style: solid;
 }
 #side_container {
     border-width: 3px;
-    border-color: black;
     border-style: solid;
     margin-bottom: 7%;
     padding: 2.5%;
 }
 #general_container {
     border-width: 3px;
-    border-color: black;
     border-style: solid;
     padding: 1%;
 }

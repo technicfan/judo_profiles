@@ -30,7 +30,7 @@ function add_own(field, context = null){
     if (number <= 3){
         let own_technique_html = `
         <div class="own_technique" id="own` + field + "_" + number + `">
-            <select id="own` + field + "_d" + number + `" class="direction">
+            <select id="own` + field + "_d" + number + `" class="direction" required>
                 <option value="" selected>Auslage</option>
                 <option value="l">Links</option>
                 <option value="r">Rechts</option>
@@ -39,19 +39,19 @@ function add_own(field, context = null){
                 <option value="" selected>Technik</option>` +
             stechniques +
             `</select>
-            <select id="own` + field + "_pl" + number + `" class="select_position left">
+            <select id="own` + field + "_pl" + number + `" class="select_position left" required>
                 <option value="" selected>linke Griffposition</option>
             </select>
-            <select id="own` + field + "_pr" + number + `" class="select_position right">
+            <select id="own` + field + "_pr" + number + `" class="select_position right" required>
                 <option value="" selected>rechte Griffposition</option>
             </select>
-            <select id="own` + field + "_s" + number + `" class="state">
+            <select id="own` + field + "_s" + number + `" class="state" required>
                 <option value="" selected>Stand</option>
                 <option value="W">wettkampfsicher</option>
                 <option value="T">Training</option>
                 <option value="Z">zu lernen</option>
             </select>
-            <button id="own` + field + "_b" + number + `" onclick="remove_own(` + field + `, this)">Löschen</button>
+            <button id="own` + field + "_b" + number + `" class="btn btn-danger" onclick="remove_own(` + field + `, this)">Löschen</button>
         </div>
         `
 

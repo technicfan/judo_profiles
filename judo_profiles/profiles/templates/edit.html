@@ -1,5 +1,7 @@
 {% extends "new.html" %}
 
+{% block title %}Profil von {{ profile.name }} bearbeiten{% endblock %}
+
 {% block hidden_data2 %}
     <ul id="hidden_own">
         {% for t in own_techniques %}
@@ -45,22 +47,22 @@
     </ul>
 {% endblock %}
 
-{% block opts_left %}{% if fighter.primary_side != 2 %} checked {% endif %}{% endblock %}
+{% block opts_left %}{% if profile.primary_side != 2 %} checked {% endif %}{% endblock %}
 
-{% block opts_right %}{% if fighter.primary_side != 1 %} checked {% endif %}{% endblock %}
+{% block opts_right %}{% if profile.primary_side != 1 %} checked {% endif %}{% endblock %}
 
 {% block buttons2 %}
-    <button onclick="if (confirm('Wirklich löschen?')){ post_data('delete') }">Löschen</button>
-    <button onclick="location.href = location.href">Zurücksetzen</button>
-    <button onclick="post_data('save')">Speichern</button>
+    <button class="btn btn-danger" onclick="if (confirm('Wirklich löschen?')){ post_data('delete') }">Löschen</button>
+    <button class="btn btn-secondary" onclick="location.href = location.href">Zurücksetzen</button>
+    <button class="submit btn btn-secondary" data-type="save">Speichern</button>
 {% endblock %}
 
-{% block script2 %}
+{% block script3 %}
     <script> 
         document.querySelectorAll(".pos_data").forEach(pos => {
             position = document.getElementById(pos.dataset["id"])
             position.style.display = "flex"
-            colorSelected(position.className[0] + " " + position.className.slice(-1), "black")
+            colorSelected(position.className[0] + " " + position.className.slice(-1), "unset")
             placeRelative(
                 position,
                 pos.dataset["y"],

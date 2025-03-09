@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 import uuid
 
 
-class Fighter(models.Model):
+class Profile(models.Model):
     PRIMARY_SIDE_CHOICES = [
         (1, "Left"),
         (2, "Right"),
@@ -12,11 +12,11 @@ class Fighter(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, blank=True, null=True, related_name="fighter")
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, blank=True, null=True, related_name="profile")
     weight = models.FloatField()
     primary_side = models.PositiveIntegerField(choices=PRIMARY_SIDE_CHOICES)
     year = models.PositiveIntegerField()
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="fighters_created")
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="profiles_created")
     updated_on = models.DateField(auto_now=True)
 
     def __str__(self):
@@ -24,7 +24,7 @@ class Fighter(models.Model):
 
     class Meta:
         permissions = (
-            ("manage_fighter", "Manage Permissions"),
+            ("manage_profile", "Manage Permissions"),
         )
 
 
@@ -33,7 +33,7 @@ class Position(models.Model):
         (True, "l"),
         (False, "r")
     ]
-    fighter_profile = models.ForeignKey(Fighter, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     number = models.PositiveIntegerField()
     side = models.BooleanField(choices=SIDE_CHOICES)
     x = models.FloatField()
@@ -59,7 +59,7 @@ class OwnTechnique(models.Model):
         ("T", "Training"),
         ("Z", "zu lernen"),
     ]
-    fighter_profile = models.ForeignKey(Fighter, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     technique = models.ForeignKey(Technique, on_delete=models.CASCADE)
     side = models.BooleanField(choices=SIDE_CHOICES)
     state = models.CharField(max_length=1, choices=STATE_CHOICES)
@@ -77,7 +77,7 @@ class TechniqueRank(models.Model):
         ("U", "Übergang"),
         ("B", "Boden")
     ]
-    fighter_profile = models.ForeignKey(Fighter, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     technique = models.ForeignKey(Technique, on_delete=models.CASCADE)
     number = models.PositiveIntegerField()
     type = models.CharField(choices=TYPE_CHOICES, max_length=1)
@@ -87,7 +87,7 @@ class TechniqueRank(models.Model):
 
 
 class CombinationRank(models.Model):
-    fighter_profile = models.ForeignKey(Fighter, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     technique1 = models.ForeignKey(Technique, on_delete=models.CASCADE, related_name="technique1_combinations")
     technique2 = models.ForeignKey(Technique, on_delete=models.CASCADE, related_name="technique2_combinations")
     number = models.PositiveIntegerField()

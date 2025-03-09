@@ -1,6 +1,8 @@
 {% extends "profile_base.html" %}
 {% load static %}
 
+{% block title %}Profil erstellen{% endblock %}
+
 {% block hidden_data %}
     <div id="hidden_t">
         {% for t in techniques %}
@@ -31,54 +33,54 @@
 
 {% block general_info %}
     <p id="title">Kämpferprofil von</p>
-    <input type="text" id="last_name" placeholder="Nachname" value="{{ fighter.last_name|default:"" }}">, 
-    <input type="text" id="name" placeholder="Vorname" value="{{ fighter.name|default:"" }}">
-    <input type="number" id="year" min="1900" max="2099" step="1" value="{{ fighter.year|default:2007 }}" placeholder="Jahrgang">
-    <input type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)" value="{{ fighter.weight|default:"" }}">
+    <input type="text" id="last_name" placeholder="Nachname" value="{{ profile.last_name|default:"" }}" required>, 
+    <input type="text" id="name" placeholder="Vorname" value="{{ profile.name|default:"" }}" required>
+    <input type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="Jahrgang" required>
+    <input type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)" value="{{ profile.weight|default:"" }}" required>
 {% endblock %}
 
 {% block delete_positions %}
-    <button id="delete" onclick="delClick()">Löschen</button>
+    <button id="delete" class="btn btn-danger" onclick="delClick()">Löschen</button>
 {% endblock %}
 
 {% block own0 %}
     <tr><td>
-        <button onclick="add_own(0)">+</button>
+        <button class="btn btn-success" onclick="add_own(0)">+</button>
     </td></tr>
 {% endblock %}
 
 {% block own1 %}
     <tr><td>
-        <button onclick="add_own(1)">+</button>
+        <button class="btn btn-success" onclick="add_own(1)">+</button>
     </td></tr>
 {% endblock %}
 
 {% block own2 %}
     <tr><td>
-        <button onclick="add_own(2)">+</button>
+        <button class="btn btn-success" onclick="add_own(2)">+</button>
     </td></tr>
 {% endblock %}
 
 {% block own3 %}
     <tr><td>
-        <button onclick="add_own(3)">+</button>
+        <button class="btn btn-success" onclick="add_own(3)">+</button>
     </td></tr>
 {% endblock %}
 
 {% block own4 %}
     <tr><td>
-        <button onclick="add_own(4)">+</button>
+        <button class="btn btn-success" onclick="add_own(4)">+</button>
     </td></tr>
 {% endblock %}
 
 {% block own5 %}
     <tr><td>
-        <button onclick="add_own(5)">+</button>
+        <button class="btn btn-success" onclick="add_own(5)">+</button>
     </td></tr>
 {% endblock %}
 
 {% block special %}
-    <button onclick="add_rank_item('special')">+</button>
+    <button class="btn btn-success" onclick="add_rank_item('special')">+</button>
     <tr>
         <td id="special1" class="special"></td>
     </tr>
@@ -94,7 +96,7 @@
 {% endblock %}
 
 {% block ground %}
-    <button onclick="add_rank_item('ground')">+</button>
+    <button class="btn btn-success" onclick="add_rank_item('ground')">+</button>
     <tr>
         <td id="ground1" class="ground"></td>
     </tr>
@@ -110,7 +112,7 @@
 {% endblock %}
 
 {% block combination %}
-    <button onclick="add_rank_item('combination')">+</button>
+    <button class="btn btn-success" onclick="add_rank_item('combination')">+</button>
     <tr>
         <td id="combination1" class="combination"></td>
     </tr>
@@ -127,10 +129,10 @@
 
 {% block buttons %}
     {% block buttons2 %}{% endblock %}
-    <button onclick="post_data()">Fertig</button>
+    <button class="submit btn btn-success">Fertig</button>
 {% endblock %}
 
-{% block script %}
+{% block script2 %}
     <script>
         const CSRF_TOKEN = document.querySelector("[name=csrfmiddlewaretoken]").value
         const techniques = document.getElementById("hidden_t").innerHTML
@@ -141,5 +143,5 @@
     <script src="{% static "script/own_techniques.js" %}"></script>
     <script src="{% static "script/ranks.js" %}"></script>
     <script src="{% static "script/post.js" %}"></script>
-    {% block script2 %}{% endblock %}
+    {% block script3 %}{% endblock %}
 {% endblock %}

@@ -1,18 +1,38 @@
-<html>
-    {% if "main.add_fighter" in perms %}
-        <a href="new">Neu</a>
-        <br>
-    {% endif %}
-    {% load guardian_tags %}
-    {% for i in profiles %}
-        {% get_obj_perms request.user for i as "i_perms" %}
-        <a href="{{ i.uuid }}">{{ i }}</a>
-        {% if "change_fighter" in i_perms %}
-            <a href="{{ i.uuid }}/edit">Bearbeiten</a>
+{% extends "base.html" %}
+
+{% block title %}Startseite{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if "profiles.add_profile" in perms %}
+            <a class="btn btn-secondary" href="new">Neu</a>
+            <br>
         {% endif %}
-        {% if "manage_fighter" in i_perms %}
-            <a href="{{ i.uuid }}/manage">Zugriff verwalten</a>
-        {% endif %}
-        <br>
-    {% endfor %}
-</html>
+        {% load guardian_tags %}
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for i in profiles %}
+                    {% get_obj_perms request.user for i as "i_perms" %}
+                    <tr>
+                        <td><a href="{{ i.uuid }}">{{ i }}</a></td>
+                        <td>
+                            {% if "change_profile" in i_perms %}
+                                <a href="{{ i.uuid }}/edit">Bearbeiten</a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if "manage_profile" in i_perms %}
+                                <a href="{{ i.uuid }}/manage">Zugriff verwalten</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

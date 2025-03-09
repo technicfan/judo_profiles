@@ -1,7 +1,9 @@
 {% extends "profile_base.html" %}
 {% load static %}
 
-{% block style %}
+{% block title %}Profil von {{ profile.name }}{% endblock %}
+
+{% block style2 %}
     <link rel="stylesheet" href="{% static "style/profile.css" %}">
 {% endblock %}
 
@@ -38,13 +40,13 @@
 
 {% block general_info %}
     <p id="title">Kämpferprofil von</p>
-    <p>{{ fighter.last_name }}, {{ fighter.name }} - Jahrgang: {{ fighter.year }}, Gewicht: {{ fighter.weight }}kg</p>
-    <p>geändert: {{ fighter.updated_on }}</p>
+    <p>{{ profile.last_name }}, {{ profile.name }} - Jahrgang: {{ profile.year }}, Gewicht: {{ profile.weight }}kg</p>
+    <p>geändert: {{ profile.updated_on }}</p>
 {% endblock %}
 
-{% block opts_left %}onclick="return false" {% if fighter.primary_side != 2 %} checked {% endif %}{% endblock %}
+{% block opts_left %}onclick="return false" {% if profile.primary_side != 2 %} checked {% endif %}{% endblock %}
 
-{% block opts_right %}onclick="return false" {% if fighter.primary_side != 1 %} checked {% endif %}{% endblock %}
+{% block opts_right %}onclick="return false" {% if profile.primary_side != 1 %} checked {% endif %}{% endblock %}
 
 {% block special %}
     {% for item in special_rank %}
@@ -75,21 +77,21 @@
 
 {% block buttons %}
     {% load guardian_tags %}
-    {% get_obj_perms request.user for fighter as "fighter_perms" %}
-    {% if "change_fighter" in fighter_perms %}
-        <button onclick="location.href += '/edit'">Bearbeiten</button>
+    {% get_obj_perms request.user for profile as "profile_perms" %}
+    {% if "change_profile" in profile_perms %}
+        <button class="btn btn-warning" onclick="location.href += '/edit'">Bearbeiten</button>
     {% endif %}
-    {% if "manage_fighter" in fighter_perms %}
-        <button onclick="location.href += '/manage'">Verwalten</button>
+    {% if "manage_profile" in profile_perms %}
+        <button class="btn btn-info" onclick="location.href += '/manage'">Verwalten</button>
     {% endif %}
 {% endblock %}
 
-{% block script %}
+{% block script2 %}
     <script>
         document.querySelectorAll(".pos_data").forEach(pos => {
             position = document.getElementById(pos.dataset["id"])
             position.style.display = "flex"
-            colorSelected(position.className[0] + " " + position.className.slice(-1), "black")
+            colorSelected(position.className[0] + " " + position.className.slice(-1), "unset")
             placeRelative(
                 position,
                 pos.dataset["y"],

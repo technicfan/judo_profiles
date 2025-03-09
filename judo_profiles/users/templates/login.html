@@ -1,5 +1,9 @@
-<html>
-    <body>
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div class="container">
         {% if next %}
             {% if user.is_authenticated %}
                 <p>Your account doesn't have access to this page. To proceed,
@@ -11,10 +15,10 @@
 
         <form method="post">
             {% csrf_token %}
-            <input type="text" name="user">
-            <input type="password" name="pass">
-            <input type="submit" value="login">
+            <input class="form-control" type="text" name="user" placeholder="Benutzername" required>
+            <input class="form-control" type="password" name="pass" placeholder="Passwort" required>
+            <input class="btn btn-secondary" type="submit" value="Login">
             <input type="hidden" name="next" value="{{ next }}">
         </form>
-    </body>
-</html>
+    </div>
+{% endblock %}

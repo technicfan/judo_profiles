@@ -1,37 +1,47 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.contrib.auth.decorators import permission_required
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from guardian.decorators import permission_required as object_permission_required
 import json
 
-from .models import Fighter, OwnTechnique, Technique, Position, CombinationRank, TechniqueRank
+from .models import Profile, OwnTechnique, Technique, Position, CombinationRank, TechniqueRank
+from users.models import Token
+
+
+def unique_username(username: str) -> str:
+    number = User.objects.filter(username__regex=rf"^{username}(\.[0-9]*)?$").count()
+    if number != 0:
+        return f"{username}_{number}"
+    else:
+        return username
 
 
 def index(request):
-    shown_profiles = get_objects_for_user(request.user, "view_fighter", Fighter).order_by("last_name")
+    shown_profiles = get_objects_for_user(request.user, "view_profile", Profile).order_by("last_name")
     return render(request, "index.html", {"profiles": shown_profiles})
 
 
-@object_permission_required("main.change_fighter", (Fighter, "uuid", "profile_uuid"))
+@object_permission_required("profiles.change_profile", (Profile, "uuid", "profile_uuid"))
 def edit_profile(request, profile_uuid):
     if request.method == "POST":
         data = json.loads(request.body)
 
-        fighter = Fighter.objects.get(uuid=profile_uuid)
+        profile = Profile.objects.get(uuid=profile_uuid)
 
         if data["action"] == "delete":
-            fighter.delete()
+            profile.delete()
 
             return HttpResponseRedirect("/" + request.path.split("/")[1])
         else:
-            # fighter
-            fighter.name = data["name"]
-            fighter.last_name = data["last_name"]
-            fighter.year = data["year"]
-            fighter.weight = data["weight"]
-            fighter.primary_side = data["side"]
-            fighter.save()
+            # profile
+            profile.name = data["name"]
+            profile.last_name = data["last_name"]
+            profile.year = data["year"]
+            profile.weight = data["weight"]
+            profile.primary_side = data["side"]
+            profile.save()
 
             # positions
             for position in data["positions"]:
@@ -42,21 +52,21 @@ def edit_profile(request, profile_uuid):
                             side=position["side"],
                             x=position["x"],
                             y=position["y"],
-                            fighter_profile=fighter
+                            profile=profile
                         )
                         new_position.save()
                     case "update":
                         changed_position = Position.objects.get(id=position["id"])
-                        if changed_position.fighter_profile == fighter:
+                        if changed_position.profile == profile:
                             changed_position.number = position["number"]
                             changed_position.side = position["side"]
                             changed_position.x = position["x"]
                             changed_position.y = position["y"]
-                            changed_position.fighter_profile = fighter
+                            changed_position.profile = profile
                             changed_position.save()
                     case "delete":
                         to_be_deleted = Position.objects.get(id=position["id"])
-                        if to_be_deleted.fighter_profile == fighter:
+                        if to_be_deleted.profile == profile:
                             to_be_deleted.delete()
 
             # own_techniques
@@ -67,22 +77,22 @@ def edit_profile(request, profile_uuid):
                             side=own_technique["side"],
                             state=own_technique["state"],
                             direction=own_technique["direction"],
-                            fighter_profile=fighter,
+                            profile=profile,
                             technique=Technique.objects.get(id=own_technique["technique"]),
-                            left_position=Position.objects.get(fighter_profile=fighter, side=True, number=own_technique["left"]),
-                            right_position=Position.objects.get(fighter_profile=fighter, side=False, number=own_technique["right"])
+                            left_position=Position.objects.get(profile=profile, side=True, number=own_technique["left"]),
+                            right_position=Position.objects.get(profile=profile, side=False, number=own_technique["right"])
                         )
                         new_own_technique.save()
                     case "update":
                         changed_own_technique = OwnTechnique.objects.get(id=own_technique["id"])
-                        if changed_position.fighter_profile == fighter:
+                        if changed_position.profile == profile:
                             changed_own_technique.side = own_technique["side"]
                             changed_own_technique.state = own_technique["state"]
                             changed_own_technique.direction = own_technique["direction"]
-                            changed_own_technique.fighter_profile = fighter
+                            changed_own_technique.profile = profile
                             changed_own_technique.technique = Technique.objects.get(id=own_technique["technique"])
-                            changed_own_technique.left_position = Position.objects.get(fighter_profile=fighter, side=True, number=own_technique["left"])
-                            changed_own_technique.right_position = Position.objects.get(fighter_profile=fighter, side=False, number=own_technique["right"])
+                            changed_own_technique.left_position = Position.objects.get(profile=profile, side=True, number=own_technique["left"])
+                            changed_own_technique.right_position = Position.objects.get(profile=profile, side=False, number=own_technique["right"])
                             changed_own_technique.save()
                     case "delete":
                         to_be_deleted = OwnTechnique.objects.get(id=own_technique["id"])
@@ -96,13 +106,13 @@ def edit_profile(request, profile_uuid):
                                 number=rank_item["number"],
                                 technique1=Technique.objects.get(id=rank_item["technique1"]),
                                 technique2=Technique.objects.get(id=rank_item["technique2"]),
-                                fighter_profile=fighter
+                                profile=profile
                             )
                         else:
                             new_rank_item = TechniqueRank(
                                 number=rank_item["number"],
                                 technique=Technique.objects.get(id=rank_item["technique"]),
-                                fighter_profile=fighter,
+                                profile=profile,
                                 type=rank_item["type"]
                             )
                         new_rank_item.save()
@@ -112,21 +122,21 @@ def edit_profile(request, profile_uuid):
                             changed_rank_item.number = rank_item["number"]
                             changed_rank_item.technique1 = Technique.objects.get(id=rank_item["technique1"])
                             changed_rank_item.technique2 = Technique.objects.get(id=rank_item["technique2"])
-                            changed_rank_item.fighter_profile = fighter
+                            changed_rank_item.profile = profile
                         else:
                             changed_rank_item = TechniqueRank.objects.get(id=rank_item["id"])
                             changed_rank_item.number = rank_item["number"]
                             changed_rank_item.technique = Technique.objects.get(id=rank_item["technique"])
-                            changed_rank_item.fighter_profile = fighter
+                            changed_rank_item.profile = profile
                             changed_rank_item.type = rank_item["type"]
-                        if changed_rank_item.fighter_profile == fighter:
+                        if changed_rank_item.profile == profile:
                             changed_rank_item.save()
                     case "delete":
                         if rank_item["type"] == "combination":
                             to_be_deleted = CombinationRank.objects.get(id=rank_item["id"])
                         else:
                             to_be_deleted = TechniqueRank.objects.get(id=rank_item["id"])
-                        if to_be_deleted.fighter_profile == fighter:
+                        if to_be_deleted.profile == profile:
                             to_be_deleted.delete()
 
             if data["action"] == "save":
@@ -138,17 +148,17 @@ def edit_profile(request, profile_uuid):
                 return HttpResponseRedirect("/".join(request.path.split("/")[:-1]))
 
     else:
-        fighter = Fighter.objects.get(uuid=profile_uuid)
-        own_techniques = OwnTechnique.objects.filter(fighter_profile=fighter)
+        profile = Profile.objects.get(uuid=profile_uuid)
+        own_techniques = OwnTechnique.objects.filter(profile=profile)
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
         techniques = Technique.objects.all().order_by("name")
-        positions = Position.objects.filter(fighter_profile=fighter)
-        technique_ranks = TechniqueRank.objects.filter(fighter_profile=fighter).order_by("number")
-        combination_rank = CombinationRank.objects.filter(fighter_profile=fighter).order_by("number")
+        positions = Position.objects.filter(profile=profile)
+        technique_ranks = TechniqueRank.objects.filter(profile=profile).order_by("number")
+        combination_rank = CombinationRank.objects.filter(profile=profile).order_by("number")
 
         return render(request, "edit.html", {
-            "fighter": fighter,
+            "profile": profile,
             "own_techniques": own_techniques,
             "stechniques": stechniques,
             "gtechniques": gtechniques,
@@ -159,16 +169,16 @@ def edit_profile(request, profile_uuid):
         })
 
 
-@object_permission_required("main.view_fighter", (Fighter, "uuid", "profile_uuid"))
+@object_permission_required("profiles.view_profile", (Profile, "uuid", "profile_uuid"))
 def profile(request, profile_uuid):
-    fighter = Fighter.objects.get(uuid=profile_uuid)
-    own_techniques = OwnTechnique.objects.filter(fighter_profile=fighter)
-    positons = Position.objects.filter(fighter_profile=fighter)
-    special_rank = TechniqueRank.objects.filter(fighter_profile=fighter, type="special").order_by("number")
-    ground_rank = TechniqueRank.objects.filter(fighter_profile=fighter, type="ground").order_by("number")
-    combination_rank = CombinationRank.objects.filter(fighter_profile=fighter).order_by("number")
+    profile = Profile.objects.get(uuid=profile_uuid)
+    own_techniques = OwnTechnique.objects.filter(profile=profile)
+    positons = Position.objects.filter(profile=profile)
+    special_rank = TechniqueRank.objects.filter(profile=profile, type="special").order_by("number")
+    ground_rank = TechniqueRank.objects.filter(profile=profile, type="ground").order_by("number")
+    combination_rank = CombinationRank.objects.filter(profile=profile).order_by("number")
     return render(request, "profile.html", {
-        "fighter": fighter,
+        "profile": profile,
         "own_techniques": own_techniques,
         "positions": positons,
         "special_rank": special_rank,
@@ -177,11 +187,11 @@ def profile(request, profile_uuid):
     })
 
 
-@permission_required("main.add_fighter")
+@permission_required("profiles.add_profile")
 def new_profile(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        fighter = Fighter(
+        profile = Profile(
             name=data["name"],
             last_name=data["last_name"],
             year=data["year"],
@@ -189,10 +199,10 @@ def new_profile(request):
             primary_side=data["side"],
             created_by=request.user
         )
-        fighter.save()
-        assign_perm('change_fighter', request.user, fighter)
-        assign_perm('view_fighter', request.user, fighter)
-        assign_perm('manage_fighter', request.user, fighter)
+        profile.save()
+        assign_perm('change_profile', request.user, profile)
+        assign_perm('view_profile', request.user, profile)
+        assign_perm('manage_profile', request.user, profile)
 
         for position in data["positions"]:
             new_position = Position(
@@ -200,7 +210,7 @@ def new_profile(request):
                 side=position["side"],
                 x=position["x"],
                 y=position["y"],
-                fighter_profile=fighter
+                profile=profile
             )
             new_position.save()
 
@@ -209,10 +219,10 @@ def new_profile(request):
                 side=own_technique["side"],
                 state=own_technique["state"],
                 direction=own_technique["direction"],
-                fighter_profile=fighter,
+                profile=profile,
                 technique=Technique.objects.get(id=own_technique["technique"]),
-                left_position=Position.objects.get(fighter_profile=fighter, side=True, number=own_technique["left"]),
-                right_position=Position.objects.get(fighter_profile=fighter, side=False, number=own_technique["right"])
+                left_position=Position.objects.get(profile=profile, side=True, number=own_technique["left"]),
+                right_position=Position.objects.get(profile=profile, side=False, number=own_technique["right"])
             )
             new_own_technique.save()
 
@@ -222,18 +232,18 @@ def new_profile(request):
                     number=rank_item["number"],
                     technique1=Technique.objects.get(id=rank_item["technique1"]),
                     technique2=Technique.objects.get(id=rank_item["technique2"]),
-                    fighter_profile=fighter
+                    profile=profile
                 )
             else:
                 new_rank_item = TechniqueRank(
                     number=rank_item["number"],
                     technique=Technique.objects.get(id=rank_item["technique"]),
-                    fighter_profile=fighter,
+                    profile=profile,
                     type=rank_item["type"]
                 )
             new_rank_item.save()
 
-        return HttpResponseRedirect("/" + request.path.split("/")[1] + "/" + str(fighter.uuid))
+        return HttpResponseRedirect("/" + request.path.split("/")[1] + "/" + str(profile.uuid))
     else:
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
@@ -242,26 +252,22 @@ def new_profile(request):
         return render(request, "new.html", {"techniques": techniques, "stechniques": stechniques, "gtechniques": gtechniques})
 
 
-@object_permission_required("main.manage_fighter", (Fighter, "uuid", "profile_uuid"))
+@object_permission_required("profiles.manage_profile", (Profile, "uuid", "profile_uuid"))
 def manage(request, profile_uuid):
-    fighter = Fighter.objects.get(uuid=profile_uuid)
-    users = User.objects.exclude(id__in=[request.user.id, fighter.created_by.id]).order_by("username")
+    profile = Profile.objects.get(uuid=profile_uuid)
+    users = User.objects.exclude(Q(is_superuser=True) | Q(id__in=[request.user.id, profile.created_by.id]) | Q(token__isnull=False)).order_by("username")
 
     if request.method == "POST":
-        if "password" in request.POST:
-            if request.POST["password"] == request.POST["password_confirm"]:
-                username = fighter.name + "." + fighter.last_name
-                number = User.objects.filter(username__regex=rf"^{username}(\.[0-9]*)?$").count()
-                if number != 0:
-                    username += f".{number}"
-                newuser = User(username=username)
-                newuser.set_password(request.POST["password"])
-                newuser.save()
-                assign_perm('view_fighter', newuser, fighter)
-                fighter.user = newuser
-                fighter.save()
+        if "add" in request.POST:
+            username = unique_username(profile.name + "." + profile.last_name)
+            newuser = User(username=username)
+            newuser.save()
+            assign_perm('view_profile', newuser, profile)
+            profile.user = newuser
+            profile.save()
+            Token(user=newuser).save()
         elif "delete" in request.POST:
-            fighter.user.delete()
+            profile.user.delete()
         else:
             no_view = users
             no_edit = users
@@ -270,36 +276,36 @@ def manage(request, profile_uuid):
             if "view_users" in request.POST:
                 for username in request.POST.getlist("view_users"):
                     user = User.objects.get(username=username)
-                    assign_perm('view_fighter', user, fighter)
+                    assign_perm('view_profile', user, profile)
                     no_view = no_view.exclude(username=username)
 
             if "edit_users" in request.POST:
                 for username in request.POST.getlist("edit_users"):
                     user = User.objects.get(username=username)
-                    assign_perm('view_fighter', user, fighter)
-                    assign_perm('change_fighter', user, fighter)
+                    assign_perm('view_profile', user, profile)
+                    assign_perm('change_profile', user, profile)
                     no_edit = no_edit.exclude(username=username)
 
             if "manage_users" in request.POST:
                 for username in request.POST.getlist("manage_users"):
                     user = User.objects.get(username=username)
-                    assign_perm('view_fighter', user, fighter)
-                    assign_perm('change_fighter', user, fighter)
-                    assign_perm('manage_fighter', user, fighter)
+                    assign_perm('view_profile', user, profile)
+                    assign_perm('change_profile', user, profile)
+                    assign_perm('manage_profile', user, profile)
                     no_manage = no_manage.exclude(username=username)
 
             for user in no_view:
-                if user in no_edit and user in no_manage and user != fighter.user:
-                    remove_perm('view_fighter', user, fighter)
+                if user in no_edit and user in no_manage and user != profile.user:
+                    remove_perm('view_profile', user, profile)
 
             for user in no_edit:
                 if user in no_manage:
-                    remove_perm('change_fighter', user, fighter)
+                    remove_perm('change_profile', user, profile)
 
             for user in no_manage:
-                remove_perm('manage_fighter', user, fighter)
+                remove_perm('manage_profile', user, profile)
 
         return HttpResponseRedirect(request.path)
     else:
 
-        return render(request, "manage.html", {"users": users, "fighter": fighter})
+        return render(request, "manage.html", {"users": users, "profile": profile})
