@@ -2,36 +2,29 @@
 
 {% block title %}Startseite{% endblock %}
 
+{% block style %}
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         {% if "profiles.add_profile" in perms %}
             <a class="btn btn-secondary" href="new">Neu</a>
             <br>
         {% endif %}
-        {% load guardian_tags %}
+        <input class="form-control" type="search"
+            name="search" placeholder="Profil suchen..."
+            hx-post="search_profiles"
+            hx-trigger="input changed delay:500ms, keyup[key=='Enter'], load"
+            hx-target="#profile_search"
+            hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
         <table class="table">
             <thead>
                 <th>Name</th>
                 <th></th>
                 <th></th>
             </thead>
-            <tbody>
-                {% for i in profiles %}
-                    {% get_obj_perms request.user for i as "i_perms" %}
-                    <tr>
-                        <td><a href="{{ i.uuid }}">{{ i }}</a></td>
-                        <td>
-                            {% if "change_profile" in i_perms %}
-                                <a href="{{ i.uuid }}/edit">Bearbeiten</a>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if "manage_profile" in i_perms %}
-                                <a href="{{ i.uuid }}/manage">Zugriff verwalten</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
+            <tbody id="profile_search">
             </tbody>
         </table>
     </div>

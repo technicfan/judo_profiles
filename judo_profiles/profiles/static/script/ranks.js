@@ -8,11 +8,11 @@ function add_rank_item(type, context = null){
             var html = `
             <div class="special rank_item" id="special_item` + number + `">
                 <p class="number">` + number + `: </p>
-                <select id="special_t` + number + `" class="technique" required>
+                <select id="special_t` + number + `" class="technique form-select d-inline" style="width: fit-content;" required>
                     <option value="" selected>Technik</option>` +
                     techniques +
                 `</select>
-                <button id="special_b` + number + `" class="btn btn-danger" onclick="remove_rank('special', this)">Entfernen</button>
+                <button id="special_b` + number + `" class="btn btn-danger btn-sm" onclick="remove_rank('special', this)">Entfernen</button>
             </div>
             `
             break
@@ -22,11 +22,11 @@ function add_rank_item(type, context = null){
             var html = `
             <div class="ground rank_item" id="ground_item` + number + `">
                 <p class="number">` + number + `: </p>
-                <select id="ground_t` + number + `" class="technique" required>
+                <select id="ground_t` + number + `" class="technique form-select d-inline" style="width: fit-content;" required>
                     <option value="" selected>Technik</option>` +
                     gtechniques +
                 `</select>
-                <button id="ground_b` + number + `" class="btn btn-danger" onclick="remove_rank('ground', this)">Entfernen</button>
+                <button id="ground_b` + number + `" class="btn btn-danger btn-sm" onclick="remove_rank('ground', this)">Entfernen</button>
             </div>
             `
             break
@@ -36,15 +36,15 @@ function add_rank_item(type, context = null){
             var html = `
             <div class="combination rank_item" id="combination_item` + number + `">
                 <p class="number">` + number + `: </p>
-                <select id="combination_t1` + number + `" class="technique1" required>
+                <select id="combination_t1` + number + `" class="technique1 form-select d-inline" style="width: fit-content;" required>
                     <option value="" selected>1. Technik</option>` +
                     techniques +
                 `</select>
-                <select id="combination_t2` + number + `" class="technique2" required>
+                <select id="combination_t2` + number + `" class="technique2 form-select d-inline" style="width: fit-content;" required>
                     <option value="" selected>2. Technik</option>` +
                     techniques +
                 `</select>
-                <button id="combination_b` + number + `" class="btn btn-danger" onclick="remove_rank('combination', this)">Entfernen</button>
+                <button id="combination_b` + number + `" class="btn btn-danger btn-sm" onclick="remove_rank('combination', this)">Entfernen</button>
             </div>
             `
             break

@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.contrib.auth.models import User, Permission, Group
+from django.contrib.auth.models import User  # , Permission, Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_not_required
 
@@ -12,8 +12,8 @@ def register(request):
         if "token" in request.POST:
             try:
                 token = Token.objects.get(token=request.POST["token"])
-                if token.expired:
-                    token.user.delete()
+                if token.valid_for < 1:
+                    # token.user.delete()
                     raise Token.DoesNotExist
             except Token.DoesNotExist:
                 return render(request, "register.html", {})
@@ -25,16 +25,17 @@ def register(request):
                 user = User.objects.get(username=request.POST["username"])
                 if request.POST["password"] == request.POST["password_repeat"]:
                     token = Token.objects.get(user=user)
-                    if token.expired:
-                        token.user.delete()
+                    if token.valid_for < 1:
+                        # token.user.delete()
                         raise Token.DoesNotExist
                     user.set_password(request.POST["password"])
-                    if token.trainer:
-                        permission = Permission.objects.get(codename="add_profile")
-                        group, created = Group.objects.get_or_create(name="Trainers")
-                        if created:
-                            group.permissions.add(permission)
-                        user.groups.add(group)
+                    user.is_active = True
+                    # if token.trainer:
+                    #     permission = Permission.objects.get(codename="add_profile")
+                    #     group, created = Group.objects.get_or_create(name="Trainers")
+                    #     if created:
+                    #         group.permissions.add(permission)
+                    #     user.groups.add(group)
                     user.save()
                     login(request, authenticate(request, username=user.username, password=request.POST["password"]))
                     token.delete()

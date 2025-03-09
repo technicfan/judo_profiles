@@ -42,24 +42,25 @@ function mouseDownDoc(e){
 }
 
 function mouseDownImg(e){
-    if (move != null && e.target != move){
-        move.style.display = "flex"
-        let image_rect = image.getBoundingClientRect()
-        placeRelative(move, e.offsetY / image_rect.height, e.offsetX / image_rect.width)
-        if (move.className[0] == "l"){
-            var side = "left"
-        } else {
-            var side = "right"
-        }
-        document.querySelectorAll("." + side).forEach(select => {
-            if ($("#" + select.id).find("[value='" + move.className.slice(-1) + "']").text() == ""){
-                $("#" + select.id).append('<option value="' + move.className.slice(-1) + '">' + move.className.slice(-1) + '</option>')
-            }
-        })
-        move.addEventListener("mousedown", mouseDownPos)
-    }
     if (delete_mode){
         delClick()
+    } else {
+        if (move != null && e.target != move){
+            move.style.display = "flex"
+            let image_rect = image.getBoundingClientRect()
+            placeRelative(move, e.offsetY / image_rect.height, e.offsetX / image_rect.width)
+            if (move.className[0] == "l"){
+                var side = "left"
+            } else {
+                var side = "right"
+            }
+            document.querySelectorAll("." + side).forEach(select => {
+                if ($("#" + select.id).find("[value='" + move.className.slice(-1) + "']").text() == ""){
+                    $("#" + select.id).append('<option value="' + move.className.slice(-1) + '">' + move.className.slice(-1) + '</option>')
+                }
+            })
+            move.addEventListener("mousedown", mouseDownPos)
+        }
     }
 }
 
@@ -123,14 +124,21 @@ function delClick(){
             }
             position.style.cursor = "grab"
         })
+        document.getElementById("delete").classList.remove("active")
         delete_mode = false
     } else {
+        var count = 0
         document.querySelectorAll(".move").forEach(position => {
             if (position.style.display == "flex"){
                 position.style.borderColor = "red"
                 position.style.cursor = "not-allowed"
+                count += 1
             }
         })
-        delete_mode = true
+        if (count != 0){
+            delete_mode = true
+        } else {
+            document.getElementById("delete").classList.remove("active")
+        }
     }
 }

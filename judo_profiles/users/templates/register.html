@@ -7,7 +7,7 @@
         {% if post %}
             <form method="post">
                 {% csrf_token %}
-                <input class="form-control" type="text" name="username" value="{{ username }}" readonly>
+                <input class="form-control-plaintext" type="text" name="username" value="{{ username }}">
                 <input class="form-control" type="password" name="password" placeholder="Passwort" required>
                 <input class="form-control" type="password" name="password_repeat" placeholder="Passwort wiederholen" required>
                 <input class="btn btn-secondary" type="submit" value="Registrieren">

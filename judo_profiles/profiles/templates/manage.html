@@ -15,9 +15,7 @@
                     {% for user in users %}
                         {% get_obj_perms user for profile as "profile_perms" %}
                         {% if "view_profile" in profile_perms %}
-                            {% if user == profile.user %}
-                                <option value="{{ user }}" selected>{{ user }} (Profil)</option>
-                            {% else %}
+                            {% if user != profile.user %}
                                 <option value="{{ user }}" selected>{{ user }}</option>
                             {% endif %}
                         {% else %}
@@ -68,13 +66,19 @@
                 <form method="post">
                     {% csrf_token %}
                     {% if profile.user.token %}
-                        {% if profile.user.token.expired %}
+                        {% if profile.user.token.valid_for < 1 %}
                             <p>Token abgelaufen, ohne, dass er verwendet wurde</p>
+                            <button class="btn btn-secondary" name="renew">Token erneuern</button>
                         {% else %}
-                            <button id="toggle" class="btn btn-secondary" onclick="toggle_token(); return false;" data-bs-toggle="button">Token anzeigen</button>
-                            <p>
+                            <button id="toggle" class="btn btn-secondary btn-sm" onclick="toggle_token(); return false;" data-bs-toggle="button">Token anzeigen</button>
+                            <div>
                                 Token: <span id="token" class="invisible">{{ profile.user.token }}</span>
-                            </p>
+                            </div>
+                            {% if profile.user.token.valid_for == 1 %}
+                                <p>Noch gültig für 1 Tag</p>
+                            {% else %}
+                                <p>Noch gültig für {{ profile.user.token.valid_for }} Tage</p>
+                            {% endif %}
                             <script>
                                 function toggle_token(){
                                     let classes = document.getElementById("token").classList

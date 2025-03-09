@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, user_passes_test
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from guardian.decorators import permission_required as object_permission_required
 import json
@@ -18,9 +18,21 @@ def unique_username(username: str) -> str:
         return username
 
 
+def is_admin(user):
+    return user.is_admin
+
+
 def index(request):
-    shown_profiles = get_objects_for_user(request.user, "view_profile", Profile).order_by("last_name")
-    return render(request, "index.html", {"profiles": shown_profiles})
+    return render(request, "index.html")
+
+
+def search_profiles(request):
+    if request.method == "POST":
+        shown_profiles = get_objects_for_user(request.user, "view_profile", Profile).order_by("last_name")
+        search = request.POST["search"]
+        filtered = shown_profiles.filter(Q(name__icontains=search) | Q(last_name__icontains=search))
+
+        return render(request, "profile_search.html", {"profiles": filtered})
 
 
 @object_permission_required("profiles.change_profile", (Profile, "uuid", "profile_uuid"))
@@ -30,7 +42,7 @@ def edit_profile(request, profile_uuid):
 
         profile = Profile.objects.get(uuid=profile_uuid)
 
-        if data["action"] == "delete":
+        if data["action"] == "delete" and request.user == profile.created_by:
             profile.delete()
 
             return HttpResponseRedirect("/" + request.path.split("/")[1])
@@ -253,19 +265,25 @@ def new_profile(request):
 
 
 @object_permission_required("profiles.manage_profile", (Profile, "uuid", "profile_uuid"))
-def manage(request, profile_uuid):
+def manage_profile(request, profile_uuid):
     profile = Profile.objects.get(uuid=profile_uuid)
-    users = User.objects.exclude(Q(is_superuser=True) | Q(id__in=[request.user.id, profile.created_by.id]) | Q(token__isnull=False)).order_by("username")
+    users = User.objects.exclude(
+        Q(is_superuser=True) | Q(id__in=[request.user.id, profile.created_by.id]) | Q(is_active=False)
+    ).order_by("username")
 
     if request.method == "POST":
         if "add" in request.POST:
             username = unique_username(profile.name + "." + profile.last_name)
-            newuser = User(username=username)
+            newuser = User(username=username, is_active=False)
             newuser.save()
-            assign_perm('view_profile', newuser, profile)
+            assign_perm("view_profile", newuser, profile)
             profile.user = newuser
             profile.save()
             Token(user=newuser).save()
+        elif "renew" in request.POST:
+            user = profile.user.token.user
+            profile.user.token.delete()
+            Token(user=user).save()
         elif "delete" in request.POST:
             profile.user.delete()
         else:
@@ -309,3 +327,8 @@ def manage(request, profile_uuid):
     else:
 
         return render(request, "manage.html", {"users": users, "profile": profile})
+
+
+@user_passes_test(is_admin)
+def manage_users(request):
+    pass
