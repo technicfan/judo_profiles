@@ -23,7 +23,6 @@
             {% endif %}
             <button id="theme-selector" class="btn btn-secondary" onclick="change_color_theme()">Auto</button>
         </header>
-        {% block content %}{% endblock %}
         <script>
             const dark_mode = window.matchMedia('(prefers-color-scheme: dark)')
             const button = document.getElementById("theme-selector")
@@ -86,6 +85,7 @@
                 }
             })
         </script>
+        {% block content %}{% endblock %}
         {% block script %}{% endblock %}
     </body>
 </html>
