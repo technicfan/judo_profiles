@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import permission_required, user_passes_test
@@ -23,16 +23,15 @@ def is_admin(user):
 
 
 def index(request):
-    return render(request, "index.html")
-
-
-def search_profiles(request):
     if request.method == "POST":
         shown_profiles = get_objects_for_user(request.user, "view_profile", Profile).order_by("last_name")
         search = request.POST["search"]
         filtered = shown_profiles.filter(Q(name__icontains=search) | Q(last_name__icontains=search))
 
-        return render(request, "profile_search.html", {"profiles": filtered})
+        return render(request, "profiles.html", {"profiles": filtered})
+    else:
+
+        return render(request, "index.html")
 
 
 @object_permission_required("profiles.change_profile", (Profile, "uuid", "profile_uuid"))
@@ -286,47 +285,42 @@ def manage_profile(request, profile_uuid):
             Token(user=user).save()
         elif "delete" in request.POST:
             profile.user.delete()
-        else:
-            no_view = users
-            no_edit = users
-            no_manage = users
+        elif "update" in request.POST:
+            permission = request.POST["permission"]
+            permissions = [
+                "view_profile",
+                "change_profile",
+                "manage_profile"
+            ]
+            remove = users
+            for id in request.POST:
+                if id.isdigit():
+                    try:
+                        user = User.objects.get(id=int(id))
+                        for p in permissions[:permissions.index(permission) + 1]:
+                            assign_perm(p, user, profile)
+                        remove = remove.exclude(id=int(id))
+                    except (User.DoesNotExist, ValueError):
+                        pass
 
-            if "view_users" in request.POST:
-                for username in request.POST.getlist("view_users"):
-                    user = User.objects.get(username=username)
-                    assign_perm('view_profile', user, profile)
-                    no_view = no_view.exclude(username=username)
+            for user in remove:
+                remove_perm(permission, user, profile)
 
-            if "edit_users" in request.POST:
-                for username in request.POST.getlist("edit_users"):
-                    user = User.objects.get(username=username)
-                    assign_perm('view_profile', user, profile)
-                    assign_perm('change_profile', user, profile)
-                    no_edit = no_edit.exclude(username=username)
+            return HttpResponse("success")
 
-            if "manage_users" in request.POST:
-                for username in request.POST.getlist("manage_users"):
-                    user = User.objects.get(username=username)
-                    assign_perm('view_profile', user, profile)
-                    assign_perm('change_profile', user, profile)
-                    assign_perm('manage_profile', user, profile)
-                    no_manage = no_manage.exclude(username=username)
-
-            for user in no_view:
-                if user in no_edit and user in no_manage and user != profile.user:
-                    remove_perm('view_profile', user, profile)
-
-            for user in no_edit:
-                if user in no_manage:
-                    remove_perm('change_profile', user, profile)
-
-            for user in no_manage:
-                remove_perm('manage_profile', user, profile)
+        elif "permission" in request.POST:
+            permission = request.POST["permission"]
+            if permission == "view_profile":
+                if profile.user:
+                    users = users.exclude(id=profile.user.id)
+            else:
+                users = users.filter(groups__name="Trainers")
+            return render(request, "user_permissions.html", {"users": users, "profile": profile, "permission": permission})
 
         return HttpResponseRedirect(request.path)
     else:
 
-        return render(request, "manage.html", {"users": users, "profile": profile})
+        return render(request, "manage.html", {"profile": profile})
 
 
 @user_passes_test(is_admin)

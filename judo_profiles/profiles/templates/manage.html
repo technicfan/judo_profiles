@@ -3,55 +3,46 @@
 
 {% block title %}Profil von {{ profile.name }} verwalten{% endblock %}
 
+{% block style %}
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <h1>Permissions</h1>
-        <form method="post">
+        <form hx-post=""
+            hx-swap="innerHTML settle:3s"
+            hx-target="#success">
             {% csrf_token %}
-            {% load guardian_tags %}
-            <div id="view">
-                <h3>View</h3>
-                <select class="form-control" name="view_users" multiple>
-                    {% for user in users %}
-                        {% get_obj_perms user for profile as "profile_perms" %}
-                        {% if "view_profile" in profile_perms %}
-                            {% if user != profile.user %}
-                                <option value="{{ user }}" selected>{{ user }}</option>
-                            {% endif %}
-                        {% else %}
-                            <option value="{{ user }}">{{ user }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-            <div id="edit">
-                <h3>Edit</h3>
-                <select class="form-control" name="edit_users" multiple>
-                    {% for user in users %}
-                        {% get_obj_perms user for profile as "profile_perms" %}
-                        {% if "change_profile" in profile_perms %}
-                            <option value="{{ user }}" selected>{{ user }}</option>
-                        {% else %}
-                            <option value="{{ user }}">{{ user }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-            <div id="manage">
-                <h3>Manage</h3>
-                <select class="form-control" name="manage_users" multiple>
-                    {% for user in users %}
-                        {% get_obj_perms user for profile as "profile_perms" %}
-                        {% if "manage_profile" in profile_perms %}
-                            <option value="{{ user }}" selected>{{ user }}</option>
-                        {% else %}
-                            <option value="{{ user }}">{{ user }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
+            <select class="form-select"
+                name="permission"
+                hx-post=""
+                hx-trigger="input changed, load"
+                hx-target="#users"
+                hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
+                <option value="view_profile">View</option>
+                <option value="change_profile">Edit</option>
+                <option value="manage_profile">Manage</option>
+            </select>
+            <table class="table">
+                <thead>
+                    <th>User</th>
+                </thead>
+                <tbody id="users"></tbody>
+            </table>
             <br>
-            <button class="btn btn-secondary">Speichern</button>
+            <input class="btn btn-secondary" type="submit" name="update" value="Speichern">
+            <span id="success"></span>
+            <style>
+                #success.htmx-settling {
+                    opacity: 100;
+                }
+
+                #success {
+                    opacity: 0;
+                    transition: opacity 3s ease-out;
+                }
+            </style>
             <br><br>
         </form>
     </div>

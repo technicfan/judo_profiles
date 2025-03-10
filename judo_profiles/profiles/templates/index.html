@@ -14,9 +14,9 @@
         {% endif %}
         <input class="form-control" type="search"
             name="search" placeholder="Profil suchen..."
-            hx-post="search_profiles"
+            hx-post=""
             hx-trigger="input changed delay:500ms, keyup[key=='Enter'], load"
-            hx-target="#profile_search"
+            hx-target="#profiles"
             hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
         <table class="table">
             <thead>
@@ -24,7 +24,7 @@
                 <th></th>
                 <th></th>
             </thead>
-            <tbody id="profile_search">
+            <tbody id="profiles">
             </tbody>
         </table>
     </div>
