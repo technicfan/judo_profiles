@@ -79,10 +79,10 @@
     {% load guardian_tags %}
     {% get_obj_perms request.user for profile as "profile_perms" %}
     {% if "change_profile" in profile_perms %}
-        <button class="btn btn-warning" onclick="location.href += '/edit'">Bearbeiten</button>
+        <a class="btn btn-warning" href="{% url "profiles-profile-edit" profile.uuid %}">Bearbeiten</a>
     {% endif %}
     {% if "manage_profile" in profile_perms %}
-        <button class="btn btn-info" onclick="location.href += '/manage'">Verwalten</button>
+        <a class="btn btn-info" href="{% url "profiles-profile-manage" profile.uuid %}">Verwalten</a>
     {% endif %}
 {% endblock %}
 

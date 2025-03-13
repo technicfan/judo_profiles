@@ -2,15 +2,15 @@
 {% for i in profiles %}
     {% get_obj_perms request.user for i as "i_perms" %}
     <tr>
-        <td><a href="{{ i.uuid }}">{{ i }}</a>{% if request.user == i.user %} (Eigenes Profil){% endif %}</td>
+        <td><a href="{% url "profiles-profile" i.uuid %}">{{ i }}</a>{% if request.user == i.user %} (Eigenes Profil){% endif %}</td>
         <td>
             {% if "change_profile" in i_perms %}
-                <a href="{{ i.uuid }}/edit">Bearbeiten</a>
+                <a href="{% url "profiles-profile-edit" i.uuid %}">Bearbeiten</a>
             {% endif %}
         </td>
         <td>
             {% if "manage_profile" in i_perms %}
-                <a href="{{ i.uuid }}/manage">Zugriff verwalten</a>
+                <a href="{% url "profiles-profile-manage" i.uuid %}">Zugriff verwalten</a>
             {% endif %}
         </td>
     </tr>

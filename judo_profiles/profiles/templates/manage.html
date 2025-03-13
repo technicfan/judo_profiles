@@ -14,19 +14,33 @@
             hx-swap="innerHTML settle:3s"
             hx-target="#success">
             {% csrf_token %}
-            <select class="form-select"
-                name="permission"
-                hx-post=""
-                hx-trigger="input changed, load"
-                hx-target="#users"
-                hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
-                <option value="view_profile">View</option>
-                <option value="change_profile">Edit</option>
-                <option value="manage_profile">Manage</option>
+            <select id="permission" class="form-select">
+                <!-- name="permission" -->
+                <!-- hx-post="" -->
+                <!-- hx-trigger="input changed, load" -->
+                <!-- hx-target="#users" -->
+                <!-- hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'> -->
+                <!-- <option value="view_profile">View</option> -->
+                <!-- <option value="change_profile">Edit</option> -->
+                <!-- <option value="manage_profile">Manage</option> -->
+                {% for p in permissions %}
+                    {% if p == permission %}
+                        <option value="{{ p }}" selected>{{ p }}</option>
+                    {% else %}
+                        <option value="{{ p }}">{{ p }}</option>
+                    {% endif %}
+                {% endfor %}
             </select>
+            <script>
+                document.getElementById("permission").addEventListener("change", e => {
+                    var url = new URL(window.location)
+                    url.searchParams.set("p", e.target.value)
+                    window.location = url
+                })
+            </script>
             <table class="table">
                 <thead>
-                    <th>User</th>
+                <th>User {{ permission }}</th>
                 </thead>
                 <tbody id="users"></tbody>
             </table>

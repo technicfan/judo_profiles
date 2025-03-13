@@ -19,7 +19,7 @@ def unique_username(username: str) -> str:
 
 
 def is_admin(user):
-    return user.is_admin
+    return user.is_superuser
 
 
 def index(request):
@@ -273,7 +273,12 @@ def manage_profile(request, profile_uuid):
     if request.method == "POST":
         if "add" in request.POST:
             username = unique_username(profile.name + "." + profile.last_name)
-            newuser = User(username=username, is_active=False)
+            newuser = User(
+                username=username,
+                first_name=profile.name,
+                last_name=profile.last_name,
+                is_active=False
+            )
             newuser.save()
             assign_perm("view_profile", newuser, profile)
             profile.user = newuser
@@ -320,9 +325,38 @@ def manage_profile(request, profile_uuid):
         return HttpResponseRedirect(request.path)
     else:
 
-        return render(request, "manage.html", {"profile": profile})
+        if "p" in request.GET:
+            permission = request.GET["p"]
+        else:
+            permission = "view_profile"
+        permissions = [
+            "view_profile",
+            "change_profile",
+            "manage_profile"
+        ]
+        if permission == "view_profile":
+            if profile.user:
+                users = users.exclude(id=profile.user.id)
+        else:
+            users = users.filter(groups__name="Trainers")
+
+        return render(request, "manage.html", {"profile": profile, "permission": permission, "permissions": permissions})
 
 
 @user_passes_test(is_admin)
 def manage_users(request):
-    pass
+    if request.method == "POST":
+        if "delete" in request.POST:
+            try:
+                User.objects.get(username=request.POST["delete"]).delete()
+            except:
+                pass
+
+            return manage_users(request)
+        else:
+            users = User.objects.exclude(is_superuser=True).order_by("last_name")
+            users = users.filter(Q(first_name__icontains=request.POST["search"]) | Q(last_name__icontains=request.POST["search"]))
+
+            return render(request, "users.html", {"users": users})
+    else:
+        return render(request, "manage_users.html")

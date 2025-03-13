@@ -9,7 +9,7 @@
 {% block content %}
     <div class="container">
         {% if "profiles.add_profile" in perms %}
-            <a class="btn btn-secondary" href="new">Neu</a>
+            <a class="btn btn-secondary" href="{% url "profiles-new" %}">Neu</a>
             <br>
         {% endif %}
         <input class="form-control" type="search"
