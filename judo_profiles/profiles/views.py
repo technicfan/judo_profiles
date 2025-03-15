@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.contrib.auth.decorators import permission_required, user_passes_test
+from django.contrib.auth.decorators import permission_required
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from guardian.decorators import permission_required as object_permission_required
 import json
@@ -18,28 +18,24 @@ def unique_username(username: str) -> str:
         return username
 
 
-def is_admin(user):
-    return user.is_superuser
-
-
 def index(request):
     if request.method == "POST":
         shown_profiles = get_objects_for_user(request.user, "view_profile", Profile).order_by("last_name")
         search = request.POST["search"]
         filtered = shown_profiles.filter(Q(name__icontains=search) | Q(last_name__icontains=search))
 
-        return render(request, "profiles.html", {"profiles": filtered})
+        return render(request, "htmx/profiles.html", {"profiles": filtered})
     else:
 
         return render(request, "index.html")
 
 
-@object_permission_required("profiles.change_profile", (Profile, "uuid", "profile_uuid"))
-def edit_profile(request, profile_uuid):
+@object_permission_required("profiles.change_profile", (Profile, "id", "profile_id"))
+def edit_profile(request, profile_id):
     if request.method == "POST":
         data = json.loads(request.body)
 
-        profile = Profile.objects.get(uuid=profile_uuid)
+        profile = Profile.objects.get(id=profile_id)
 
         if data["action"] == "delete" and request.user == profile.created_by:
             profile.delete()
@@ -159,7 +155,7 @@ def edit_profile(request, profile_uuid):
                 return HttpResponseRedirect("/".join(request.path.split("/")[:-1]))
 
     else:
-        profile = Profile.objects.get(uuid=profile_uuid)
+        profile = Profile.objects.get(id=profile_id)
         own_techniques = OwnTechnique.objects.filter(profile=profile)
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
@@ -180,9 +176,9 @@ def edit_profile(request, profile_uuid):
         })
 
 
-@object_permission_required("profiles.view_profile", (Profile, "uuid", "profile_uuid"))
-def profile(request, profile_uuid):
-    profile = Profile.objects.get(uuid=profile_uuid)
+@object_permission_required("profiles.view_profile", (Profile, "id", "profile_id"))
+def profile(request, profile_id):
+    profile = Profile.objects.get(id=profile_id)
     own_techniques = OwnTechnique.objects.filter(profile=profile)
     positons = Position.objects.filter(profile=profile)
     special_rank = TechniqueRank.objects.filter(profile=profile, type="special").order_by("number")
@@ -210,9 +206,19 @@ def new_profile(request):
             primary_side=data["side"],
             created_by=request.user
         )
+        username = unique_username(profile.name + "." + profile.last_name)
+        newuser = User(
+            username=username,
+            first_name=profile.name,
+            last_name=profile.last_name,
+            is_active=False
+        )
+        newuser.save()
+        profile.user = newuser
         profile.save()
-        assign_perm('change_profile', request.user, profile)
+        assign_perm("view_profile", newuser, profile)
         assign_perm('view_profile', request.user, profile)
+        assign_perm('change_profile', request.user, profile)
         assign_perm('manage_profile', request.user, profile)
 
         for position in data["positions"]:
@@ -254,7 +260,7 @@ def new_profile(request):
                 )
             new_rank_item.save()
 
-        return HttpResponseRedirect("/" + request.path.split("/")[1] + "/" + str(profile.uuid))
+        return HttpResponseRedirect("/" + request.path.split("/")[1] + "/" + str(profile.id))
     else:
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
@@ -263,33 +269,26 @@ def new_profile(request):
         return render(request, "new.html", {"techniques": techniques, "stechniques": stechniques, "gtechniques": gtechniques})
 
 
-@object_permission_required("profiles.manage_profile", (Profile, "uuid", "profile_uuid"))
-def manage_profile(request, profile_uuid):
-    profile = Profile.objects.get(uuid=profile_uuid)
+@object_permission_required("profiles.manage_profile", (Profile, "id", "profile_id"))
+def manage_profile(request, profile_id):
+    profile = Profile.objects.get(id=profile_id)
     users = User.objects.exclude(
         Q(is_superuser=True) | Q(id__in=[request.user.id, profile.created_by.id]) | Q(is_active=False)
     ).order_by("username")
 
     if request.method == "POST":
         if "add" in request.POST:
-            username = unique_username(profile.name + "." + profile.last_name)
-            newuser = User(
-                username=username,
-                first_name=profile.name,
-                last_name=profile.last_name,
-                is_active=False
-            )
-            newuser.save()
-            assign_perm("view_profile", newuser, profile)
-            profile.user = newuser
-            profile.save()
-            Token(user=newuser).save()
+            Token(user=profile.user).save()
         elif "renew" in request.POST:
-            user = profile.user.token.user
-            profile.user.token.delete()
+            user = profile.user
+            user.token.delete()
             Token(user=user).save()
-        elif "delete" in request.POST:
-            profile.user.delete()
+        elif "delete_token" in request.POST:
+            profile.user.token.delete()
+        elif "delete_user" in request.POST:
+            profile.user.is_active = False
+            profile.user.set_unusable_password()
+            profile.user.save()
         elif "update" in request.POST:
             permission = request.POST["permission"]
             permissions = [
@@ -312,51 +311,21 @@ def manage_profile(request, profile_uuid):
                 remove_perm(permission, user, profile)
 
             return HttpResponse("success")
-
-        elif "permission" in request.POST:
+        elif "search" in request.POST:
+            search = request.POST["search"]
             permission = request.POST["permission"]
             if permission == "view_profile":
                 if profile.user:
                     users = users.exclude(id=profile.user.id)
             else:
-                users = users.filter(groups__name="Trainers")
-            return render(request, "user_permissions.html", {"users": users, "profile": profile, "permission": permission})
+                users = users.filter(groups__name__in="Trainers")
+            filtered = users.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search))
+            if filtered.count() == 0:
+                filtered = None
+
+            return render(request, "htmx/user_permissions.html", {"users": filtered, "profile": profile, "permission": permission})
 
         return HttpResponseRedirect(request.path)
     else:
 
-        if "p" in request.GET:
-            permission = request.GET["p"]
-        else:
-            permission = "view_profile"
-        permissions = [
-            "view_profile",
-            "change_profile",
-            "manage_profile"
-        ]
-        if permission == "view_profile":
-            if profile.user:
-                users = users.exclude(id=profile.user.id)
-        else:
-            users = users.filter(groups__name="Trainers")
-
-        return render(request, "manage.html", {"profile": profile, "permission": permission, "permissions": permissions})
-
-
-@user_passes_test(is_admin)
-def manage_users(request):
-    if request.method == "POST":
-        if "delete" in request.POST:
-            try:
-                User.objects.get(username=request.POST["delete"]).delete()
-            except:
-                pass
-
-            return manage_users(request)
-        else:
-            users = User.objects.exclude(is_superuser=True).order_by("last_name")
-            users = users.filter(Q(first_name__icontains=request.POST["search"]) | Q(last_name__icontains=request.POST["search"]))
-
-            return render(request, "users.html", {"users": users})
-    else:
-        return render(request, "manage_users.html")
+        return render(request, "manage.html", {"profile": profile})

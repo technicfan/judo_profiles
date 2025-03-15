@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "abstract/base.html" %}
 
 {% block title %}Profil von {{ profile.name }} verwalten{% endblock %}
 
@@ -8,61 +7,9 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Permissions</h1>
-        <form hx-post=""
-            hx-swap="innerHTML settle:3s"
-            hx-target="#success">
-            {% csrf_token %}
-            <select id="permission" class="form-select">
-                <!-- name="permission" -->
-                <!-- hx-post="" -->
-                <!-- hx-trigger="input changed, load" -->
-                <!-- hx-target="#users" -->
-                <!-- hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'> -->
-                <!-- <option value="view_profile">View</option> -->
-                <!-- <option value="change_profile">Edit</option> -->
-                <!-- <option value="manage_profile">Manage</option> -->
-                {% for p in permissions %}
-                    {% if p == permission %}
-                        <option value="{{ p }}" selected>{{ p }}</option>
-                    {% else %}
-                        <option value="{{ p }}">{{ p }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-            <script>
-                document.getElementById("permission").addEventListener("change", e => {
-                    var url = new URL(window.location)
-                    url.searchParams.set("p", e.target.value)
-                    window.location = url
-                })
-            </script>
-            <table class="table">
-                <thead>
-                <th>User {{ permission }}</th>
-                </thead>
-                <tbody id="users"></tbody>
-            </table>
-            <br>
-            <input class="btn btn-secondary" type="submit" name="update" value="Speichern">
-            <span id="success"></span>
-            <style>
-                #success.htmx-settling {
-                    opacity: 100;
-                }
-
-                #success {
-                    opacity: 0;
-                    transition: opacity 3s ease-out;
-                }
-            </style>
-            <br><br>
-        </form>
-    </div>
-    <div class="container">
-        {% if user == profile.created_by %}
-            {% if not profile.user %}
+    {% if user == profile.created_by %}
+        <div class="container">
+            {% if not profile.user.token and not profile.user.is_active %}
                 <form method="post">
                     {% csrf_token %}
                     <button class="btn btn-secondary" name="add">Token für neue/n Nutzer*in</button>
@@ -70,7 +17,7 @@
             {% else %}
                 <form method="post">
                     {% csrf_token %}
-                    {% if profile.user.token %}
+                    {% if not profile.user.is_active %}
                         {% if profile.user.token.valid_for < 1 %}
                             <p>Token abgelaufen, ohne, dass er verwendet wurde</p>
                             <button class="btn btn-secondary" name="renew">Token erneuern</button>
@@ -98,12 +45,52 @@
                                 }
                             </script>
                         {% endif %}
-                        <button class="btn btn-secondary" name="delete">Token löschen</button>
+                        <button class="btn btn-secondary" name="delete_token">Token löschen</button>
                     {% else %}
-                        <button class="btn btn-secondary" name="delete">Nutzer entfernen</button>
+                        <button class="btn btn-secondary" name="delete_user">Nutzer deaktivieren</button>
                     {% endif %}
                 </form>
             {% endif %}
-        {% endif %}
+        </div>
+    {% endif %}
+    <div class="container">
+        <h1>Permissions</h1>
+        <form hx-post=""
+            hx-swap="innerHTML settle:3s"
+            hx-target="#success">
+                {% csrf_token %}
+                <select id="permission" name="permission" class="form-select">
+                    <option value="view_profile">View</option>
+                    <option value="change_profile">Edit</option>
+                    <option value="manage_profile">Manage</option>
+                </select>
+                <input class="form-control" id="search" type="search"
+                    name="search" placeholder="Benutzer*in suchen..."
+                    hx-post=""
+                    hx-target="#users"
+                    hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#permission, load"
+                    hx-include="#permission"
+                    hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
+            <table class="table">
+                <thead>
+                <th>User</th>
+                </thead>
+                <tbody id="users"></tbody>
+            </table>
+            <br>
+            <input class="btn btn-secondary" type="submit" name="update" value="Speichern">
+            <span id="success"></span>
+            <style>
+                #success.htmx-settling {
+                    opacity: 100;
+                }
+
+                #success {
+                    opacity: 0;
+                    transition: opacity 3s ease-out;
+                }
+            </style>
+            <br><br>
+        </form>
     </div>
 {% endblock %}

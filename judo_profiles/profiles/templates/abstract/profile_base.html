@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "abstract/base.html" %}
 {% load static %}
 
 {% block style %}
@@ -25,7 +25,7 @@
                                 <label for="side_left">Linkskämpfer*in</label>
                             </td>
                             <td>
-                                <input type="checkbox" id="side_left" value="L" {% block opts_left %}{% endblock %}>
+                                <input type="checkbox" id="side_left" name="left" value="L" {% block opts_left %}required{% endblock %}>
                             </td>
                         </tr>
                         <tr>
@@ -33,7 +33,7 @@
                                 <label for="side_right">Rechtskämpfer*in</label>
                             </td>
                             <td>
-                                <input type="checkbox" id="side_right" value="R" {% block opts_right %}{% endblock %}>
+                                <input type="checkbox" id="side_right" name="right" value="R" {% block opts_right %}required{% endblock %}>
                             </td>
                         </tr>
                     </table>

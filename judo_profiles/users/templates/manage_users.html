@@ -1,0 +1,40 @@
+{% extends "abstract/base.html" %}
+
+{% block title %}Benutzerverwaltung{% endblock %}
+
+{% block style %}
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <a class="btn btn-secondary" href="{% url "users-new" %}">Neu</a>
+        <br>
+        <select id="type" name="type" class="form-select">
+            <option value="">Alle</option>
+            <option value="a" selected>Aktive</option>
+            <option value="au">Aktive Judoka</option>
+            <option value="at">Aktive Trainer*innen</option>
+            <option value="i">Inaktive</option>
+            <option value="iu">Inaktive Judoka</option>
+            <option value="it">Inaktive Trainer*innen</option>
+        </select>
+        <input class="form-control" type="search"
+            name="search" placeholder="Benutzer*in suchen..."
+            hx-post=""
+            hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#type, load"
+            hx-target="#users"
+            hx-include="#type"
+            hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
+        <table class="table">
+            <thead>
+                <th>Benutzername</th>
+                <th>Name</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody id="users">
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

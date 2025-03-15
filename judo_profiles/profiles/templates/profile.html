@@ -1,4 +1,4 @@
-{% extends "profile_base.html" %}
+{% extends "abstract/profile_base.html" %}
 {% load static %}
 
 {% block title %}Profil von {{ profile.name }}{% endblock %}
@@ -79,10 +79,10 @@
     {% load guardian_tags %}
     {% get_obj_perms request.user for profile as "profile_perms" %}
     {% if "change_profile" in profile_perms %}
-        <a class="btn btn-warning" href="{% url "profiles-profile-edit" profile.uuid %}">Bearbeiten</a>
+        <a class="btn btn-warning" href="{% url "profiles-profile-edit" profile.id %}">Bearbeiten</a>
     {% endif %}
     {% if "manage_profile" in profile_perms %}
-        <a class="btn btn-info" href="{% url "profiles-profile-manage" profile.uuid %}">Verwalten</a>
+        <a class="btn btn-info" href="{% url "profiles-profile-manage" profile.id %}">Verwalten</a>
     {% endif %}
 {% endblock %}
 

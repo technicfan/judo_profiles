@@ -1,4 +1,4 @@
-{% extends "profile_base.html" %}
+{% extends "abstract/profile_base.html" %}
 {% load static %}
 
 {% block title %}Profil erstellen{% endblock %}
@@ -138,6 +138,20 @@
         const techniques = document.getElementById("hidden_t").innerHTML
         const stechniques = document.getElementById("hidden_st").innerHTML
         const gtechniques = document.getElementById("hidden_gt").innerHTML
+
+        document.getElementById("side_left").addEventListener("click", toggle_side)
+        document.getElementById("side_right").addEventListener("click", toggle_side)
+        function toggle_side(){
+            var left = document.getElementById("side_left")
+            var right = document.getElementById("side_right")
+            if (left.checked || right.checked){
+                left.removeAttribute("required")
+                right.removeAttribute("required")
+            } else {
+                left.setAttribute("required", "")
+                right.setAttribute("required", "")
+            }
+        }
     </script> 
     <script src="{% static "script/change_positions.js" %}"></script>
     <script src="{% static "script/own_techniques.js" %}"></script>
