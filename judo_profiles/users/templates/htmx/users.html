@@ -3,34 +3,34 @@
 {% for user in users %}
     <tr>
         <td>
-            {{ user }}
+            <a class="link-body-emphasis link-underline-opacity-0" href="{% url "users-user" user %}">{{ user }}</a>
+        </td>
+        <td>
             {% if not user.is_active %}
-                <span class="badge">inaktiv</span>
+                <span class="badge text-bg-secondary">inaktiv</span>
             {% endif %}
             {% if user.token %}
                 {% if user.token.valid_for < 1 %}
-                    <span class="badge">token abgelaufen</span>
+                    <span class="badge text-bg-secondary">token abgelaufen</span>
                 {% else %}
-                    <span class="badge">token erstellt</span>
+                    <span class="badge text-bg-success">token erstellt</span>
                 {% endif %}
             {% endif %}
             {% if user|has_group:"Trainers" %}
-                <span class="badge">trainer*in</span>
+                <span class="badge text-bg-warning">trainer*in</span>
             {% endif %}
         </td>
-        <td>
-            {{ user.last_name }}, {{ user.first_name }}
-        </td>
+        <td>{{ user.last_name }}, {{ user.first_name }}</td>
         <td>
             {% if user.token %}
                 <form method="post">
                     {% csrf_token %}
                     {% if user.token.valid_for < 1 %}
                         <input type="hidden" name="renew" value="{{ user }}">
-                        <input type="submit" value="Token erneuern">
+                        <input type="submit" class="btn btn-secondary btn-sm" value="Token erneuern">
                     {% else %}
                         <input type="hidden" name="token" value="{{ user }}">
-                        <input type="submit" value="Token löschen">
+                        <input type="submit" class="btn btn-secondary btn-sm" value="Token löschen">
                     {% endif %}
                 </form>
             {% else %}
@@ -38,19 +38,19 @@
                     {% csrf_token %}
                     {% if user.is_active %}
                         <input type="hidden" name="deactivate" value="{{ user }}">
-                        <input type="submit" value="Deaktivieren">
+                        <input type="submit" class="btn btn-secondary btn-sm" value="Deaktivieren">
                     {% else %}
                         <input type="hidden" name="activate" value="{{ user }}">
-                        <input type="submit" value="Token erstellen">
+                        <input type="submit" class="btn btn-secondary btn-sm" value="Token erstellen">
                     {% endif %}
                 </form>
             {% endif %}
         </td>
         <td>
-    <form onsubmit="if (!confirm('{{ user }} wirklich unwiederruflich löschen\n{% if user|has_group:"Trainers" %}Alle, von {{ user }} erstellten Profile werden gelöscht!!{% else %}Auch das Profil von {{ user }} wird gelöscht!{% endif %}')){ return false }" method="post">
+            <form onsubmit="if (!confirm('{{ user }} wirklich unwiederruflich löschen?\n{% if user|has_group:"Trainers" %}Alle, von {{ user }} erstellten Profile werden gelöscht!!{% else %}Auch das Profil von {{ user }} wird gelöscht!{% endif %}')){ return false }" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="delete" value="{{ user }}">
-                <input type="submit" value="Löschen">
+                <input type="submit" class="btn btn-danger btn-sm" value="Löschen">
             </form>
         </td>
     </tr>

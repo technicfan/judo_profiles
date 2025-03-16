@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: center;
     cursor: grab;
+    background-color: var(--bs-body-bg);
 }
 .option {
     display: inline-block;

@@ -4,8 +4,9 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="profiles-home"),
-    path("new", views.new_profile, name="profiles-new"),
-    path("<int:profile_id>", views.profile, name="profiles-profile"),
-    path("<int:profile_id>/edit", views.edit_profile, name="profiles-profile-edit"),
-    path("<int:profile_id>/manage", views.manage_profile, name="profiles-profile-manage"),
+    path("profiles/", views.start, name="profiles-profiles"),
+    path("profiles/new", views.new_profile, name="profiles-new"),
+    path("profiles/<str:username>", views.profile, name="profiles-profile"),
+    path("profiles/<str:username>/edit", views.edit_profile, name="profiles-profile-edit"),
+    path("profiles/<str:username>/manage", views.manage_profile, name="profiles-profile-manage"),
 ]

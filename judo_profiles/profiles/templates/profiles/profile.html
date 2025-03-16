@@ -3,6 +3,24 @@
 
 {% block title %}Profil von {{ profile.name }}{% endblock %}
 
+{% if request.user == profile.user %}
+    {% block own %}active" aria-current="page{% endblock %}
+{% endif %}
+
+{% block actions %}
+    {% load guardian_tags %}
+    {% get_obj_perms request.user for profile as "profile_perms" %}
+    {% if request.user != profile.user %}
+        <a class="nav-link active" href="">Profil</a>
+    {% endif %}
+    {% if "change_profile" in profile_perms %}
+        <a class="nav-link" href="{% url "profiles-profile-edit" profile.user.username %}">Bearbeiten</a>
+    {% endif %}
+    {% if "manage_profile" in profile_perms %}
+        <a class="nav-link" href="{% url "profiles-profile-manage" profile.user.username %}">Verwalten</a>
+    {% endif %}
+{% endblock %}
+
 {% block style2 %}
     <link rel="stylesheet" href="{% static "style/profile.css" %}">
 {% endblock %}
@@ -73,17 +91,6 @@
             <td>{{ item.technique1 }} + {{ item.technique2 }}</td>
         </tr>
     {% endfor %}
-{% endblock %}
-
-{% block buttons %}
-    {% load guardian_tags %}
-    {% get_obj_perms request.user for profile as "profile_perms" %}
-    {% if "change_profile" in profile_perms %}
-        <a class="btn btn-warning" href="{% url "profiles-profile-edit" profile.id %}">Bearbeiten</a>
-    {% endif %}
-    {% if "manage_profile" in profile_perms %}
-        <a class="btn btn-info" href="{% url "profiles-profile-manage" profile.id %}">Verwalten</a>
-    {% endif %}
 {% endblock %}
 
 {% block script2 %}

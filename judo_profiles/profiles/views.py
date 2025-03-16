@@ -1,7 +1,7 @@
-from django.shortcuts import render, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_not_required
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from guardian.decorators import permission_required as object_permission_required
 import json
@@ -18,7 +18,12 @@ def unique_username(username: str) -> str:
         return username
 
 
+@login_not_required
 def index(request):
+    return render(request, "index.html")
+
+
+def start(request):
     if request.method == "POST":
         shown_profiles = get_objects_for_user(request.user, "view_profile", Profile).order_by("last_name")
         search = request.POST["search"]
@@ -27,20 +32,114 @@ def index(request):
         return render(request, "htmx/profiles.html", {"profiles": filtered})
     else:
 
-        return render(request, "index.html")
+        return render(request, "profiles.html")
 
 
-@object_permission_required("profiles.change_profile", (Profile, "id", "profile_id"))
-def edit_profile(request, profile_id):
+@permission_required("profiles.add_profile")
+def new_profile(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        profile = Profile(
+            name=data["name"],
+            last_name=data["last_name"],
+            year=data["year"],
+            weight=data["weight"],
+            primary_side=data["side"],
+            created_by=request.user
+        )
+        username = unique_username(profile.name + "." + profile.last_name)
+        newuser = User(
+            username=username,
+            first_name=profile.name,
+            last_name=profile.last_name,
+            is_active=False
+        )
+        newuser.save()
+        profile.user = newuser
+        profile.save()
+        assign_perm("view_profile", newuser, profile)
+        assign_perm('view_profile', request.user, profile)
+        assign_perm('change_profile', request.user, profile)
+        assign_perm('manage_profile', request.user, profile)
+
+        for position in data["positions"]:
+            new_position = Position(
+                number=position["number"],
+                side=position["side"],
+                x=position["x"],
+                y=position["y"],
+                profile=profile
+            )
+            new_position.save()
+
+        for own_technique in data["own_techniques"]:
+            new_own_technique = OwnTechnique(
+                side=own_technique["side"],
+                state=own_technique["state"],
+                direction=own_technique["direction"],
+                profile=profile,
+                technique=Technique.objects.get(id=own_technique["technique"]),
+                left_position=Position.objects.get(profile=profile, side=True, number=own_technique["left"]),
+                right_position=Position.objects.get(profile=profile, side=False, number=own_technique["right"])
+            )
+            new_own_technique.save()
+
+        for rank_item in data["rank_items"]:
+            if rank_item["type"] == "combination":
+                new_rank_item = CombinationRank(
+                    number=rank_item["number"],
+                    technique1=Technique.objects.get(id=rank_item["technique1"]),
+                    technique2=Technique.objects.get(id=rank_item["technique2"]),
+                    profile=profile
+                )
+            else:
+                new_rank_item = TechniqueRank(
+                    number=rank_item["number"],
+                    technique=Technique.objects.get(id=rank_item["technique"]),
+                    profile=profile,
+                    type=rank_item["type"]
+                )
+            new_rank_item.save()
+
+        return redirect("profiles-profile", username=profile.user.username)
+    else:
+        stechniques = Technique.objects.filter(type="S").order_by("name")
+        gtechniques = Technique.objects.filter(type="B").order_by("name")
+        techniques = Technique.objects.all().order_by("name")
+
+        return render(request, "profiles/new.html", {"techniques": techniques, "stechniques": stechniques, "gtechniques": gtechniques})
+
+
+@object_permission_required("profiles.change_profile", (Profile, "user__username", "username"))
+def profile(request, username):
+    profile = User.objects.get(username=username).profile
+    own_techniques = OwnTechnique.objects.filter(profile=profile)
+    positons = Position.objects.filter(profile=profile)
+    special_rank = TechniqueRank.objects.filter(profile=profile, type="special").order_by("number")
+    ground_rank = TechniqueRank.objects.filter(profile=profile, type="ground").order_by("number")
+    combination_rank = CombinationRank.objects.filter(profile=profile).order_by("number")
+    return render(request, "profiles/profile.html", {
+        "profile": profile,
+        "own_techniques": own_techniques,
+        "positions": positons,
+        "special_rank": special_rank,
+        "ground_rank": ground_rank,
+        "combination_rank": combination_rank
+    })
+
+
+@object_permission_required("profiles.change_profile", (Profile, "user__username", "username"))
+def edit_profile(request, username):
     if request.method == "POST":
         data = json.loads(request.body)
 
-        profile = Profile.objects.get(id=profile_id)
+        # profile = Profile.objects.get(id=profile_id)
+        profile = User.objects.get(username=username).profile
 
         if data["action"] == "delete" and request.user == profile.created_by:
             profile.delete()
 
-            return HttpResponseRedirect("/" + request.path.split("/")[1])
+            return redirect("profiles-profiles")
         else:
             # profile
             profile.name = data["name"]
@@ -148,14 +247,14 @@ def edit_profile(request, profile_id):
 
             if data["action"] == "save":
 
-                return HttpResponseRedirect(request.path)
+                return HttpResponseRedirect("")
 
             else:
 
-                return HttpResponseRedirect("/".join(request.path.split("/")[:-1]))
+                return redirect("profiles-profile", username=profile.user.username)
 
     else:
-        profile = Profile.objects.get(id=profile_id)
+        profile = User.objects.get(username=username).profile
         own_techniques = OwnTechnique.objects.filter(profile=profile)
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
@@ -164,7 +263,7 @@ def edit_profile(request, profile_id):
         technique_ranks = TechniqueRank.objects.filter(profile=profile).order_by("number")
         combination_rank = CombinationRank.objects.filter(profile=profile).order_by("number")
 
-        return render(request, "edit.html", {
+        return render(request, "profiles/edit.html", {
             "profile": profile,
             "own_techniques": own_techniques,
             "stechniques": stechniques,
@@ -176,102 +275,9 @@ def edit_profile(request, profile_id):
         })
 
 
-@object_permission_required("profiles.view_profile", (Profile, "id", "profile_id"))
-def profile(request, profile_id):
-    profile = Profile.objects.get(id=profile_id)
-    own_techniques = OwnTechnique.objects.filter(profile=profile)
-    positons = Position.objects.filter(profile=profile)
-    special_rank = TechniqueRank.objects.filter(profile=profile, type="special").order_by("number")
-    ground_rank = TechniqueRank.objects.filter(profile=profile, type="ground").order_by("number")
-    combination_rank = CombinationRank.objects.filter(profile=profile).order_by("number")
-    return render(request, "profile.html", {
-        "profile": profile,
-        "own_techniques": own_techniques,
-        "positions": positons,
-        "special_rank": special_rank,
-        "ground_rank": ground_rank,
-        "combination_rank": combination_rank
-    })
-
-
-@permission_required("profiles.add_profile")
-def new_profile(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        profile = Profile(
-            name=data["name"],
-            last_name=data["last_name"],
-            year=data["year"],
-            weight=data["weight"],
-            primary_side=data["side"],
-            created_by=request.user
-        )
-        username = unique_username(profile.name + "." + profile.last_name)
-        newuser = User(
-            username=username,
-            first_name=profile.name,
-            last_name=profile.last_name,
-            is_active=False
-        )
-        newuser.save()
-        profile.user = newuser
-        profile.save()
-        assign_perm("view_profile", newuser, profile)
-        assign_perm('view_profile', request.user, profile)
-        assign_perm('change_profile', request.user, profile)
-        assign_perm('manage_profile', request.user, profile)
-
-        for position in data["positions"]:
-            new_position = Position(
-                number=position["number"],
-                side=position["side"],
-                x=position["x"],
-                y=position["y"],
-                profile=profile
-            )
-            new_position.save()
-
-        for own_technique in data["own_techniques"]:
-            new_own_technique = OwnTechnique(
-                side=own_technique["side"],
-                state=own_technique["state"],
-                direction=own_technique["direction"],
-                profile=profile,
-                technique=Technique.objects.get(id=own_technique["technique"]),
-                left_position=Position.objects.get(profile=profile, side=True, number=own_technique["left"]),
-                right_position=Position.objects.get(profile=profile, side=False, number=own_technique["right"])
-            )
-            new_own_technique.save()
-
-        for rank_item in data["rank_items"]:
-            if rank_item["type"] == "combination":
-                new_rank_item = CombinationRank(
-                    number=rank_item["number"],
-                    technique1=Technique.objects.get(id=rank_item["technique1"]),
-                    technique2=Technique.objects.get(id=rank_item["technique2"]),
-                    profile=profile
-                )
-            else:
-                new_rank_item = TechniqueRank(
-                    number=rank_item["number"],
-                    technique=Technique.objects.get(id=rank_item["technique"]),
-                    profile=profile,
-                    type=rank_item["type"]
-                )
-            new_rank_item.save()
-
-        return HttpResponseRedirect("/" + request.path.split("/")[1] + "/" + str(profile.id))
-    else:
-        stechniques = Technique.objects.filter(type="S").order_by("name")
-        gtechniques = Technique.objects.filter(type="B").order_by("name")
-        techniques = Technique.objects.all().order_by("name")
-
-        return render(request, "new.html", {"techniques": techniques, "stechniques": stechniques, "gtechniques": gtechniques})
-
-
-@object_permission_required("profiles.manage_profile", (Profile, "id", "profile_id"))
-def manage_profile(request, profile_id):
-    profile = Profile.objects.get(id=profile_id)
+@object_permission_required("profiles.change_profile", (Profile, "user__username", "username"))
+def manage_profile(request, username):
+    profile = User.objects.get(username=username).profile
     users = User.objects.exclude(
         Q(is_superuser=True) | Q(id__in=[request.user.id, profile.created_by.id]) | Q(is_active=False)
     ).order_by("username")
@@ -323,9 +329,9 @@ def manage_profile(request, profile_id):
             if filtered.count() == 0:
                 filtered = None
 
-            return render(request, "htmx/user_permissions.html", {"users": filtered, "profile": profile, "permission": permission})
+            return render(request, "htmx/profile_permissions.html", {"users": filtered, "profile": profile, "permission": permission})
 
-        return HttpResponseRedirect(request.path)
+        return HttpResponseRedirect("")
     else:
 
-        return render(request, "manage.html", {"profile": profile})
+        return render(request, "profiles/manage.html", {"profile": profile})

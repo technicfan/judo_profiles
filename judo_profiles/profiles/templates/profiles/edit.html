@@ -1,6 +1,23 @@
-{% extends "new.html" %}
+{% extends "profiles/new.html" %}
 
 {% block title %}Profil von {{ profile.name }} bearbeiten{% endblock %}
+
+{% block actions %}
+    {% load guardian_tags %}
+    {% get_obj_perms request.user for profile as "profile_perms" %}
+    {% if "view_profile" in profile_perms and request.user != profile.user %}
+        <a class="nav-link" href="{% url "profiles-profile" profile.user.username %}">Profil</a>
+    {% endif %}
+    <a class="nav-link active" href="">Bearbeiten</a>
+    {% if "manage_profile" in profile_perms %}
+        <a class="nav-link" href="{% url "profiles-profile-manage" profile.user.username %}">Verwalten</a>
+    {% endif %}
+    {% if request.user == profile.created_by %}
+        <button class="nav-link" onclick="if (confirm('Profil wirklich unwiederruflich löschen?')){ post_data('delete') }">Löschen</button>
+    {% endif %}
+    <input class="nav-link" type="submit" form="profile_form" data-type="save" value="Speichern">
+    <input class="nav-link" type="submit" form="profile_form" value="Fertig">
+{% endblock %}
 
 {% block hidden_data2 %}
     <ul id="hidden_own">
@@ -50,14 +67,6 @@
 {% block opts_left %}{% if profile.primary_side != 2 %} checked {% endif %}{% endblock %}
 
 {% block opts_right %}{% if profile.primary_side != 1 %} checked {% endif %}{% endblock %}
-
-{% block buttons2 %}
-    {% if request.user == profile.created_by %}
-        <button class="btn btn-danger" onclick="if (confirm('Profil wirklich unwiederruflich löschen?')){ post_data('delete') }">Löschen</button>
-    {% endif %}
-    <button class="btn btn-secondary" onclick="location.href = location.href">Zurücksetzen</button>
-    <button class="submit btn btn-secondary" data-type="save">Speichern</button>
-{% endblock %}
 
 {% block script3 %}
     <script> 

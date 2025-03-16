@@ -2,14 +2,18 @@
 
 {% block title %}Benutzerverwaltung{% endblock %}
 
+{% block manage %}active" aria-current="page{% endblock %}
+
+{% block admin_actions %}
+    <a class="nav-link" href="{% url "users-new" %}">Neue/r Trainer*in</a>
+{% endblock %}
+
 {% block style %}
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <a class="btn btn-secondary" href="{% url "users-new" %}">Neu</a>
-        <br>
         <select id="type" name="type" class="form-select">
             <option value="">Alle</option>
             <option value="a" selected>Aktive</option>
@@ -29,6 +33,7 @@
         <table class="table">
             <thead>
                 <th>Benutzername</th>
+                <th></th>
                 <th>Name</th>
                 <th></th>
                 <th></th>

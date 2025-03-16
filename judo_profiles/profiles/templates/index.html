@@ -1,31 +1,29 @@
 {% extends "abstract/base.html" %}
 
-{% block title %}Startseite{% endblock %}
+{% block title %}Home{% endblock %}
 
-{% block style %}
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-{% endblock %}
+{% block home %}active" aria-current="page{% endblock %}
 
 {% block content %}
-    <div class="container">
-        {% if "profiles.add_profile" in perms %}
-            <a class="btn btn-secondary" href="{% url "profiles-new" %}">Neu</a>
-            <br>
-        {% endif %}
-        <input class="form-control" type="search"
-            name="search" placeholder="Profil suchen..."
-            hx-post=""
-            hx-trigger="input changed delay:500ms, keyup[key=='Enter'], load"
-            hx-target="#profiles"
-            hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
-        <table class="table">
-            <thead>
-                <th>Name</th>
-                <th></th>
-                <th></th>
-            </thead>
-            <tbody id="profiles">
-            </tbody>
-        </table>
+    <div class="container text-center">
+        <h2>Einführung</h2>
+        <p>
+            Diese Website ist ein Schul-/Hobbyprojekt von mir (<a href="https://github.com/technicfan">technicfan</a>), dass etwas größer ausgefallen ist, als anfangs gedacht.
+            Es handelt sich um eine online Judo-Kämpferprofil-Verwaltung, die mehrere Trainer*innen gleichzeitug verwenden können.
+            Außerdem kann auch den Judoka Zugriff zu ihren und auch zu anderen Profilen gewährt werden (durch Trainer*innen).
+            Auch Trainer*innen können sich gegenseitig Lese- und Schreibzugriff zu den, von ihnen erstellten Profilen geben.
+            Zudem wird zu Beginn ein Admin eingerichtet (noch im cli), welcher alle Benutzerkonten verwalten kann und auch bei Bedarf neue Tokens erstellen, falls jemand das Passwort vergessen hat.
+            Beim Erstellen wird kein Passwort eingerichtet, welches dann geändert werden muss, sondern es wird ein Token generiert, welcher sieben Tage gültig ist, mit dem sich der/die Nutzer*innen
+            dann ein Passwort erstellen kann und der dabei gelöscht wird, damit nur der/die Nutzer*in das Passwort kennt.
+        </p>
+        <h3>Technisches</h3>
+        <p>
+            Es handelt sich um ein <a href="https://github.com/django/django">Django</a>-Projekt, das auch viel JavaScript für die Profile verwendet.
+            Es ist unter der MIT Lizenz frei und kostenlos erhältlich: <a href="https://github.com/technicfan/django_judo_profiles">GitHub</a>
+            Ich verwende <a href="https://github.com/django-guardian/django-guardian">django-guardian</a> für Per-Object-Permissions für die Profile.
+            Außerdem verwende auf der Client-Seite <a href="https://github.com/twbs/bootstrap">Bootstrap</a> für einfaches Styling, ein wenig auch
+            <a href="https://jquery.com/">jQuery</a> und <a href="https://github.com/bigskysoftware/htmx">htmx</a>, was ein fantastisches
+            Tool zur Rückkehr zum Konzept des "schlauen" Servers und des "dummen" Clients, für schnelle Live-Suche ohne Neuladen.
+        </p>
     </div>
 {% endblock %}
