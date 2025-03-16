@@ -82,7 +82,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
 
-    return redirect("users-login")
+    return redirect("profiles-home")
 
 
 def change_pass(request):
