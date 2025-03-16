@@ -132,11 +132,6 @@
     </tr>
 {% endblock %}
 
-{% block buttons %}
-    {% block buttons2 %}{% endblock %}
-    <button class="submit btn btn-success">Fertig</button>
-{% endblock %}
-
 {% block script2 %}
     <script>
         const CSRF_TOKEN = document.querySelector("[name=csrfmiddlewaretoken]").value

@@ -1,9 +1,6 @@
 // disable submitting for unwanted buttons
-document.querySelectorAll("button").forEach(button => {
-    if (!button.classList.contains("submit")){
-        button.addEventListener("click", event => { event.preventDefault() })
-    }
-})
+document.querySelectorAll("button").forEach(button => { button.addEventListener("click", event => { event.preventDefault() }) })
+
 // only post if form is valid
 document.querySelector("form").addEventListener("submit", event => {
     event.preventDefault()
