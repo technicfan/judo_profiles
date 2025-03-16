@@ -324,7 +324,7 @@ def manage_profile(request, username):
                 if profile.user:
                     users = users.exclude(id=profile.user.id)
             else:
-                users = users.filter(groups__name__in="Trainers")
+                users = users.filter(groups__name="Trainers")
             filtered = users.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search))
             if filtered.count() == 0:
                 filtered = None

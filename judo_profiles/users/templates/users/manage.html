@@ -71,48 +71,50 @@
             </form>
         </div>
     <div class="container">
-        <h1>Berechtigungen</h1>
-        <form hx-post=""
-            hx-swap="innerHTML settle:3s"
-            hx-target="#success">
-                {% csrf_token %}
-                <select id="permission" name="permission" class="form-select">
-                    <option value="view_profile">Anzeigen</option>
-                    {% if user|has_group:"Trainers" %}
-                        <option value="change_profile">Bearbeiten</option>
-                        <option value="manage_profile">Verwalten</option>
-                    {% endif %}
-                </select>
-                <input class="form-control" id="search" type="search"
-                    name="search" placeholder="Profil suchen..."
-                    hx-post=""
-                    hx-target="#profiles"
-                    hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#permission, load"
-                    hx-include="#permission"
-                    hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
-            <table class="table">
-                <thead>
-                    <th>Profil</th>
-                </thead>
-                <tbody id="profiles"></tbody>
-            </table>
-            <br>
-            {% if user.is_active %}
+        <h2>Berechtigungen</h2>
+        {% if user.is_active %}
+            <form hx-post=""
+                hx-swap="innerHTML settle:3s"
+                hx-target="#success">
+                    {% csrf_token %}
+                    <select id="permission" name="permission" class="form-select">
+                        <option value="view_profile">Anzeigen</option>
+                        {% if user|has_group:"Trainers" %}
+                            <option value="change_profile">Bearbeiten</option>
+                            <option value="manage_profile">Verwalten</option>
+                        {% endif %}
+                    </select>
+                    <input class="form-control" id="search" type="search"
+                        name="search" placeholder="Profil suchen..."
+                        hx-post=""
+                        hx-target="#profiles"
+                        hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#permission, load"
+                        hx-include="#permission"
+                        hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
+                <table class="table">
+                    <thead>
+                        <th>Profil</th>
+                    </thead>
+                    <tbody id="profiles"></tbody>
+                </table>
+                <br>
                 <input class="btn btn-secondary" type="submit" name="update" value="Speichern">
-            {% else %}
-                <span>Die Berechtigungen können erst angepasst werden, wenn der/die Nutzer*in aktiv ist.</span>
-            {% endif %}
-            <span id="success"></span>
-            <style>
-                #success.htmx-settling {
-                    opacity: 100;
-                }
+                <span id="success"></span>
+                <style>
+                    #success.htmx-settling {
+                        opacity: 100;
+                    }
 
-                #success {
-                    opacity: 0;
-                    transition: opacity 3s ease-out;
-                }
-            </style>
-        </form>
+                    #success {
+                        opacity: 0;
+                        transition: opacity 3s ease-out;
+                    }
+                </style>
+            </form>
+        {% else %}
+            <div class="d-flex justify-content-center">
+                <div class="alert alert-warning m-5">Die Berechtigungen können erst angepasst werden, wenn der/die Benutzer*in aktiv ist.</div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

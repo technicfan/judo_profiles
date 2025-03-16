@@ -1,0 +1,8 @@
+asgiref
+django
+gunicorn
+psycopg2
+python-dotenv
+sqlparse
+typing_extensions
+django-guardian

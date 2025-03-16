@@ -179,6 +179,8 @@ def new_user(request):
         newuser.groups.add(group)
         Token(user=newuser).save()
 
+        return redirect("users-user", username=newusername)
+
     return render(request, "users/new.html", {})
 
 
