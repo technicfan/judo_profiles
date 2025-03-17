@@ -31,8 +31,8 @@ COPY . .
 EXPOSE 8000
 
 # Make the entrypoint script executable
-RUN chmod +x  /app/init.sh
+RUN chmod +x  /app/start.sh
 
 # Set the entrypoint script as the default command
 # This will run migrations, collect static files, and start Gunicorn
-CMD ["/app/init.sh"]
+CMD ["/app/start.sh"]

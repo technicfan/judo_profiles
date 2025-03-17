@@ -22,12 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-j(u6xxqqplpcyqdx072ua&0&a$wekn5i^j9c(pcis4-j82vytg'
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", 'django-insecure-j(u6xxqqplpcyqdx072ua&0&a$wekn5i^j9c(pcis4-j82vytg')
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('DEBUG', "False") == "True")
+DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
+ALLOWED_HOSTS = [os.getenv("PUBLIC_URL").split("//")[1].split(":")[0]]
+CSRF_TRUSTED_ORIGINS = [os.getenv("PUBLIC_URL")]
 
 
 # Application definition
@@ -81,9 +82,7 @@ WSGI_APPLICATION = 'judo_profiles.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
+        'ENGINE': f"django.db.backends.{os.environ.get('DATABASE_ENGINE', 'sqlite3')}",
         'NAME': os.environ.get('DATABASE_NAME', BASE_DIR / 'db.sqlite3'),
         'USER': os.environ.get('DATABASE_USER', ""),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD', ""),
@@ -141,7 +140,7 @@ LOGIN_URL = "users-login"
 ANONYMOUS_USER_NAME = None
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # this is default
+    'django.contrib.auth.backends.ModelBackend',
     # guardian for object permissions
     'guardian.backends.ObjectPermissionBackend',
 )

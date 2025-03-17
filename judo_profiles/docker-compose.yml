@@ -11,20 +11,29 @@ services:
   app:
     build:
       context: .
-    image: technicfan/django_judo_profiles:latest
     depends_on:
       - db
     restart: unless-stopped
     environment:
-      - DEBUG=${DEBUG}
-      - DATABASE_ENGINE=${DATABASE_ENGINE}
+      - PUBLIC_URL=${PUBLIC_URL}
+      - SECRET_KEY=${SECRET_KEY}
+      - DATABASE_ENGINE=postgresql
       - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_HOST=db
       - DATABASE_PORT=5432
+    volumes:
+      - static:/app/staticfiles
+  proxy:
+    build: ./nginx
+    volumes:
+      - static:/app/staticfiles
     ports:
-      - 7000:8000
+      - 7000:80
+    depends_on:
+      - app
 
 volumes:
   db-data: {}
+  static: {}
