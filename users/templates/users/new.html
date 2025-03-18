@@ -1,0 +1,18 @@
+{% extends "abstract/base.html" %}
+
+{% block title %}Passwort ändern{% endblock %}
+
+{% block admin_actions %}
+    <a class="nav-link active" href="">Neue/r Trainer*in</a>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="first_name" placeholder="Vorname" required>
+            <input type="text" class="form-control" name="last_name" placeholder="Nachname" required>
+            <input type="submit" class="btn btn-secondary" value="Token erstellen">
+        </form>
+    </div>
+{% endblock %}

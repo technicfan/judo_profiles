@@ -1,0 +1,161 @@
+{% extends "abstract/profile_base.html" %}
+{% load static %}
+
+{% block title %}Profil erstellen{% endblock %}
+
+{% block actions %}
+    <a class="nav-link active" href="">Neues Profil</a>
+    <input class="nav-link" type="submit" form="profile_form" value="Fertig">
+{% endblock %}
+
+{% block hidden_data %}
+    <div id="hidden_t">
+        {% for t in techniques %}
+            <option value="{{ t.id }}">{{ t.name }}</option>
+        {% endfor %}
+    </div>
+    <div id="hidden_st">
+        {% for t in stechniques %}
+            <option value="{{ t.id }}">{{ t.name }}</option>
+        {% endfor %}
+    </div>
+    <div id="hidden_gt">
+        {% for t in gtechniques %}
+            <option value="{{ t.id }}">{{ t.name }}</option>
+        {% endfor %}
+    </div>
+    {% block hidden_data2 %}{% endblock %}
+{% endblock %}
+
+{% block form_container %}
+    <form id="profile_form">
+        {% csrf_token %}
+{% endblock %}
+
+{% block form_container_end %}
+    </form>
+{% endblock %}
+
+{% block general_info %}
+    <p id="title">Kämpferprofil von</p>
+    <input type="text" id="last_name" placeholder="Nachname" value="{{ profile.last_name|default:"" }}" required>, 
+    <input type="text" id="name" placeholder="Vorname" value="{{ profile.name|default:"" }}" required>
+    <input type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="Jahrgang" required>
+    <input type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)" value="{{ profile.weight|default:"" }}" required>
+{% endblock %}
+
+{% block delete_positions %}
+    <button id="delete" class="btn btn-outline-danger btn-sm" data-bs-toggle="button" onclick="delClick()">Löschen</button>
+{% endblock %}
+
+{% block own0 %}
+    <tr><td>
+        <button class="btn btn-success btn-sm" onclick="add_own(0)">+</button>
+    </td></tr>
+{% endblock %}
+
+{% block own1 %}
+    <tr><td>
+        <button class="btn btn-success btn-sm" onclick="add_own(1)">+</button>
+    </td></tr>
+{% endblock %}
+
+{% block own2 %}
+    <tr><td>
+        <button class="btn btn-success btn-sm" onclick="add_own(2)">+</button>
+    </td></tr>
+{% endblock %}
+
+{% block own3 %}
+    <tr><td>
+        <button class="btn btn-success btn-sm" onclick="add_own(3)">+</button>
+    </td></tr>
+{% endblock %}
+
+{% block own4 %}
+    <tr><td>
+        <button class="btn btn-success btn-sm" onclick="add_own(4)">+</button>
+    </td></tr>
+{% endblock %}
+
+{% block own5 %}
+    <tr><td>
+        <button class="btn btn-success btn-sm" onclick="add_own(5)">+</button>
+    </td></tr>
+{% endblock %}
+
+{% block special %}
+    <button class="btn btn-success btn-sm" onclick="add_rank_item('special')">+</button>
+    <tr>
+        <td id="special1" class="special"></td>
+    </tr>
+    <tr>
+        <td id="special2" class="special"></td>
+    </tr>
+    <tr>
+        <td id="special3" class="special"></td>
+    </tr>
+    <tr>
+        <td id="special4" class="special"></td>
+    </tr>
+{% endblock %}
+
+{% block ground %}
+    <button class="btn btn-success btn-sm" onclick="add_rank_item('ground')">+</button>
+    <tr>
+        <td id="ground1" class="ground"></td>
+    </tr>
+    <tr>
+        <td id="ground2" class="ground"></td>
+    </tr>
+    <tr>
+        <td id="ground3" class="ground"></td>
+    </tr>
+    <tr>
+        <td id="ground4" class="ground"></td>
+    </tr>
+{% endblock %}
+
+{% block combination %}
+    <button class="btn btn-success btn-sm" onclick="add_rank_item('combination')">+</button>
+    <tr>
+        <td id="combination1" class="combination"></td>
+    </tr>
+    <tr>
+        <td id="combination2" class="combination"></td>
+    </tr>
+    <tr>
+        <td id="combination3" class="combination"></td>
+    </tr>
+    <tr>
+        <td id="combination4" class="combination"></td>
+    </tr>
+{% endblock %}
+
+{% block script2 %}
+    <script>
+        const CSRF_TOKEN = document.querySelector("[name=csrfmiddlewaretoken]").value
+        const techniques = document.getElementById("hidden_t").innerHTML
+        const stechniques = document.getElementById("hidden_st").innerHTML
+        const gtechniques = document.getElementById("hidden_gt").innerHTML
+
+        document.getElementById("side_left").addEventListener("click", toggle_side)
+        document.getElementById("side_right").addEventListener("click", toggle_side)
+        function toggle_side(){
+            var left = document.getElementById("side_left")
+            var right = document.getElementById("side_right")
+            if (left.checked || right.checked){
+                left.removeAttribute("required")
+                right.removeAttribute("required")
+            } else {
+                left.setAttribute("required", "")
+                right.setAttribute("required", "")
+            }
+        }
+    </script> 
+    <script src="{% static "script/change_positions.js" %}"></script>
+    <script src="{% static "script/own_techniques.js" %}"></script>
+    <script src="{% static "script/ranks.js" %}"></script>
+    <script src="{% static "script/post.js" %}"></script>
+    {% block script3 %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% if profiles %}
+    {% load guardian_tags %}
+    {% for profile in profiles %}
+        {% get_obj_perms user for profile as "profile_perms" %}
+        <tr>
+            <td>
+                {% if permission in profile_perms %}
+                    <input class="form-check-input" type="checkbox" name="{{ profile.id }}" checked>
+                {% else %}
+                    <input class="form-check-input" type="checkbox" name="{{ profile.id }}">
+                {% endif %}
+                <span>{{ profile }}</span>
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <div class="container text-center"><p>Keine Profile gefunden</p></div>
+{% endif %}

@@ -1,0 +1,18 @@
+{% if users %}
+    {% load guardian_tags %}
+    {% for user in users %}
+        {% get_obj_perms user for profile as "profile_perms" %}
+        <tr>
+            <td>
+                {% if permission in profile_perms %}
+                    <input class="form-check-input" type="checkbox" name="{{ user.id }}" checked>
+                {% else %}
+                    <input class="form-check-input" type="checkbox" name="{{ user.id }}">
+                {% endif %}
+                <span>{{ user }}</span>
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <div class="container text-center"><p>Keine passenden Nutzer*innen gefunden</p></div>
+{% endif %}

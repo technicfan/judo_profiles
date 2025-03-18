@@ -1,0 +1,25 @@
+{% extends "abstract/base.html" %}
+
+{% block title %}Mit Token registrieren{% endblock %}
+
+{% block register %}active" aria-current="page{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if post %}
+            <form method="post">
+                {% csrf_token %}
+                <input class="form-control-plaintext" type="text" name="username" value="{{ username }}">
+                <input class="form-control" type="password" name="password" placeholder="Passwort" required>
+                <input class="form-control" type="password" name="password_repeat" placeholder="Passwort wiederholen" required>
+                <input class="btn btn-secondary" type="submit" value="Registrieren">
+            </form>
+        {% else %}
+            <form method="post">
+                {% csrf_token %}
+                <input class="form-control" type="text" name="token" placeholder="token" required>
+                <input class="btn btn-secondary" type="submit" value="Mit dem Token registrieren">
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

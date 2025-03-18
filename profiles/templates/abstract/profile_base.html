@@ -1,0 +1,167 @@
+{% extends "abstract/base.html" %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static "style/main.css" %}">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    {% block style2 %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div id="hidden_data" class="hidden">
+        {% block hidden_data %}{% endblock %}
+    </div>
+    {% block form_container %}<div id="form_container">{% endblock %}
+    <div id="general_container">
+        <table>
+            <tr>
+                <td>
+                    {% block general_info %}{% endblock %}
+                </td>
+                <td>
+                    <table id="side_table">
+                        <tr>
+                            <td>
+                                <label for="side_left">Linkskämpfer*in</label>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="side_left" name="left" value="L" {% block opts_left %}required{% endblock %}>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="side_right">Rechtskämpfer*in</label>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="side_right" name="right" value="R" {% block opts_right %}required{% endblock %}>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table id="main">
+        <tr>
+            <td class="pos">
+                <div id="positions">
+                    <table>
+                        <tr>
+                            <td>
+                                <p id="image_desc">Griffpositionen</p>
+                                {% block delete_positions %}{% endblock %}
+                            </td>
+                            <td id="choices">
+                                <a>Rechte Hand =</a>
+                                <div class="r position option 1" id="oR1">1</div>
+                                <div class="r position option 2" id="oR2">2</div>
+                                <div class="r position option 3" id="oR3">3</div>
+                                <div class="r position option 4" id="oR4">4</div>
+                                <br>
+                                <br>
+                                <a>Linke Hand =</a>
+                                <div class="l position option 1" id="oL1">1</div>
+                                <div class="l position option 2" id="oL2">2</div>
+                                <div class="l position option 3" id="oL3">3</div>
+                                <div class="l position option 4" id="oL4">4</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <style>
+                        #image_container {
+                            background-image: url('{% static "image/image.svg" %}');
+                        }
+                        [data-bs-theme=dark] #image_container {
+                            background-image: url('{% static "image/image-dark.svg" %}');
+                        }
+                    </style>
+                    <div id="image_container">
+                        <img src="{% static "image/image.svg" %}" id="image">
+                        <div class="r move position 1" id="pR1">1</div>
+                        <div class="r move position 2" id="pR2">2</div>
+                        <div class="r move position 3" id="pR3">3</div>
+                        <div class="r move position 4" id="pR4">4</div>
+                        <div class="l move position 1" id="pL1">1</div>
+                        <div class="l move position 2" id="pL2">2</div>
+                        <div class="l move position 3" id="pL3">3</div>
+                        <div class="l move position 4" id="pL4">4</div>
+                    </div>
+                </div>
+            </td>
+            <td class="own_t">
+                <div id="own_container">
+                    <table id="own">
+                        <caption id="own_techniques">Eigene Techniken</caption>
+                        <tr>
+                            <td>
+                                <table class="own_techniques" id="own0">
+                                    {% block own0 %}{% endblock %}
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="own_techniques" id="own5">
+                                    {% block own5 %}{% endblock %}
+                                </table>
+                            </td>
+                            <td>
+                                <table class="own_techniques" id="own1">
+                                    {% block own1 %}{% endblock %}
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="own_techniques" id="own4">
+                                    {% block own4 %}{% endblock %}
+                                </table>
+                            </td>
+                            <td>
+                                <table class="own_techniques" id="own2">
+                                    {% block own2 %}{% endblock %}
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="own_techniques" id="own3">
+                                    {% block own3 %}{% endblock %}
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table id="ranks">
+        <tr>
+            <td class="rank">
+                <table id="special_rank">
+                    <caption>Spezialtechniken</caption>
+                    {% block special %}{% endblock %}
+                </table>
+            </td>
+            <td class="rank">
+                <table id="ground_rank">
+                    <caption>Bodentechniken</caption>
+                    {% block ground %}{% endblock %}
+                </table>
+            </td>
+            <td class="rank">
+                <table id="combination_rank">
+                    <caption>Kombinationen</caption>
+                    {% block combination %}{% endblock %}
+                </table>
+            </td>
+        </tr>
+    </table>
+    {% block buttons %}{% endblock %}
+    {% block form_container_end %}</div>{% endblock %}
+{% endblock %}
+
+{% block script %}
+    <script src="{% static "script/positions.js" %}"></script>
+    {% block script2 %}{% endblock %}
+{% endblock %}
