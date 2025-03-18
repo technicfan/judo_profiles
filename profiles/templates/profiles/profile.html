@@ -30,15 +30,15 @@
         {% for t in own_techniques %}
             <table class="own_row" data-direction={{ t.direction }}>
                 <tr>
-                    <td class="own_technique">
+                    <td class="own_technique p-0 text-center">
                         <p>{{ t.technique }}</p>
                         {% if t.side %}
-                            <div class="table position l">L</div>
+                            <div class="d-inline-block mb-3 me-5 position l">L</div>
                         {% else %}
-                            <div class="table position r">R</div>
+                            <div class="d-inline-block mb-3 me-5 position r">R</div>
                         {% endif %}
-                        <div class="table position l no_margin">{{ t.left_position.number }}</div>
-                        <div class="table position r">{{ t.right_position.number }}</div>
+                        <div class="d-inline-block mb-3 position l">{{ t.left_position.number }}</div>
+                        <div class="d-inline-block mb-3 me-5 position r">{{ t.right_position.number }}</div>
                         {{ t.state }}
                     </td>
                 </tr>
@@ -98,7 +98,7 @@
         document.querySelectorAll(".pos_data").forEach(pos => {
             position = document.getElementById(pos.dataset["id"])
             position.style.display = "flex"
-            colorSelected(position.className[0] + " " + position.className.slice(-1), "unset")
+            colorSelected(position.className[0] + " " + position.className.slice(-1), "var(--bs-body-color)")
             placeRelative(
                 position,
                 pos.dataset["y"],

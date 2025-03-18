@@ -21,7 +21,7 @@ function mouseDownOpt(e){
     }
     let target = e.target
     move = document.getElementById(getMatchingID(target.id))
-    colorSelected(target.className[0] + " " + target.className.slice(-1), "unset")
+    colorSelected(target.className[0] + " " + target.className.slice(-1), "var(--bs-body-color)")
     image.addEventListener("mousedown", mouseDownImg)
     document.addEventListener("mousedown", mouseDownDoc)
 }
@@ -117,7 +117,7 @@ function delClick(){
     if (delete_mode){
         document.querySelectorAll(".move").forEach(position => {
             if (position.style.display == "flex"){
-                position.style.borderColor = "unset"
+                position.style.borderColor = "var(--bs-body-color)"
             }
             position.style.cursor = "grab"
         })

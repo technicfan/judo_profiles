@@ -12,28 +12,33 @@
         {% block hidden_data %}{% endblock %}
     </div>
     {% block form_container %}<div id="form_container">{% endblock %}
-    <div id="general_container">
+    <div id="general_container" class="container d-flex justify-content-center border rounded">
         <table>
             <tr>
                 <td>
-                    {% block general_info %}{% endblock %}
-                </td>
-                <td>
-                    <table id="side_table">
+                    <p id="title">Kämpferprofil von</p>
+                    <table>
                         <tr>
+                            {% block general_info %}{% endblock %}
                             <td>
-                                <label for="side_left">Linkskämpfer*in</label>
-                            </td>
-                            <td>
-                                <input type="checkbox" id="side_left" name="left" value="L" {% block opts_left %}required{% endblock %}>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="side_right">Rechtskämpfer*in</label>
-                            </td>
-                            <td>
-                                <input type="checkbox" id="side_right" name="right" value="R" {% block opts_right %}required{% endblock %}>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label class="form-check-label" for="side_left">Linkskämpfer*in</label>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="form-check-input" id="side_left" name="left" value="L" {% block opts_left %}required{% endblock %}>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="form-check-label" for="side_right">Rechtskämpfer*in</label>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="form-check-input" id="side_right" name="right" value="R" {% block opts_right %}required{% endblock %}>
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
                         </tr>
                     </table>
@@ -44,22 +49,22 @@
     <table id="main">
         <tr>
             <td class="pos">
-                <div id="positions">
-                    <table>
+                <div id="positions" class="container border rounded">
+                    <table class="table">
                         <tr>
                             <td>
-                                <p id="image_desc">Griffpositionen</p>
+                                <h3 id="image_desc" class="mb-3">Griffpositionen</h3>
                                 {% block delete_positions %}{% endblock %}
                             </td>
                             <td id="choices">
-                                <a>Rechte Hand =</a>
+                                <span>Rechte Hand :</span>
                                 <div class="r position option 1" id="oR1">1</div>
                                 <div class="r position option 2" id="oR2">2</div>
                                 <div class="r position option 3" id="oR3">3</div>
                                 <div class="r position option 4" id="oR4">4</div>
                                 <br>
                                 <br>
-                                <a>Linke Hand =</a>
+                                <span>Linke Hand :</span>
                                 <div class="l position option 1" id="oL1">1</div>
                                 <div class="l position option 2" id="oL2">2</div>
                                 <div class="l position option 3" id="oL3">3</div>
@@ -89,43 +94,43 @@
                 </div>
             </td>
             <td class="own_t">
-                <div id="own_container">
-                    <table id="own">
+                <div id="own_container" class="container border rounded">
+                    <table id="own" class="table table-borderless">
                         <caption id="own_techniques">Eigene Techniken</caption>
                         <tr>
-                            <td>
-                                <table class="own_techniques" id="own0">
+                            <td colspan="2">
+                                <table class="own_techniques border rounded" id="own0">
                                     {% block own0 %}{% endblock %}
                                 </table>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <table class="own_techniques" id="own5">
+                                <table class="own_techniques border rounded" id="own5">
                                     {% block own5 %}{% endblock %}
                                 </table>
                             </td>
                             <td>
-                                <table class="own_techniques" id="own1">
+                                <table class="own_techniques border rounded" id="own1">
                                     {% block own1 %}{% endblock %}
                                 </table>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <table class="own_techniques" id="own4">
+                                <table class="own_techniques border rounded" id="own4">
                                     {% block own4 %}{% endblock %}
                                 </table>
                             </td>
                             <td>
-                                <table class="own_techniques" id="own2">
+                                <table class="own_techniques border rounded" id="own2">
                                     {% block own2 %}{% endblock %}
                                 </table>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <table class="own_techniques" id="own3">
+                            <td colspan="2">
+                                <table class="own_techniques border rounded" id="own3">
                                     {% block own3 %}{% endblock %}
                                 </table>
                             </td>
@@ -135,21 +140,21 @@
             </td>
         </tr>
     </table>
-    <table id="ranks">
+    <table id="ranks" class="border rounded table table-responsive">
         <tr>
-            <td class="rank">
+            <td class="rank" colspan="5">
                 <table id="special_rank">
                     <caption>Spezialtechniken</caption>
                     {% block special %}{% endblock %}
                 </table>
             </td>
-            <td class="rank">
+            <td class="rank" colspan="4">
                 <table id="ground_rank">
                     <caption>Bodentechniken</caption>
                     {% block ground %}{% endblock %}
                 </table>
             </td>
-            <td class="rank">
+            <td class="rank" colspan="8">
                 <table id="combination_rank">
                     <caption>Kombinationen</caption>
                     {% block combination %}{% endblock %}

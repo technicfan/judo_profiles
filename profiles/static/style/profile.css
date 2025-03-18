@@ -1,15 +1,15 @@
 .position {
     cursor: auto;
 }
-.table {
-    display: inline-block;
-    margin-right: 10%;
-    border-color: unset;
+.d-inline-block.position {
+    /* display: inline-block; */
+    /* margin-right: 10%; */
+    border-color: var(--bs-body-color);
 }
-.table.l.no_margin {
-    margin-right: 0%;
-}
-.own_technique {
-    padding: 0px;
-    text-align: center;
-}
+/* .table.l.no_margin { */
+    /* margin-right: 0%; */
+/* } */
+/* .own_technique { */
+/*     padding: 0px; */
+/*     text-align: center; */
+/* } */

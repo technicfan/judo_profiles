@@ -9,17 +9,17 @@
 {% endblock %}
 
 {% block hidden_data %}
-    <div id="hidden_t">
+    <div id="hidden_t" class="d-none">
         {% for t in techniques %}
             <option value="{{ t.id }}">{{ t.name }}</option>
         {% endfor %}
     </div>
-    <div id="hidden_st">
+    <div id="hidden_st" class="d-none">
         {% for t in stechniques %}
             <option value="{{ t.id }}">{{ t.name }}</option>
         {% endfor %}
     </div>
-    <div id="hidden_gt">
+    <div id="hidden_gt" class="d-none">
         {% for t in gtechniques %}
             <option value="{{ t.id }}">{{ t.name }}</option>
         {% endfor %}
@@ -37,11 +37,18 @@
 {% endblock %}
 
 {% block general_info %}
-    <p id="title">Kämpferprofil von</p>
-    <input type="text" id="last_name" placeholder="Nachname" value="{{ profile.last_name|default:"" }}" required>, 
-    <input type="text" id="name" placeholder="Vorname" value="{{ profile.name|default:"" }}" required>
-    <input type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="Jahrgang" required>
-    <input type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)" value="{{ profile.weight|default:"" }}" required>
+            <td>
+                <input class="form-control" type="text" id="last_name" placeholder="Nachname" value="{{ profile.last_name|default:"" }}" required>
+            </td>
+            <td>
+                <input class="form-control" type="text" id="name" placeholder="Vorname" value="{{ profile.name|default:"" }}" required>
+            </td>
+            <td>
+                <input class="form-control" type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="Jahrgang" required>
+            </td>
+            <td>
+                <input class="form-control" type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)" value="{{ profile.weight|default:"" }}" required>
+            </td>
 {% endblock %}
 
 {% block delete_positions %}
