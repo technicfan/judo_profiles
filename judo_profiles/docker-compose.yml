@@ -26,8 +26,9 @@ services:
     volumes:
       - static:/app/staticfiles
   proxy:
-    build: ./nginx
+    image: nginx:1.27.4
     volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - static:/app/staticfiles
     ports:
       - 7000:80
