@@ -72,16 +72,8 @@
                             </td>
                         </tr>
                     </table>
-                    <style>
-                        #image_container {
-                            background-image: url('{% static "image/image.svg" %}');
-                        }
-                        [data-bs-theme=dark] #image_container {
-                            background-image: url('{% static "image/image-dark.svg" %}');
-                        }
-                    </style>
                     <div id="image_container">
-                        <img src="{% static "image/image.svg" %}" id="image">
+                        {% include "profiles/judogi.svg" %}
                         <div class="r move position 1" id="pR1">1</div>
                         <div class="r move position 2" id="pR2">2</div>
                         <div class="r move position 3" id="pR3">3</div>
@@ -99,40 +91,52 @@
                         <caption id="own_techniques">Eigene Techniken</caption>
                         <tr>
                             <td colspan="2">
-                                <table class="own_techniques border rounded" id="own0">
+                                <div class="middle border rounded text-center">
+                                    <table class="own_techniques m-2" id="own0">
+                                    </table>
                                     {% block own0 %}{% endblock %}
-                                </table>
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <table class="own_techniques border rounded" id="own5">
-                                    {% block own5 %}{% endblock %}
-                                </table>
+                                <div class="border rounded text-center mb-0">
+                                    <table class="own_techniques m-2" id="own5">
+                                    </table>
+                                        {% block own5 %}{% endblock %}
+                                </div>
                             </td>
                             <td>
-                                <table class="own_techniques border rounded" id="own1">
-                                    {% block own1 %}{% endblock %}
-                                </table>
+                                <div class="border rounded text-center">
+                                    <table class="own_techniques m-2" id="own1">
+                                    </table>
+                                        {% block own1 %}{% endblock %}
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <table class="own_techniques border rounded" id="own4">
-                                    {% block own4 %}{% endblock %}
-                                </table>
+                                <div class="border rounded text-center">
+                                    <table class="own_techniques m-2" id="own4">
+                                    </table>
+                                        {% block own4 %}{% endblock %}
+                                </div>
                             </td>
                             <td>
-                                <table class="own_techniques border rounded" id="own2">
-                                    {% block own2 %}{% endblock %}
-                                </table>
+                                <div class="border rounded text-center">
+                                    <table class="own_techniques m-2" id="own2">
+                                    </table>
+                                        {% block own2 %}{% endblock %}
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <table class="own_techniques border rounded" id="own3">
-                                    {% block own3 %}{% endblock %}
-                                </table>
+                                <div class="middle border rounded text-center">
+                                    <table class="own_techniques m-2" id="own3">
+                                    </table>
+                                        {% block own3 %}{% endblock %}
+                                </div>
                             </td>
                         </tr>
                     </table>

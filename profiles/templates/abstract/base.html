@@ -23,37 +23,34 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div id="nav" class="collapse navbar-collapse">
-                    <div class="navbar-nav me-auto d-flex">
-                        <a class="nav-link {% block home %}{% endblock %}" href="{% url "profiles-home" %}">Home</a>
+                    <div class="navbar-nav me-auto d-flex justify-content-center">
                         {% if request.user.is_authenticated %}
-                            <a class="nav-link {% block profiles %}{% endblock %}" href="{% url "profiles-profiles" %}">Profile</a>
-                        {% if request.user.profile %}
-                            <a class="nav-link {% block own %}{% endblock %}" href="{% url "profiles-profile" request.user.profile.id %}">Eigenes Profil</a>
-                        {% endif %}
-                        {% block actions %}{% endblock %}
-                        {% if request.user.is_superuser %}
-                            <a class="nav-link {% block manage %}{% endblock %}" href="{% url "users-manage" %}">Benutzerverwaltung</a>
-                        {% endif %}
-                        {% block admin_actions %}{% endblock %}
-                    </div>
-                    <div class="navbar-nav d-flex justify-content-end">
-                        <span class="nav-link">Hallo {{ request.user.first_name|default:request.user.username }}</span>
-                        <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()"></button>
-                        <a class="nav-link {% block update %}{% endblock %}" href="{% url "users-update" %}">Passwort ändern</a>
-                        <a class="nav-link" href="{% url "users-logout" %}">Abmelden</a>
-                    </div>
-                </div>
-            </div>
+                            <a class="nav-link {% block profiles %}{% endblock %}" href="{% url "profiles-profiles" %}">Übersicht</a>
+                            {% if request.user.profile %}
+                                <a class="nav-link {% block own %}{% endblock %}" href="{% url "profiles-profile" request.user.profile.id %}">Eigenes Profil</a>
+                            {% endif %}
+                            {% block actions %}{% endblock %}
+                            {% if request.user.is_superuser %}
+                                <a class="nav-link {% block manage %}{% endblock %}" href="{% url "users-manage" %}">Benutzerverwaltung</a>
+                            {% endif %}
+                            {% block admin_actions %}{% endblock %}
+                        </div>
+                        <div class="navbar-nav d-flex justify-content-end">
+                            <span class="nav-link">Hallo {{ request.user.first_name|default:request.user.username }}</span>
+                            <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()"></button>
+                            <a class="nav-link {% block update %}{% endblock %}" href="{% url "users-update" %}">Passwort ändern</a>
+                            <a class="nav-link" href="{% url "users-logout" %}">Abmelden</a>
                         {% else %}
                     </div>
                     <div class="navbar-nav d-flex">
                         <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()">Auto</button>
                         <a class="nav-link {% block login %}{% endblock %}" href="{% url "users-login" %}">Anmelden</a>
                         <a class="nav-link {% block register %}{% endblock %}" href="{% url "users-register" %}">Mit Token Registrieren</a>
+                        {% endif %}
+                        <a class="nav-link {% block about %}{% endblock %}" href="{% url "profiles-about" %}">Über</a>
                     </div>
                 </div>
             </div>
-                        {% endif %}
             <script src="{% static "script/colorscheme.js" %}"></script>
         </nav>
         {% block content %}{% endblock %}

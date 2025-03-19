@@ -29,26 +29,26 @@ function add_own(field, context = null){
     }
     if (number <= 3){
         let own_technique_html = `
-        <div class="own_technique" id="own` + field + "_" + number + `">
-            <select id="own` + field + "_d" + number + `" class="direction form-select d-inline" style="width: fit-content;" required>
+        <div class="own_technique text-center" id="own` + field + "_" + number + `">
+            <select id="own` + field + "_d" + number + `" class="direction form-select d-inline m-1" style="width: fit-content;" required>
                 <option value="" selected>Auslage</option>
                 <option value="l">Links</option>
                 <option value="r">Rechts</option>
             </select>
-            <select id="own` + field + "_t" + number + `" class="technique form-select d-inline" style="width: fit-content;">
+            <select id="own` + field + "_t" + number + `" class="technique form-select d-inline m-1" style="width: fit-content;">
                 <option value="" selected>Technik</option>` +
             stechniques +
             `</select>
-            <select id="own` + field + "_s" + number + `" class="state form-select d-inline" style="width: fit-content;" required>
+            <select id="own` + field + "_s" + number + `" class="state form-select d-inline m-1" style="width: fit-content;" required>
                 <option value="" selected>Stand</option>
                 <option value="W">W</option>
                 <option value="T">T</option>
                 <option value="Z">Z</option>
             </select>
-            <select id="own` + field + "_pl" + number + `" class="select_position left form-select d-inline" style="width: fit-content;" required>
+            <select id="own` + field + "_pl" + number + `" class="select_position left form-select d-inline m-1" style="width: fit-content;" required>
                 <option value="" selected>linke Griffposition</option>
             </select>
-            <select id="own` + field + "_pr" + number + `" class="select_position right form-select d-inline" style="width: fit-content;" required>
+            <select id="own` + field + "_pr" + number + `" class="select_position right form-select d-inline m-1" style="width: fit-content;" required>
                 <option value="" selected>rechte Griffposition</option>
             </select>
             <button id="own` + field + "_b" + number + `" class="btn btn-danger btn-sm" onclick="remove_own(` + field + `, this)">Löschen</button>

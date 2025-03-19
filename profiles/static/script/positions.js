@@ -28,6 +28,7 @@ function placeRelative(object, relativeY, relativeX){
 function colorSelected(classes, color){
     var selected = document.getElementsByClassName(classes)
     for (let i = 0; i < selected.length; i++) {
+        selected.item(i).style.color = color
         selected.item(i).style["border-color"] = color
     }
 }

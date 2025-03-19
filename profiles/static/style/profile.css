@@ -2,14 +2,10 @@
     cursor: auto;
 }
 .d-inline-block.position {
-    /* display: inline-block; */
-    /* margin-right: 10%; */
     border-color: var(--bs-body-color);
+    color: var(--bs-body-color);
 }
-/* .table.l.no_margin { */
-    /* margin-right: 0%; */
-/* } */
-/* .own_technique { */
-/*     padding: 0px; */
-/*     text-align: center; */
-/* } */
+#own > tbody > tr > td > div {
+    justify-content: center;
+    display: flex;
+}

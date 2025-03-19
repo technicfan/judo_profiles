@@ -19,8 +19,16 @@ def unique_username(username: str) -> str:
 
 
 @login_not_required
-def index(request):
-    return render(request, "index.html")
+def home(request):
+    if request.user.is_authenticated:
+        return redirect("profiles-profiles")
+    else:
+        return redirect("profiles-about")
+
+
+@login_not_required
+def about(request):
+    return render(request, "about.html")
 
 
 def start(request):

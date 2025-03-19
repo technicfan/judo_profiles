@@ -117,6 +117,7 @@ function delClick(){
     if (delete_mode){
         document.querySelectorAll(".move").forEach(position => {
             if (position.style.display == "flex"){
+                position.style.color = "var(--bs-body-color)"
                 position.style.borderColor = "var(--bs-body-color)"
             }
             position.style.cursor = "grab"
@@ -127,8 +128,9 @@ function delClick(){
         var count = 0
         document.querySelectorAll(".move").forEach(position => {
             if (position.style.display == "flex"){
+                position.style.color = "red"
                 position.style.borderColor = "red"
-                position.style.cursor = "not-allowed"
+                position.style.cursor = "crosshair"
                 count += 1
             }
         })
