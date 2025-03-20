@@ -118,7 +118,7 @@ def new_profile(request):
         return render(request, "profiles/new.html", {"techniques": techniques, "stechniques": stechniques, "gtechniques": gtechniques})
 
 
-@object_permission_required("profiles.change_profile", (Profile, "user__username", "username"))
+@object_permission_required("profiles.view_profile", (Profile, "user__username", "username"))
 def profile(request, username):
     profile = User.objects.get(username=username).profile
     own_techniques = OwnTechnique.objects.filter(profile=profile)
@@ -141,7 +141,6 @@ def edit_profile(request, username):
     if request.method == "POST":
         data = json.loads(request.body)
 
-        # profile = Profile.objects.get(id=profile_id)
         profile = User.objects.get(username=username).profile
 
         if data["action"] == "delete" and request.user == profile.created_by:
@@ -322,7 +321,8 @@ def manage_profile(request, username):
                         pass
 
             for user in remove:
-                remove_perm(permission, user, profile)
+                for p in permissions[permissions.index(permission):]:
+                    remove_perm(p, user, profile)
 
             return HttpResponse("success")
         elif "search" in request.POST:

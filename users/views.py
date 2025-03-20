@@ -56,27 +56,24 @@ def register(request):
 
 @login_not_required
 def login_user(request):
-    if request.user.is_authenticated:
-        return redirect("profiles-profiles")
-    else:
-        next = request.GET.get("next")
-        if request.method == "POST":
-            user = authenticate(request, username=request.POST["user"], password=request.POST["pass"])
-            if user is not None:
-                try:
-                    user.token.delete()
-                except Token.DoesNotExist:
-                    pass
-                login(request, user)
+    next = request.GET.get("next")
+    if request.method == "POST":
+        user = authenticate(request, username=request.POST["user"], password=request.POST["pass"])
+        if user is not None:
+            try:
+                user.token.delete()
+            except Token.DoesNotExist:
+                pass
+            login(request, user)
 
-                if next:
-                    return redirect(next)
-                else:
-                    return redirect("profiles-profiles")
+            if next:
+                return redirect(next)
             else:
-                return render(request, "login.html", {"next": next})
+                return redirect("profiles-profiles")
         else:
             return render(request, "login.html", {"next": next})
+    else:
+        return render(request, "login.html", {"next": next})
 
 
 def logout_user(request):

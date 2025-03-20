@@ -10,8 +10,13 @@
             <form method="post">
                 {% csrf_token %}
                 <input class="form-control-plaintext" type="text" name="username" value="{{ username }}">
-                <input class="form-control" type="password" name="password" placeholder="Passwort" required>
-                <input class="form-control" type="password" name="password_repeat" placeholder="Passwort wiederholen" required>
+                <input class="form-control" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort" required>
+                <ul>
+                    <li>mindestens 8 Zeichen</li>
+                    <li>jeweils mindestens ein Groß- und Kleinbuchstabe</li>
+                    <li>mindestens eine Ziffer</li>
+                </ul>
+                <input class="form-control" type="password" name="password_repeat" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort wiederholen" required>
                 <input class="btn btn-secondary" type="submit" value="Registrieren">
             </form>
         {% else %}
