@@ -12,7 +12,21 @@
             .nav-link {
                 width: fit-content;
             }
+            #noscript {
+                display: none;
+                width: fit-content;
+            }
         </style>
+        <noscript>
+            <style>
+                #noscript {
+                    display: unset;
+                }
+                #script {
+                    display: none;
+                }
+            </style>
+        </noscript>
         {% block style %}{% endblock %}
     </head>
     <body>
@@ -53,7 +67,12 @@
             </div>
             <script src="{% static "script/colorscheme.js" %}"></script>
         </nav>
-        {% block content %}{% endblock %}
+        <div id="noscript" class="container position-absolute top-50 start-50 translate-middle text-center alert-danger alert">
+            <h4>Diese Seite funktioniert nur mit Javascript - für die Nutzung bitte aktivieren</h4>
+        </div>
+        <div id="script">
+            {% block content %}{% endblock %}
+        </div>
         {% block script %}{% endblock %}
     </body>
 </html>
