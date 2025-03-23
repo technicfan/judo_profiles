@@ -46,126 +46,118 @@
             </tr>
         </table>
     </div>
-    <table id="main">
-        <tr>
-            <td class="pos">
-                <div id="positions" class="container border rounded">
-                    <table class="table">
-                        <tr>
-                            <td>
-                                <h3 id="image_desc" class="mb-3">Griffpositionen</h3>
-                                {% block delete_positions %}{% endblock %}
-                            </td>
-                            <td id="choices">
-                                <span>Rechte Hand :</span>
-                                <div class="r position option 1" id="oR1">1</div>
-                                <div class="r position option 2" id="oR2">2</div>
-                                <div class="r position option 3" id="oR3">3</div>
-                                <div class="r position option 4" id="oR4">4</div>
-                                <br>
-                                <br>
-                                <span>Linke Hand :</span>
-                                <div class="l position option 1" id="oL1">1</div>
-                                <div class="l position option 2" id="oL2">2</div>
-                                <div class="l position option 3" id="oL3">3</div>
-                                <div class="l position option 4" id="oL4">4</div>
-                            </td>
-                        </tr>
+    <div id="main" class="d-flex align-items-center flex-wrap container">
+        <div id="positions" class=" border rounded">
+            <table class="table">
+                <tr>
+                    <td>
+                        <h3 id="image_desc" class="mb-3">Griffpositionen</h3>
+                        {% block delete_positions %}{% endblock %}
+                    </td>
+                    <td id="choices">
+                        <span>Rechte Hand :</span>
+                        <div class="r position option 1" id="oR1">1</div>
+                        <div class="r position option 2" id="oR2">2</div>
+                        <div class="r position option 3" id="oR3">3</div>
+                        <div class="r position option 4" id="oR4">4</div>
+                        <br>
+                        <br>
+                        <span>Linke Hand :</span>
+                        <div class="l position option 1" id="oL1">1</div>
+                        <div class="l position option 2" id="oL2">2</div>
+                        <div class="l position option 3" id="oL3">3</div>
+                        <div class="l position option 4" id="oL4">4</div>
+                    </td>
+                </tr>
+            </table>
+            <div id="image_container">
+                {% include "profiles/judogi.svg" %}
+                <div class="r move position 1" id="pR1">1</div>
+                <div class="r move position 2" id="pR2">2</div>
+                <div class="r move position 3" id="pR3">3</div>
+                <div class="r move position 4" id="pR4">4</div>
+                <div class="l move position 1" id="pL1">1</div>
+                <div class="l move position 2" id="pL2">2</div>
+                <div class="l move position 3" id="pL3">3</div>
+                <div class="l move position 4" id="pL4">4</div>
+            </div>
+        </div>
+        <div class="border rounded">
+            <table id="own" class="caption-top">
+                <caption id="own_techniques">Eigene Techniken</caption>
+                <tr>
+                    <td>
+                        <div class="border rounded text-center ps-4 pe-4">
+                            <table class="own_techniques m-2" id="own5">
+                            </table>
+                                {% block own5 %}{% endblock %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="border rounded text-center ps-4 pe-4">
+                            <table class="own_techniques m-2" id="own0">
+                            </table>
+                            {% block own0 %}{% endblock %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="border rounded text-center ps-4 pe-4">
+                            <table class="own_techniques m-2" id="own1">
+                            </table>
+                                {% block own1 %}{% endblock %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="border rounded text-center ps-4 pe-4">
+                            <table class="own_techniques m-2" id="own4">
+                            </table>
+                                {% block own4 %}{% endblock %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="border rounded text-center ps-4 pe-4">
+                            <table class="own_techniques m-2" id="own3">
+                            </table>
+                                {% block own3 %}{% endblock %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="border rounded text-center ps-4 pe-4">
+                            <table class="own_techniques m-2" id="own2">
+                            </table>
+                                {% block own2 %}{% endblock %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="container border rounded ">
+        <table id="ranks" class="table table-responsive">
+            <tr>
+                <td class="rank" colspan="5">
+                    <table id="special_rank">
+                        <caption>Spezialtechniken</caption>
+                        {% block special %}{% endblock %}
                     </table>
-                    <div id="image_container">
-                        {% include "profiles/judogi.svg" %}
-                        <div class="r move position 1" id="pR1">1</div>
-                        <div class="r move position 2" id="pR2">2</div>
-                        <div class="r move position 3" id="pR3">3</div>
-                        <div class="r move position 4" id="pR4">4</div>
-                        <div class="l move position 1" id="pL1">1</div>
-                        <div class="l move position 2" id="pL2">2</div>
-                        <div class="l move position 3" id="pL3">3</div>
-                        <div class="l move position 4" id="pL4">4</div>
-                    </div>
-                </div>
-            </td>
-            <td class="own_t">
-                <div id="own_container" class="container border rounded">
-                    <table id="own" class="table table-borderless">
-                        <caption id="own_techniques">Eigene Techniken</caption>
-                        <tr>
-                            <td colspan="2">
-                                <div class="middle border rounded text-center">
-                                    <table class="own_techniques m-2" id="own0">
-                                    </table>
-                                    {% block own0 %}{% endblock %}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="border rounded text-center mb-0">
-                                    <table class="own_techniques m-2" id="own5">
-                                    </table>
-                                        {% block own5 %}{% endblock %}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="border rounded text-center">
-                                    <table class="own_techniques m-2" id="own1">
-                                    </table>
-                                        {% block own1 %}{% endblock %}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="border rounded text-center">
-                                    <table class="own_techniques m-2" id="own4">
-                                    </table>
-                                        {% block own4 %}{% endblock %}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="border rounded text-center">
-                                    <table class="own_techniques m-2" id="own2">
-                                    </table>
-                                        {% block own2 %}{% endblock %}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div class="middle border rounded text-center">
-                                    <table class="own_techniques m-2" id="own3">
-                                    </table>
-                                        {% block own3 %}{% endblock %}
-                                </div>
-                            </td>
-                        </tr>
+                </td>
+                <td class="rank" colspan="4">
+                    <table id="ground_rank">
+                        <caption>Bodentechniken</caption>
+                        {% block ground %}{% endblock %}
                     </table>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <table id="ranks" class="border rounded table table-responsive">
-        <tr>
-            <td class="rank" colspan="5">
-                <table id="special_rank">
-                    <caption>Spezialtechniken</caption>
-                    {% block special %}{% endblock %}
-                </table>
-            </td>
-            <td class="rank" colspan="4">
-                <table id="ground_rank">
-                    <caption>Bodentechniken</caption>
-                    {% block ground %}{% endblock %}
-                </table>
-            </td>
-            <td class="rank" colspan="8">
-                <table id="combination_rank">
-                    <caption>Kombinationen</caption>
-                    {% block combination %}{% endblock %}
-                </table>
-            </td>
-        </tr>
-    </table>
+                </td>
+                <td class="rank" colspan="8">
+                    <table id="combination_rank">
+                        <caption>Kombinationen</caption>
+                        {% block combination %}{% endblock %}
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
     {% block buttons %}{% endblock %}
     {% block form_container_end %}</div>{% endblock %}
 {% endblock %}

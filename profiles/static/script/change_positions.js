@@ -65,6 +65,7 @@ function mouseDownPos(e){
     move = document.getElementById(e.target.id)
     if (delete_mode){
         move.style.display = "none"
+        document.getElementById(getMatchingID(move.id)).style.color = "grey"
         document.getElementById(getMatchingID(move.id)).style.borderColor = "grey"
         if (move.className[0] == "l"){
             var side = "left"
@@ -72,7 +73,6 @@ function mouseDownPos(e){
             var side = "right"
         }
         $('.' + side + ' [value="' + move.className.slice(-1) + '"]').remove()
-        $('.' + side).val('').trigger('chosen:updated')
         move = null
     } else {
         move.style.cursor = "grabbing"

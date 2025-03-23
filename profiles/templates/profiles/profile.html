@@ -33,12 +33,12 @@
                     <td class="own_technique p-0 text-center">
                         <p>{{ t.technique }}</p>
                         {% if t.side %}
-                            <div class="d-inline-block mb-3 me-5 position l">L</div>
+                            <div class="d-inline-block mb-3 me-4 position l">L</div>
                         {% else %}
-                            <div class="d-inline-block mb-3 me-5 position r">R</div>
+                            <div class="d-inline-block mb-3 me-4 position r">R</div>
                         {% endif %}
                         <div class="d-inline-block mb-3 position l">{{ t.left_position.number }}</div>
-                        <div class="d-inline-block mb-3 me-5 position r">{{ t.right_position.number }}</div>
+                        <div class="d-inline-block mb-3 me-4 position r">{{ t.right_position.number }}</div>
                         {{ t.state }}
                     </td>
                 </tr>
@@ -57,8 +57,12 @@
 {% endblock %}
 
 {% block general_info %}
-    <p>{{ profile.last_name }}, {{ profile.name }} - Jahrgang: {{ profile.year }}, Gewicht: {{ profile.weight }}kg</p>
-    <p>geändert: {{ profile.updated_on }}</p>
+    <td>
+        <p>{{ profile.last_name }}, {{ profile.name }} - Jahrgang: {{ profile.year }}, Gewicht: {{ profile.weight }}kg</p>
+    </td>
+    <td>
+        <p>geändert: {{ profile.updated_on }}</p>
+    </td>
 {% endblock %}
 
 {% block opts_left %}onclick="return false" {% if profile.primary_side != 2 %} checked {% endif %}{% endblock %}

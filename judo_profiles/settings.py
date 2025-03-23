@@ -27,9 +27,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") == "True"
 
-if os.getenv("PUBLIC_URL"):
-    ALLOWED_HOSTS = [os.getenv("PUBLIC_URL", "").split("//")[-1].split(":")[0]]
-    CSRF_TRUSTED_ORIGINS = [os.getenv("PUBLIC_URL")]
+if os.getenv("ALLOWED_URLS"):
+    ALLOWED_HOSTS = [url.split("//")[-1].split(":")[0] for url in os.getenv("ALLOWED_URLS").split(" ")]
+    CSRF_TRUSTED_ORIGINS = os.getenv("ALLOWED_URLS").split(" ")
 else:
     ALLOWED_HOSTS = []
 

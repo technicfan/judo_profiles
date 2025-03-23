@@ -15,7 +15,7 @@ services:
       - db
     restart: unless-stopped
     environment:
-      - PUBLIC_URL=${PUBLIC_URL}
+      - ALLOWED_URLS=${ALLOWED_URLS}
       - SECRET_KEY=${SECRET_KEY}
       - DATABASE_ENGINE=postgresql
       - DATABASE_NAME=${DATABASE_NAME}
