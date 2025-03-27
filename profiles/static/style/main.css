@@ -94,3 +94,9 @@ label {
 .own_techniques td {
     width: 100%;
 }
+#general_container {
+    width: fit-content;
+}
+#own > tbody > tr > td {
+    max-width: min-content;
+}

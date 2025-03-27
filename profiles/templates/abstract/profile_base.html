@@ -16,8 +16,8 @@
         <table>
             <tr>
                 <td>
-                    <p id="title">Kämpferprofil von</p>
-                    <table>
+                    <p id="title" style="margin-top: 1rem;"><b>Kämpferprofil von</b></p>
+                    <table class="table table-borderless align-middle mb-0">
                         <tr>
                             {% block general_info %}{% endblock %}
                             <td>
@@ -47,8 +47,8 @@
         </table>
     </div>
     <div id="main" class="d-flex align-items-center flex-wrap container">
-        <div id="positions" class=" border rounded">
-            <table class="table">
+        <div id="positions" class="border rounded m-2">
+            <table class="table mt-1">
                 <tr>
                     <td>
                         <h3 id="image_desc" class="mb-3">Griffpositionen</h3>
@@ -82,56 +82,58 @@
                 <div class="l move position 4" id="pL4">4</div>
             </div>
         </div>
-        <div class="border rounded">
-            <table id="own" class="caption-top">
-                <caption id="own_techniques">Eigene Techniken</caption>
-                <tr>
-                    <td>
-                        <div class="border rounded text-center ps-4 pe-4">
-                            <table class="own_techniques m-2" id="own5">
-                            </table>
-                                {% block own5 %}{% endblock %}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="border rounded text-center ps-4 pe-4">
-                            <table class="own_techniques m-2" id="own0">
-                            </table>
-                            {% block own0 %}{% endblock %}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="border rounded text-center ps-4 pe-4">
-                            <table class="own_techniques m-2" id="own1">
-                            </table>
-                                {% block own1 %}{% endblock %}
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="border rounded text-center ps-4 pe-4">
-                            <table class="own_techniques m-2" id="own4">
-                            </table>
-                                {% block own4 %}{% endblock %}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="border rounded text-center ps-4 pe-4">
-                            <table class="own_techniques m-2" id="own3">
-                            </table>
-                                {% block own3 %}{% endblock %}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="border rounded text-center ps-4 pe-4">
-                            <table class="own_techniques m-2" id="own2">
-                            </table>
-                                {% block own2 %}{% endblock %}
-                        </div>
-                    </td>
-                </tr>
-            </table>
+        <div class="border rounded m-2">
+            <div class="table-responsive"> 
+                <table id="own" class="table table-borderless caption-top m-2 text-nowrap" style="min-width: auto;">
+                    <caption id="own_techniques">Eigene Techniken</caption>
+                    <tr>
+                        <td>
+                            <div class="border rounded text-center" style="min-width: fit-content;">
+                                <table class="own_techniques m-2" id="own5">
+                                </table>
+                                    {% block own5 %}{% endblock %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="border rounded text-center" style="min-width: fit-content;">
+                                <table class="own_techniques m-2" id="own0">
+                                </table>
+                                {% block own0 %}{% endblock %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="border rounded text-center" style="min-width: fit-content;">
+                                <table class="own_techniques m-2" id="own1">
+                                </table>
+                                    {% block own1 %}{% endblock %}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="border rounded text-center" style="min-width: fit-content;">
+                                <table class="own_techniques m-2" id="own4">
+                                </table>
+                                    {% block own4 %}{% endblock %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="border rounded text-center" style="min-width: fit-content;">
+                                <table class="own_techniques m-2" id="own3">
+                                </table>
+                                    {% block own3 %}{% endblock %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="border rounded text-center" style="min-width: fit-content;">
+                                <table class="own_techniques m-2" id="own2">
+                                </table>
+                                    {% block own2 %}{% endblock %}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
     <div class="container border rounded ">

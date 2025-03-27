@@ -38,10 +38,10 @@
 
 {% block general_info %}
             <td>
-                <input class="form-control" type="text" id="last_name" placeholder="Nachname" value="{{ profile.last_name|default:"" }}" required>
+                <input class="form-control" type="text" id="name" placeholder="Vorname" value="{{ profile.name|default:"" }}" required>
             </td>
             <td>
-                <input class="form-control" type="text" id="name" placeholder="Vorname" value="{{ profile.name|default:"" }}" required>
+                <input class="form-control" type="text" id="last_name" placeholder="Nachname" value="{{ profile.last_name|default:"" }}" required>
             </td>
             <td>
                 <input class="form-control" type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="Jahrgang" required>

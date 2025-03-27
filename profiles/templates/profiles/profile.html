@@ -58,7 +58,7 @@
 
 {% block general_info %}
     <td>
-        <p>{{ profile.last_name }}, {{ profile.name }} - Jahrgang: {{ profile.year }}, Gewicht: {{ profile.weight }}kg</p>
+        <p>{{ profile.name }} {{ profile.last_name }}<br><b>Jahrgang:</b> {{ profile.year }}<br><b>Gewicht:</b> {{ profile.weight }}kg</p>
     </td>
     <td>
         <p>geändert: {{ profile.updated_on }}</p>
