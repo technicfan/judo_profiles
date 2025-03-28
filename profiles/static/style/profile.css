@@ -9,3 +9,6 @@
     justify-content: center;
     display: flex;
 }
+#own > tbody > tr > td, #own > tbody > tr > td > div {
+    width: 15rem;
+}

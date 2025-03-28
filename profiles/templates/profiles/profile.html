@@ -57,12 +57,18 @@
 {% endblock %}
 
 {% block general_info %}
-    <td>
-        <p>{{ profile.name }} {{ profile.last_name }}<br><b>Jahrgang:</b> {{ profile.year }}<br><b>Gewicht:</b> {{ profile.weight }}kg</p>
-    </td>
-    <td>
+    <div>
+        <p>{{ profile.name }} {{ profile.last_name }}</p>
+    </div>
+    <div>
+        <p><b>Jahrgang:</b> {{ profile.year }}</p>
+    </div>
+    <div>
+        <p><b>Gewicht:</b> {{ profile.weight }}kg</p>
+    </div>
+    <div>
         <p>geändert: {{ profile.updated_on }}</p>
-    </td>
+    </div>
 {% endblock %}
 
 {% block opts_left %}onclick="return false" {% if profile.primary_side != 2 %} checked {% endif %}{% endblock %}

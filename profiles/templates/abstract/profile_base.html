@@ -17,10 +17,10 @@
             <tr>
                 <td>
                     <p id="title" style="margin-top: 1rem;"><b>Kämpferprofil von</b></p>
-                    <table class="table table-borderless align-middle mb-0">
-                        <tr>
+                    <div  id="general_info" class="d-flex align-items-center flex-wrap justify-content-center mb-1">
+                        <!-- <tr> -->
                             {% block general_info %}{% endblock %}
-                            <td>
+                            <div>
                                 <table>
                                     <tr>
                                         <td>
@@ -39,15 +39,15 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </td>
-                        </tr>
-                    </table>
+                            </div>
+                        <!-- </tr> -->
+                    </div>
                 </td>
             </tr>
         </table>
     </div>
-    <div id="main" class="d-flex align-items-center flex-wrap container">
-        <div id="positions" class="border rounded m-2">
+    <div id="main" class="d-flex align-items-center flex-wrap justify-content-center">
+        <div id="positions" class="border rounded m-2" style="width: 32.6rem;">
             <table class="table mt-1">
                 <tr>
                     <td>
@@ -83,49 +83,49 @@
             </div>
         </div>
         <div class="border rounded m-2">
-            <div class="table-responsive"> 
-                <table id="own" class="table table-borderless caption-top m-2 text-nowrap" style="min-width: auto;">
+            <div class="table-responsive container" style="padding-left: unset; padding-right: unset;"> 
+                <table id="own" class="table table-borderless caption-top m-2 text-nowrap" style="width: auto;">
                     <caption id="own_techniques">Eigene Techniken</caption>
-                    <tr>
+                    <tr class="align-bottom">
                         <td>
-                            <div class="border rounded text-center" style="min-width: fit-content;">
+                            <div class="border rounded text-center">
                                 <table class="own_techniques m-2" id="own5">
                                 </table>
                                     {% block own5 %}{% endblock %}
                             </div>
                         </td>
-                        <td>
-                            <div class="border rounded text-center" style="min-width: fit-content;">
+                        <td class="align-top">
+                            <div class="border rounded text-center">
                                 <table class="own_techniques m-2" id="own0">
                                 </table>
                                 {% block own0 %}{% endblock %}
                             </div>
                         </td>
                         <td>
-                            <div class="border rounded text-center" style="min-width: fit-content;">
+                            <div class="border rounded text-center">
                                 <table class="own_techniques m-2" id="own1">
                                 </table>
                                     {% block own1 %}{% endblock %}
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="align-top">
                         <td>
-                            <div class="border rounded text-center" style="min-width: fit-content;">
+                            <div class="border rounded text-center">
                                 <table class="own_techniques m-2" id="own4">
                                 </table>
                                     {% block own4 %}{% endblock %}
                             </div>
                         </td>
-                        <td>
-                            <div class="border rounded text-center" style="min-width: fit-content;">
+                        <td class="align-bottom">
+                            <div class="border rounded text-center">
                                 <table class="own_techniques m-2" id="own3">
                                 </table>
                                     {% block own3 %}{% endblock %}
                             </div>
                         </td>
                         <td>
-                            <div class="border rounded text-center" style="min-width: fit-content;">
+                            <div class="border rounded text-center">
                                 <table class="own_techniques m-2" id="own2">
                                 </table>
                                     {% block own2 %}{% endblock %}

@@ -97,6 +97,9 @@ label {
 #general_container {
     width: fit-content;
 }
-#own > tbody > tr > td {
-    max-width: min-content;
+#own > tbody > tr > td, #own > tbody > tr > td > div {
+    width: 25rem;
+}
+#general_info > div {
+    padding: .5rem;
 }

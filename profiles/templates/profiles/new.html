@@ -37,18 +37,18 @@
 {% endblock %}
 
 {% block general_info %}
-            <td>
+            <div>
                 <input class="form-control" type="text" id="name" placeholder="Vorname" value="{{ profile.name|default:"" }}" required>
-            </td>
-            <td>
+            </div>
+            <div>
                 <input class="form-control" type="text" id="last_name" placeholder="Nachname" value="{{ profile.last_name|default:"" }}" required>
-            </td>
-            <td>
-                <input class="form-control" type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="Jahrgang" required>
-            </td>
-            <td>
-                <input class="form-control" type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)" value="{{ profile.weight|default:"" }}" required>
-            </td>
+            </div>
+            <div>
+                <input class="form-control" type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="Jahrgang" size="5" required>
+            </div>
+            <div>
+                <input class="form-control" type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)" value="{{ profile.weight|default:"" }}" size="8" required>
+            </div>
 {% endblock %}
 
 {% block delete_positions %}
