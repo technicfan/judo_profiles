@@ -62,6 +62,7 @@ function add_own(field, context = null){
                     </td>
                 </tr>
             </table>
+            <hr class="my-1">
         </div>
         `
 

@@ -54,7 +54,7 @@
                                                 await navigator.clipboard.writeText(token)
                                                 button.innerHTML = "Token kopiert"
                                                 button.classList.add("active")
-                                                await delay(2500)
+                                                await delay(1500)
                                                 button.innerHTML = "Token kopieren"
                                                 button.classList.remove("active")
                                             }
@@ -71,13 +71,13 @@
             </form>
         </div>
     <div class="container">
-        <h2>Berechtigungen</h2>
+        <h2 class="mb-2">Berechtigungen von {{ user }}</h2>
         {% if user.is_active %}
             <form hx-post=""
                 hx-swap="innerHTML settle:3s"
                 hx-target="#success">
                     {% csrf_token %}
-                    <select id="permission" name="permission" class="form-select">
+                    <select id="permission" name="permission" class="form-select mb-2">
                         <option value="view_profile">Anzeigen</option>
                         {% if user|has_group:"Trainers" %}
                             <option value="change_profile">Bearbeiten</option>

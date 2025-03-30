@@ -89,7 +89,7 @@ function mouseMovePos(e){
     }
 }
 
-function mouseUpPos(e){
+function mouseUpPos(){
     if (move != null){
         move.style.cursor = "grab"
         document.removeEventListener("mousemove", mouseMovePos)

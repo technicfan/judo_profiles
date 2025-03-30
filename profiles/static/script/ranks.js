@@ -7,7 +7,7 @@ function add_rank_item(type, context = null){
             var number = special
             var html = `
             <div class="special rank_item" id="special_item` + number + `">
-                <p class="number">` + number + `: </p>
+                <p class="number"><b>` + number + `</b></p>
                 <select id="special_t` + number + `" class="technique form-select d-inline" style="width: fit-content;" required>
                     <option value="" selected>Technik</option>` +
                     techniques +
@@ -21,7 +21,7 @@ function add_rank_item(type, context = null){
             var number = ground
             var html = `
             <div class="ground rank_item" id="ground_item` + number + `">
-                <p class="number">` + number + `: </p>
+                <p class="number"><b>` + number + `</b></p>
                 <select id="ground_t` + number + `" class="technique form-select d-inline" style="width: fit-content;" required>
                     <option value="" selected>Technik</option>` +
                     gtechniques +
@@ -35,7 +35,7 @@ function add_rank_item(type, context = null){
             var number = combination
             var html = `
             <div class="combination rank_item" id="combination_item` + number + `">
-                <p class="number">` + number + `: </p>
+                <p class="number"><b>` + number + `</b></p>
                 <select id="combination_t1` + number + `" class="technique1 form-select d-inline" style="width: fit-content;" required>
                     <option value="" selected>1. Technik</option>` +
                     techniques +
@@ -99,7 +99,7 @@ function remove_rank(type, element){
                 let id = div.id
                 $("#" + type + (curr_number - 1)).append(div)
                 var div = document.getElementById(id)
-                div.querySelector("p").innerHTML = curr_number - 1  + ": "
+                div.querySelector("p").innerHTML = "<b>" + (curr_number - 1)  + "</b>"
                 div.id = div.id.slice(0, -1) + (curr_number - 1)
             }
         })

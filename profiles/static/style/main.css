@@ -77,10 +77,10 @@ label {
 .number {
     display: inline;
 }
-#ranks {
-    width: 100%;
-    table-layout: fixed;
-}
+/* #ranks { */
+/*     width: 100%; */
+/*     table-layout: fixed; */
+/* } */
 .rank_item {
     text-align: center;
     vertical-align: middle;

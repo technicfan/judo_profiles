@@ -56,10 +56,9 @@
     </ul>
 {% endblock %}
 
+{% block name %}{{ profile.name }} {{ profile.last_name }}{% endblock %}
+
 {% block general_info %}
-    <div>
-        <p>{{ profile.name }} {{ profile.last_name }}</p>
-    </div>
     <div>
         <p><b>Jahrgang:</b> {{ profile.year }}</p>
     </div>
@@ -67,7 +66,7 @@
         <p><b>Gewicht:</b> {{ profile.weight }}kg</p>
     </div>
     <div>
-        <p>geändert: {{ profile.updated_on }}</p>
+        <p><b>geändert:</b> {{ profile.updated_on }}</p>
     </div>
 {% endblock %}
 

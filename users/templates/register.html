@@ -17,13 +17,13 @@
                     <li>mindestens eine Ziffer</li>
                 </ul>
                 <input class="form-control" type="password" name="password_repeat" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort wiederholen" required>
-                <input class="btn btn-secondary" type="submit" value="Registrieren">
+                <input class="btn btn-secondary mt-4" type="submit" value="Registrieren">
             </form>
         {% else %}
             <form method="post">
                 {% csrf_token %}
                 <input class="form-control" type="text" name="token" placeholder="token" required>
-                <input class="btn btn-secondary" type="submit" value="Mit dem Token registrieren">
+                <input class="btn btn-secondary mt-4" type="submit" value="Mit dem Token registrieren">
             </form>
         {% endif %}
     </div>
