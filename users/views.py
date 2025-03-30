@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User, Group, Permission
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
@@ -26,7 +26,7 @@ def register(request):
                     if token.valid_for < 1:
                         raise Token.DoesNotExist
                 except Token.DoesNotExist:
-                    return HttpResponseRedirect("")
+                    return redirect("users-register")
                 username = token.user.username
 
                 return render(request, "register.html", {"username": username, "post": True})
@@ -47,9 +47,9 @@ def register(request):
                     else:
                         raise User.DoesNotExist
                 except (User.DoesNotExist, Token.DoesNotExist):
-                    return HttpResponseRedirect("")
+                    return redirect("users-register")
             else:
-                return HttpResponseRedirect("")
+                return redirect("users-register")
         else:
             return render(request, "register.html", {})
 
@@ -153,7 +153,7 @@ def manage_users(request):
 
             return render(request, "htmx/users.html", {"users": users})
 
-        return HttpResponseRedirect("")
+        return redirect("users-manage")
     else:
         return render(request, "users.html")
 
@@ -234,7 +234,7 @@ def user_permissions(request, username):
                 for p in permissions[permissions.index(permission):]:
                     remove_perm(p, user, profile)
 
-            return HttpResponse("success")
+            return HttpResponse("Gespeichert")
         elif "search" in request.POST:
             search = request.POST["search"]
             permission = request.POST["permission"]
@@ -244,7 +244,7 @@ def user_permissions(request, username):
 
             return render(request, "htmx/user_permissions.html", {"profiles": filtered, "user": user, "permission": permission})
 
-        return HttpResponseRedirect("")
+        return redirect("users-user", username=username)
     else:
 
         return render(request, "users/manage.html", {"user": user})

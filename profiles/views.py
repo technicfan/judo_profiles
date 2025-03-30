@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import permission_required, login_not_required
@@ -254,7 +254,7 @@ def edit_profile(request, username):
 
             if data["action"] == "save":
 
-                return HttpResponseRedirect("")
+                return redirect("profiles-profile-edit", username=profile.user.username)
 
             else:
 
@@ -324,7 +324,7 @@ def manage_profile(request, username):
                 for p in permissions[permissions.index(permission):]:
                     remove_perm(p, user, profile)
 
-            return HttpResponse("success")
+            return HttpResponse("Gespeichert")
         elif "search" in request.POST:
             search = request.POST["search"]
             permission = request.POST["permission"]
@@ -339,7 +339,7 @@ def manage_profile(request, username):
 
             return render(request, "htmx/profile_permissions.html", {"users": filtered, "profile": profile, "permission": permission})
 
-        return HttpResponseRedirect("")
+        return redirect("profiles-profile-manage", username=username)
     else:
 
         return render(request, "profiles/manage.html", {"profile": profile})
