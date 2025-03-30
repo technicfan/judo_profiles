@@ -12,13 +12,13 @@
         {% block hidden_data %}{% endblock %}
     </div>
     {% block form_container %}<div id="form_container">{% endblock %}
-    <div id="general_container" class="container d-flex justify-content-center border rounded">
-        <table>
-            <tr>
-                <td>
-                    <p id="title" style="margin-top: 1rem;"><b>Kämpferprofil von</b></p>
-                    <div  id="general_info" class="d-flex align-items-center flex-wrap justify-content-center mb-1">
-                        <!-- <tr> -->
+    <div class="mx-2">
+        <div id="general_container" class="border rounded mx-auto px-2">
+            <table>
+                <tr>
+                    <td>
+                        <p id="title" style="margin-top: 1rem;"><b>Kämpferprofil von</b></p>
+                        <div  id="general_info" class="d-flex align-items-center flex-wrap justify-content-center mb-1">
                             {% block general_info %}{% endblock %}
                             <div>
                                 <table>
@@ -40,36 +40,35 @@
                                     </tr>
                                 </table>
                             </div>
-                        <!-- </tr> -->
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id="main" class="d-flex align-items-center flex-wrap justify-content-center">
-        <div id="positions" class="border rounded m-2" style="width: 32.6rem;">
-            <table class="table mt-1">
-                <tr>
-                    <td>
-                        <h3 id="image_desc" class="mb-3">Griffpositionen</h3>
-                        {% block delete_positions %}{% endblock %}
-                    </td>
-                    <td id="choices">
-                        <span>Rechte Hand :</span>
-                        <div class="r position option 1" id="oR1">1</div>
-                        <div class="r position option 2" id="oR2">2</div>
-                        <div class="r position option 3" id="oR3">3</div>
-                        <div class="r position option 4" id="oR4">4</div>
-                        <br>
-                        <br>
-                        <span>Linke Hand :</span>
-                        <div class="l position option 1" id="oL1">1</div>
-                        <div class="l position option 2" id="oL2">2</div>
-                        <div class="l position option 3" id="oL3">3</div>
-                        <div class="l position option 4" id="oL4">4</div>
+                        </div>
                     </td>
                 </tr>
             </table>
+        </div>
+    </div>
+    <div id="main" class="d-flex align-items-center flex-wrap justify-content-center">
+        <div id="positions" class="border rounded m-2" style="width: 31.9rem;">
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="my-3 mx-3" style="width: fit-content;">
+                    <h3 id="image_desc" class="mb-3">Griffpositionen</h3>
+                    {% block delete_positions %}{% endblock %}
+                </div>
+                <div id="choices" class="my-3 mx-auto" style="width: fit-content;">
+                    <span>Rechte Hand :</span>
+                    <div class="r position option 1" id="oR1">1</div>
+                    <div class="r position option 2" id="oR2">2</div>
+                    <div class="r position option 3" id="oR3">3</div>
+                    <div class="r position option 4" id="oR4">4</div>
+                    <br>
+                    <br>
+                    <span>Linke Hand :</span>
+                    <div class="l position option 1" id="oL1">1</div>
+                    <div class="l position option 2" id="oL2">2</div>
+                    <div class="l position option 3" id="oL3">3</div>
+                    <div class="l position option 4" id="oL4">4</div>
+                </div>
+            </div>
+            <hr>
             <div id="image_container">
                 {% include "profiles/judogi.svg" %}
                 <div class="r move position 1" id="pR1">1</div>
@@ -82,8 +81,8 @@
                 <div class="l move position 4" id="pL4">4</div>
             </div>
         </div>
-        <div class="border rounded m-2">
-            <div class="table-responsive container" style="padding-left: unset; padding-right: unset;"> 
+        <div class="border rounded m-2" style="min-width: 0;">
+            <div class="table-responsive container" style="padding-left: unset; padding-right: unset; width: unset;"> 
                 <table id="own" class="table table-borderless caption-top m-2 text-nowrap" style="width: auto;">
                     <caption id="own_techniques">Eigene Techniken</caption>
                     <tr class="align-bottom">
