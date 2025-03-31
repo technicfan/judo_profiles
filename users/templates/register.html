@@ -5,10 +5,10 @@
 {% block register %}active" aria-current="page{% endblock %}
 
 {% block content %}
-    <div class="container">
-        {% if post %}
-            <form method="post">
-                {% csrf_token %}
+    <div class="d-flex justify-content-center">
+        <form method="post" style="width: 27rem;">
+            {% csrf_token %}
+            {% if post %}
                 <input class="form-control-plaintext" type="text" name="username" value="{{ username }}">
                 <input class="form-control" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort" required>
                 <ul>
@@ -18,13 +18,10 @@
                 </ul>
                 <input class="form-control" type="password" name="password_repeat" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort wiederholen" required>
                 <input class="btn btn-secondary mt-4" type="submit" value="Registrieren">
-            </form>
-        {% else %}
-            <form method="post">
-                {% csrf_token %}
+            {% else %}
                 <input class="form-control" type="text" name="token" placeholder="token" required>
                 <input class="btn btn-secondary mt-4" type="submit" value="Mit dem Token registrieren">
-            </form>
-        {% endif %}
+            {% endif %}
+        </form>
     </div>
 {% endblock %}

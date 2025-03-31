@@ -71,7 +71,7 @@ def login_user(request):
             else:
                 return redirect("profiles-profiles")
         else:
-            return render(request, "login.html", {"next": next})
+            return render(request, "login.html", {"next": next, "wrong": True})
     else:
         return render(request, "login.html", {"next": next})
 

@@ -1,17 +1,21 @@
-{% load guardian_tags %}
-{% for i in profiles %}
-    {% get_obj_perms request.user for i as "i_perms" %}
-    <tr>
-        <td><a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile" i.user.username %}">{{ i }}</a>{% if request.user == i.user %} (Eigenes Profil){% endif %}</td>
-        <td>
-            {% if "change_profile" in i_perms %}
-                <a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile-edit" i.user.username %}">Bearbeiten</a>
-            {% endif %}
-        </td>
-        <td>
-            {% if "manage_profile" in i_perms %}
-                <a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile-manage" i.user.username %}">Zugriff verwalten</a>
-            {% endif %}
-        </td>
-    </tr>
-{% endfor %}
+{% if profiles %}
+    {% load guardian_tags %}
+    {% for i in profiles %}
+        {% get_obj_perms request.user for i as "i_perms" %}
+        <tr>
+            <td><a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile" i.user.username %}">{{ i }}</a>{% if request.user == i.user %} (Eigenes Profil){% endif %}</td>
+            <td>
+                {% if "change_profile" in i_perms %}
+                    <a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile-edit" i.user.username %}">Bearbeiten</a>
+                {% endif %}
+            </td>
+            <td>
+                {% if "manage_profile" in i_perms %}
+                    <a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile-manage" i.user.username %}">Zugriff verwalten</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <div class="container text-center"><p>Keine Profile gefunden</p></div>
+{% endif%}

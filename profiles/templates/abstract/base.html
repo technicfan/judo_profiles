@@ -16,6 +16,9 @@
                 display: none;
                 width: fit-content;
             }
+            .form-control, .form-select {
+                max-width: 27rem;
+            }
         </style>
         <noscript>
             <style>
@@ -42,7 +45,7 @@
                             {% if request.user.is_authenticated %}
                                 <a class="nav-link {% block profiles %}{% endblock %}" href="{% url "profiles-profiles" %}">Übersicht</a>
                                 {% if request.user.profile %}
-                                    <a class="nav-link {% block own %}{% endblock %}" href="{% url "profiles-profile" request.user.profile.id %}">Eigenes Profil</a>
+                                    <a class="nav-link {% block own %}{% endblock %}" href="{% url "profiles-profile" request.user.username %}">Eigenes Profil</a>
                                 {% endif %}
                                 {% block actions %}{% endblock %}
                                 {% if request.user.is_superuser %}

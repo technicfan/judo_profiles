@@ -25,8 +25,10 @@
 {% endblock %}
 
 {% block content %}
-        <div class="container">
-            <form method="post">
+    <div class="container">
+        <div class="row mb-3">
+            <h2 class="col">Berechtigungen von {{ user }}</h2>
+            <form method="post" class="col">
             {% csrf_token %}
                 <div class="d-flex justify-content-end">
                     {% if not user.token and not user.is_active %}
@@ -70,27 +72,27 @@
                 </div>
             </form>
         </div>
+    </div>
     <div class="container">
-        <h2 class="mb-2">Berechtigungen von {{ user }}</h2>
         {% if user.is_active %}
             <form hx-post=""
                 hx-swap="innerHTML settle:3s"
                 hx-target="#success">
-                    {% csrf_token %}
-                    <select id="permission" name="permission" class="form-select mb-2">
-                        <option value="view_profile">Anzeigen</option>
-                        {% if user|has_group:"Trainers" %}
-                            <option value="change_profile">Bearbeiten</option>
-                            <option value="manage_profile">Verwalten</option>
-                        {% endif %}
-                    </select>
-                    <input class="form-control" id="search" type="search"
-                        name="search" placeholder="Profil suchen..."
-                        hx-post=""
-                        hx-target="#profiles"
-                        hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#permission, load"
-                        hx-include="#permission"
-                        hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
+                {% csrf_token %}
+                <select id="permission" name="permission" class="form-select mb-2 mx-auto">
+                    <option value="view_profile">Anzeigen</option>
+                    {% if user|has_group:"Trainers" %}
+                        <option value="change_profile">Bearbeiten</option>
+                        <option value="manage_profile">Verwalten</option>
+                    {% endif %}
+                </select>
+                <input class="form-control mx-auto" id="search" type="search"
+                    name="search" placeholder="Profil suchen..."
+                    hx-post=""
+                    hx-target="#profiles"
+                    hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#permission, load"
+                    hx-include="#permission"
+                    hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
                 <table class="table">
                     <thead>
                         <th>Profil</th>
@@ -99,7 +101,7 @@
                 </table>
                 <br>
                 <input class="btn btn-secondary" type="submit" name="update" value="Speichern">
-                <span id="success"></span>
+                <span id="success" class="ms-2"></span>
                 <style>
                     #success.htmx-settling {
                         opacity: 100;

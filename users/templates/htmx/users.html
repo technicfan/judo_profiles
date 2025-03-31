@@ -1,31 +1,38 @@
-{% load has_group %}
-
-{% for user in users %}
-    <tr>
-        <td>
-            <a class="link-body-emphasis link-underline-opacity-0" href="{% url "users-user" user %}">{{ user }}</a>
-        </td>
-        <td>
-            {% if not user.is_active %}
-                <span class="badge text-bg-secondary">inaktiv</span>
-            {% endif %}
-            {% if user.token %}
-                {% if user.token.valid_for < 1 %}
-                    <span class="badge text-bg-secondary">token abgelaufen</span>
+{% if users %}
+    {% load has_group %}
+    {% for user in users %}
+        <tr>
+            <td>
+                <a class="link-body-emphasis link-underline-opacity-0" href="{% url "users-user" user %}">{{ user }}</a>
+            </td>
+            <td>
+                {% if not user.is_active %}
+                    <span class="badge text-bg-secondary">inaktiv</span>
                 {% else %}
-                    <span class="badge text-bg-success">token erstellt</span>
+                    <span class="badge text-bg-success">aktiv</span>
                 {% endif %}
-            {% endif %}
-            {% if user|has_group:"Trainers" %}
-                <span class="badge text-bg-warning">trainer*in</span>
-            {% endif %}
-        </td>
-        <td>
-            <form onsubmit="if (!confirm('{{ user }} wirklich unwiederruflich löschen?\n{% if user|has_group:"Trainers" %}Alle, von {{ user }} erstellten Profile werden gelöscht!!{% else %}Auch das Profil von {{ user }} wird gelöscht!{% endif %}')){ return false }" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="delete" value="{{ user }}">
-                <input type="submit" class="btn btn-danger btn-sm" value="Löschen">
-            </form>
-        </td>
-    </tr>
-{% endfor %}
+                {% if user.token %}
+                    {% if user.token.valid_for < 1 %}
+                        <span class="badge text-bg-secondary">token abgelaufen</span>
+                    {% else %}
+                        <span class="badge text-bg-info">token erstellt</span>
+                    {% endif %}
+                {% endif %}
+                {% if user|has_group:"Trainers" %}
+                    <span class="badge text-bg-warning">trainer*in</span>
+                {% elif not user.profile %}
+                    <span class="badge text-bg-danger">ohne profil</span>
+                {% endif %}
+            </td>
+            <td>
+                <form onsubmit="if (!confirm('{{ user }} wirklich unwiederruflich löschen?\n{% if user|has_group:"Trainers" %}Alle, von {{ user }} erstellten Profile werden gelöscht!!{% else %}Auch das Profil von {{ user }} wird gelöscht!{% endif %}')){ return false }" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="delete" value="{{ user }}">
+                    <input type="submit" class="btn btn-danger btn-sm" value="Löschen">
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <div class="container text-center"><p>Keine Nutzer*innen gefunden</p></div>
+{% endif %}

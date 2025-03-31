@@ -334,8 +334,6 @@ def manage_profile(request, username):
             else:
                 users = users.filter(groups__name="Trainers")
             filtered = users.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search))
-            if filtered.count() == 0:
-                filtered = None
 
             return render(request, "htmx/profile_permissions.html", {"users": filtered, "profile": profile, "permission": permission})
 

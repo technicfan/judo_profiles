@@ -14,7 +14,7 @@
 
 {% block content %}
     <div class="container">
-        <select id="type" name="type" class="form-select mb-2">
+        <select id="type" name="type" class="form-select mb-2 mx-auto">
             <option value="">Alle</option>
             <option value="a" selected>Aktive</option>
             <option value="au">Aktive Judoka</option>
@@ -23,14 +23,14 @@
             <option value="iu">Inaktive Judoka</option>
             <option value="it">Inaktive Trainer*innen</option>
         </select>
-        <input class="form-control" type="search"
+        <input class="form-control mx-auto" type="search"
             name="search" placeholder="Benutzer*in suchen..."
             hx-post=""
             hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#type, load"
             hx-target="#users"
             hx-include="#type"
             hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
-        <table class="table">
+        <table class="table align-middle">
             <thead>
                 <th>Benutzername</th>
                 <th></th>

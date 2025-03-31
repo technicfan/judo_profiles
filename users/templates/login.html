@@ -5,17 +5,25 @@
 {% block login %}active" aria-current="page{% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="mx-2">
         {% if next %}
-            {% if user.is_authenticated %}
-                <p>Your account doesn't have access to this page. To proceed,
-                please login with an account that has access.</p>
-            {% else %}
-                <p>Please login to see this page.</p>
-            {% endif %}
+            <div class="alert alert-warning mx-auto" style="width: fit-content;">
+                {% if user.is_authenticated %}
+                    Dieser Account hat auf diese Seite keinen Zugriff - Bitte mit einem anderen Account anmelden
+                {% else %}
+                    Anmelden, um diese Seite zu sehen
+                {% endif %}
+            </div>
         {% endif %}
+        {% if wrong %}
+            <div class="alert alert-danger mx-auto" style="width: fit-content;">
+                Falsches Passwort oder falscher Benutzername
+            </div>
+        {% endif %}
+    </div>
 
-        <form method="post">
+    <div class="d-flex justify-content-center">
+        <form method="post" style="width: 27rem;">
             {% csrf_token %}
             <input class="form-control" type="text" name="user" placeholder="Benutzername" required>
             <input class="form-control my-2" type="password" name="pass" placeholder="Passwort" required>

@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <form method="post">
+    <div class="d-flex justify-content-center">
+        <form method="post" style="width: 27rem;">
             {% csrf_token %}
             <input type="text" class="form-control" name="first_name" placeholder="Vorname" required>
             <input type="text" class="form-control my-2" name="last_name" placeholder="Nachname" required>
