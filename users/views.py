@@ -26,7 +26,7 @@ def register(request):
                     if token.valid_for < 1:
                         raise Token.DoesNotExist
                 except Token.DoesNotExist:
-                    return redirect("users-register")
+                    return render(request, "register.html", {"wrong": True})
                 username = token.user.username
 
                 return render(request, "register.html", {"username": username, "post": True})
