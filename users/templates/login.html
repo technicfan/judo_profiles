@@ -27,8 +27,10 @@
             {% csrf_token %}
             <input class="form-control" type="text" name="user" placeholder="Benutzername" required>
             <input class="form-control my-2" type="password" name="pass" placeholder="Passwort" required>
-            <input class="btn btn-secondary mt-2" type="submit" value="Login">
-            <input type="hidden" name="next" value="{{ next }}">
+            <div class="d-flex justify-content-center">
+                <input class="btn btn-secondary mt-2" type="submit" value="Login">
+            </div>
+            <input type="hidden"name="next" value="{{ next }}">
         </form>
     </div>
 {% endblock %}

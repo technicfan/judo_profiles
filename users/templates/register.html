@@ -17,7 +17,9 @@
                     <li>mindestens eine Ziffer</li>
                 </ul>
                 <input class="form-control" type="password" name="password_repeat" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort wiederholen" required>
-                <input class="btn btn-secondary mt-4" type="submit" value="Registrieren">
+                <div class="d-flex justify-content-center">
+                    <input class="btn btn-secondary mt-4" type="submit" value="Registrieren">
+                </div>
             {% else %}
                 {% if wrong %}
                     <div class="alert alert-danger mx-auto" style="width: fit-content;">
@@ -25,7 +27,9 @@
                     </div>
                 {% endif %}
                 <input class="form-control" type="text" name="token" placeholder="Token" required>
-                <input class="btn btn-secondary mt-4" type="submit" value="Mit dem Token registrieren">
+                <div class="d-flex justify-content-center">
+                    <input class="btn btn-secondary mt-4" type="submit" value="Mit dem Token registrieren">
+                </div>
             {% endif %}
         </form>
     </div>

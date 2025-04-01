@@ -17,7 +17,9 @@
                 <li>mindestens eine Ziffer</li>
             </ul>
             <input type="password" class="form-control" name="new_pass_confirm" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="neues Passwort wiederholen" required>
-            <input type="submit" class="btn btn-secondary mt-4" value="Passwort ändern">
+            <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-secondary mt-4" value="Passwort ändern">
+            </div>
         </form>
     </div>
 {% endblock %}

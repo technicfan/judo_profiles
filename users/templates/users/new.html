@@ -12,7 +12,9 @@
             {% csrf_token %}
             <input type="text" class="form-control" name="first_name" placeholder="Vorname" required>
             <input type="text" class="form-control my-2" name="last_name" placeholder="Nachname" required>
-            <input type="submit" class="btn btn-secondary mt-2" value="Token erstellen">
+            <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-secondary mt-2" value="Token erstellen">
+            </div>
         </form>
     </div>
 {% endblock %}
