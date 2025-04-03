@@ -10,6 +10,13 @@
 {% block manage %}active" aria-current="page{% endblock %}
 
 {% block admin_actions %}
+    {% if not user|has_group:"Trainers" %}
+        <form onsubmit="if (!confirm('{{ user }} wird in Zukunft Profile erstellen können')){ return false }" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="trainer" value="{{ user }}">
+            <input type="submit" class="nav-link" value="Zu Trainer*in machen">
+        </form>
+    {% endif %}
     {% if user.is_active %}
         <form method="post">
             {% csrf_token %}

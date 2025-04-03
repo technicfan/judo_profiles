@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User, Group, Permission
+from django.contrib.sessions.models import Session
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_not_required, user_passes_test
@@ -12,6 +13,20 @@ from .models import Token
 
 def is_admin(user):
     return user.is_superuser
+
+
+def logout_all(user):
+    for s in Session.objects.all():
+        if s.get_decoded().get('_auth_user_id') == str(user.id):
+            s.delete()
+
+
+def make_trainer(user):
+    group, created = Group.objects.get_or_create(name="Trainers")
+    permission = Permission.objects.get(codename="add_profile")
+    if created:
+        group.permissions.add(permission)
+    user.groups.add(group)
 
 
 @login_not_required
@@ -88,11 +103,11 @@ def change_pass(request):
         if user is not None and request.POST["new_pass"] == request.POST["new_pass_confirm"]:
             request.user.set_password(request.POST["new_pass"])
             request.user.save()
-            logout(request)
+            logout_all(request.user)
 
             return redirect("profiles-profiles")
         else:
-            return render(request, "update.html")
+            return render(request, "update.html", {"wrong": True})
     else:
         return render(request, "update.html")
 
@@ -104,34 +119,6 @@ def manage_users(request):
             try:
                 User.objects.get(username=request.POST["delete"]).delete()
             except User.DoesNotExist:
-                pass
-        elif "deactivate" in request.POST:
-            try:
-                user = User.objects.get(username=request.POST["deactivate"])
-                user.set_unusable_password()
-                user.is_active = False
-                user.save()
-                Token.objects.get(user=user).delete()
-            except (User.DoesNotExist, Token.DoesNotExist):
-                pass
-        elif "activate" in request.POST:
-            try:
-                user = User.objects.get(username=request.POST["activate"])
-                Token(user=user).save()
-            except User.DoesNotExist:
-                pass
-        elif "token" in request.POST:
-            try:
-                user = User.objects.get(username=request.POST["token"])
-                Token.objects.get(user=user).delete()
-            except (User.DoesNotExist, Token.DoesNotExist):
-                pass
-        elif "renew" in request.POST:
-            try:
-                user = User.objects.get(username=request.POST["token"])
-                Token.objects.get(user=user).delete()
-                Token(user=user).save()
-            except (User.DoesNotExist, Token.DoesNotExist):
                 pass
         else:
             users = User.objects.exclude(is_superuser=True).order_by("last_name")
@@ -161,10 +148,6 @@ def manage_users(request):
 @user_passes_test(is_admin)
 def new_user(request):
     if request.method == "POST":
-        group, created = Group.objects.get_or_create(name="Trainers")
-        permission = Permission.objects.get(codename="add_profile")
-        if created:
-            group.permissions.add(permission)
         newusername = unique_username(request.POST["first_name"] + "." + request.POST["last_name"])
         newuser = User(
             username=newusername,
@@ -173,7 +156,7 @@ def new_user(request):
             is_active=False
         )
         newuser.save()
-        newuser.groups.add(group)
+        make_trainer(newuser)
         Token(user=newuser).save()
 
         return redirect("users-user", username=newusername)
@@ -201,6 +184,7 @@ def user_permissions(request, username):
         elif "delete_token" in request.POST:
             user.token.delete()
         elif "reset" in request.POST:
+            logout_all(user)
             Token(user=user).save()
         elif "delete" in request.POST:
             user.delete()
@@ -212,6 +196,9 @@ def user_permissions(request, username):
                 Token.objects.get(user=user).delete()
             except Token.DoesNotExist:
                 pass
+            logout_all(user)
+        elif "trainer" in request.POST:
+            make_trainer(user)
         elif "update" in request.POST:
             permission = request.POST["permission"]
             permissions = [

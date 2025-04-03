@@ -9,17 +9,28 @@
         <form method="post" style="width: 27rem;">
             {% csrf_token %}
             {% if post %}
-                <input class="form-control-plaintext" type="text" name="username" value="{{ username }}">
-                <input class="form-control" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort" required>
+                <div id="pass_warn" class="alert alert-danger mx-auto d-none" style="width: fit-content;">
+                    Die Passwörter stimmen nicht überein
+                </div>
+                <input class="form-control-plaintext" type="text" name="username" value="{{ username }}" readonly>
+                <input id="pass1" class="form-control" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort" required>
                 <ul>
                     <li>mindestens 8 Zeichen</li>
                     <li>jeweils mindestens ein Groß- und Kleinbuchstabe</li>
                     <li>mindestens eine Ziffer</li>
                 </ul>
-                <input class="form-control" type="password" name="password_repeat" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort wiederholen" required>
+                <input id="pass2" class="form-control" type="password" name="password_repeat" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort wiederholen" required>
                 <div class="d-flex justify-content-center">
                     <input class="btn btn-secondary mt-4" type="submit" value="Registrieren">
                 </div>
+                <script>
+                    document.querySelector("form").onsubmit = function(){
+                        if (document.getElementById("pass1").value != document.getElementById("pass2").value){
+                            document.getElementById("pass_warn").classList.remove("d-none")
+                            return false
+                        }
+                    }
+                </script>
             {% else %}
                 {% if wrong %}
                     <div class="alert alert-danger mx-auto" style="width: fit-content;">

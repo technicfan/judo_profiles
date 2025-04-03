@@ -11,7 +11,7 @@ from users.models import Token
 
 
 def unique_username(username: str) -> str:
-    number = User.objects.filter(username__regex=rf"^{username}(\.[0-9]*)?$").count()
+    number = User.objects.filter(username__regex=rf"^{username}(_[0-9]*)?$").count()
     if number != 0:
         return f"{username}_{number}"
     else:
@@ -286,7 +286,7 @@ def edit_profile(request, username):
 def manage_profile(request, username):
     profile = User.objects.get(username=username).profile
     users = User.objects.exclude(
-        Q(is_superuser=True) | Q(id__in=[request.user.id, profile.created_by.id]) | Q(is_active=False)
+        Q(is_superuser=True) | Q(id__in=[request.user.id, profile.created_by.id, profile.user.id]) | Q(is_active=False)
     ).order_by("username")
 
     if request.method == "POST":
@@ -328,10 +328,7 @@ def manage_profile(request, username):
         elif "search" in request.POST:
             search = request.POST["search"]
             permission = request.POST["permission"]
-            if permission == "view_profile":
-                if profile.user:
-                    users = users.exclude(id=profile.user.id)
-            else:
+            if permission != "view_profile":
                 users = users.filter(groups__name="Trainers")
             filtered = users.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search))
 
