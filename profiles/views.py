@@ -211,6 +211,7 @@ def edit_profile(request, username):
                         to_be_deleted = OwnTechnique.objects.get(id=own_technique["id"])
                         to_be_deleted.delete()
 
+            # ranks
             for rank_item in data["rank_items"]:
                 match rank_item["action"]:
                     case "add":

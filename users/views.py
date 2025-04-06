@@ -99,48 +99,43 @@ def logout_user(request):
 
 def change_pass(request):
     if request.method == "POST":
-        user = authenticate(request, username=request.user.username, password=request.POST["pass"])
-        if user is not None and request.POST["new_pass"] == request.POST["new_pass_confirm"]:
-            request.user.set_password(request.POST["new_pass"])
-            request.user.save()
-            logout_all(request.user)
+        if "delete" in request.POST:
+            request.user.delete()
 
-            return redirect("profiles-profiles")
+            return redirect("profiles-home")
         else:
-            return render(request, "update.html", {"wrong": True})
+            user = authenticate(request, username=request.user.username, password=request.POST["pass"])
+            if user is not None and request.POST["new_pass"] == request.POST["new_pass_confirm"]:
+                request.user.set_password(request.POST["new_pass"])
+                request.user.save()
+                logout_all(request.user)
+
+                return redirect("profiles-profiles")
+            else:
+                return render(request, "account.html", {"wrong": True})
     else:
-        return render(request, "update.html")
+        return render(request, "account.html")
 
 
 @user_passes_test(is_admin)
 def manage_users(request):
     if request.method == "POST":
-        if "delete" in request.POST:
-            try:
-                User.objects.get(username=request.POST["delete"]).delete()
-            except User.DoesNotExist:
-                pass
-        else:
-            users = User.objects.exclude(is_superuser=True).order_by("last_name")
-            users = users.filter(Q(first_name__icontains=request.POST["search"]) | Q(last_name__icontains=request.POST["search"])).order_by("last_name")
+        users = User.objects.exclude(is_superuser=True).order_by("last_name")
+        users = users.filter(Q(first_name__icontains=request.POST["search"]) | Q(last_name__icontains=request.POST["search"])).order_by("last_name")
 
-            match(request.POST["type"]):
-                case "a":
-                    users = users.exclude(is_active=False)
-                case "au":
-                    users = users.exclude(groups__name="Trainers").filter(is_active=True)
-                case "at":
-                    users = users.filter(groups__name="Trainers", is_active=True)
-                case "i":
-                    users = users.filter(is_active=False)
-                case "iu":
-                    users = users.exclude(groups__name="Trainers").filter(is_active=False)
-                case "it":
-                    users = users.filter(groups__name="Trainers", is_active=False)
+        match(request.POST["status"]):
+            case "a":
+                users = users.exclude(is_active=False)
+            case "i":
+                users = users.filter(is_active=False)
 
-            return render(request, "htmx/users.html", {"users": users})
+        match(request.POST["type"]):
+            case "u":
+                users = users.exclude(groups__name="Trainers")
+            case "t":
+                users = users.filter(groups__name="Trainers")
 
-        return redirect("users-manage")
+        return render(request, "htmx/users.html", {"users": users})
     else:
         return render(request, "users.html")
 

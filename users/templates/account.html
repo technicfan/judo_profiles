@@ -1,12 +1,12 @@
 {% extends "abstract/base.html" %}
 
-{% block title %}Passwort ändern{% endblock %}
+{% block title %}Konto verwalten{% endblock %}
 
 {% block update %}active" aria-current="page{% endblock %}
 
 {% block content %}
     <div class="d-flex justify-content-center">
-        <form method="post" style="width: 27rem;">
+        <form id="form" method="post" style="width: 27rem;">
             {% csrf_token %}
             {% if wrong %}
                 <div class="alert alert-danger mx-auto" style="width: fit-content;">
@@ -30,7 +30,7 @@
             </div>
         </form>
         <script>
-            document.querySelector("form").onsubmit = function(){
+            document.getElementById("form").onsubmit = function(){
                 if (document.getElementById("pass1").value != document.getElementById("pass2").value){
                     document.getElementById("pass_warn").classList.remove("d-none")
                     return false
@@ -38,4 +38,13 @@
             }
         </script>
     </div>
+    {% if not request.user.is_superuser %}
+        <hr class="mx-auto"style="width: 40rem;">
+        <div class="d-flex justify-content-center">
+            <form method="post" onsubmit="if (!confirm('Das wird alle Daten, die mit diesem Account verknüpft sind unwiederruflich löschen! Wirklich alles löschen?')){ return false }">
+                {% csrf_token %}
+                <button class="btn btn-danger" name="delete">Konto löschen</button>
+            </form>
+        </div>
+    {% endif %}
 {% endblock %}

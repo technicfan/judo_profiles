@@ -17,7 +17,7 @@
                 width: fit-content;
             }
             .form-control, .form-select {
-                max-width: 27rem;
+                max-width: 32rem;
             }
         </style>
         <noscript>
@@ -56,7 +56,7 @@
                             <div class="navbar-nav d-flex justify-content-end">
                                 <span class="nav-link">Hallo {{ request.user.first_name|default:request.user.username }}</span>
                                 <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()"></button>
-                                <a class="nav-link {% block update %}{% endblock %}" href="{% url "users-update" %}">Passwort ändern</a>
+                                <a class="nav-link {% block update %}{% endblock %}" href="{% url "users-update" %}">Konto verwalten</a>
                                 <a class="nav-link" href="{% url "users-logout" %}">Abmelden</a>
                             {% else %}
                         </div>
@@ -75,7 +75,7 @@
         <div id="noscript" class="container position-absolute top-50 start-50 translate-middle text-center alert-danger alert">
             <h4>Diese Seite funktioniert nur mit Javascript - für die Nutzung bitte aktivieren</h4>
         </div>
-        <div id="script">
+        <div id="script" class="mx-2">
             {% block content %}{% endblock %}
         </div>
         {% block script %}{% endblock %}

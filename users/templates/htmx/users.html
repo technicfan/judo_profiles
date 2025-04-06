@@ -24,13 +24,6 @@
                     <span class="badge text-bg-danger">ohne profil</span>
                 {% endif %}
             </td>
-            <td>
-                <form onsubmit="if (!confirm('{{ user }} wirklich unwiederruflich löschen?\n{% if user|has_group:"Trainers" %}Alle, von {{ user }} erstellten Profile werden gelöscht!!{% else %}Auch das Profil von {{ user }} wird gelöscht!{% endif %}')){ return false }" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="delete" value="{{ user }}">
-                    <input type="submit" class="btn btn-danger btn-sm" value="Löschen">
-                </form>
-            </td>
         </tr>
     {% endfor %}
 {% else %}

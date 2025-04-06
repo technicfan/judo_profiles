@@ -100,17 +100,24 @@
                     hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#permission, load"
                     hx-include="#permission"
                     hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
-                <table class="table">
+                <table class="table mx-auto mt-4" style="max-width: 40rem;">
                     <thead>
                         <th>Profil</th>
                     </thead>
                     <tbody id="profiles"></tbody>
                 </table>
-                <br>
-                <div class="d-flex justify-content-center">
-                    <input class="btn btn-secondary" type="submit" name="update" value="Speichern">
-                    <h4 id="success" class="ms-2">Gespeichert</h4>
-                </div>
+                <table class="mx-auto text-center mt-4">
+                    <tr>
+                        <td>
+                            <input class="btn btn-secondary" type="submit" name="update" value="Speichern">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <h5 id="success" class="ms-2"></h5>
+                        </td>
+                    </tr>
+                </table>
                 <style>
                     #success.htmx-settling {
                         opacity: 100;
