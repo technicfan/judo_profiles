@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import permission_required, login_not_required
@@ -33,9 +34,16 @@ def about(request):
 
 def start(request):
     if request.method == "POST":
-        shown_profiles = get_objects_for_user(request.user, "view_profile", Profile).order_by("last_name")
+        shown_profiles = get_objects_for_user(
+            request.user,
+            "view_profile",
+            Profile
+        ).order_by("last_name")
         search = request.POST["search"]
-        filtered = shown_profiles.filter(Q(name__icontains=search) | Q(last_name__icontains=search))
+        filtered = shown_profiles.filter(
+            Q(name__icontains=search) |
+            Q(last_name__icontains=search)
+        )
 
         return render(request, "htmx/profiles.html", {"profiles": filtered})
     else:
@@ -87,8 +95,16 @@ def new_profile(request):
                 direction=own_technique["direction"],
                 profile=profile,
                 technique=Technique.objects.get(id=own_technique["technique"]),
-                left_position=Position.objects.get(profile=profile, side=True, number=own_technique["left"]),
-                right_position=Position.objects.get(profile=profile, side=False, number=own_technique["right"])
+                left_position=Position.objects.get(
+                    profile=profile,
+                    side=True,
+                    number=own_technique["left"]
+                ),
+                right_position=Position.objects.get(
+                    profile=profile,
+                    side=False,
+                    number=own_technique["right"]
+                )
             )
             new_own_technique.save()
 
@@ -115,7 +131,11 @@ def new_profile(request):
         gtechniques = Technique.objects.filter(type="B").order_by("name")
         techniques = Technique.objects.all().order_by("name")
 
-        return render(request, "profiles/new.html", {"techniques": techniques, "stechniques": stechniques, "gtechniques": gtechniques})
+        return render(request, "profiles/new.html", {
+            "techniques": techniques,
+            "stechniques": stechniques,
+            "gtechniques": gtechniques
+        })
 
 
 @object_permission_required("profiles.view_profile", (Profile, "user__username", "username"))
@@ -123,8 +143,14 @@ def profile(request, username):
     profile = User.objects.get(username=username).profile
     own_techniques = OwnTechnique.objects.filter(profile=profile)
     positons = Position.objects.filter(profile=profile)
-    special_rank = TechniqueRank.objects.filter(profile=profile, type="special").order_by("number")
-    ground_rank = TechniqueRank.objects.filter(profile=profile, type="ground").order_by("number")
+    special_rank = TechniqueRank.objects.filter(
+        profile=profile,
+        type="special"
+    ).order_by("number")
+    ground_rank = TechniqueRank.objects.filter(
+        profile=profile,
+        type="ground"
+    ).order_by("number")
     combination_rank = CombinationRank.objects.filter(profile=profile).order_by("number")
     return render(request, "profiles/profile.html", {
         "profile": profile,
@@ -191,24 +217,48 @@ def edit_profile(request, username):
                             state=own_technique["state"],
                             direction=own_technique["direction"],
                             profile=profile,
-                            technique=Technique.objects.get(id=own_technique["technique"]),
-                            left_position=Position.objects.get(profile=profile, side=True, number=own_technique["left"]),
-                            right_position=Position.objects.get(profile=profile, side=False, number=own_technique["right"])
+                            technique=Technique.objects.get(
+                                id=own_technique["technique"]
+                            ),
+                            left_position=Position.objects.get(
+                                profile=profile,
+                                side=True,
+                                number=own_technique["left"]
+                            ),
+                            right_position=Position.objects.get(
+                                profile=profile,
+                                side=False,
+                                number=own_technique["right"]
+                            )
                         )
                         new_own_technique.save()
                     case "update":
-                        changed_own_technique = OwnTechnique.objects.get(id=own_technique["id"])
-                        if changed_position.profile == profile:
+                        changed_own_technique = OwnTechnique.objects.get(
+                            id=own_technique["id"]
+                        )
+                        if changed_own_technique.profile == profile:
                             changed_own_technique.side = own_technique["side"]
                             changed_own_technique.state = own_technique["state"]
                             changed_own_technique.direction = own_technique["direction"]
                             changed_own_technique.profile = profile
-                            changed_own_technique.technique = Technique.objects.get(id=own_technique["technique"])
-                            changed_own_technique.left_position = Position.objects.get(profile=profile, side=True, number=own_technique["left"])
-                            changed_own_technique.right_position = Position.objects.get(profile=profile, side=False, number=own_technique["right"])
+                            changed_own_technique.technique = Technique.objects.get(
+                                id=own_technique["technique"]
+                            )
+                            changed_own_technique.left_position = Position.objects.get(
+                                profile=profile,
+                                side=True,
+                                number=own_technique["left"]
+                            )
+                            changed_own_technique.right_position = Position.objects.get(
+                                profile=profile,
+                                side=False,
+                                number=own_technique["right"]
+                            )
                             changed_own_technique.save()
                     case "delete":
-                        to_be_deleted = OwnTechnique.objects.get(id=own_technique["id"])
+                        to_be_deleted = OwnTechnique.objects.get(
+                            id=own_technique["id"]
+                        )
                         to_be_deleted.delete()
 
             # ranks
@@ -218,38 +268,58 @@ def edit_profile(request, username):
                         if rank_item["type"] == "combination":
                             new_rank_item = CombinationRank(
                                 number=rank_item["number"],
-                                technique1=Technique.objects.get(id=rank_item["technique1"]),
-                                technique2=Technique.objects.get(id=rank_item["technique2"]),
+                                technique1=Technique.objects.get(
+                                    id=rank_item["technique1"]
+                                ),
+                                technique2=Technique.objects.get(
+                                    id=rank_item["technique2"]
+                                ),
                                 profile=profile
                             )
                         else:
                             new_rank_item = TechniqueRank(
                                 number=rank_item["number"],
-                                technique=Technique.objects.get(id=rank_item["technique"]),
+                                technique=Technique.objects.get(
+                                    id=rank_item["technique"]
+                                ),
                                 profile=profile,
                                 type=rank_item["type"]
                             )
                         new_rank_item.save()
                     case "update":
                         if rank_item["type"] == "combination":
-                            changed_rank_item = CombinationRank.objects.get(id=rank_item["id"])
+                            changed_rank_item = CombinationRank.objects.get(
+                                id=rank_item["id"]
+                            )
                             changed_rank_item.number = rank_item["number"]
-                            changed_rank_item.technique1 = Technique.objects.get(id=rank_item["technique1"])
-                            changed_rank_item.technique2 = Technique.objects.get(id=rank_item["technique2"])
+                            changed_rank_item.technique1 = Technique.objects.get(
+                                id=rank_item["technique1"]
+                            )
+                            changed_rank_item.technique2 = Technique.objects.get(
+                                id=rank_item["technique2"]
+                            )
                             changed_rank_item.profile = profile
                         else:
-                            changed_rank_item = TechniqueRank.objects.get(id=rank_item["id"])
+                            changed_rank_item = TechniqueRank.objects.get(
+                                id=rank_item["id"]
+                            )
                             changed_rank_item.number = rank_item["number"]
-                            changed_rank_item.technique = Technique.objects.get(id=rank_item["technique"])
+                            changed_rank_item.technique = Technique.objects.get(
+                                id=rank_item["technique"]
+                            )
                             changed_rank_item.profile = profile
                             changed_rank_item.type = rank_item["type"]
                         if changed_rank_item.profile == profile:
                             changed_rank_item.save()
                     case "delete":
                         if rank_item["type"] == "combination":
-                            to_be_deleted = CombinationRank.objects.get(id=rank_item["id"])
+                            to_be_deleted = CombinationRank.objects.get(
+                                id=rank_item["id"]
+                            )
                         else:
-                            to_be_deleted = TechniqueRank.objects.get(id=rank_item["id"])
+                            to_be_deleted = TechniqueRank.objects.get(
+                                id=rank_item["id"]
+                            )
                         if to_be_deleted.profile == profile:
                             to_be_deleted.delete()
 
@@ -287,7 +357,9 @@ def edit_profile(request, username):
 def manage_profile(request, username):
     profile = User.objects.get(username=username).profile
     users = User.objects.exclude(
-        Q(is_superuser=True) | Q(id__in=[request.user.id, profile.created_by.id, profile.user.id]) | Q(is_active=False)
+        Q(is_superuser=True) |
+        Q(id__in=[request.user.id, profile.created_by.id, profile.user.id]) |
+        Q(is_active=False)
     ).order_by("username")
 
     if request.method == "POST":
@@ -331,9 +403,16 @@ def manage_profile(request, username):
             permission = request.POST["permission"]
             if permission != "view_profile":
                 users = users.filter(groups__name="Trainers")
-            filtered = users.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search))
+            filtered = users.filter(
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search)
+            )
 
-            return render(request, "htmx/profile_permissions.html", {"users": filtered, "profile": profile, "permission": permission})
+            return render(request, "htmx/profile_permissions.html", {
+                "users": filtered,
+                "profile": profile,
+                "permission": permission
+            })
 
         return redirect("profiles-profile-manage", username=username)
     else:

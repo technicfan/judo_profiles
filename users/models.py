@@ -13,7 +13,13 @@ def calc_date():
 
 
 class Token(models.Model):
-    token = models.CharField(default=gen_token, max_length=32, blank=True, editable=False, unique=True)
+    token = models.CharField(
+        default=gen_token,
+        max_length=32,
+        blank=True,
+        editable=False,
+        unique=True
+    )
     valid_until = models.DateField(default=calc_date)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 

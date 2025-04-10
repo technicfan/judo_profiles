@@ -62,8 +62,16 @@ class OwnTechnique(models.Model):
     side = models.BooleanField(choices=SIDE_CHOICES)
     state = models.CharField(max_length=1, choices=STATE_CHOICES)
     direction = models.PositiveIntegerField()
-    left_position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name="left_position_owntechniques")
-    right_position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name="right_position_owntechniques")
+    left_position = models.ForeignKey(
+        Position,
+        on_delete=models.CASCADE,
+        related_name="left_position_owntechniques"
+    )
+    right_position = models.ForeignKey(
+        Position,
+        on_delete=models.CASCADE,
+        related_name="right_position_owntechniques"
+    )
 
     def __str__(self):
         return self.technique.name
@@ -86,8 +94,16 @@ class TechniqueRank(models.Model):
 
 class CombinationRank(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    technique1 = models.ForeignKey(Technique, on_delete=models.CASCADE, related_name="technique1_combinations")
-    technique2 = models.ForeignKey(Technique, on_delete=models.CASCADE, related_name="technique2_combinations")
+    technique1 = models.ForeignKey(
+        Technique,
+        on_delete=models.CASCADE,
+        related_name="technique1_combinations"
+    )
+    technique2 = models.ForeignKey(
+        Technique,
+        on_delete=models.CASCADE,
+        related_name="technique2_combinations"
+    )
     number = models.PositiveIntegerField()
 
     def __str__(self):

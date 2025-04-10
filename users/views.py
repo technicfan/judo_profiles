@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.sessions.models import Session
 from django.db.models import Q
@@ -55,7 +56,14 @@ def register(request):
                         user.set_password(request.POST["password"])
                         user.is_active = True
                         user.save()
-                        login(request, authenticate(request, username=user.username, password=request.POST["password"]))
+                        login(
+                            request,
+                            authenticate(
+                                request,
+                                username=user.username,
+                                password=request.POST["password"]
+                            )
+                        )
                         token.delete()
 
                         return redirect("profiles-profiles")
@@ -73,7 +81,11 @@ def register(request):
 def login_user(request):
     next = request.GET.get("next")
     if request.method == "POST":
-        user = authenticate(request, username=request.POST["user"], password=request.POST["pass"])
+        user = authenticate(
+            request,
+            username=request.POST["user"],
+            password=request.POST["pass"]
+        )
         if user is not None:
             try:
                 user.token.delete()
@@ -104,7 +116,11 @@ def change_pass(request):
 
             return redirect("profiles-home")
         else:
-            user = authenticate(request, username=request.user.username, password=request.POST["pass"])
+            user = authenticate(
+                request,
+                username=request.user.username,
+                password=request.POST["pass"]
+            )
             if user is not None and request.POST["new_pass"] == request.POST["new_pass_confirm"]:
                 request.user.set_password(request.POST["new_pass"])
                 request.user.save()
@@ -121,7 +137,10 @@ def change_pass(request):
 def manage_users(request):
     if request.method == "POST":
         users = User.objects.exclude(is_superuser=True).order_by("last_name")
-        users = users.filter(Q(first_name__icontains=request.POST["search"]) | Q(last_name__icontains=request.POST["search"])).order_by("last_name")
+        users = users.filter(
+            Q(first_name__icontains=request.POST["search"]) |
+            Q(last_name__icontains=request.POST["search"])).order_by("last_name"
+        )
 
         match(request.POST["status"]):
             case "a":
@@ -143,7 +162,7 @@ def manage_users(request):
 @user_passes_test(is_admin)
 def new_user(request):
     if request.method == "POST":
-        newusername = unique_username(request.POST["first_name"] + "." + request.POST["last_name"])
+        newusername = unique_username(f"{request.POST["first_name"]}.{request.POST["last_name"]}")
         newuser = User(
             username=newusername,
             first_name=request.POST["first_name"],
@@ -224,7 +243,11 @@ def user_permissions(request, username):
             if filtered.count() == 0:
                 filtered = None
 
-            return render(request, "htmx/user_permissions.html", {"profiles": filtered, "user": user, "permission": permission})
+            return render(request, "htmx/user_permissions.html", {
+                "profiles": filtered,
+                "user": user,
+                "permission": permission
+            })
 
         return redirect("users-user", username=username)
     else:
