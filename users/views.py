@@ -1,14 +1,15 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User, Group, Permission
-from django.contrib.sessions.models import Session
-from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_not_required, user_passes_test
+from django.contrib.auth.models import Group, Permission, User
+from django.contrib.sessions.models import Session
+from django.db.models import Q
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
 from guardian.shortcuts import assign_perm, remove_perm
 
-from profiles.views import unique_username
 from profiles.models import Profile
+from profiles.views import unique_username
+
 from .models import Token
 
 
@@ -18,7 +19,7 @@ def is_admin(user):
 
 def logout_all(user):
     for s in Session.objects.all():
-        if s.get_decoded().get('_auth_user_id') == str(user.id):
+        if s.get_decoded().get("_auth_user_id") == str(user.id):
             s.delete()
 
 
@@ -45,7 +46,9 @@ def register(request):
                     return render(request, "register.html", {"wrong": True})
                 username = token.user.username
 
-                return render(request, "register.html", {"username": username, "post": True})
+                return render(
+                    request, "register.html", {"username": username, "post": True}
+                )
             elif "username" in request.POST:
                 try:
                     user = User.objects.get(username=request.POST["username"])
@@ -61,8 +64,8 @@ def register(request):
                             authenticate(
                                 request,
                                 username=user.username,
-                                password=request.POST["password"]
-                            )
+                                password=request.POST["password"],
+                            ),
                         )
                         token.delete()
 
@@ -82,9 +85,7 @@ def login_user(request):
     next = request.GET.get("next")
     if request.method == "POST":
         user = authenticate(
-            request,
-            username=request.POST["user"],
-            password=request.POST["pass"]
+            request, username=request.POST["user"], password=request.POST["pass"]
         )
         if user is not None:
             try:
@@ -117,11 +118,12 @@ def change_pass(request):
             return redirect("profiles-home")
         else:
             user = authenticate(
-                request,
-                username=request.user.username,
-                password=request.POST["pass"]
+                request, username=request.user.username, password=request.POST["pass"]
             )
-            if user is not None and request.POST["new_pass"] == request.POST["new_pass_confirm"]:
+            if (
+                user is not None
+                and request.POST["new_pass"] == request.POST["new_pass_confirm"]
+            ):
                 request.user.set_password(request.POST["new_pass"])
                 request.user.save()
                 logout_all(request.user)
@@ -138,17 +140,17 @@ def manage_users(request):
     if request.method == "POST":
         users = User.objects.exclude(is_superuser=True).order_by("last_name")
         users = users.filter(
-            Q(first_name__icontains=request.POST["search"]) |
-            Q(last_name__icontains=request.POST["search"])).order_by("last_name"
-        )
+            Q(first_name__icontains=request.POST["search"])
+            | Q(last_name__icontains=request.POST["search"])
+        ).order_by("last_name")
 
-        match(request.POST["status"]):
+        match request.POST["status"]:
             case "a":
                 users = users.exclude(is_active=False)
             case "i":
                 users = users.filter(is_active=False)
 
-        match(request.POST["type"]):
+        match request.POST["type"]:
             case "u":
                 users = users.exclude(groups__name="Trainers")
             case "t":
@@ -162,12 +164,14 @@ def manage_users(request):
 @user_passes_test(is_admin)
 def new_user(request):
     if request.method == "POST":
-        newusername = unique_username(f"{request.POST["first_name"]}.{request.POST["last_name"]}")
+        newusername = unique_username(
+            f"{request.POST['first_name']}.{request.POST['last_name']}"
+        )
         newuser = User(
             username=newusername,
             first_name=request.POST["first_name"],
             last_name=request.POST["last_name"],
-            is_active=False
+            is_active=False,
         )
         newuser.save()
         make_trainer(newuser)
@@ -215,41 +219,38 @@ def user_permissions(request, username):
             make_trainer(user)
         elif "update" in request.POST:
             permission = request.POST["permission"]
-            permissions = [
-                "view_profile",
-                "change_profile",
-                "manage_profile"
-            ]
+            permissions = ["view_profile", "change_profile", "manage_profile"]
             remove = profiles
             for id in request.POST:
                 if id.isdigit():
                     try:
                         profile = Profile.objects.get(id=int(id))
-                        for p in permissions[:permissions.index(permission) + 1]:
+                        for p in permissions[: permissions.index(permission) + 1]:
                             assign_perm(p, user, profile)
                         remove = remove.exclude(id=int(id))
                     except (Profile.DoesNotExist, ValueError):
                         pass
 
             for profile in remove:
-                for p in permissions[permissions.index(permission):]:
+                for p in permissions[permissions.index(permission) :]:
                     remove_perm(p, user, profile)
 
             return HttpResponse("Gespeichert")
         elif "search" in request.POST:
             search = request.POST["search"]
             permission = request.POST["permission"]
-            filtered = profiles.filter(Q(name__icontains=search) | Q(last_name__icontains=search))
+            filtered = profiles.filter(
+                Q(name__icontains=search) | Q(last_name__icontains=search)
+            )
             if filtered.count() == 0:
                 filtered = None
 
-            return render(request, "htmx/user_permissions.html", {
-                "profiles": filtered,
-                "user": user,
-                "permission": permission
-            })
+            return render(
+                request,
+                "htmx/user_permissions.html",
+                {"profiles": filtered, "user": user, "permission": permission},
+            )
 
         return redirect("users-user", username=username)
     else:
-
         return render(request, "users/manage.html", {"user": user})
