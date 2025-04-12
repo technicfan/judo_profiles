@@ -20,14 +20,18 @@ from .models import (
 )
 
 
+# create unique username for new user
 def unique_username(username: str) -> str:
+    # check how often initial name already exists
     number = User.objects.filter(username__regex=rf"^{username}(_[0-9]*)?$").count()
+    # return unique username
     if number != 0:
         return f"{username}_{number}"
     else:
         return username
 
 
+# landing page for non authorized and authorized users
 @login_not_required
 def home(request):
     if request.user.is_authenticated:
@@ -41,8 +45,10 @@ def about(request):
     return render(request, "about.html")
 
 
+# list all available profiles
 def start(request):
     if request.method == "POST":
+        # get profiles with search
         shown_profiles = get_objects_for_user(
             request.user, "view_profile", Profile
         ).order_by("last_name")
@@ -51,8 +57,10 @@ def start(request):
             Q(name__icontains=search) | Q(last_name__icontains=search)
         )
 
+        # return html table for htmx
         return render(request, "htmx/profiles.html", {"profiles": filtered})
     else:
+        # return template
         return render(request, "profiles.html")
 
 
@@ -60,6 +68,7 @@ def start(request):
 def new_profile(request):
     if request.method == "POST":
         data = json.loads(request.body)
+        # general data
         profile = Profile(
             name=data["name"],
             last_name=data["last_name"],
@@ -68,6 +77,7 @@ def new_profile(request):
             primary_side=data["side"],
             created_by=request.user,
         )
+        # create new user for profile
         username = unique_username(profile.name + "." + profile.last_name)
         newuser = User(
             username=username,
@@ -78,11 +88,13 @@ def new_profile(request):
         newuser.save()
         profile.user = newuser
         profile.save()
+        # permissions
         assign_perm("view_profile", newuser, profile)
         assign_perm("view_profile", request.user, profile)
         assign_perm("change_profile", request.user, profile)
         assign_perm("manage_profile", request.user, profile)
 
+        # positions
         for position in data["positions"]:
             new_position = Position(
                 number=position["number"],
@@ -93,6 +105,7 @@ def new_profile(request):
             )
             new_position.save()
 
+        # own techniques
         for own_technique in data["own_techniques"]:
             new_own_technique = OwnTechnique(
                 side=own_technique["side"],
@@ -109,7 +122,9 @@ def new_profile(request):
             )
             new_own_technique.save()
 
+        # ranks
         for rank_item in data["rank_items"]:
+            # combination or single technique
             if rank_item["type"] == "combination":
                 new_rank_item = CombinationRank(
                     number=rank_item["number"],
@@ -126,12 +141,14 @@ def new_profile(request):
                 )
             new_rank_item.save()
 
+        # redirect to created profile
         return redirect("profiles-profile", username=profile.user.username)
     else:
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
         techniques = Technique.objects.all().order_by("name")
 
+        # return template with techniques
         return render(
             request,
             "profiles/new.html",
@@ -147,6 +164,7 @@ def new_profile(request):
     "profiles.view_profile", (Profile, "user__username", "username")
 )
 def profile(request, username):
+    # collect profile data
     profile = User.objects.get(username=username).profile
     own_techniques = OwnTechnique.objects.filter(profile=profile)
     positons = Position.objects.filter(profile=profile)
@@ -159,6 +177,8 @@ def profile(request, username):
     combination_rank = CombinationRank.objects.filter(profile=profile).order_by(
         "number"
     )
+
+    # return template with profile data
     return render(
         request,
         "profiles/profile.html",
@@ -183,7 +203,11 @@ def edit_profile(request, username):
         profile = User.objects.get(username=username).profile
 
         if data["action"] == "delete" and request.user == profile.created_by:
-            profile.delete()
+            # delete profile and inactive user
+            if profile.user.is_active:
+                profile.delete()
+            else:
+                profile.user.delete()
 
             return redirect("profiles-profiles")
         else:
@@ -198,6 +222,7 @@ def edit_profile(request, username):
             # positions
             for position in data["positions"]:
                 match position["action"]:
+                    # create new position
                     case "add":
                         new_position = Position(
                             number=position["number"],
@@ -207,6 +232,7 @@ def edit_profile(request, username):
                             profile=profile,
                         )
                         new_position.save()
+                    # update position if profile matches
                     case "update":
                         changed_position = Position.objects.get(id=position["id"])
                         if changed_position.profile == profile:
@@ -214,8 +240,8 @@ def edit_profile(request, username):
                             changed_position.side = position["side"]
                             changed_position.x = position["x"]
                             changed_position.y = position["y"]
-                            changed_position.profile = profile
                             changed_position.save()
+                    # delete position if profile matches
                     case "delete":
                         to_be_deleted = Position.objects.get(id=position["id"])
                         if to_be_deleted.profile == profile:
@@ -224,6 +250,7 @@ def edit_profile(request, username):
             # own_techniques
             for own_technique in data["own_techniques"]:
                 match own_technique["action"]:
+                    # create new own technique
                     case "add":
                         new_own_technique = OwnTechnique(
                             side=own_technique["side"],
@@ -243,6 +270,7 @@ def edit_profile(request, username):
                             ),
                         )
                         new_own_technique.save()
+                    # update own technique if profile matches
                     case "update":
                         changed_own_technique = OwnTechnique.objects.get(
                             id=own_technique["id"]
@@ -251,7 +279,6 @@ def edit_profile(request, username):
                             changed_own_technique.side = own_technique["side"]
                             changed_own_technique.state = own_technique["state"]
                             changed_own_technique.direction = own_technique["direction"]
-                            changed_own_technique.profile = profile
                             changed_own_technique.technique = Technique.objects.get(
                                 id=own_technique["technique"]
                             )
@@ -264,13 +291,16 @@ def edit_profile(request, username):
                                 number=own_technique["right"],
                             )
                             changed_own_technique.save()
+                    # delete own technique if profile matches
                     case "delete":
                         to_be_deleted = OwnTechnique.objects.get(id=own_technique["id"])
-                        to_be_deleted.delete()
+                        if to_be_deleted.profile == profile:
+                            to_be_deleted.delete()
 
             # ranks
             for rank_item in data["rank_items"]:
                 match rank_item["action"]:
+                    # create new rank item
                     case "add":
                         if rank_item["type"] == "combination":
                             new_rank_item = CombinationRank(
@@ -293,6 +323,7 @@ def edit_profile(request, username):
                                 type=rank_item["type"],
                             )
                         new_rank_item.save()
+                    # update rank item if profile matches
                     case "update":
                         if rank_item["type"] == "combination":
                             changed_rank_item = CombinationRank.objects.get(
@@ -305,7 +336,6 @@ def edit_profile(request, username):
                             changed_rank_item.technique2 = Technique.objects.get(
                                 id=rank_item["technique2"]
                             )
-                            changed_rank_item.profile = profile
                         else:
                             changed_rank_item = TechniqueRank.objects.get(
                                 id=rank_item["id"]
@@ -314,10 +344,10 @@ def edit_profile(request, username):
                             changed_rank_item.technique = Technique.objects.get(
                                 id=rank_item["technique"]
                             )
-                            changed_rank_item.profile = profile
                             changed_rank_item.type = rank_item["type"]
                         if changed_rank_item.profile == profile:
                             changed_rank_item.save()
+                    # delete rank item if profile matches
                     case "delete":
                         if rank_item["type"] == "combination":
                             to_be_deleted = CombinationRank.objects.get(
@@ -331,12 +361,14 @@ def edit_profile(request, username):
                             to_be_deleted.delete()
 
             if data["action"] == "save":
+                # reload page if "save" button was pressed
                 return redirect("profiles-profile-edit", username=profile.user.username)
-
             else:
+                # otherwise redirect to edited profile
                 return redirect("profiles-profile", username=profile.user.username)
 
     else:
+        # collect relevant data
         profile = User.objects.get(username=username).profile
         own_techniques = OwnTechnique.objects.filter(profile=profile)
         stechniques = Technique.objects.filter(type="S").order_by("name")
@@ -350,6 +382,7 @@ def edit_profile(request, username):
             "number"
         )
 
+        # return template with profile data and techniques
         return render(
             request,
             "profiles/edit.html",
@@ -371,6 +404,7 @@ def edit_profile(request, username):
 )
 def manage_profile(request, username):
     profile = User.objects.get(username=username).profile
+    # get all users where profile permission is allowed to be changed
     users = User.objects.exclude(
         Q(is_superuser=True)
         | Q(id__in=[request.user.id, profile.created_by.id, profile.user.id])
@@ -378,52 +412,68 @@ def manage_profile(request, username):
     ).order_by("username")
 
     if request.method == "POST":
-        if "add" in request.POST:
-            Token(user=profile.user).save()
-        elif "renew" in request.POST:
-            user = profile.user
-            user.token.delete()
-            Token(user=user).save()
-        elif "delete_token" in request.POST:
-            profile.user.token.delete()
-        elif "delete_user" in request.POST:
-            profile.user.is_active = False
-            profile.user.set_unusable_password()
-            profile.user.save()
-        elif "update" in request.POST:
+        # change permissions
+        if "update" in request.POST:
             permission = request.POST["permission"]
             permissions = ["view_profile", "change_profile", "manage_profile"]
+            # variable for users who shouldn't have the permission
             remove = users
             for id in request.POST:
+                # try only if element is an integer
                 if id.isdigit():
                     try:
                         user = User.objects.get(id=int(id))
-                        for p in permissions[: permissions.index(permission) + 1]:
-                            assign_perm(p, user, profile)
-                        remove = remove.exclude(id=int(id))
+                        # check if user can have the permission
+                        if (
+                            permission == "view_profile"
+                            or user.groups.filter(name="Trainers").exists()
+                        ):
+                            # assign the permission and all of lower privilege
+                            for p in permissions[: permissions.index(permission) + 1]:
+                                assign_perm(p, user, profile)
+                            # remove user from remove list
+                            remove = remove.exclude(id=int(id))
                     except (User.DoesNotExist, ValueError):
                         pass
 
+            # remove the permission and all of higher privilege from left users
             for user in remove:
                 for p in permissions[permissions.index(permission) :]:
                     remove_perm(p, user, profile)
 
+            # return success for htmx
             return HttpResponse("Gespeichert")
+
+        # htmx user search
         elif "search" in request.POST:
             search = request.POST["search"]
             permission = request.POST["permission"]
+            # remove non trainers if permission is higher than view
             if permission != "view_profile":
                 users = users.filter(groups__name="Trainers")
             filtered = users.filter(
                 Q(first_name__icontains=search) | Q(last_name__icontains=search)
             )
 
+            # return html table for htmx
             return render(
                 request,
                 "htmx/profile_permissions.html",
                 {"users": filtered, "profile": profile, "permission": permission},
             )
+        # if the profiles user is not active manage token
+        elif not profile.user.is_active:
+            if "add" in request.POST:
+                Token(user=profile.user).save()
+            elif "renew" in request.POST:
+                user = profile.user
+                user.token.delete()
+                Token(user=user).save()
+            elif "delete_token" in request.POST:
+                profile.user.token.delete()
 
-        return redirect("profiles-profile-manage", username=username)
+            # reload the page
+            return redirect("profiles-profile-manage", username=username)
     else:
+        # return template with profile data
         return render(request, "profiles/manage.html", {"profile": profile})

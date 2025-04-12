@@ -43,7 +43,7 @@
         <div class="d-flex justify-content-center">
             <form method="post" onsubmit="if (!confirm('Das wird alle Daten, die mit diesem Account verknüpft sind unwiederruflich löschen! Wirklich alles löschen?')){ return false }">
                 {% csrf_token %}
-                <button class="btn btn-danger" name="delete">Konto löschen</button>
+                <button class="btn btn-danger" name="delete">Konto und Daten löschen</button>
             </form>
         </div>
     {% endif %}

@@ -8,11 +8,12 @@
     <div class="d-flex justify-content-center">
         <form method="post" style="width: 27rem;">
             {% csrf_token %}
-            {% if post %}
+            {% if token %}
                 <div id="pass_warn" class="alert alert-danger mx-auto d-none" style="width: fit-content;">
                     Die Passwörter stimmen nicht überein
                 </div>
                 <input class="form-control-plaintext" type="text" name="username" value="{{ username }}" readonly>
+                <input type="hidden" name="token" value="{{ token }}" readonly>
                 <input id="pass1" class="form-control" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Passwort" required>
                 <ul>
                     <li>mindestens 8 Zeichen</li>
