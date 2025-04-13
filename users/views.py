@@ -87,6 +87,8 @@ def register(request):
                 return render(
                     request, "register.html", {"username": username, "token": token}
                 )
+
+            return redirect("users-register")
         else:
             # return first step
             return render(request, "register.html", {})
