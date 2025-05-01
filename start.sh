@@ -6,6 +6,7 @@ then
 fi
 if [[ -f "nginx/nginx.conf" ]]
 then
+    rm nginx_conf/default.conf
     mv nginx/nginx.conf nginx_conf/default.conf
 fi
 
