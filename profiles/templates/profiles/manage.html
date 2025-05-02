@@ -27,14 +27,14 @@
                 {% csrf_token %}
                     <div class="d-flex justify-content-end">
                         {% if not profile.user.token and not profile.user.is_active %}
-                            <button class="btn btn-secondary" name="add">Token für neue/n Nutzer*in</button>
+                            <button class="btn btn-secondary" name="add">Schlüssel für neue/n Nutzer*in</button>
                         {% else %}
                             {% if not profile.user.is_active %}
                                 <table class="text-center">
                                     <tr>
                                         {% if profile.user.token.valid_for < 1 %}
-                                            <td class="pe-3">Token abgelaufen, ohne, dass er verwendet wurde</td>
-                                            <td><button class="btn btn-secondary" name="renew">Token erneuern</button></td>
+                                            <td class="pe-3">Schlüssel abgelaufen, ohne, dass er verwendet wurde</td>
+                                            <td><button class="btn btn-secondary" name="renew">Schlüssel erneuern</button></td>
                                         {% else %}
                                             <td class="pe-3">
                                                 {% if profile.user.token.valid_for == 1 %}
@@ -43,21 +43,21 @@
                                                     Noch gültig für {{ profile.user.token.valid_for }} Tage
                                                 {% endif %}
                                             </td>
-                                            <td class="pe-2"><button id="copy" class="btn btn-secondary" onclick="copy_token('{{ profile.user.token }}'); return false;">Token kopieren</button></td>
+                                            <td class="pe-2"><button id="copy" class="btn btn-secondary" onclick="copy_token('{{ profile.user.token }}'); return false;">Schlüssel kopieren</button></td>
                                             <script>
                                                 const delay = ms => new Promise(res => setTimeout(res, ms))
                                                 async function copy_token(token){
                                                     const button = document.getElementById("copy")
                                                     await navigator.clipboard.writeText(token)
-                                                    button.innerHTML = "Token kopiert"
+                                                    button.innerHTML = "Schlüssel kopiert"
                                                     button.classList.add("active")
                                                     await delay(1500)
-                                                    button.innerHTML = "Token kopieren"
+                                                    button.innerHTML = "Schlüssel kopieren"
                                                     button.classList.remove("active")
                                                 }
                                             </script>
                                         {% endif %}
-                                        <td><button class="btn btn-secondary" name="delete_token">Token löschen</button></td>
+                                        <td><button class="btn btn-secondary" name="delete_token">Schlüssel löschen</button></td>
                                     </tr>
                                 </table>
                             {% endif %}

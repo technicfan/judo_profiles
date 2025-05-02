@@ -1,6 +1,6 @@
 {% extends "abstract/base.html" %}
 
-{% block title %}Mit Token registrieren{% endblock %}
+{% block title %}Mit Schlüssel registrieren{% endblock %}
 
 {% block register %}active" aria-current="page{% endblock %}
 
@@ -35,12 +35,12 @@
             {% else %}
                 {% if wrong %}
                     <div class="alert alert-danger mx-auto" style="width: fit-content;">
-                        Diesen Token gibt es nicht, oder er ist abgelaufen
+                        Diesen Schlüssel gibt es nicht, oder er ist abgelaufen
                     </div>
                 {% endif %}
-                <input class="form-control" type="text" name="token" placeholder="Token" required>
+                <input class="form-control" type="text" name="token" placeholder="Schlüssel" required>
                 <div class="d-flex justify-content-center">
-                    <input class="btn btn-secondary mt-4" type="submit" value="Mit dem Token registrieren">
+                    <input class="btn btn-secondary mt-4" type="submit" value="Mit dem Schlüssel registrieren">
                 </div>
             {% endif %}
         </form>

@@ -63,7 +63,7 @@
                         <div class="navbar-nav d-flex">
                             <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()">Auto</button>
                             <a class="nav-link {% block login %}{% endblock %}" href="{% url "users-login" %}">Anmelden</a>
-                            <a class="nav-link {% block register %}{% endblock %}" href="{% url "users-register" %}">Mit Token Registrieren</a>
+                            <a class="nav-link {% block register %}{% endblock %}" href="{% url "users-register" %}">Mit Schlüssel Registrieren</a>
                             {% endif %}
                             <a class="nav-link {% block about %}{% endblock %}" href="{% url "profiles-about" %}">Über</a>
                         </div>
