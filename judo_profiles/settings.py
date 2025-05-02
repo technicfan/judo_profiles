@@ -29,9 +29,9 @@ DEBUG = os.getenv("DEBUG") == "True"
 if os.getenv("ALLOWED_URLS") is not None:
     ALLOWED_HOSTS = [
         url.split("//")[-1].split(":")[0]
-        for url in os.getenv("ALLOWED_URLS").split(" ")
+        for url in os.getenv("ALLOWED_URLS").split(",")
     ]
-    CSRF_TRUSTED_ORIGINS = os.getenv("ALLOWED_URLS").split(" ")
+    CSRF_TRUSTED_ORIGINS = os.getenv("ALLOWED_URLS").split(",")
 else:
     ALLOWED_HOSTS = []
 
@@ -87,7 +87,7 @@ WSGI_APPLICATION = "judo_profiles.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": f"django.db.backends.{os.environ.get('DATABASE_ENGINE', 'sqlite3')}",
-        "NAME": os.environ.get("DATABASE_NAME", BASE_DIR / "db.sqlite3"),
+        "NAME": os.environ.get("DATABASE_NAME", BASE_DIR / "data/db.sqlite3"),
         "USER": os.environ.get("DATABASE_USER", ""),
         "PASSWORD": os.environ.get("DATABASE_PASSWORD", ""),
         "HOST": os.environ.get("DATABASE_HOST", ""),

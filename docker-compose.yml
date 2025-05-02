@@ -2,7 +2,7 @@ services:
   judo-postgres:
     image: postgres:16
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - data:/var/lib/postgresql/data
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
@@ -24,23 +24,8 @@ services:
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_HOST=${DATABASE_HOST:-judo-postgres}
       - DATABASE_PORT=5432
-    volumes:
-      - static:/app/staticfiles
-      - nginx:/app/nginx_conf
-  judo-proxy:
-    image: nginx:1.27.4
-    environment:
-      - APP_HOST=${APP_HOST:-judo-app}
-      - APP_PORT=${APP_PORT:-8000}
-    volumes:
-      - nginx:/etc/nginx/templates
-      - static:/app/staticfiles
     ports:
-      - 8000:80
-    depends_on:
-      - judo-app
+      - 8000:8000
 
 volumes:
-  db-data: {}
-  static: {}
-  nginx: {}
+  data: {}

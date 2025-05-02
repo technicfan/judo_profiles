@@ -2,9 +2,7 @@ FROM python:3.13-slim AS builder
 
 WORKDIR /app
 
-# Prevents Python from writing .pyc files to disk
 ENV PYTHONDONTWRITEBYTECODE=1
-# Ensures Python output is sent straight to terminal without buffering
 ENV PYTHONUNBUFFERED=1
 
 RUN pip install --upgrade pip
@@ -17,7 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 8000
+RUN python manage.py collectstatic
 
 RUN chmod +x  /app/start.sh
 
