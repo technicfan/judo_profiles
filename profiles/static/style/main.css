@@ -6,10 +6,12 @@
     cursor: grab;
     background-color: var(--bs-body-bg);
 }
+
 .option {
     display: inline-block;
     cursor: pointer;
 }
+
 .position {
     text-align: center;
     align-items: center;
@@ -24,12 +26,15 @@
     user-select: none;
     box-sizing: unset;
 }
+
 .r {
     border-radius: 0;
 }
+
 .l {
     border-radius: 50%;
 }
+
 #image {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -37,6 +42,7 @@
     user-select: none;
     display: inline;
 }
+
 #image_container {
     position: relative;
     display: inline-block;
@@ -44,62 +50,74 @@
     background-size: contain;
     min-width: 100%;
 }
+
 button {
     border-width: 3px;
     border-style: solid;
     width: fit-content;
     cursor: pointer;
 }
+
 #visual {
     width: fit-content;
 }
+
 .own td {
     width: 100%;
     height: 100%;
 }
+
 .middle {
     left: 25%;
     position: relative;
     width: 50%;
 }
+
 label {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
+
 .hidden {
     display: none;
 }
+
 #delete {
     display: block;
 }
+
 .number {
     display: inline;
 }
-/* #ranks { */
-/*     width: 100%; */
-/*     table-layout: fixed; */
-/* } */
+
 .rank_item {
     text-align: center;
     vertical-align: middle;
 }
+
 #own {
     table-layout: fixed;
 }
+
 .own_techniques {
     table-layout: fixed;
 }
+
 .own_techniques td {
     width: 100%;
 }
+
 #general_container {
     width: fit-content;
 }
-#own > tbody > tr > td, #own > tbody > tr > td > div {
+
+#own>tbody>tr>td,
+#own>tbody>tr>td>div {
     width: 25rem;
 }
-#general_info > div {
-    padding: .5rem;
+
+#general_info>div {
+    padding: 0.5rem;
 }

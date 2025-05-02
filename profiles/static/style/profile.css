@@ -1,14 +1,18 @@
 .position {
     cursor: auto;
 }
+
 .d-inline-block.position {
     border-color: var(--bs-body-color);
     color: var(--bs-body-color);
 }
-#own > tbody > tr > td > div {
+
+#own>tbody>tr>td>div {
     justify-content: center;
     display: flex;
 }
-#own > tbody > tr > td, #own > tbody > tr > td > div {
+
+#own>tbody>tr>td,
+#own>tbody>tr>td>div {
     width: 15rem;
 }
