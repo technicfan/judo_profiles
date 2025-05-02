@@ -83,6 +83,7 @@ function add_rank_item(type, context = null) {
     }
     if (number <= 4) {
         $("#" + type + number).append(html);
+        document.getElementById(type + number).classList.remove("d-none");
         var div = document.getElementById(type + "_item" + number);
         div.querySelector("button").addEventListener("click", (event) => {
             event.preventDefault();
@@ -147,12 +148,15 @@ function remove_rank(type, element) {
 
     switch (type) {
         case "special":
+            document.getElementById(type + special).classList.add("d-none");
             special -= 1;
             break;
         case "ground":
+            document.getElementById(type + ground).classList.add("d-none");
             ground -= 1;
             break;
         case "combination":
+            document.getElementById(type + combination).classList.add("d-none");
             combination -= 1;
             break;
     }
