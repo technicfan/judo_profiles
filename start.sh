@@ -10,4 +10,4 @@ then
 fi
 
 python manage.py migrate
-gunicorn --bind 0.0.0.0:8000 judo_profiles.wsgi
+gunicorn --bind 0.0.0.0:"$APP_PORT" judo_profiles.wsgi
