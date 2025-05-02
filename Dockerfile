@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED=1
 RUN pip install --upgrade pip
 
 RUN apt-get update \
-    && apt-get -y install libpq-dev gcc
+    && apt-get -y install libpq-dev gcc netcat-openbsd
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
