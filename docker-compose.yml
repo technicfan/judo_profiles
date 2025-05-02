@@ -33,7 +33,7 @@ services:
       - APP_HOST=${APP_HOST:-judo-app}
       - APP_PORT=${APP_PORT:-8000}
     volumes:
-      - nginx:/etc/nginx/conf.d
+      - nginx:/etc/nginx/templates
       - static:/app/staticfiles
     ports:
       - 8000:80
