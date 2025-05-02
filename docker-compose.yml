@@ -1,40 +1,44 @@
 services:
-  db:
+  judo-postgres:
     image: postgres:16
     volumes:
       - db-data:/var/lib/postgresql/data
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_USER=${DATABASE_USER}
-      - POSTGRES_DB=${DATABASE_NAME}
-  app:
+      - POSTGRES_USER=${DATABASE_USER:-admin}
+      - POSTGRES_DB=${DATABASE_NAME:-judo}
+  judo-app:
     build:
       context: .
     depends_on:
-      - db
+      - judo-postgres
     restart: unless-stopped
     environment:
       - ALLOWED_URLS=${ALLOWED_URLS}
       - SECRET_KEY=${SECRET_KEY}
+      - APP_PORT=${APP_PORT:-8000}
       - DATABASE_ENGINE=postgresql
-      - DATABASE_NAME=${DATABASE_NAME}
-      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_NAME=${DATABASE_NAME:-judo}
+      - DATABASE_USER=${DATABASE_USER:-admin}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_HOST=db
+      - DATABASE_HOST=${DATABASE_HOST:-judo-postgres}
       - DATABASE_PORT=5432
     volumes:
       - static:/app/staticfiles
       - nginx:/app/nginx_conf
-  proxy:
+  judo-proxy:
     image: nginx:1.27.4
+    environment:
+      - APP_HOST=${APP_HOST:-judo-app}
+      - APP_PORT=${APP_PORT:-8000}
     volumes:
       - nginx:/etc/nginx/conf.d
       - static:/app/staticfiles
     ports:
       - 8000:80
     depends_on:
-      - app
+      - judo-app
 
 volumes:
   db-data: {}
