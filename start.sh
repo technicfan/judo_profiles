@@ -6,7 +6,7 @@ then
 fi
 if [[ -f "nginx/nginx.conf" && -d "nginx_conf" ]]
 then
-    mv nginx/nginx.conf nginx_conf/default.conf
+    mv nginx/nginx.conf nginx_conf/default.conf.template
 fi
 
 python manage.py migrate
