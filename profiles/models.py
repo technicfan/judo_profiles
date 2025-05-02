@@ -64,11 +64,10 @@ class OwnTechnique(models.Model):
 
 
 class TechniqueRank(models.Model):
-    TYPE_CHOICES = [("S", "Spezial"), ("U", "Übergang"), ("B", "Boden")]
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     technique = models.ForeignKey(Technique, on_delete=models.CASCADE)
     number = models.PositiveIntegerField()
-    type = models.CharField(choices=TYPE_CHOICES, max_length=1)
+    type = models.CharField(max_length=8)
 
     def __str__(self):
         return self.technique.name

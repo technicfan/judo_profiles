@@ -79,7 +79,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('number', models.PositiveIntegerField()),
-                ('type', models.CharField(choices=[('S', 'Spezial'), ('U', 'Übergang'), ('B', 'Boden')], max_length=1)),
+                ('type', models.CharField(max_length=8)),
                 ('profile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='profiles.profile')),
                 ('technique', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='profiles.technique')),
             ],
