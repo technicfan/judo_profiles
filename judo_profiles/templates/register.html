@@ -1,0 +1,52 @@
+{% extends "abstract/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Register with key" %}{% endblock %}
+
+{% block register %}active" aria-current="page{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <form method="post" style="width: 27rem;">
+            {% csrf_token %}
+            {% if token %}
+                <div id="pass_warn" class="alert alert-danger mx-auto d-none" style="width: fit-content;">
+                    {% translate "The passwords don't match" %}
+                </div>
+                <input class="form-control-plaintext" type="text" name="username" value="{{ username }}" readonly>
+                <input type="hidden" name="token" value="{{ token }}" readonly>
+                <input id="pass1" class="form-control" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="{% translate "Password" %}" required>
+                <ul>
+                    <!-- <li>mindestens 8 Zeichen</li> -->
+                    <!-- <li>jeweils mindestens ein Groß- und Kleinbuchstabe</li> -->
+                    <!-- <li>mindestens eine Ziffer</li> -->
+                    <li>{% translate "8 characters minimum" %}</li>
+                    <li>{% translate "one lower and one upper case character minimum" %}</li>
+                    <li>{% translate "one number minimum" %}</li>
+                </ul>
+                <input id="pass2" class="form-control" type="password" name="password_repeat" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="{% translate "Repeat password" %}" required>
+                <div class="d-flex justify-content-center">
+                    <input class="btn btn-secondary mt-4" type="submit" value="{% translate "Register" %}">
+                </div>
+                <script>
+                    document.querySelector("form").onsubmit = function(){
+                        if (document.getElementById("pass1").value != document.getElementById("pass2").value){
+                            document.getElementById("pass_warn").classList.remove("d-none")
+                            return false
+                        }
+                    }
+                </script>
+            {% else %}
+                {% if wrong %}
+                    <div class="alert alert-danger mx-auto" style="width: fit-content;">
+                        {% translate "This key does not exist or is expired" %}
+                    </div>
+                {% endif %}
+                <input class="form-control" type="text" name="token" placeholder="{% translate "Key" %}" required>
+                <div class="d-flex justify-content-center">
+                    <input class="btn btn-secondary mt-4" type="submit" value="{% translate "Register with key" %}">
+                </div>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "abstract/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "New trainer" %}{% endblock %}
+
+{% block admin_actions %}
+    <a class="nav-link active" href="">{% translate "New trainer" %}</a>
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <form method="post" style="width: 27rem;">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="first_name" placeholder="{% translate "First name" %}" required>
+            <input type="text" class="form-control my-2" name="last_name" placeholder="{% translate "Last name" %}" required>
+            <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-secondary mt-2" value="{% translate "Create key" %}">
+            </div>
+        </form>
+    </div>
+{% endblock %}

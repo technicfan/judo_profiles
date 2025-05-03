@@ -1,0 +1,40 @@
+{% extends "abstract/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Login" %}{% endblock %}
+
+{% block login %}active" aria-current="page{% endblock %}
+
+{% block content %}
+    <div class="mx-2">
+        {% if next %}
+            <div class="alert alert-warning mx-auto" style="width: fit-content;">
+                {% if user.is_authenticated %}
+                    Dieser Account hat auf diese Seite keinen Zugriff - Bitte mit einem anderen Account anmelden
+                    {% translate "This account doesn't have access to this page - please login with another account" %}
+                {% else %}
+                    Anmelden, um diese Seite zu sehen
+                    {% translate "Login to see this page" %}
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if wrong %}
+            <div class="alert alert-danger mx-auto" style="width: fit-content;">
+                Falsches Passwort oder falscher Benutzername
+                {% translate "Wrong password or username" %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <form method="post" style="width: 27rem;">
+            {% csrf_token %}
+            <input class="form-control" type="text" name="user" placeholder="{% translate "Username" %}" required>
+            <input class="form-control my-2" type="password" name="pass" placeholder="{% translate "Password" %}" required>
+            <div class="d-flex justify-content-center">
+            <input class="btn btn-secondary mt-2" type="submit" value="{% translate "Login" %}">
+            </div>
+            <input type="hidden"name="next" value="{{ next }}">
+        </form>
+    </div>
+{% endblock %}

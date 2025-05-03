@@ -1,0 +1,46 @@
+{% extends "abstract/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "User management" %}{% endblock %}
+
+{% block manage %}active" aria-current="page{% endblock %}
+
+{% block admin_actions %}
+    <a class="nav-link" href="{% url "users-new" %}">{% translate "New trainer" %}</a>
+{% endblock %}
+
+{% block style %}
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex justify-content-center mx-auto">
+            <select id="status" name="status" class="form-select mb-2 me-2 d-inline" style="width: max-content;">
+                <option value="">{% translate "All" %}</option>
+                <option value="a" selected>{% translate "Active" %}</option>
+                <option value="i">{% translate "Inactive" %}</option>
+            </select>
+            <select id="type" name="type" class="form-select mb-2 d-inline" style="width: max-content;">
+                <option value="" selected>{% translate "All" %}</option>
+                <option value="u">{% translate "Judoka" %}</option>
+                <option value="t">{% translate "Trainers" %}</option>
+            </select>
+        </div>
+        <input class="form-control mx-auto" type="search"
+            name="search" placeholder="{% translate "Search user" %}..."
+            hx-post=""
+            hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#type, change from:#status, load"
+            hx-target="#users"
+            hx-include="#type, #status"
+            hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
+        <table class="table align-middle mx-auto mt-4" style="max-width: 40rem;">
+            <thead>
+                <th>{% translate "Username" %}</th>
+                <th></th>
+            </thead>
+            <tbody id="users">
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

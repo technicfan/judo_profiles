@@ -1,0 +1,37 @@
+{% load i18n %}
+
+{% if users %}
+    {% load has_group %}
+    {% for user in users %}
+        <tr>
+            <td>
+                <a class="link-body-emphasis link-underline-opacity-0" href="{% url "users-user" user %}">{{ user }}</a>
+            </td>
+            <td>
+                {% if not user.is_active %}
+                    <span class="badge text-bg-secondary">{% translate "inactive" %}</span>
+                {% else %}
+                    <span class="badge text-bg-success">{% translate "active" %}</span>
+                {% endif %}
+                {% if user.token %}
+                    {% if user.token.valid_for < 1 %}
+                        <span class="badge text-bg-secondary">{% translate "key expired" %}</span>
+                    {% else %}
+                        <span class="badge text-bg-info">{% translate "key created" %}</span>
+                    {% endif %}
+                {% endif %}
+                {% if user|has_group:"Trainers" %}
+                    <span class="badge text-bg-warning">{% translate "trainer" %}</span>
+                {% elif not user.profile %}
+                    <span class="badge text-bg-danger">{% translate "without profile" %}</span>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="2">
+            <div class="mx-auto text-center">{% translate "No matching users found" %}</div>
+        </td>
+    </tr>
+{% endif %}

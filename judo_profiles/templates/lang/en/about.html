@@ -1,0 +1,30 @@
+{% extends "abstract/base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block about %}active" aria-current="page{% endblock %}
+
+{% block content %}
+    <div class="container text-center">
+        <h2>Introduction</h2>
+        <p>
+            This website is a school project that turned a bit into a hobby project after all.<br>
+            It's a Judo fighter profile management platform, that can be used by multiple trainers simultaneously.<br>
+            In addition a judoka can also access its profile an can be given access to view others as well.<br>
+            Trainers can also give each other read and write permission for profiles created by them.<br>
+            At start an admin account has to be created (in cli), that can manage all accounts and<br>
+            can also create a new key in case a user forgot its password.<br>
+            The password for a (user) account is not created by the trainer that creates it<br>
+            but the trainer creates a key, that is valid for seven days and which the user<br>
+            can then use to create a password that only he/she knows.
+        </p>
+        <h3>Technical</h3>
+        <p>
+            This is a <a href="https://github.com/django/django">Django</a> project, that also uses JavaScript for the frontend.<br>
+            It's available free (as in freedom) under the <a href="https://opensource.org/license/mit">MIT License</a>: <a href="https://github.com/technicfan/judo_profiles">GitHub</a><br>
+            I use <a href="https://github.com/django-guardian/django-guardian">django-guardian</a> for per-object-permissions for the profiles.<br>
+            On the client side I use <a href="https://github.com/twbs/bootstrap">Bootstrap</a> for easy styling, a little bit of<br>
+            <a href="https://jquery.com/">jQuery</a> and <a href="https://github.com/bigskysoftware/htmx">htmx</a>, for fast live search without reloading.
+        </p>
+    </div>
+{% endblock %}
