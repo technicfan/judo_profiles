@@ -1,10 +1,11 @@
 {% extends "abstract/base.html" %}
+{% load i18n %}
 
-{% block title %}Fehler 404{% endblock %}
+{% block title %}{% translate "Error 404" %}{% endblock %}
 
 {% block content %}
     <div class="container position-absolute top-50 start-50 translate-middle text-center alert-danger alert" style="width: fit-content;">
-        <h2>Dieser Pfad scheint nicht zu existieren</h2>
-        <h4>Fehler 404</h4>
+        <h2>{% translate "This path seems to not exist" %}</h2>
+        <h4>{% translate "Error 404" %}</h4>
     </div>
 {% endblock %}

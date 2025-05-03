@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% if users %}
     {% load guardian_tags %}
     {% for user in users %}
@@ -16,7 +18,7 @@
 {% else %}
     <tr>
         <td>
-            <div class="mx-auto text-center">Keine passenden Nutzer*innen gefunden</div>
+            <div class="mx-auto text-center">{% translate "No matching users found" %}</div>
         </td>
     </tr>
 {% endif %}

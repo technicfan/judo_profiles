@@ -1,11 +1,12 @@
 {% extends "abstract/profile_base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Profil erstellen{% endblock %}
+{% block title %}{% translate "Create profile" %}{% endblock %}
 
 {% block actions %}
-    <a class="nav-link active" href="">Neues Profil</a>
-    <input class="nav-link" type="submit" form="profile_form" value="Fertig">
+    <a class="nav-link active" href="">{% translate "New profile" %}</a>
+    <input class="nav-link" type="submit" form="profile_form" value="{% translate "Finish" %}">
 {% endblock %}
 
 {% block hidden_data %}
@@ -38,56 +39,56 @@
 
 {% block general_info %}
     <div>
-        <input class="form-control" type="text" id="name" placeholder="Vorname" value="{{ profile.name|default:"" }}" required>
+        <input class="form-control" type="text" id="name" placeholder="{% translate "First name" %}" value="{{ profile.name|default:"" }}" required>
     </div>
     <div>
-        <input class="form-control" type="text" id="last_name" placeholder="Nachname" value="{{ profile.last_name|default:"" }}" required>
+        <input class="form-control" type="text" id="last_name" placeholder="{% translate "Last name" %}" value="{{ profile.last_name|default:"" }}" required>
     </div>
     <div>
-        <input class="form-control" type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="Jahrgang" size="5" required>
+        <input class="form-control" type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="{% translate "Year group" %}" size="5" required>
     </div>
     <div>
-        <input class="form-control" type="number" id="weight" min="30" max="200" step="1" placeholder="Gewicht (kg)" value="{{ profile.weight|default:"" }}" size="9" required>
+        <input class="form-control" type="number" id="weight" min="30" max="200" step="1" placeholder="{% translate "Weight" %} (kg)" value="{{ profile.weight|default:"" }}" size="9" required>
     </div>
 {% endblock %}
 
 {% block delete_positions %}
-    <button id="delete" class="btn btn-outline-danger btn-sm" data-bs-toggle="button" onclick="delClick()">Löschen</button>
+    <button id="delete" class="btn btn-outline-danger btn-sm" data-bs-toggle="button" onclick="delClick()">{% translate "Delete" %}</button>
 {% endblock %}
 
 {% block own0 %}
     <div class="d-flex justify-content-center mb-2">
-        <button class="btn btn-success btn-sm" onclick="add_own(0)">Hinzufügen</button>
+        <button class="btn btn-success btn-sm" onclick="add_own(0)">{% translate "Add" %}</button>
     </div>
 {% endblock %}
 
 {% block own1 %}
     <div class="d-flex justify-content-center mb-2">
-        <button class="btn btn-success btn-sm" onclick="add_own(1)">Hinzufügen</button>
+        <button class="btn btn-success btn-sm" onclick="add_own(1)">{% translate "Add" %}</button>
     </div>
 {% endblock %}
 
 {% block own2 %}
     <div class="d-flex justify-content-center mb-2">
-        <button class="btn btn-success btn-sm" onclick="add_own(2)">Hinzufügen</button>
+        <button class="btn btn-success btn-sm" onclick="add_own(2)">{% translate "Add" %}</button>
     </div>
 {% endblock %}
 
 {% block own3 %}
     <div class="d-flex justify-content-center mb-2">
-        <button class="btn btn-success btn-sm" onclick="add_own(3)">Hinzufügen</button>
+        <button class="btn btn-success btn-sm" onclick="add_own(3)">{% translate "Add" %}</button>
     </div>
 {% endblock %}
 
 {% block own4 %}
     <div class="d-flex justify-content-center mb-2">
-        <button class="btn btn-success btn-sm" onclick="add_own(4)">Hinzufügen</button>
+        <button class="btn btn-success btn-sm" onclick="add_own(4)">{% translate "Add" %}</button>
     </div>
 {% endblock %}
 
 {% block own5 %}
     <div class="d-flex justify-content-center mb-2">
-        <button class="btn btn-success btn-sm" onclick="add_own(5)">Hinzufügen</button>
+        <button class="btn btn-success btn-sm" onclick="add_own(5)">{% translate "Add" %}</button>
     </div>
 {% endblock %}
 
@@ -106,7 +107,7 @@
     </tr>
     <tr>
         <td class="d-flex justify-content-center">
-            <button class="btn btn-success btn-sm" onclick="add_rank_item('special')">Hinzufügen</button>
+            <button class="btn btn-success btn-sm" onclick="add_rank_item('special')">{% translate "Add" %}</button>
         </td>
     </tr>
 {% endblock %}
@@ -126,7 +127,7 @@
     </tr>
     <tr>
         <td class="d-flex justify-content-center">
-            <button class="btn btn-success btn-sm" onclick="add_rank_item('ground')">Hinzufügen</button>
+            <button class="btn btn-success btn-sm" onclick="add_rank_item('ground')">{% translate "Add" %}</button>
         </td>
     </tr>
 {% endblock %}
@@ -146,7 +147,7 @@
     </tr>
     <tr>
         <td class="d-flex justify-content-center">
-            <button class="btn btn-success btn-sm" onclick="add_rank_item('combination')">Hinzufügen</button>
+            <button class="btn btn-success btn-sm" onclick="add_rank_item('combination')">{% translate "Add" %}</button>
         </td>
     </tr>
 {% endblock %}

@@ -1,7 +1,8 @@
 {% extends "abstract/profile_base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Profil von {{ profile.name }}{% endblock %}
+    {% block title %}{% blocktranslate %}Profile of {{ profile.name }}{% endblocktranslate %}{% endblock %}
 
 {% if request.user == profile.user %}
     {% block own %}active" aria-current="page{% endblock %}
@@ -11,13 +12,13 @@
     {% load guardian_tags %}
     {% get_obj_perms request.user for profile as "profile_perms" %}
     {% if request.user != profile.user %}
-        <a class="nav-link active" href="">Profil</a>
+        <a class="nav-link active" href="">{% translate "Profile" %}</a>
     {% endif %}
     {% if "change_profile" in profile_perms %}
-        <a class="nav-link" href="{% url "profiles-profile-edit" profile.user.username %}">Bearbeiten</a>
+        <a class="nav-link" href="{% url "profiles-profile-edit" profile.user.username %}">{% translate "Edit" %}</a>
     {% endif %}
     {% if "manage_profile" in profile_perms %}
-        <a class="nav-link" href="{% url "profiles-profile-manage" profile.user.username %}">Verwalten</a>
+        <a class="nav-link" href="{% url "profiles-profile-manage" profile.user.username %}">{% translate "Manage" %}</a>
     {% endif %}
 {% endblock %}
 
@@ -60,13 +61,13 @@
 
 {% block general_info %}
     <div>
-        <p><b>Jahrgang:</b> {{ profile.year }}</p>
+        <p><b>{% translate "Year group" %}:</b> {{ profile.year }}</p>
     </div>
     <div>
-        <p><b>Gewicht:</b> {{ profile.weight }}kg</p>
+        <p><b>{% translate "Weight" %}:</b> {{ profile.weight }}kg</p>
     </div>
     <div>
-        <p><b>geändert:</b> {{ profile.updated_on }}</p>
+        <p><b>{% translate "changed" %}:</b> {{ profile.updated_on }}</p>
     </div>
 {% endblock %}
 

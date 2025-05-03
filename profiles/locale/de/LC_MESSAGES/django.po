@@ -1,0 +1,275 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-03 04:45+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: profiles/templates/404.html:4 profiles/templates/404.html:9
+msgid "Error 404"
+msgstr "Fehler 404"
+
+#: profiles/templates/404.html:8
+msgid "This path seems to not exist"
+msgstr "Dieser Pfad scheint nicht zu existieren"
+
+#: profiles/templates/abstract/base.html:9
+#: profiles/templates/abstract/base.html:40
+msgid "Judo Profiles"
+msgstr "Judo Profile"
+
+#: profiles/templates/abstract/base.html:47 profiles/templates/profiles.html:6
+msgid "Dashboard"
+msgstr "Übersicht"
+
+#: profiles/templates/abstract/base.html:49
+#: profiles/templates/htmx/profiles.html:8
+msgid "Own profile"
+msgstr "Eigenes Profil"
+
+#: profiles/templates/abstract/base.html:53
+msgid "User management"
+msgstr "Benutzerverwaltung"
+
+#: profiles/templates/abstract/base.html:60
+msgid "Manage account"
+msgstr "Konto verwalten"
+
+#: profiles/templates/abstract/base.html:61
+msgid "Logout"
+msgstr "Abmelden"
+
+#: profiles/templates/abstract/base.html:66
+msgid "Login"
+msgstr "Anmelden"
+
+#: profiles/templates/abstract/base.html:67
+msgid "Register with key"
+msgstr "Mit Schlüssel Registrieren"
+
+#: profiles/templates/abstract/base.html:69
+msgid "About"
+msgstr "Über"
+
+#: profiles/templates/abstract/base.html:77
+msgid "This site only works with Javascript - to use it please activate it"
+msgstr ""
+"Diese Seite funktioniert nur mit Javascript - für die Nutzung bitte "
+"aktivieren"
+
+#: profiles/templates/abstract/profile_base.html:21
+msgid "Fighter profile of"
+msgstr "Kämpferprofil von"
+
+#: profiles/templates/abstract/profile_base.html:28
+msgid "Left-handed fighter"
+msgstr "Linkskämpfer*in"
+
+#: profiles/templates/abstract/profile_base.html:36
+msgid "Right-handed fighter"
+msgstr "Rechtskämpfer*in"
+
+#: profiles/templates/abstract/profile_base.html:58
+msgid "Right hand"
+msgstr "Rechte Hand"
+
+#: profiles/templates/abstract/profile_base.html:65
+msgid "Left hand"
+msgstr "Linke Hand"
+
+#: profiles/templates/abstract/profile_base.html:88
+msgid "Own techniques"
+msgstr "Eigene Techniken"
+
+#: profiles/templates/abstract/profile_base.html:144
+msgid "Special techniques"
+msgstr "Spezialtechniken"
+
+#: profiles/templates/abstract/profile_base.html:150
+msgid "Ground techniques"
+msgstr "Bodentechniken"
+
+#: profiles/templates/abstract/profile_base.html:156
+msgid "Combinations"
+msgstr "Kombinationen"
+
+#: profiles/templates/htmx/profile_permissions.html:21
+msgid "No matching users found"
+msgstr "Keine passenden Nutzer*innen gefunden"
+
+#: profiles/templates/htmx/profiles.html:11
+#: profiles/templates/profiles/edit.html:12
+#: profiles/templates/profiles/manage.html:17
+#: profiles/templates/profiles/manage.html:78
+#: profiles/templates/profiles/profile.html:18
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: profiles/templates/htmx/profiles.html:16
+msgid "Manage access"
+msgstr "Zugriff verwalten"
+
+#: profiles/templates/htmx/profiles.html:24
+msgid "No profiles found"
+msgstr "Keine Profile gefunden"
+
+#: profiles/templates/profiles.html:17 profiles/templates/profiles/new.html:8
+msgid "New profile"
+msgstr "Neues Profil"
+
+#: profiles/templates/profiles.html:24
+msgid "Search profile"
+msgstr "Profil suchen"
+
+#: profiles/templates/profiles.html:31
+msgid "Name"
+msgstr "Name"
+
+#: profiles/templates/profiles/edit.html:4
+#, python-format
+msgid "Edit profile of %(profile.name)s"
+msgstr "Profil von %(profile.name)s bearbeiten"
+
+#: profiles/templates/profiles/edit.html:10
+#: profiles/templates/profiles/manage.html:14
+#: profiles/templates/profiles/profile.html:15
+msgid "Profile"
+msgstr "Profil"
+
+#: profiles/templates/profiles/edit.html:14
+#: profiles/templates/profiles/manage.html:19
+#: profiles/templates/profiles/manage.html:79
+#: profiles/templates/profiles/profile.html:21
+msgid "Manage"
+msgstr "Verwalten"
+
+#: profiles/templates/profiles/edit.html:17
+msgid "Really delete profile irrevocably?\\n"
+msgstr "Profil wirklich unwiederruflich löschen?\\n"
+
+#: profiles/templates/profiles/edit.html:17
+#, python-format
+msgid ""
+"The user %(profile.user.username)s\\nwon\\'t ever be able to have a profile "
+"again."
+msgstr ""
+"Der/Die Nutzer*in %(profile.user.username)s\\nwird nie wieder ein Profil "
+"haben können."
+
+#: profiles/templates/profiles/edit.html:17
+#: profiles/templates/profiles/new.html:56
+msgid "Delete"
+msgstr "Löschen"
+
+#: profiles/templates/profiles/edit.html:19
+#: profiles/templates/profiles/manage.html:97
+msgid "Save"
+msgstr "Speichern"
+
+#: profiles/templates/profiles/edit.html:20
+#: profiles/templates/profiles/new.html:9
+msgid "Finish"
+msgstr "Fertig"
+
+#: profiles/templates/profiles/manage.html:4
+#, python-format
+msgid "Manage profile of %(profile.name)s"
+msgstr "Profil von %(profile.name)s verwalten"
+
+#: profiles/templates/profiles/manage.html:26
+#, python-format
+msgid "Access to profile of %(profile.name)s"
+msgstr "Zugriff zum Profil von %(profile.name)s"
+
+#: profiles/templates/profiles/manage.html:31
+msgid "Key for new user"
+msgstr "Schlüssel für neue/n Nutzer*in"
+
+#: profiles/templates/profiles/manage.html:37
+msgid "Key expired, without being used"
+msgstr "Schlüssel abgelaufen, ohne, dass er verwendet wurde"
+
+#: profiles/templates/profiles/manage.html:38
+msgid "Renew key"
+msgstr "Schlüssel erneuern"
+
+#: profiles/templates/profiles/manage.html:47
+#: profiles/templates/profiles/manage.html:56
+msgid "Copy key"
+msgstr "Schlüssel kopieren"
+
+#: profiles/templates/profiles/manage.html:53
+msgid "Key copied"
+msgstr "Schlüssel kopiert"
+
+#: profiles/templates/profiles/manage.html:61
+msgid "Delete key"
+msgstr "Schlüssel löschen"
+
+#: profiles/templates/profiles/manage.html:77
+msgid "View"
+msgstr "Anzeigen"
+
+#: profiles/templates/profiles/manage.html:82
+msgid "Search user"
+msgstr "Benutzer*in suchen"
+
+#: profiles/templates/profiles/manage.html:90
+msgid "User"
+msgstr "Benutzer*in"
+
+#: profiles/templates/profiles/new.html:5
+msgid "Create profile"
+msgstr "Profil erstellen"
+
+#: profiles/templates/profiles/new.html:42
+msgid "First name"
+msgstr "Vorname"
+
+#: profiles/templates/profiles/new.html:45
+msgid "Last name"
+msgstr "Nachname"
+
+#: profiles/templates/profiles/new.html:48
+#: profiles/templates/profiles/profile.html:64
+msgid "Year group"
+msgstr "Jahrgang"
+
+#: profiles/templates/profiles/new.html:51
+#: profiles/templates/profiles/profile.html:67
+msgid "Weight"
+msgstr "Gewicht"
+
+#: profiles/templates/profiles/new.html:61
+#: profiles/templates/profiles/new.html:67
+#: profiles/templates/profiles/new.html:73
+#: profiles/templates/profiles/new.html:79
+#: profiles/templates/profiles/new.html:85
+#: profiles/templates/profiles/new.html:91
+#: profiles/templates/profiles/new.html:110
+#: profiles/templates/profiles/new.html:130
+#: profiles/templates/profiles/new.html:150
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: profiles/templates/profiles/profile.html:5
+#, python-format
+msgid "Profile of %(profile.name)s"
+msgstr "Profil von %(profile.name)s"
+
+#: profiles/templates/profiles/profile.html:70
+msgid "changed"
+msgstr "geändert"

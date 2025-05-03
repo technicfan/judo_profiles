@@ -15,7 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python manage.py collectstatic
+RUN python manage.py collectstatic \
+    && python manage.py compilemessages
 
 RUN chmod +x  /app/start.sh
 

@@ -1,6 +1,7 @@
 {% extends "abstract/base.html" %}
+{% load i18n %}
 
-{% block title %}Profil von {{ profile.name }} verwalten{% endblock %}
+{% block title %}{% blocktranslate %}Manage profile of {{ profile.name }}{% endblocktranslate %}{% endblock %}
 
 {% block style %}
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
@@ -10,31 +11,31 @@
     {% load guardian_tags %}
     {% get_obj_perms request.user for profile as "profile_perms" %}
     {% if "view_profile" in profile_perms and request.user != profile.user %}
-        <a class="nav-link" href="{% url "profiles-profile" profile.user.username %}">Profil</a>
+        <a class="nav-link" href="{% url "profiles-profile" profile.user.username %}">{% translate "Profile" %}</a>
     {% endif %}
     {% if "change_profile" in profile_perms %}
-        <a class="nav-link" href="{% url "profiles-profile-edit" profile.user.username %}">Bearbeiten</a>
+        <a class="nav-link" href="{% url "profiles-profile-edit" profile.user.username %}">{% translate "Edit" %}</a>
     {% endif %}
-    <a class="nav-link active" href="">Verwalten</a>
+    <a class="nav-link active" href="">{% translate "Manage" %}</a>
 {% endblock %}
 
 {% block content %}
     {% if user == profile.created_by %}
         <div class="container">
             <div class="row mb-3">
-            <h2 class="col">Zugriff zum Profil von {{ profile.name }}</h2>
+                <h2 class="col">{% blocktranslate %}Access to profile of {{ profile.name }}{% endblocktranslate %}</h2>
                 <form method="post" class="col">
-                {% csrf_token %}
+                    {% csrf_token %}
                     <div class="d-flex justify-content-end">
                         {% if not profile.user.token and not profile.user.is_active %}
-                            <button class="btn btn-secondary" name="add">Schlüssel für neue/n Nutzer*in</button>
+                            <button class="btn btn-secondary" name="add">{% translate "Key for new user" %}</button>
                         {% else %}
                             {% if not profile.user.is_active %}
                                 <table class="text-center">
                                     <tr>
                                         {% if profile.user.token.valid_for < 1 %}
-                                            <td class="pe-3">Schlüssel abgelaufen, ohne, dass er verwendet wurde</td>
-                                            <td><button class="btn btn-secondary" name="renew">Schlüssel erneuern</button></td>
+                                            <td class="pe-3">{% translate "Key expired, without being used" %}</td>
+                                            <td><button class="btn btn-secondary" name="renew">{% translate "Renew key" %}</button></td>
                                         {% else %}
                                             <td class="pe-3">
                                                 {% if profile.user.token.valid_for == 1 %}
@@ -43,21 +44,21 @@
                                                     Noch gültig für {{ profile.user.token.valid_for }} Tage
                                                 {% endif %}
                                             </td>
-                                            <td class="pe-2"><button id="copy" class="btn btn-secondary" onclick="copy_token('{{ profile.user.token }}'); return false;">Schlüssel kopieren</button></td>
+                                            <td class="pe-2"><button id="copy" class="btn btn-secondary" onclick="copy_token('{{ profile.user.token }}'); return false;">{% translate "Copy key" %}</button></td>
                                             <script>
                                                 const delay = ms => new Promise(res => setTimeout(res, ms))
                                                 async function copy_token(token){
                                                     const button = document.getElementById("copy")
                                                     await navigator.clipboard.writeText(token)
-                                                    button.innerHTML = "Schlüssel kopiert"
+                                                    button.innerHTML = "{% translate "Key copied" %}"
                                                     button.classList.add("active")
                                                     await delay(1500)
-                                                    button.innerHTML = "Schlüssel kopieren"
+                                                    button.innerHTML = "{% translate "Copy key" %}"
                                                     button.classList.remove("active")
                                                 }
                                             </script>
                                         {% endif %}
-                                        <td><button class="btn btn-secondary" name="delete_token">Schlüssel löschen</button></td>
+                                        <td><button class="btn btn-secondary" name="delete_token">{% translate "Delete key" %}</button></td>
                                     </tr>
                                 </table>
                             {% endif %}
@@ -73,12 +74,12 @@
             hx-target="#success">
                 {% csrf_token %}
                 <select id="permission" name="permission" class="form-select mb-2 mx-auto">
-                    <option value="view_profile">Anzeigen</option>
-                    <option value="change_profile">Bearbeiten</option>
-                    <option value="manage_profile">Verwalten</option>
+                    <option value="view_profile">{% translate "View" %}</option>
+                    <option value="change_profile">{% translate "Edit" %}</option>
+                    <option value="manage_profile">{% translate "Manage" %}</option>
                 </select>
                 <input class="form-control mx-auto" id="search" type="search"
-                    name="search" placeholder="Benutzer*in suchen..."
+                    name="search" placeholder="{% translate "Search user" %}..."
                     hx-post=""
                     hx-target="#users"
                     hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#permission, load"
@@ -86,14 +87,14 @@
                     hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
             <table class="table mx-auto mt-4" style="max-width: 40rem;">
                 <thead>
-                <th>Benutzer*in</th>
+                <th>{% translate "User" %}</th>
                 </thead>
                 <tbody id="users"></tbody>
             </table>
             <table class="mx-auto text-center mt-4">
                 <tr>
                     <td>
-                        <input class="btn btn-secondary" type="submit" name="update" value="Speichern">
+                        <input class="btn btn-secondary" type="submit" name="update" value="{% translate "Save" %}">
                     </td>
                 </tr>
                 <tr>

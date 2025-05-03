@@ -1,22 +1,23 @@
 {% extends "profiles/new.html" %}
+{% load i18n %}
 
-{% block title %}Profil von {{ profile.name }} bearbeiten{% endblock %}
+{% block title %}{% blocktranslate %}Edit profile of {{ profile.name }}{% endblocktranslate %}{% endblock %}
 
 {% block actions %}
     {% load guardian_tags %}
     {% get_obj_perms request.user for profile as "profile_perms" %}
     {% if "view_profile" in profile_perms and request.user != profile.user %}
-        <a class="nav-link" href="{% url "profiles-profile" profile.user.username %}">Profil</a>
+        <a class="nav-link" href="{% url "profiles-profile" profile.user.username %}">{% translate "Profile" %}</a>
     {% endif %}
-    <a class="nav-link active" href="">Bearbeiten</a>
+        <a class="nav-link active" href="">{% translate "Edit" %}</a>
     {% if "manage_profile" in profile_perms %}
-        <a class="nav-link" href="{% url "profiles-profile-manage" profile.user.username %}">Verwalten</a>
+        <a class="nav-link" href="{% url "profiles-profile-manage" profile.user.username %}">{% translate "Manage" %}</a>
     {% endif %}
     {% if request.user == profile.created_by %}
-    <button class="nav-link" onclick="if (confirm('Profil wirklich unwiederruflich löschen?\n{% if profile.user.is_active %}Der/Die Nutzer*in {{ profile.user.username }}\nwird nie wieder ein Profil haben können.{% endif %}')){ post_data('delete') }">Löschen</button>
+<button class="nav-link" onclick="if (confirm('{% translate "Really delete profile irrevocably?\n" %}{% if profile.user.is_active %}{% blocktranslate %}The user {{ profile.user.username }}\nwon\'t ever be able to have a profile again.{% endblocktranslate %}{% endif %}')){ post_data('delete') }">{% translate "Delete" %}</button>
     {% endif %}
-    <input class="nav-link" type="submit" form="profile_form" data-type="save" value="Speichern">
-    <input class="nav-link" type="submit" form="profile_form" value="Fertig">
+    <input class="nav-link" type="submit" form="profile_form" data-type="save" value="{% translate "Save" %}">
+    <input class="nav-link" type="submit" form="profile_form" value="{% translate "Finish" %}">
 {% endblock %}
 
 {% block hidden_data2 %}
