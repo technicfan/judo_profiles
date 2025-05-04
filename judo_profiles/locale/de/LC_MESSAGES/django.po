@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-04 01:40+0200\n"
+"POT-Creation-Date: 2025-05-04 11:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,50 +27,49 @@ msgid "This path seems to not exist"
 msgstr "Dieser Pfad scheint nicht zu existieren"
 
 #: judo_profiles/templates/abstract/base.html:9
-#: judo_profiles/templates/abstract/base.html:40
 msgid "Judo Profiles"
 msgstr "Judo Profile"
 
-#: judo_profiles/templates/abstract/base.html:47
+#: judo_profiles/templates/abstract/base.html:48
 #: judo_profiles/templates/profiles.html:5
 msgid "Dashboard"
 msgstr "Übersicht"
 
-#: judo_profiles/templates/abstract/base.html:49
+#: judo_profiles/templates/abstract/base.html:50
 #: judo_profiles/templates/htmx/profiles.html:8
 msgid "Own profile"
 msgstr "Eigenes Profil"
 
-#: judo_profiles/templates/abstract/base.html:53
+#: judo_profiles/templates/abstract/base.html:54
 #: judo_profiles/templates/users.html:4
 msgid "User management"
 msgstr "Benutzerverwaltung"
 
-#: judo_profiles/templates/abstract/base.html:60
+#: judo_profiles/templates/abstract/base.html:61
 #: judo_profiles/templates/account.html:4
 msgid "Manage account"
 msgstr "Konto verwalten"
 
-#: judo_profiles/templates/abstract/base.html:61
+#: judo_profiles/templates/abstract/base.html:62
 msgid "Logout"
 msgstr "Abmelden"
 
-#: judo_profiles/templates/abstract/base.html:66
-#: judo_profiles/templates/login.html:4 judo_profiles/templates/login.html:35
+#: judo_profiles/templates/abstract/base.html:67
+#: judo_profiles/templates/login.html:4 judo_profiles/templates/login.html:32
 msgid "Login"
 msgstr "Anmelden"
 
-#: judo_profiles/templates/abstract/base.html:67
+#: judo_profiles/templates/abstract/base.html:68
 #: judo_profiles/templates/register.html:4
-#: judo_profiles/templates/register.html:47
+#: judo_profiles/templates/register.html:44
 msgid "Register with key"
 msgstr "Mit Schlüssel Registrieren"
 
-#: judo_profiles/templates/abstract/base.html:69
+#: judo_profiles/templates/abstract/base.html:70
 msgid "About"
 msgstr "Über"
 
-#: judo_profiles/templates/abstract/base.html:77
+#: judo_profiles/templates/abstract/base.html:78
 msgid "This site only works with Javascript - to use it please activate it"
 msgstr ""
 "Diese Seite funktioniert nur mit Javascript - für die Nutzung bitte "
@@ -130,17 +129,17 @@ msgid "New password"
 msgstr "Neues Passwort"
 
 #: judo_profiles/templates/account.html:24
-#: judo_profiles/templates/register.html:23
+#: judo_profiles/templates/register.html:20
 msgid "8 characters minimum"
 msgstr "mindestens 8 Zeichen"
 
 #: judo_profiles/templates/account.html:25
-#: judo_profiles/templates/register.html:24
+#: judo_profiles/templates/register.html:21
 msgid "one lower and one upper case character minimum"
 msgstr "mindestens ein Groß- und ein Kleinbuchstabe"
 
 #: judo_profiles/templates/account.html:26
-#: judo_profiles/templates/register.html:25
+#: judo_profiles/templates/register.html:22
 msgid "one number minimum"
 msgstr "mindestens eine Nummer"
 
@@ -152,7 +151,7 @@ msgstr "Neues Passwort wiederholen"
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: judo_profiles/templates/account.html:46
+#: judo_profiles/templates/account.html:45
 msgid ""
 "This will delete all data that is linked to this account permanently! Really "
 "delete everything?"
@@ -207,7 +206,7 @@ msgstr "trainer*in"
 msgid "without profile"
 msgstr "ohne profil"
 
-#: judo_profiles/templates/login.html:14
+#: judo_profiles/templates/login.html:13
 msgid ""
 "This account doesn't have access to this page - please login with another "
 "account"
@@ -215,19 +214,19 @@ msgstr ""
 "Dieser Account hat keinen Zugriff auf diese Seite - bitte mit einem anderen "
 "Account anmelden"
 
-#: judo_profiles/templates/login.html:17
+#: judo_profiles/templates/login.html:15
 msgid "Login to see this page"
 msgstr "Anmelden um diese Seite zu sehen"
 
-#: judo_profiles/templates/login.html:24
+#: judo_profiles/templates/login.html:21
 msgid "Wrong password or username"
 msgstr "Falsches Passwort oder Benutzername"
 
-#: judo_profiles/templates/login.html:32 judo_profiles/templates/users.html:39
+#: judo_profiles/templates/login.html:29 judo_profiles/templates/users.html:39
 msgid "Username"
 msgstr "Benutzername"
 
-#: judo_profiles/templates/login.html:33
+#: judo_profiles/templates/login.html:30
 #: judo_profiles/templates/register.html:18
 msgid "Password"
 msgstr "Passwort"
@@ -273,10 +272,11 @@ msgstr "Profil wirklich unwiederruflich löschen?"
 #: judo_profiles/templates/profiles/edit.html:17
 #, python-format
 msgid "The user %(username)s\\nwon\\'t ever be able to have a profile again."
-msgstr "Der/Die Nutzer*in %(username)s\\nwird nie wieder ein Profil haben können."
+msgstr ""
+"Der/Die Nutzer*in %(username)s\\nwird nie wieder ein Profil haben können."
 
 #: judo_profiles/templates/profiles/edit.html:17
-#: judo_profiles/templates/profiles/new.html:60
+#: judo_profiles/templates/profiles/new.html:61
 #: judo_profiles/templates/users/manage.html:31
 msgid "Delete"
 msgstr "Löschen"
@@ -371,15 +371,15 @@ msgstr "Jahrgang"
 msgid "Weight"
 msgstr "Gewicht"
 
-#: judo_profiles/templates/profiles/new.html:65
-#: judo_profiles/templates/profiles/new.html:71
-#: judo_profiles/templates/profiles/new.html:77
-#: judo_profiles/templates/profiles/new.html:83
-#: judo_profiles/templates/profiles/new.html:89
-#: judo_profiles/templates/profiles/new.html:95
-#: judo_profiles/templates/profiles/new.html:114
-#: judo_profiles/templates/profiles/new.html:134
-#: judo_profiles/templates/profiles/new.html:154
+#: judo_profiles/templates/profiles/new.html:66
+#: judo_profiles/templates/profiles/new.html:72
+#: judo_profiles/templates/profiles/new.html:78
+#: judo_profiles/templates/profiles/new.html:84
+#: judo_profiles/templates/profiles/new.html:90
+#: judo_profiles/templates/profiles/new.html:96
+#: judo_profiles/templates/profiles/new.html:115
+#: judo_profiles/templates/profiles/new.html:135
+#: judo_profiles/templates/profiles/new.html:155
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -392,19 +392,19 @@ msgstr "Profil von %(profile_name)s"
 msgid "changed"
 msgstr "geändert"
 
-#: judo_profiles/templates/register.html:27
+#: judo_profiles/templates/register.html:24
 msgid "Repeat password"
 msgstr "Passwort wiederholen"
 
-#: judo_profiles/templates/register.html:29
+#: judo_profiles/templates/register.html:26
 msgid "Register"
 msgstr "Registrieren"
 
-#: judo_profiles/templates/register.html:42
+#: judo_profiles/templates/register.html:39
 msgid "This key does not exist or is expired"
 msgstr "Dieser Schlüssel existiert nicht oder ist abgelaufen"
 
-#: judo_profiles/templates/register.html:45
+#: judo_profiles/templates/register.html:42
 msgid "Key"
 msgstr "Schlüssel"
 
@@ -481,11 +481,11 @@ msgstr "Schlüssel zum Passwort-Zurücksetzen erstellen"
 msgid "Permissions can only be changed for active users"
 msgstr "Berechtigungen können nur für aktive Nutzer*innen verändert werden"
 
-#: judo_profiles/views/profiles.py:455 judo_profiles/views/users.py:289
+#: judo_profiles/views/profiles.py:453 judo_profiles/views/users.py:289
 msgid "Saved"
 msgstr "Gespeichert"
 
-#: judo_profiles/views/profiles.py:492 judo_profiles/views/users.py:317
+#: judo_profiles/views/profiles.py:490 judo_profiles/views/users.py:317
 #, python-format
 msgid "Valid for %(count)d day"
 msgid_plural "Valid for %(count)d days"
