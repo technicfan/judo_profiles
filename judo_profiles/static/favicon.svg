@@ -1,10 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke-width="8">
-      <style>
-      svg { stroke: #212529; fill: #e9ecef; }
-      @media (prefers-color-scheme: dark) {
-        svg { stroke: #e9ecef; fill: #212529; }
-      }
-      </style>
-    <circle cx="50" cy="50" r="45" />
+    <style>
+        @media (prefers-color-scheme: light) {
+            svg { stroke: #212529; }
+            #dot { fill: #212529; }
+        }
+        @media (prefers-color-scheme: dark) {
+            svg { stroke: #e9ecef; }
+            #dot { fill: #e9ecef; }
+        }
+    </style>
+    <circle  cx="50" cy="50" r="45" />
     <path d="M50 20L80 50L50 80L20 50Z" />
+    <circle id="dot" cx="50" cy="50" r="4" />
 </svg>

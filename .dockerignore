@@ -3,3 +3,7 @@ db.sqlite3
 staticfiles
 .git*
 docker-compose.yml
+.env
+*.md
+*.mo
+*.pyc

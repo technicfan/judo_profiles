@@ -1,4 +1,4 @@
-FROM python:3.13-slim AS builder
+FROM python:3.13.3-slim-bookworm AS builder
 
 WORKDIR /app
 
@@ -18,6 +18,6 @@ COPY . .
 RUN python manage.py collectstatic \
     && django-admin compilemessages
 
-RUN chmod +x  /app/start.sh
+RUN chmod +x  /app/entrypoint.sh
 
-CMD ["/app/start.sh"]
+CMD ["/app/entrypoint.sh"]

@@ -51,10 +51,8 @@ function change_color_theme() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    if (localStorage.getItem("theme")) {
-        set_color_scheme(localStorage.getItem("theme"));
-    } else {
-        set_color_scheme("auto");
-    }
-});
+if (localStorage.getItem("theme")) {
+    set_color_scheme(localStorage.getItem("theme"));
+} else {
+    set_color_scheme("auto");
+}
