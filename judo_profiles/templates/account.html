@@ -7,6 +7,37 @@
 
 {% block content %}
     <div class="d-flex justify-content-center">
+        <form id="language_form" action="{% url "set_language" %}" method="post">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <table>
+                <tr>
+                    <td>
+                        <label for="#languages" class="d-inline me-3">{% translate "Select language" %}:</label>
+                    </td>
+                    <td>
+                        <select id="languages" name="language" class="form-select">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                    {{ language.name_local }} ({{ language.code }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <script>
+            document.getElementById("languages").addEventListener("change", () => {
+                document.getElementById("language_form").submit();
+            });
+        </script>
+    </div>
+    <hr class="mx-auto" style="width: 30rem;">
+    <div class="d-flex justify-content-center">
         <form id="form" method="post" style="width: 27rem;">
             {% csrf_token %}
             {% if wrong %}
@@ -40,7 +71,7 @@
         </script>
     </div>
     {% if not request.user.is_superuser %}
-        <hr class="mx-auto"style="width: 40rem;">
+        <hr class="mx-auto" style="width: 30rem;">
         <div class="d-flex justify-content-center">
             <form method="post" onsubmit="if (!confirm('{% translate "This will delete all data that is linked to this account permanently! Really delete everything?" %}')){ return false }">
                 {% csrf_token %}

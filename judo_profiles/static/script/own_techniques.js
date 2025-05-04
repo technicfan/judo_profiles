@@ -85,9 +85,9 @@ function add_own(field, context = null) {
             number +
             `" class="state form-select form-select-sm d-inline m-1" style="width: fit-content;" required>
                             <option value="" selected>${gettext("State")}</option>
-                            <option value="W">Wettkampf</option>
-                            <option value="T">Training</option>
-                            <option value="Z">Zu lernen</option>
+                            <option value="W">W</option>
+                            <option value="T">T</option>
+                            <option value="Z">Z</option>
                         </select>
                         <button id="own` +
             field +

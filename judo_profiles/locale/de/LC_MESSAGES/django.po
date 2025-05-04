@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-04 11:20+0200\n"
+"POT-Creation-Date: 2025-05-04 22:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,47 +30,51 @@ msgstr "Dieser Pfad scheint nicht zu existieren"
 msgid "Judo Profiles"
 msgstr "Judo Profile"
 
-#: judo_profiles/templates/abstract/base.html:48
+#: judo_profiles/templates/abstract/base.html:54
 #: judo_profiles/templates/profiles.html:5
 msgid "Dashboard"
 msgstr "Übersicht"
 
-#: judo_profiles/templates/abstract/base.html:50
+#: judo_profiles/templates/abstract/base.html:56
 #: judo_profiles/templates/htmx/profiles.html:8
 msgid "Own profile"
 msgstr "Eigenes Profil"
 
-#: judo_profiles/templates/abstract/base.html:54
+#: judo_profiles/templates/abstract/base.html:60
 #: judo_profiles/templates/users.html:4
 msgid "User management"
 msgstr "Benutzerverwaltung"
 
-#: judo_profiles/templates/abstract/base.html:61
+#: judo_profiles/templates/abstract/base.html:65
+msgid "Hello"
+msgstr "Hallo"
+
+#: judo_profiles/templates/abstract/base.html:67
 #: judo_profiles/templates/account.html:4
 msgid "Manage account"
 msgstr "Konto verwalten"
 
-#: judo_profiles/templates/abstract/base.html:62
+#: judo_profiles/templates/abstract/base.html:68
 msgid "Logout"
 msgstr "Abmelden"
 
-#: judo_profiles/templates/abstract/base.html:67
+#: judo_profiles/templates/abstract/base.html:73
 #: judo_profiles/templates/login.html:4 judo_profiles/templates/login.html:32
 msgid "Login"
 msgstr "Anmelden"
 
-#: judo_profiles/templates/abstract/base.html:68
+#: judo_profiles/templates/abstract/base.html:74
 #: judo_profiles/templates/register.html:4
 #: judo_profiles/templates/register.html:44
 msgid "Register with key"
 msgstr "Mit Schlüssel Registrieren"
 
-#: judo_profiles/templates/abstract/base.html:70
+#: judo_profiles/templates/abstract/base.html:76
 msgid "About"
 msgstr "Über"
 
-#: judo_profiles/templates/abstract/base.html:78
-msgid "This site only works with Javascript - to use it please activate it"
+#: judo_profiles/templates/abstract/base.html:84
+msgid "This site only works with Javascript - to use this please activate it"
 msgstr ""
 "Diese Seite funktioniert nur mit Javascript - für die Nutzung bitte "
 "aktivieren"
@@ -111,47 +115,51 @@ msgstr "Kombinationen"
 msgid "Ground techniques"
 msgstr "Bodentechniken"
 
-#: judo_profiles/templates/account.html:14
+#: judo_profiles/templates/account.html:16
+msgid "Select language"
+msgstr "Sprache wählen"
+
+#: judo_profiles/templates/account.html:45
 msgid "Wrong password"
 msgstr "Falsches Passwort"
 
-#: judo_profiles/templates/account.html:18
+#: judo_profiles/templates/account.html:49
 #: judo_profiles/templates/register.html:14
 msgid "The passwords don't match"
 msgstr "Die Passwörter stimmen nicht überein"
 
-#: judo_profiles/templates/account.html:20
+#: judo_profiles/templates/account.html:51
 msgid "Current password"
 msgstr "Aktuelles Passwort"
 
-#: judo_profiles/templates/account.html:22
+#: judo_profiles/templates/account.html:53
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: judo_profiles/templates/account.html:24
+#: judo_profiles/templates/account.html:55
 #: judo_profiles/templates/register.html:20
 msgid "8 characters minimum"
 msgstr "mindestens 8 Zeichen"
 
-#: judo_profiles/templates/account.html:25
+#: judo_profiles/templates/account.html:56
 #: judo_profiles/templates/register.html:21
 msgid "one lower and one upper case character minimum"
 msgstr "mindestens ein Groß- und ein Kleinbuchstabe"
 
-#: judo_profiles/templates/account.html:26
+#: judo_profiles/templates/account.html:57
 #: judo_profiles/templates/register.html:22
 msgid "one number minimum"
 msgstr "mindestens eine Nummer"
 
-#: judo_profiles/templates/account.html:28
+#: judo_profiles/templates/account.html:59
 msgid "Repeat new password"
 msgstr "Neues Passwort wiederholen"
 
-#: judo_profiles/templates/account.html:30
+#: judo_profiles/templates/account.html:61
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: judo_profiles/templates/account.html:45
+#: judo_profiles/templates/account.html:76
 msgid ""
 "This will delete all data that is linked to this account permanently! Really "
 "delete everything?"

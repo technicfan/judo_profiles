@@ -72,7 +72,7 @@ def start(request):
         return render(request, "profiles.html")
 
 
-@permission_required("profiles.add_profile")
+@permission_required("judo_profiles.add_profile")
 def new_profile(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -169,7 +169,7 @@ def new_profile(request):
 
 
 @object_permission_required(
-    "profiles.view_profile", (Profile, "user__username", "username")
+    "judo_profiles.view_profile", (Profile, "user__username", "username")
 )
 def profile(request, username):
     # collect profile data
@@ -202,7 +202,7 @@ def profile(request, username):
 
 
 @object_permission_required(
-    "profiles.change_profile", (Profile, "user__username", "username")
+    "judo_profiles.change_profile", (Profile, "user__username", "username")
 )
 def edit_profile(request, username):
     if request.method == "POST":
@@ -408,7 +408,7 @@ def edit_profile(request, username):
 
 
 @object_permission_required(
-    "profiles.change_profile", (Profile, "user__username", "username")
+    "judo_profiles.change_profile", (Profile, "user__username", "username")
 )
 def manage_profile(request, username):
     profile = User.objects.get(username=username).profile

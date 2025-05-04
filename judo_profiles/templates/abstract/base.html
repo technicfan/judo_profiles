@@ -62,7 +62,7 @@
                                 {% block admin_actions %}{% endblock %}
                             </div>
                             <div class="navbar-nav d-flex justify-content-end">
-                                <span class="nav-link">Hallo {{ request.user.first_name|default:request.user.username }}</span>
+                                <span class="nav-link">{% translate "Hello" %} {{ request.user.first_name|default:request.user.username }}</span>
                                 <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()"></button>
                                 <a class="nav-link {% block update %}{% endblock %}" href="{% url "users-update" %}">{% translate "Manage account" %}</a>
                                 <a class="nav-link" href="{% url "users-logout" %}">{% translate "Logout" %}</a>
@@ -81,7 +81,7 @@
             </nav>
         </header>
         <div id="noscript" class="container position-absolute top-50 start-50 translate-middle text-center alert-danger alert">
-            <h4>{% translate "This site only works with Javascript - to use it please activate it" %}</h4>
+            <h4>{% translate "This site only works with Javascript - to use this please activate it" %}</h4>
         </div>
         <div id="script" class="mx-2">
             {% block content %}{% endblock %}
