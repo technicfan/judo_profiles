@@ -17,9 +17,6 @@
                 <input type="hidden" name="token" value="{{ token }}" readonly>
                 <input id="pass1" class="form-control" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="{% translate "Password" %}" required>
                 <ul>
-                    <!-- <li>mindestens 8 Zeichen</li> -->
-                    <!-- <li>jeweils mindestens ein Groß- und Kleinbuchstabe</li> -->
-                    <!-- <li>mindestens eine Ziffer</li> -->
                     <li>{% translate "8 characters minimum" %}</li>
                     <li>{% translate "one lower and one upper case character minimum" %}</li>
                     <li>{% translate "one number minimum" %}</li>

@@ -46,8 +46,6 @@ def home(request):
 
 @login_not_required
 def about(request):
-    print(request.LANGUAGE_CODE)
-    print(settings.LANGUAGE_CODE)
     try:
         template = get_template(f"lang/{request.LANGUAGE_CODE}/about.html")
     except TemplateDoesNotExist:

@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED=1
 RUN pip install --upgrade pip
 
 RUN apt-get update \
-    && apt-get -y install libpq-dev gcc netcat-openbsd
+    && apt-get -y install libpq-dev gcc gettext netcat-openbsd
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 RUN python manage.py collectstatic \
-    && python manage.py compilemessages
+    && django-admin compilemessages
 
 RUN chmod +x  /app/start.sh
 

@@ -42,7 +42,6 @@
     {% if not request.user.is_superuser %}
         <hr class="mx-auto"style="width: 40rem;">
         <div class="d-flex justify-content-center">
-            <!-- <form method="post" onsubmit="if (!confirm('Das wird alle Daten, die mit diesem Account verknüpft sind unwiederruflich löschen! Wirklich alles löschen?')){ return false }"> -->
             <form method="post" onsubmit="if (!confirm('{% translate "This will delete all data that is linked to this account permanently! Really delete everything?" %}')){ return false }">
                 {% csrf_token %}
                 <button class="btn btn-danger" name="delete">Konto und Daten löschen</button>
