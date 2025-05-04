@@ -77,8 +77,8 @@
             colorSelected(position.className[0] + " " + position.className.slice(-1), "var(--bs-body-color)")
             placeRelative(
                 position,
-                pos.dataset["y"],
-                pos.dataset["x"]
+                pos.dataset.y.replace(",", "."),
+                pos.dataset.x.replace(",", ".")
             )
             position.addEventListener("mousedown", mouseDownPos)
             image.addEventListener("mousedown", mouseDownImg)
