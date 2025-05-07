@@ -25,6 +25,9 @@
                 {% elif not user.profile %}
                     <span class="badge text-bg-danger">{% translate "without profile" %}</span>
                 {% endif %}
+                {% if user.is_staff %}
+                    <span class="badge text-bg-warning">{% translate "staff" %}</span>
+                {% endif %}
             </td>
         </tr>
     {% endfor %}
