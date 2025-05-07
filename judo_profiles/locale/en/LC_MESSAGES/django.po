@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-07 04:57+0200\n"
+"POT-Creation-Date: 2025-05-07 21:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: judo_profiles/models.py:92
+#: judo_profiles/templates/abstract/profile_base.html:134
+msgid "Stable_short"
+msgstr "S"
+
+#: judo_profiles/models.py:94
+#: judo_profiles/templates/abstract/profile_base.html:134
+msgid "Training_short"
+msgstr "T"
+
+#: judo_profiles/models.py:96
+#: judo_profiles/templates/abstract/profile_base.html:134
+msgid "Learn_short"
+msgstr "L"
 
 #: judo_profiles/templates/404.html:4 judo_profiles/templates/404.html:9
 msgid "Error 404"
@@ -105,47 +120,35 @@ msgstr "Left hand"
 msgid "Own techniques"
 msgstr "Own techniques"
 
-#: judo_profiles/templates/abstract/profile_base.html:139
-msgid "S"
-msgstr "S"
-
-#: judo_profiles/templates/abstract/profile_base.html:139
+#: judo_profiles/templates/abstract/profile_base.html:134
 msgid "Stable in competition"
 msgstr "Stable in competition"
 
-#: judo_profiles/templates/abstract/profile_base.html:139
-msgid "T"
-msgstr "T"
-
-#: judo_profiles/templates/abstract/profile_base.html:139
+#: judo_profiles/templates/abstract/profile_base.html:134
 msgid "Training"
 msgstr "Training"
 
-#: judo_profiles/templates/abstract/profile_base.html:139
-msgid "L"
-msgstr ""
-
-#: judo_profiles/templates/abstract/profile_base.html:139
+#: judo_profiles/templates/abstract/profile_base.html:134
 msgid "to Learn"
-msgstr ""
+msgstr "to Learn"
 
-#: judo_profiles/templates/abstract/profile_base.html:140
+#: judo_profiles/templates/abstract/profile_base.html:135
 msgid "Left stance"
 msgstr "Left stance"
 
-#: judo_profiles/templates/abstract/profile_base.html:141
+#: judo_profiles/templates/abstract/profile_base.html:136
 msgid "Right stance"
 msgstr "Right stance"
 
-#: judo_profiles/templates/abstract/profile_base.html:151
+#: judo_profiles/templates/abstract/profile_base.html:145
 msgid "Special techniques"
 msgstr "Special techniques"
 
-#: judo_profiles/templates/abstract/profile_base.html:157
+#: judo_profiles/templates/abstract/profile_base.html:151
 msgid "Combinations"
 msgstr "Combinations"
 
-#: judo_profiles/templates/abstract/profile_base.html:163
+#: judo_profiles/templates/abstract/profile_base.html:157
 msgid "Ground techniques"
 msgstr "Ground techniques"
 
@@ -193,13 +196,38 @@ msgstr "Repeat new password"
 msgid "Change password"
 msgstr "Change password"
 
-#: judo_profiles/templates/account.html:76
+#: judo_profiles/templates/account.html:82
+#: judo_profiles/templates/profiles/edit.html:17
+#: judo_profiles/templates/profiles/edit.html:77
+#: judo_profiles/templates/profiles/new.html:61
+#: judo_profiles/templates/users/manage.html:39
+#: judo_profiles/templates/users/manage.html:178
+msgid "Delete"
+msgstr "Delete"
+
+#: judo_profiles/templates/account.html:86
 msgid ""
 "This will delete all data that is linked to this account permanently! Really "
 "delete everything?"
 msgstr ""
 "This will delete all data that is linked to this account irrevocably! Really "
 "delete everything?"
+
+#: judo_profiles/templates/account.html:89
+#: judo_profiles/templates/profiles/edit.html:84
+#: judo_profiles/templates/users/manage.html:141
+#: judo_profiles/templates/users/manage.html:163
+#: judo_profiles/templates/users/manage.html:185
+msgid "Cancel"
+msgstr "Cancel"
+
+#: judo_profiles/templates/account.html:92
+#: judo_profiles/templates/profiles/edit.html:85
+#: judo_profiles/templates/users/manage.html:145
+#: judo_profiles/templates/users/manage.html:167
+#: judo_profiles/templates/users/manage.html:189
+msgid "Ok"
+msgstr "Ok"
 
 #: judo_profiles/templates/htmx/profile_permissions.html:21
 #: judo_profiles/templates/htmx/users.html:34
@@ -211,7 +239,7 @@ msgstr "No matching users found"
 #: judo_profiles/templates/profiles/manage.html:29
 #: judo_profiles/templates/profiles/manage.html:72
 #: judo_profiles/templates/profiles/profile.html:18
-#: judo_profiles/templates/users/manage.html:94
+#: judo_profiles/templates/users/manage.html:82
 msgid "Edit"
 msgstr "Edit"
 
@@ -279,7 +307,7 @@ msgid "New profile"
 msgstr "New profile"
 
 #: judo_profiles/templates/profiles.html:22
-#: judo_profiles/templates/users/manage.html:99
+#: judo_profiles/templates/users/manage.html:87
 msgid "Search profile"
 msgstr "Search profile"
 
@@ -295,7 +323,7 @@ msgstr "Edit profile of %(profile_name)s"
 #: judo_profiles/templates/profiles/edit.html:10
 #: judo_profiles/templates/profiles/manage.html:26
 #: judo_profiles/templates/profiles/profile.html:15
-#: judo_profiles/templates/users/manage.html:107
+#: judo_profiles/templates/users/manage.html:95
 msgid "Profile"
 msgstr "Profile"
 
@@ -303,28 +331,13 @@ msgstr "Profile"
 #: judo_profiles/templates/profiles/manage.html:31
 #: judo_profiles/templates/profiles/manage.html:73
 #: judo_profiles/templates/profiles/profile.html:21
-#: judo_profiles/templates/users/manage.html:95
+#: judo_profiles/templates/users/manage.html:83
 msgid "Manage"
 msgstr "Manage"
 
-#: judo_profiles/templates/profiles/edit.html:17
-msgid "Really delete profile permanently?"
-msgstr "Really delete profile permanently?"
-
-#: judo_profiles/templates/profiles/edit.html:17
-#, python-format
-msgid "The user %(username)s\\nwon\\'t ever be able to have a profile again."
-msgstr "The user %(username)s\\nwon't ever be able to have a profile again."
-
-#: judo_profiles/templates/profiles/edit.html:17
-#: judo_profiles/templates/profiles/new.html:61
-#: judo_profiles/templates/users/manage.html:50
-msgid "Delete"
-msgstr "Delete"
-
 #: judo_profiles/templates/profiles/edit.html:19
 #: judo_profiles/templates/profiles/manage.html:91
-#: judo_profiles/templates/users/manage.html:114
+#: judo_profiles/templates/users/manage.html:102
 msgid "Save"
 msgstr "Save"
 
@@ -332,6 +345,15 @@ msgstr "Save"
 #: judo_profiles/templates/profiles/new.html:13
 msgid "Finish"
 msgstr "Finish"
+
+#: judo_profiles/templates/profiles/edit.html:81
+msgid "Really delete profile permanently?"
+msgstr "Really delete profile permanently?"
+
+#: judo_profiles/templates/profiles/edit.html:81
+#, python-format
+msgid "The user %(username)s won't ever be able to have a profile again."
+msgstr "The user %(username)s won't ever be able to have a profile again."
 
 #: judo_profiles/templates/profiles/manage.html:4
 #, python-format
@@ -346,7 +368,7 @@ msgstr "Key copied"
 #: judo_profiles/templates/profiles/manage.html:16
 #: judo_profiles/templates/profiles/manage.html:53
 #: judo_profiles/templates/users/manage.html:17
-#: judo_profiles/templates/users/manage.html:72
+#: judo_profiles/templates/users/manage.html:60
 msgid "Copy key"
 msgstr "Copy key"
 
@@ -360,22 +382,22 @@ msgid "Key for new user"
 msgstr "Key for new user"
 
 #: judo_profiles/templates/profiles/manage.html:49
-#: judo_profiles/templates/users/manage.html:68
+#: judo_profiles/templates/users/manage.html:56
 msgid "Key expired, without being used"
 msgstr "Key expired, without being used"
 
 #: judo_profiles/templates/profiles/manage.html:50
-#: judo_profiles/templates/users/manage.html:69
+#: judo_profiles/templates/users/manage.html:57
 msgid "Renew key"
 msgstr "Renew key"
 
 #: judo_profiles/templates/profiles/manage.html:55
-#: judo_profiles/templates/users/manage.html:74
+#: judo_profiles/templates/users/manage.html:62
 msgid "Delete key"
 msgstr "Delete key"
 
 #: judo_profiles/templates/profiles/manage.html:71
-#: judo_profiles/templates/users/manage.html:92
+#: judo_profiles/templates/users/manage.html:80
 msgid "View"
 msgstr "View"
 
@@ -429,6 +451,14 @@ msgstr "Add"
 msgid "Profile of %(profile_name)s"
 msgstr "Profile of %(profile_name)s"
 
+#: judo_profiles/templates/profiles/profile.html:37
+msgid "Left_short"
+msgstr "L"
+
+#: judo_profiles/templates/profiles/profile.html:39
+msgid "Right_short"
+msgstr "R"
+
 #: judo_profiles/templates/profiles/profile.html:70
 msgid "changed"
 msgstr "changed"
@@ -476,60 +506,62 @@ msgid "Trainers"
 msgstr "Trainers"
 
 #: judo_profiles/templates/users/manage.html:5
-#: judo_profiles/templates/users/manage.html:57
+#: judo_profiles/templates/users/manage.html:45
 #, python-format
 msgid "Permissions of %(user)s"
 msgstr "Permissions of %(user)s"
 
 #: judo_profiles/templates/users/manage.html:27
-#, python-format
-msgid "%(user)s will be able to create profiles in the future"
-msgstr "%(user)s will be able to create profiles in the future"
-
-#: judo_profiles/templates/users/manage.html:30
+#: judo_profiles/templates/users/manage.html:134
 msgid "Make trainer"
 msgstr "Make trainer"
 
-#: judo_profiles/templates/users/manage.html:34
-#, python-format
-msgid "%(user)s will have access to all management pages"
-msgstr "%(user)s will have access to all management pages"
-
-#: judo_profiles/templates/users/manage.html:37
+#: judo_profiles/templates/users/manage.html:30
+#: judo_profiles/templates/users/manage.html:156
 msgid "Make staff"
 msgstr "Make staff"
 
-#: judo_profiles/templates/users/manage.html:44
+#: judo_profiles/templates/users/manage.html:36
 msgid "Deactivate"
 msgstr "Deactivate"
 
-#: judo_profiles/templates/users/manage.html:47
-#, python-format
-msgid "Really delete %(user)s permanently?"
-msgstr "Really delete %(user)s permanently?"
-
-#: judo_profiles/templates/users/manage.html:47
-#, python-format
-msgid "All profiles created by %(user)s will be deleted!!"
-msgstr "All profiles created by %(user)s will be deleted!!"
-
-#: judo_profiles/templates/users/manage.html:47
-#, python-format
-msgid "The profile of %(user)s will also be deleted!"
-msgstr "The profile of %(user)s will also be deleted!"
-
-#: judo_profiles/templates/users/manage.html:62
+#: judo_profiles/templates/users/manage.html:50
 #: judo_profiles/templates/users/new.html:17
 msgid "Create key"
 msgstr "Create key"
 
-#: judo_profiles/templates/users/manage.html:78
+#: judo_profiles/templates/users/manage.html:66
 msgid "Create key to reset the password"
 msgstr "Create key to reset the password"
 
-#: judo_profiles/templates/users/manage.html:136
+#: judo_profiles/templates/users/manage.html:124
 msgid "Permissions can only be changed for active users"
 msgstr "Permissions can only be changed for active users"
+
+#: judo_profiles/templates/users/manage.html:138
+#, python-format
+msgid "%(user)s will be able to create profiles in the future"
+msgstr "%(user)s will be able to create profiles in the future"
+
+#: judo_profiles/templates/users/manage.html:160
+#, python-format
+msgid "%(user)s will have access to all management pages"
+msgstr "%(user)s will have access to all management pages"
+
+#: judo_profiles/templates/users/manage.html:182
+#, python-format
+msgid "Really delete %(user)s permanently?"
+msgstr "Really delete %(user)s permanently?"
+
+#: judo_profiles/templates/users/manage.html:182
+#, python-format
+msgid "All profiles created by %(user)s will be deleted!!"
+msgstr "All profiles created by %(user)s will be deleted!!"
+
+#: judo_profiles/templates/users/manage.html:182
+#, python-format
+msgid "The profile of %(user)s will also be deleted!"
+msgstr "The profile of %(user)s will also be deleted!"
 
 #: judo_profiles/views/profiles.py:452 judo_profiles/views/users.py:293
 msgid "Saved"

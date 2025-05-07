@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <div id="hidden_data" class="hidden">
+    <div id="hidden_data" class="d-none">
         {% block hidden_data %}{% endblock %}
     </div>
     {% block form_container %}<div id="form_container">{% endblock %}
@@ -89,22 +89,19 @@
                     <tr class="align-bottom">
                         <td>
                             <div class="border rounded text-center">
-                                <table class="own_techniques m-2" id="own5">
-                                </table>
+                                <div class="own_techniques m-2" id="own5"></div>
                                 {% block own5 %}{% endblock %}
                             </div>
                         </td>
                         <td class="align-top">
                             <div class="border rounded text-center">
-                                <table class="own_techniques m-2" id="own0">
-                                </table>
+                                <div class="own_techniques m-2" id="own0"></div>
                                 {% block own0 %}{% endblock %}
                             </div>
                         </td>
                         <td>
                             <div class="border rounded text-center">
-                                <table class="own_techniques m-2" id="own1">
-                                </table>
+                                <div class="own_techniques m-2" id="own1"></div>
                                 {% block own1 %}{% endblock %}
                             </div>
                         </td>
@@ -112,34 +109,30 @@
                     <tr class="align-top">
                         <td>
                             <div class="border rounded text-center">
-                                <table class="own_techniques m-2" id="own4">
-                                </table>
+                                <div class="own_techniques m-2" id="own4"></div>
                                 {% block own4 %}{% endblock %}
                             </div>
                         </td>
                         <td class="align-bottom">
                             <div class="border rounded text-center">
-                                <table class="own_techniques m-2" id="own3">
-                                </table>
+                                <div class="own_techniques m-2" id="own3"></div>
                                 {% block own3 %}{% endblock %}
                             </div>
                         </td>
                         <td>
                             <div class="border rounded text-center">
-                                <table class="own_techniques m-2" id="own2">
-                                </table>
+                                <div class="own_techniques m-2" id="own2"></div>
                                 {% block own2 %}{% endblock %}
                             </div>
                         </td>
                     </tr>
                 </table>
-                <hr class="m-0">
-                <div class="ms-3 mb-3 mt-2">
-                    <!-- W = wettkampfstabil, T = Training, Z = Zu lernen,  -->
-                    {% translate "S" %} = {% translate "Stable in competition" %}, {% translate "T" %} = {% translate "Training" %}, {% translate "L" %} = {% translate "to Learn" %}
-                    <div class="position l active d-inline-block align-bottom" style="transform: translateY(.25rem)"></div> {% translate "Left stance" %}, <!-- = Linksauslage, -->
-                    <div class="position r active d-inline-block align-bottom" style="transform: translateY(.25rem)"></div> {% translate "Right stance" %} <!-- = Rechtsauslage -->
-                </div>
+            </div>
+            <hr class="m-0">
+            <div class="ms-3 mb-3 mt-2">
+                {% translate "Stable_short" %} = {% translate "Stable in competition" %}, {% translate "Training_short" %} = {% translate "Training" %}, {% translate "Learn_short" %} = {% translate "to Learn" %},
+                <div class="position l active d-inline-block align-bottom" style="transform: translateY(.25rem)"></div> = {% translate "Left stance" %},
+                <div class="position r active d-inline-block align-bottom" style="transform: translateY(.25rem)"></div> = {% translate "Right stance" %}
             </div>
         </div>
     </div>

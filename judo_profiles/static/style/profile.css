@@ -2,11 +2,6 @@
     cursor: auto;
 }
 
-.d-inline-block.position {
-    border-color: var(--bs-body-color);
-    color: var(--bs-body-color);
-}
-
 #own>tbody>tr>td>div {
     justify-content: center;
     display: flex;

@@ -34,13 +34,13 @@
                     <td class="own_technique p-0 text-center">
                         <p>{{ t.technique }}</p>
                         {% if t.side %}
-                            <div class="d-inline-block mb-3 me-4 position l">L</div>
+                            <div class="d-inline-block mb-3 me-4 position active l">{% translate "Left_short" %}</div>
                         {% else %}
-                            <div class="d-inline-block mb-3 me-4 position r">R</div>
+                            <div class="d-inline-block mb-3 me-4 position active r">{% translate "Right_short" %}</div>
                         {% endif %}
-                        <div class="d-inline-block mb-3 position l">{{ t.left_position.number }}</div>
-                        <div class="d-inline-block mb-3 me-4 position r">{{ t.right_position.number }}</div>
-                        {{ t.state }}
+                        <div class="d-inline-block mb-3 position active l">{{ t.left_position.number }}</div>
+                        <div class="d-inline-block mb-3 me-4 position active r">{{ t.right_position.number }}</div>
+                        {{ t.state_local }}
                     </td>
                 </tr>
             </table>

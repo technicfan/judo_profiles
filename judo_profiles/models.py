@@ -4,6 +4,7 @@ from datetime import date, timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.translation import gettext as _
 
 
 def gen_token() -> str:
@@ -72,10 +73,6 @@ class OwnTechnique(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     technique = models.ForeignKey(Technique, on_delete=models.CASCADE)
     side = models.BooleanField(choices=SIDE_CHOICES)
-    # states:
-    # 0: stable in competition
-    # 1: training
-    # 2: to learn
     state = models.PositiveIntegerField()
     direction = models.PositiveIntegerField()
     left_position = models.ForeignKey(
@@ -87,6 +84,16 @@ class OwnTechnique(models.Model):
 
     def __str__(self):
         return self.technique.name
+
+    @property
+    def state_local(self):
+        match self.state:
+            case 0:
+                return _("Stable_short")
+            case 1:
+                return _("Training_short")
+            case 2:
+                return _("Learn_short")
 
 
 class TechniqueRank(models.Model):

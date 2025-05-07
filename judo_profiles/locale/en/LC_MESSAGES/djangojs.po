@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-07 04:07+0200\n"
+"POT-Creation-Date: 2025-05-07 21:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,10 +31,10 @@ msgid "Right"
 msgstr "Right"
 
 #: judo_profiles/static/script/own_techniques.js:61
-#: judo_profiles/static/script/ranks.js:23
-#: judo_profiles/static/script/ranks.js:47
-#: judo_profiles/static/script/ranks.js:70
-#: judo_profiles/static/script/ranks.js:76
+#: judo_profiles/static/script/ranks.js:33
+#: judo_profiles/static/script/ranks.js:56
+#: judo_profiles/static/script/ranks.js:79
+#: judo_profiles/static/script/ranks.js:85
 msgid "Technique"
 msgstr "Technique"
 
@@ -51,20 +51,20 @@ msgid "State"
 msgstr "State"
 
 #: judo_profiles/static/script/own_techniques.js:88
-msgid "S"
+msgid "Stable_short"
 msgstr "S"
 
 #: judo_profiles/static/script/own_techniques.js:89
-msgid "T"
+msgid "Trainig_short"
 msgstr "T"
 
 #: judo_profiles/static/script/own_techniques.js:90
-msgid "L"
+msgid "Learn_short"
 msgstr "L"
 
 #: judo_profiles/static/script/own_techniques.js:98
-#: judo_profiles/static/script/ranks.js:28
-#: judo_profiles/static/script/ranks.js:52
-#: judo_profiles/static/script/ranks.js:81
+#: judo_profiles/static/script/ranks.js:38
+#: judo_profiles/static/script/ranks.js:61
+#: judo_profiles/static/script/ranks.js:90
 msgid "Delete"
 msgstr "Delete"

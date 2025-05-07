@@ -24,7 +24,7 @@ function add_rank_item(raw_type, context = null) {
             <div class="special rank_item" id="special_item` +
                 number +
                 `">
-                <p class="number"><b>` +
+                <p class="d-inline"><b>` +
                 number +
                 `</b></p>
                 <select id="special_t` +
@@ -47,7 +47,7 @@ function add_rank_item(raw_type, context = null) {
             <div class="ground rank_item" id="ground_item` +
                 number +
                 `">
-                <p class="number"><b>` +
+                <p class="d-inline"><b>` +
                 number +
                 `</b></p>
                 <select id="ground_t` +
@@ -70,7 +70,7 @@ function add_rank_item(raw_type, context = null) {
             <div class="combination rank_item" id="combination_item` +
                 number +
                 `">
-                <p class="number"><b>` +
+                <p class="d-inline"><b>` +
                 number +
                 `</b></p>
                 <select id="combination_t1` +
