@@ -48,38 +48,38 @@
         </div>
     </div>
     <div id="main" class="d-flex align-items-center flex-wrap justify-content-center">
-        <div id="positions" class="border rounded m-2" style="width: 34.1rem;">
+        <div id="positions" class="border rounded m-2" style="width: 37rem;">
             <div class="d-flex flex-wrap justify-content-between">
                 <div class="my-3 mx-3" style="width: fit-content;">
-                    <h3 id="image_desc" class="mb-3">Griffpositionen</h3>
+                <h3 id="image_desc" class="mb-3">{% translate "Gripping positions" %}</h3>
                     {% block delete_positions %}{% endblock %}
                 </div>
                 <div id="choices" class="my-3 mx-auto" style="width: fit-content;">
                     <span>{% translate "Right hand" %} :</span>
-                    <div class="r position option 1" id="oR1">1</div>
-                    <div class="r position option 2" id="oR2">2</div>
-                    <div class="r position option 3" id="oR3">3</div>
-                    <div class="r position option 4" id="oR4">4</div>
+                    <div class="r position option" id="oR1" data-number="1">1</div>
+                    <div class="r position option" id="oR2" data-number="2">2</div>
+                    <div class="r position option" id="oR3" data-number="3">3</div>
+                    <div class="r position option" id="oR4" data-number="4">4</div>
                     <br>
                     <br>
                     <span>{% translate "Left hand" %} :</span>
-                    <div class="l position option 1" id="oL1">1</div>
-                    <div class="l position option 2" id="oL2">2</div>
-                    <div class="l position option 3" id="oL3">3</div>
-                    <div class="l position option 4" id="oL4">4</div>
+                    <div class="l position option" id="oL1" data-number="1">1</div>
+                    <div class="l position option" id="oL2" data-number="2">2</div>
+                    <div class="l position option" id="oL3" data-number="3">3</div>
+                    <div class="l position option" id="oL4" data-number="4">4</div>
                 </div>
             </div>
             <hr class="mt-1">
             <div id="image_container">
                 {% include "profiles/judogi.svg" %}
-                <div class="r move position 1" id="pR1">1</div>
-                <div class="r move position 2" id="pR2">2</div>
-                <div class="r move position 3" id="pR3">3</div>
-                <div class="r move position 4" id="pR4">4</div>
-                <div class="l move position 1" id="pL1">1</div>
-                <div class="l move position 2" id="pL2">2</div>
-                <div class="l move position 3" id="pL3">3</div>
-                <div class="l move position 4" id="pL4">4</div>
+                <div class="r move position" id="pR1" data-number="1">1</div>
+                <div class="r move position" id="pR2" data-number="2">2</div>
+                <div class="r move position" id="pR3" data-number="3">3</div>
+                <div class="r move position" id="pR4" data-number="4">4</div>
+                <div class="l move position" id="pL1" data-number="1">1</div>
+                <div class="l move position" id="pL2" data-number="2">2</div>
+                <div class="l move position" id="pL3" data-number="3">3</div>
+                <div class="l move position" id="pL4" data-number="4">4</div>
             </div>
         </div>
         <div class="border rounded m-2" style="min-width: 0;">
@@ -133,6 +133,13 @@
                         </td>
                     </tr>
                 </table>
+                <hr class="m-0">
+                <div class="ms-3 mb-3 mt-2">
+                    <!-- W = wettkampfstabil, T = Training, Z = Zu lernen,  -->
+                    {% translate "S" %} = {% translate "Stable in competition" %}, {% translate "T" %} = {% translate "Training" %}, {% translate "L" %} = {% translate "to Learn" %}
+                    <div class="position l active d-inline-block align-bottom" style="transform: translateY(.25rem)"></div> {% translate "Left stance" %}, <!-- = Linksauslage, -->
+                    <div class="position r active d-inline-block align-bottom" style="transform: translateY(.25rem)"></div> {% translate "Right stance" %} <!-- = Rechtsauslage -->
+                </div>
             </div>
         </div>
     </div>

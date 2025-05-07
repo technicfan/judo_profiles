@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-04 22:09+0200\n"
+"POT-Creation-Date: 2025-05-07 04:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,22 +58,22 @@ msgstr "Konto verwalten"
 msgid "Logout"
 msgstr "Abmelden"
 
-#: judo_profiles/templates/abstract/base.html:73
+#: judo_profiles/templates/abstract/base.html:92
 #: judo_profiles/templates/login.html:4 judo_profiles/templates/login.html:32
 msgid "Login"
 msgstr "Anmelden"
 
-#: judo_profiles/templates/abstract/base.html:74
+#: judo_profiles/templates/abstract/base.html:93
 #: judo_profiles/templates/register.html:4
 #: judo_profiles/templates/register.html:44
 msgid "Register with key"
 msgstr "Mit Schlüssel Registrieren"
 
-#: judo_profiles/templates/abstract/base.html:76
+#: judo_profiles/templates/abstract/base.html:95
 msgid "About"
 msgstr "Über"
 
-#: judo_profiles/templates/abstract/base.html:84
+#: judo_profiles/templates/abstract/base.html:103
 msgid "This site only works with Javascript - to use this please activate it"
 msgstr ""
 "Diese Seite funktioniert nur mit Javascript - für die Nutzung bitte "
@@ -91,6 +91,10 @@ msgstr "Linkskämpfer*in"
 msgid "Right-handed fighter"
 msgstr "Rechtskämpfer*in"
 
+#: judo_profiles/templates/abstract/profile_base.html:54
+msgid "Gripping positions"
+msgstr "Griffpositionen"
+
 #: judo_profiles/templates/abstract/profile_base.html:58
 msgid "Right hand"
 msgstr "Rechte Hand"
@@ -103,15 +107,47 @@ msgstr "Linke Hand"
 msgid "Own techniques"
 msgstr "Eigene Techniken"
 
-#: judo_profiles/templates/abstract/profile_base.html:144
+#: judo_profiles/templates/abstract/profile_base.html:139
+msgid "S"
+msgstr "W"
+
+#: judo_profiles/templates/abstract/profile_base.html:139
+msgid "Stable in competition"
+msgstr "wettkampfsicher"
+
+#: judo_profiles/templates/abstract/profile_base.html:139
+msgid "T"
+msgstr "T"
+
+#: judo_profiles/templates/abstract/profile_base.html:139
+msgid "Training"
+msgstr "Training"
+
+#: judo_profiles/templates/abstract/profile_base.html:139
+msgid "L"
+msgstr "Z"
+
+#: judo_profiles/templates/abstract/profile_base.html:139
+msgid "to Learn"
+msgstr "zu Lernen"
+
+#: judo_profiles/templates/abstract/profile_base.html:140
+msgid "Left stance"
+msgstr "Linksauslage"
+
+#: judo_profiles/templates/abstract/profile_base.html:141
+msgid "Right stance"
+msgstr "Rechtsauslage"
+
+#: judo_profiles/templates/abstract/profile_base.html:151
 msgid "Special techniques"
 msgstr "Spezialtechniken"
 
-#: judo_profiles/templates/abstract/profile_base.html:150
+#: judo_profiles/templates/abstract/profile_base.html:157
 msgid "Combinations"
 msgstr "Kombinationen"
 
-#: judo_profiles/templates/abstract/profile_base.html:156
+#: judo_profiles/templates/abstract/profile_base.html:163
 msgid "Ground techniques"
 msgstr "Bodentechniken"
 
@@ -174,10 +210,10 @@ msgstr "Keine passenden Nutzer*innen gefunden"
 
 #: judo_profiles/templates/htmx/profiles.html:11
 #: judo_profiles/templates/profiles/edit.html:12
-#: judo_profiles/templates/profiles/manage.html:17
+#: judo_profiles/templates/profiles/manage.html:29
 #: judo_profiles/templates/profiles/manage.html:72
 #: judo_profiles/templates/profiles/profile.html:18
-#: judo_profiles/templates/users/manage.html:87
+#: judo_profiles/templates/users/manage.html:94
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -245,7 +281,7 @@ msgid "New profile"
 msgstr "Neues Profil"
 
 #: judo_profiles/templates/profiles.html:22
-#: judo_profiles/templates/users/manage.html:92
+#: judo_profiles/templates/users/manage.html:99
 msgid "Search profile"
 msgstr "Profil suchen"
 
@@ -259,17 +295,17 @@ msgid "Edit profile of %(profile_name)s"
 msgstr "Profil von %(profile_name)s bearbeiten"
 
 #: judo_profiles/templates/profiles/edit.html:10
-#: judo_profiles/templates/profiles/manage.html:14
+#: judo_profiles/templates/profiles/manage.html:26
 #: judo_profiles/templates/profiles/profile.html:15
-#: judo_profiles/templates/users/manage.html:100
+#: judo_profiles/templates/users/manage.html:107
 msgid "Profile"
 msgstr "Profil"
 
 #: judo_profiles/templates/profiles/edit.html:14
-#: judo_profiles/templates/profiles/manage.html:19
+#: judo_profiles/templates/profiles/manage.html:31
 #: judo_profiles/templates/profiles/manage.html:73
 #: judo_profiles/templates/profiles/profile.html:21
-#: judo_profiles/templates/users/manage.html:88
+#: judo_profiles/templates/users/manage.html:95
 msgid "Manage"
 msgstr "Verwalten"
 
@@ -285,13 +321,13 @@ msgstr ""
 
 #: judo_profiles/templates/profiles/edit.html:17
 #: judo_profiles/templates/profiles/new.html:61
-#: judo_profiles/templates/users/manage.html:31
+#: judo_profiles/templates/users/manage.html:50
 msgid "Delete"
 msgstr "Löschen"
 
 #: judo_profiles/templates/profiles/edit.html:19
 #: judo_profiles/templates/profiles/manage.html:91
-#: judo_profiles/templates/users/manage.html:107
+#: judo_profiles/templates/users/manage.html:114
 msgid "Save"
 msgstr "Speichern"
 
@@ -305,44 +341,44 @@ msgstr "Fertig"
 msgid "Manage profile of %(profile_name)s"
 msgstr "Profil von %(profile_name)s verwalten"
 
-#: judo_profiles/templates/profiles/manage.html:26
+#: judo_profiles/templates/profiles/manage.html:13
+#: judo_profiles/templates/users/manage.html:14
+msgid "Key copied"
+msgstr "Schlüssel kopiert"
+
+#: judo_profiles/templates/profiles/manage.html:16
+#: judo_profiles/templates/profiles/manage.html:53
+#: judo_profiles/templates/users/manage.html:17
+#: judo_profiles/templates/users/manage.html:72
+msgid "Copy key"
+msgstr "Schlüssel kopieren"
+
+#: judo_profiles/templates/profiles/manage.html:38
 #, python-format
 msgid "Access to profile of %(profile_name)s"
 msgstr "Zugriff zum Profil von %(profile_name)s"
 
-#: judo_profiles/templates/profiles/manage.html:31
+#: judo_profiles/templates/profiles/manage.html:43
 msgid "Key for new user"
 msgstr "Schlüssel für neue/n Nutzer*in"
 
-#: judo_profiles/templates/profiles/manage.html:37
-#: judo_profiles/templates/users/manage.html:49
+#: judo_profiles/templates/profiles/manage.html:49
+#: judo_profiles/templates/users/manage.html:68
 msgid "Key expired, without being used"
 msgstr "Schlüssel abgelaufen, ohne, dass er verwendet wurde"
 
-#: judo_profiles/templates/profiles/manage.html:38
-#: judo_profiles/templates/users/manage.html:50
+#: judo_profiles/templates/profiles/manage.html:50
+#: judo_profiles/templates/users/manage.html:69
 msgid "Renew key"
 msgstr "Schlüssel erneuern"
 
-#: judo_profiles/templates/profiles/manage.html:41
-#: judo_profiles/templates/profiles/manage.html:50
-#: judo_profiles/templates/users/manage.html:53
-#: judo_profiles/templates/users/manage.html:62
-msgid "Copy key"
-msgstr "Schlüssel kopieren"
-
-#: judo_profiles/templates/profiles/manage.html:47
-#: judo_profiles/templates/users/manage.html:59
-msgid "Key copied"
-msgstr "Schlüssel kopiert"
-
 #: judo_profiles/templates/profiles/manage.html:55
-#: judo_profiles/templates/users/manage.html:67
+#: judo_profiles/templates/users/manage.html:74
 msgid "Delete key"
 msgstr "Schlüssel löschen"
 
 #: judo_profiles/templates/profiles/manage.html:71
-#: judo_profiles/templates/users/manage.html:85
+#: judo_profiles/templates/users/manage.html:92
 msgid "View"
 msgstr "Anzeigen"
 
@@ -443,63 +479,72 @@ msgid "Trainers"
 msgstr "Trainer*innen"
 
 #: judo_profiles/templates/users/manage.html:5
-#: judo_profiles/templates/users/manage.html:38
+#: judo_profiles/templates/users/manage.html:57
 #, python-format
 msgid "Permissions of %(user)s"
 msgstr "Berechtigungen von %(user)s"
 
-#: judo_profiles/templates/users/manage.html:15
+#: judo_profiles/templates/users/manage.html:27
 #, python-format
 msgid "%(user)s will be able to create profiles in the future"
 msgstr "%(user)s kann in der Zukunft Profile erstellen"
 
-#: judo_profiles/templates/users/manage.html:18
+#: judo_profiles/templates/users/manage.html:30
 msgid "Make trainer"
 msgstr "Zu Trainer*in machen"
 
-#: judo_profiles/templates/users/manage.html:25
+#: judo_profiles/templates/users/manage.html:34
+#, python-format
+msgid "%(user)s will have access to all management pages"
+msgstr "%(user)s wird Zufriff auf alle Verwaltungsseiten haben"
+
+#: judo_profiles/templates/users/manage.html:37
+msgid "Make staff"
+msgstr "Zu Mitverwalter*in machen"
+
+#: judo_profiles/templates/users/manage.html:44
 msgid "Deactivate"
 msgstr "Deaktivieren"
 
-#: judo_profiles/templates/users/manage.html:28
+#: judo_profiles/templates/users/manage.html:47
 #, python-format
 msgid "Really delete %(user)s permanently?"
 msgstr "%(user)s wirklich unwiederruflich löschen?"
 
-#: judo_profiles/templates/users/manage.html:28
+#: judo_profiles/templates/users/manage.html:47
 #, python-format
 msgid "All profiles created by %(user)s will be deleted!!"
 msgstr "Alle Profile, die von %(user)s erstellt wurden werden gelöscht!!"
 
-#: judo_profiles/templates/users/manage.html:28
+#: judo_profiles/templates/users/manage.html:47
 #, python-format
 msgid "The profile of %(user)s will also be deleted!"
 msgstr "Das Profil von %(user)s wird auch gelöscht!"
 
-#: judo_profiles/templates/users/manage.html:43
+#: judo_profiles/templates/users/manage.html:62
 #: judo_profiles/templates/users/new.html:17
 msgid "Create key"
 msgstr "Schlüssel erstellen"
 
-#: judo_profiles/templates/users/manage.html:71
+#: judo_profiles/templates/users/manage.html:78
 msgid "Create key to reset the password"
 msgstr "Schlüssel zum Passwort-Zurücksetzen erstellen"
 
-#: judo_profiles/templates/users/manage.html:129
+#: judo_profiles/templates/users/manage.html:136
 msgid "Permissions can only be changed for active users"
 msgstr "Berechtigungen können nur für aktive Nutzer*innen verändert werden"
 
-#: judo_profiles/views/profiles.py:453 judo_profiles/views/users.py:289
+#: judo_profiles/views/profiles.py:452 judo_profiles/views/users.py:293
 msgid "Saved"
 msgstr "Gespeichert"
 
-#: judo_profiles/views/profiles.py:490 judo_profiles/views/users.py:317
+#: judo_profiles/views/profiles.py:489 judo_profiles/views/users.py:321
 #, python-format
 msgid "Valid for %(count)d day"
 msgid_plural "Valid for %(count)d days"
 msgstr[0] "Noch gültig für %(count)d Tag"
 msgstr[1] "Noch gültig für %(count)d Tage"
 
-#: judo_profiles/views/users.py:292
+#: judo_profiles/views/users.py:296
 msgid "Not allowed"
 msgstr "Nicht erlaubt"

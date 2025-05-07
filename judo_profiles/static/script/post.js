@@ -8,11 +8,11 @@ function get_positions() {
             var action = "add";
             var id = null;
         }
-        if (position.style.display == "flex") {
+        if (position.classList.contains("active")) {
             let x = getRelative(position);
             pos.push({
-                number: parseInt(position.className.slice(-1)),
-                side: position.className[0] == "l",
+                number: parseInt(position.dataset.number),
+                side: position.classList.contains("l"),
                 x: x[1],
                 y: x[0],
                 action: action,
@@ -50,7 +50,7 @@ function get_own_techniques() {
                 technique: parseInt(technique),
                 left: parseInt(left),
                 right: parseInt(right),
-                state: state,
+                state: parseInt(state),
                 direction: parseInt(direction),
                 action: action,
                 id: id,

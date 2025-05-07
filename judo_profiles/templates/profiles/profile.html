@@ -106,8 +106,8 @@
     <script>
         document.querySelectorAll(".pos_data").forEach(pos => {
             position = document.getElementById(pos.dataset["id"])
-            position.style.display = "flex"
-            colorSelected(position.className[0] + " " + position.className.slice(-1), "var(--bs-body-color)")
+            position.classList.add("active")
+            document.getElementById(getMatchingId(position.id)).classList.add("active")
             placeRelative(
                 position,
                 pos.dataset.y.replace(",", "."),

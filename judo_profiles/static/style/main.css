@@ -27,11 +27,26 @@
     box-sizing: unset;
 }
 
-.r {
+.position.active {
+    color: var(--bs-body-color);
+    border-color: var(--bs-body-color);
+}
+
+.move.active {
+    display: flex;
+}
+
+.position.delete {
+    color: red;
+    border-color: red;
+    cursor: crosshair;
+}
+
+.position.r {
     border-radius: 0;
 }
 
-.l {
+.position.l {
     border-radius: 50%;
 }
 

@@ -18,7 +18,7 @@ document.querySelector("form").addEventListener("submit", (event) => {
 // Positions
 let delete_mode = false,
     move = null;
-document.querySelectorAll(".option").forEach((element) => {
+document.querySelectorAll(".position.option").forEach((element) => {
     element.addEventListener("mousedown", mouseDownOpt);
 });
 
@@ -27,11 +27,8 @@ function mouseDownOpt(e) {
         mouseDownDoc(e);
     }
     let target = e.target;
-    move = document.getElementById(getMatchingID(target.id));
-    colorSelected(
-        target.className[0] + " " + target.className.slice(-1),
-        "var(--bs-body-color)",
-    );
+    move = document.getElementById(getMatchingId(target.id));
+    target.classList.add("active");
     image.addEventListener("mousedown", mouseDownImg);
     document.addEventListener("mousedown", mouseDownDoc);
 }
@@ -40,13 +37,15 @@ function mouseDownDoc(e) {
     if (move != null) {
         if (
             e.target.id != "image" &&
-            e.target.id != getMatchingID(move.id) &&
-            move.style.display != "flex"
+            e.target.id != getMatchingId(move.id) &&
+            !move.classList.contains("active")
         ) {
-            colorSelected(move.className[0] + " " + move.className.slice(-1), "grey");
+            document
+                .getElementById(getMatchingId(move.id))
+                .classList.remove("active");
             image.removeEventListener("mousedown", mouseDownImg);
         }
-        if (e.target.id != getMatchingID(move.id)) {
+        if (e.target.id != getMatchingId(move.id)) {
             document.removeEventListener("mousedown", mouseDownDoc);
         }
     }
@@ -57,14 +56,14 @@ function mouseDownImg(e) {
         delClick();
     } else {
         if (move != null && e.target != move) {
-            move.style.display = "flex";
+            move.classList.add("active");
             let image_rect = image.getBoundingClientRect();
             placeRelative(
                 move,
                 e.offsetY / image_rect.height,
                 e.offsetX / image_rect.width,
             );
-            if (move.className[0] == "l") {
+            if (move.classList.contains("l")) {
                 var side = "left";
             } else {
                 var side = "right";
@@ -72,14 +71,14 @@ function mouseDownImg(e) {
             document.querySelectorAll("." + side).forEach((select) => {
                 if (
                     $("#" + select.id)
-                        .find("[value='" + move.className.slice(-1) + "']")
+                        .find("[value='" + move.dataset.number + "']")
                         .text() == ""
                 ) {
                     $("#" + select.id).append(
                         '<option value="' +
-                        move.className.slice(-1) +
+                        move.dataset.number +
                         '">' +
-                        move.className.slice(-1) +
+                        move.dataset.number +
                         "</option>",
                     );
                 }
@@ -92,15 +91,14 @@ function mouseDownImg(e) {
 function mouseDownPos(e) {
     move = document.getElementById(e.target.id);
     if (delete_mode) {
-        move.style.display = "none";
-        document.getElementById(getMatchingID(move.id)).style.color = "grey";
-        document.getElementById(getMatchingID(move.id)).style.borderColor = "grey";
-        if (move.className[0] == "l") {
+        move.classList.remove("active");
+        document.getElementById(getMatchingId(move.id)).classList.remove("active");
+        if (move.classList.contains("l")) {
             var side = "left";
         } else {
             var side = "right";
         }
-        $("." + side + ' [value="' + move.className.slice(-1) + '"]').remove();
+        $("." + side + ' [value="' + move.dataset.number + '"]').remove();
         move = null;
     } else {
         move.style.cursor = "grabbing";
@@ -122,7 +120,7 @@ function mouseMovePos(e) {
 
 function mouseUpPos() {
     if (move != null) {
-        move.style.cursor = "grab";
+        move.style.removeProperty("cursor");
         document.removeEventListener("mousemove", mouseMovePos);
     }
 }
@@ -140,32 +138,18 @@ function getRelative(object) {
     return [y, x];
 }
 
-function getMatchingID(id) {
-    if (id[0] == "p") {
-        return "o" + id.slice(1);
-    } else if (id[0] == "o") {
-        return "p" + id.slice(1);
-    }
-}
-
 function delClick() {
     if (delete_mode) {
         document.querySelectorAll(".move").forEach((position) => {
-            if (position.style.display == "flex") {
-                position.style.color = "var(--bs-body-color)";
-                position.style.borderColor = "var(--bs-body-color)";
-            }
-            position.style.cursor = "grab";
+            position.classList.remove("delete");
         });
         document.getElementById("delete").classList.remove("active");
         delete_mode = false;
     } else {
         var count = 0;
         document.querySelectorAll(".move").forEach((position) => {
-            if (position.style.display == "flex") {
-                position.style.color = "red";
-                position.style.borderColor = "red";
-                position.style.cursor = "crosshair";
+            if (position.classList.contains("active")) {
+                position.classList.add("delete");
                 count += 1;
             }
         });

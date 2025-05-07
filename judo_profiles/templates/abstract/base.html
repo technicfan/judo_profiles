@@ -39,7 +39,7 @@
             <nav class="navbar navbar-expand-lg bg-body-tertiary mb-3">
                 <div class="container-fluid">
                     <a class="navbar-brand" id="logo_container" href="{% url "profiles-home" %}">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" width="27" height="27">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" width="27" height="27" style="translate: 0 -.15rem;">
                             <circle cx="50" cy="50" r="45" />
                             <path d="M50 20L80 50L50 80L20 50Z" />
                             <circle fill="currentColor" cx="50" cy="50" r="4" />
@@ -62,13 +62,32 @@
                                 {% block admin_actions %}{% endblock %}
                             </div>
                             <div class="navbar-nav d-flex justify-content-end">
-                                <span class="nav-link">{% translate "Hello" %} {{ request.user.first_name|default:request.user.username }}</span>
+                                <span class="nav-link me-1">{% translate "Hello" %} {{ request.user.first_name|default:request.user.username }}</span>
                                 <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()"></button>
                                 <a class="nav-link {% block update %}{% endblock %}" href="{% url "users-update" %}">{% translate "Manage account" %}</a>
                                 <a class="nav-link" href="{% url "users-logout" %}">{% translate "Logout" %}</a>
                             {% else %}
                         </div>
                         <div class="navbar-nav d-flex">
+                            <form id="language_form" action="{% url "set_language" %}" method="post" class="me-2">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ redirect_to }}">
+                                <select id="languages" name="language" class="form-select" style="background-color: rgba(var(--bs-tertiary-bg-rgb),var(--bs-bg-opacity));">
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% get_available_languages as LANGUAGES %}
+                                    {% get_language_info_list for LANGUAGES as languages %}
+                                    {% for language in languages %}
+                                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                            {{ language.name_local }} ({{ language.code }})
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                            <script>
+                                document.getElementById("languages").addEventListener("change", () => {
+                                    document.getElementById("language_form").submit();
+                                });
+                            </script>
                             <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()">Auto</button>
                             <a class="nav-link {% block login %}{% endblock %}" href="{% url "users-login" %}">{% translate "Login" %}</a>
                             <a class="nav-link {% block register %}{% endblock %}" href="{% url "users-register" %}">{% translate "Register with key" %}</a>

@@ -69,15 +69,14 @@ class Technique(models.Model):
 
 class OwnTechnique(models.Model):
     SIDE_CHOICES = [(True, "l"), (False, "r")]
-    STATE_CHOICES = [
-        ("W", "wettkampfstabil"),
-        ("T", "Training"),
-        ("Z", "zu lernen"),
-    ]
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     technique = models.ForeignKey(Technique, on_delete=models.CASCADE)
     side = models.BooleanField(choices=SIDE_CHOICES)
-    state = models.CharField(max_length=1, choices=STATE_CHOICES)
+    # states:
+    # 0: stable in competition
+    # 1: training
+    # 2: to learn
+    state = models.PositiveIntegerField()
     direction = models.PositiveIntegerField()
     left_position = models.ForeignKey(
         Position, on_delete=models.CASCADE, related_name="left_position_owntechniques"

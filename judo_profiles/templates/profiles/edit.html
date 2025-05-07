@@ -73,8 +73,8 @@
     <script> 
         document.querySelectorAll(".pos_data").forEach(pos => {
             position = document.getElementById(pos.dataset["id"])
-            position.style.display = "flex"
-            colorSelected(position.className[0] + " " + position.className.slice(-1), "var(--bs-body-color)")
+            position.classList.add("active")
+            document.getElementById(getMatchingId(position.id)).classList.add("active")
             placeRelative(
                 position,
                 pos.dataset.y.replace(",", "."),
@@ -90,7 +90,7 @@
         })
 
         document.querySelectorAll(".rank_data").forEach(item => {
-            add_rank_item(item.dataset["type"], item.dataset)
+            add_rank_item(item.dataset.type, item.dataset)
         })
     </script>
 {% endblock %}

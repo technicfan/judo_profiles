@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-04 01:08+0200\n"
+"POT-Creation-Date: 2025-05-07 04:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,6 +49,18 @@ msgstr "rechts"
 #: judo_profiles/static/script/own_techniques.js:87
 msgid "State"
 msgstr "Stand"
+
+#: judo_profiles/static/script/own_techniques.js:88
+msgid "S"
+msgstr "W"
+
+#: judo_profiles/static/script/own_techniques.js:89
+msgid "T"
+msgstr "T"
+
+#: judo_profiles/static/script/own_techniques.js:90
+msgid "L"
+msgstr "Z"
 
 #: judo_profiles/static/script/own_techniques.js:98
 #: judo_profiles/static/script/ranks.js:28

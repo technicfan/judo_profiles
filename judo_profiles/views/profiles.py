@@ -145,7 +145,7 @@ def new_profile(request):
                     number=rank_item["number"],
                     technique=Technique.objects.get(id=rank_item["technique"]),
                     profile=profile,
-                    type=rank_item["type"] == "special",
+                    type=int(rank_item["type"] == "special"),
                 )
             new_rank_item.save()
 
@@ -352,7 +352,6 @@ def edit_profile(request, username):
                             changed_rank_item.technique = Technique.objects.get(
                                 id=rank_item["technique"]
                             )
-                            changed_rank_item.type = rank_item["type"]
                         if changed_rank_item.profile == profile:
                             changed_rank_item.save()
                     # delete rank item if profile matches

@@ -3,10 +3,20 @@ let special = 0,
     combination = 0,
     deleted_rank_items = [];
 
-function add_rank_item(type, context = null) {
+function get_type(type) {
+    if (type === "0") {
+        return "ground";
+    } else if (type == "1") {
+        return "special";
+    } else {
+        return type;
+    }
+}
+
+function add_rank_item(raw_type, context = null) {
+    var type = get_type(raw_type);
     switch (type) {
         case "special":
-        case "1":
             special += 1;
             var number = special;
             var html =
@@ -30,7 +40,6 @@ function add_rank_item(type, context = null) {
             `;
             break;
         case "ground":
-        case "0":
             ground += 1;
             var number = ground;
             var html =
@@ -103,11 +112,9 @@ function add_rank_item(type, context = null) {
     } else {
         switch (type) {
             case "special":
-            case "1":
                 special -= 1;
                 break;
             case "ground":
-            case "0":
                 ground -= 1;
                 break;
             case "combination":
@@ -152,12 +159,10 @@ function remove_rank(type, element) {
 
     switch (type) {
         case "special":
-        case "1":
             document.getElementById(type + special).classList.add("d-none");
             special -= 1;
             break;
         case "ground":
-        case "0":
             document.getElementById(type + ground).classList.add("d-none");
             ground -= 1;
             break;

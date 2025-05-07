@@ -5,23 +5,23 @@
 {% block about %}active" aria-current="page{% endblock %}
 
 {% block content %}
-    <div class="container text-center">
+    <div class="container text-center" style="max-width: 70rem;">
         <h2>Einführung</h2>
         <p>
-            Diese Website ist ein Schulprojekt, das immer mehr zum Hobbyprojekt wurde.<br>
-            Es handelt sich um eine online Judo-Kämpferprofil-Verwaltung, die mehrere Trainer*innen gleichzeitug verwenden können.<br>
-            Außerdem kann auch den Judoka Zugriff zu ihren und auch zu anderen Profilen gewährt werden (durch Trainer*innen).<br>
-            Auch Trainer*innen können sich gegenseitig Lese- und Schreibzugriff zu den, von ihnen erstellten Profilen geben.<br>
-            Zudem wird zu Beginn ein Admin eingerichtet (im cli), welcher alle Benutzerkonten verwalten kann und<br>auch bei Bedarf neue Schlüssel erstellen, falls jemand das Passwort vergessen hat.<br>
-            Beim Erstellen wird kein Passwort eingerichtet, welches dann geändert werden muss,<br>sondern es wird ein Schlüssel generiert, welcher sieben Tage gültig ist,<br>mit dem sich der/die Nutzer*in
-            dann ein Passwort erstellen kann,<br>damit nur der/die Nutzer*in das Passwort kennt.
+            Diese Website ist ein Schulprojekt, das immer mehr zum Hobbyprojekt wurde.
+            Es handelt sich um eine online Judo-Kämpferprofil-Verwaltung, die mehrere Trainer*innen gleichzeitug verwenden können.
+            Außerdem kann auch den Judoka Zugriff zu ihren und auch zu anderen Profilen gewährt werden (durch Trainer*innen).
+            Auch Trainer*innen können sich gegenseitig Lese- und Schreibzugriff zu den, von ihnen erstellten Profilen geben.
+            Zudem wird zu Beginn ein Admin eingerichtet (im cli), welcher alle Benutzerkonten verwalten kann und auch bei Bedarf neue Schlüssel erstellen, falls jemand das Passwort vergessen hat.
+            Beim Erstellen wird kein Passwort eingerichtet, welches dann geändert werden muss, sondern es wird ein Schlüssel generiert, welcher sieben Tage gültig ist, mit dem sich der/die Nutzer*in
+            dann ein Passwort erstellen kann, damit nur der/die Nutzer*in das Passwort kennt.
         </p>
         <h3>Technisches</h3>
         <p>
-            Es handelt sich um ein <a href="https://github.com/django/django">Django</a>-Projekt, das auch JavaScript für das Frontend.<br>
+            Es handelt sich um ein <a href="https://github.com/django/django">Django</a>-Projekt, das auch JavaScript für das Frontend.
             Es ist unter der <a href="https://opensource.org/license/mit">MIT Lizenz</a> frei und kostenlos erhältlich: <a href="https://github.com/technicfan/judo_profiles">GitHub</a><br>
-            Ich verwende <a href="https://github.com/django-guardian/django-guardian">django-guardian</a> für Per-Object-Permissions für die Profile.<br>
-            Außerdem verwende auf der Client-Seite <a href="https://github.com/twbs/bootstrap">Bootstrap</a> für einfaches Styling,<br>ein wenig auch
+            Ich verwende <a href="https://github.com/django-guardian/django-guardian">django-guardian</a> für Per-Object-Permissions für die Profile.
+            Außerdem verwende auf der Client-Seite <a href="https://github.com/twbs/bootstrap">Bootstrap</a> für einfaches Styling, ein wenig auch
             <a href="https://jquery.com/">jQuery</a> und <a href="https://github.com/bigskysoftware/htmx">htmx</a>, für schnelle Live-Suche ohne Neuladen.
         </p>
     </div>

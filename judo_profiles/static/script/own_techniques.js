@@ -85,9 +85,9 @@ function add_own(field, context = null) {
             number +
             `" class="state form-select form-select-sm d-inline m-1" style="width: fit-content;" required>
                             <option value="" selected>${gettext("State")}</option>
-                            <option value="W">W</option>
-                            <option value="T">T</option>
-                            <option value="Z">Z</option>
+                            <option value="0">${gettext("S")}</option>
+                            <option value="1">${gettext("T")}</option>
+                            <option value="2">${gettext("L")}</option>
                         </select>
                         <button id="own` +
             field +
@@ -114,14 +114,14 @@ function add_own(field, context = null) {
                 });
             });
         document.querySelectorAll(".move").forEach((position) => {
-            if (position.style.display == "flex") {
+            if (position.classList.contains("active")) {
                 $(
                     "#" + "own" + field + "_" + "p" + position.className[0] + number,
                 ).append(
                     '<option value="' +
-                    position.className.slice(-1) +
+                    position.dataset.number +
                     '">' +
-                    position.className.slice(-1) +
+                    position.dataset.number +
                     "</option>",
                 );
             }

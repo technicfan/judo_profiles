@@ -14,8 +14,8 @@ from .profiles import unique_username
 
 
 # check if user is admin
-def is_admin(user):
-    return user.is_superuser
+def is_staff(user):
+    return user.is_superuser or user.is_staff
 
 
 # delete all sessions for user
@@ -165,7 +165,7 @@ def change_pass(request):
         return render(request, "account.html")
 
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def users(request):
     if request.method == "POST":
         # get all available users according to request
@@ -196,7 +196,7 @@ def users(request):
         return render(request, "users.html")
 
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def new_user(request):
     if request.method == "POST":
         # create new trainer with unique username and new token
@@ -220,7 +220,7 @@ def new_user(request):
     return render(request, "users/new.html", {})
 
 
-@user_passes_test(is_admin)
+@user_passes_test(is_staff)
 def manage_user(request, username):
     # load available profile if user exists
     try:
@@ -261,6 +261,10 @@ def manage_user(request, username):
         # add user to trainers group
         elif "trainer" in request.POST:
             make_trainer(user)
+        # give user the staff status
+        elif "staff" in request.POST:
+            user.is_staff = True
+            user.save()
         # change permissions
         elif "update" in request.POST:
             permission = request.POST["permission"]

@@ -5,6 +5,18 @@
 
 {% block style %}
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script>
+        const delay = ms => new Promise(res => setTimeout(res, ms))
+        async function copy_token(token){
+            const button = document.getElementById("copy")
+            await navigator.clipboard.writeText(token)
+            button.innerHTML = "{% translate "Key copied" %}"
+            button.classList.add("active")
+            await delay(1500)
+            button.innerHTML = "{% translate "Copy key" %}"
+            button.classList.remove("active")
+        }
+    </script>
 {% endblock %}
 
 {% block actions %}
@@ -23,36 +35,24 @@
     {% if user == profile.created_by %}
         <div class="container">
             <div class="row mb-3">
-                <h2 class="col">{% blocktranslate with profile_name=profile.name %}Access to profile of {{ profile_name }}{% endblocktranslate %}</h2>
+                <h2 class="col text-nowrap text-center">{% blocktranslate with profile_name=profile.name %}Access to profile of {{ profile_name }}{% endblocktranslate %}</h2>
                 <form method="post" class="col">
                     {% csrf_token %}
-                    <div class="d-flex justify-content-end">
+                    <div class="d-flex justify-content-center">
                         {% if not profile.user.token and not profile.user.is_active %}
-                            <button class="btn btn-secondary" name="add">{% translate "Key for new user" %}</button>
+                            <button class="btn btn-secondary text-nowrap" name="add">{% translate "Key for new user" %}</button>
                         {% else %}
                             {% if not profile.user.is_active %}
                                 <table class="text-center">
-                                    <tr>
+                                    <tr class="text-nowrap">
                                         {% if profile.user.token.valid_for < 1 %}
                                             <td class="pe-3">{% translate "Key expired, without being used" %}</td>
-                                            <td><button class="btn btn-secondary" name="renew">{% translate "Renew key" %}</button></td>
+                                            <td><button class="btn btn-secondary text-nowrap" name="renew">{% translate "Renew key" %}</button></td>
                                         {% else %}
                                             <td class="pe-3">{{ days }}</td>
-                                            <td class="pe-2"><button id="copy" class="btn btn-secondary" onclick="copy_token('{{ profile.user.token }}'); return false;">{% translate "Copy key" %}</button></td>
-                                            <script>
-                                                const delay = ms => new Promise(res => setTimeout(res, ms))
-                                                async function copy_token(token){
-                                                    const button = document.getElementById("copy")
-                                                    await navigator.clipboard.writeText(token)
-                                                    button.innerHTML = "{% translate "Key copied" %}"
-                                                    button.classList.add("active")
-                                                    await delay(1500)
-                                                    button.innerHTML = "{% translate "Copy key" %}"
-                                                    button.classList.remove("active")
-                                                }
-                                            </script>
+                                            <td class="pe-2"><button id="copy" class="btn btn-secondary text-nowrap" onclick="copy_token('{{ profile.user.token }}'); return false;">{% translate "Copy key" %}</button></td>
                                         {% endif %}
-                                        <td><button class="btn btn-secondary" name="delete_token">{% translate "Delete key" %}</button></td>
+                                        <td><button class="btn btn-secondary text-nowrap" name="delete_token">{% translate "Delete key" %}</button></td>
                                     </tr>
                                 </table>
                             {% endif %}
