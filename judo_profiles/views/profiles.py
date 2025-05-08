@@ -58,7 +58,7 @@ def start(request):
     if request.method == "POST":
         # get profiles with search
         shown_profiles = get_objects_for_user(
-            request.user, "view_profile", Profile
+            request.user, "judo_profiles.view_profile"
         ).order_by("last_name")
         search = request.POST["search"]
         filtered = shown_profiles.filter(
@@ -173,7 +173,7 @@ def new_profile(request):
 )
 def profile(request, username):
     # collect profile data
-    profile = User.objects.get(username=username).profile
+    profile = Profile.objects.get(user__username=username)
     own_techniques = OwnTechnique.objects.filter(profile=profile)
     positons = Position.objects.filter(profile=profile)
     special_rank = TechniqueRank.objects.filter(profile=profile, type=1).order_by(
@@ -208,7 +208,7 @@ def edit_profile(request, username):
     if request.method == "POST":
         data = json.loads(request.body)
 
-        profile = User.objects.get(username=username).profile
+        profile = Profile.objects.get(user__username=username)
 
         if data["action"] == "delete" and request.user == profile.created_by:
             # delete profile and inactive user
@@ -376,7 +376,7 @@ def edit_profile(request, username):
 
     else:
         # collect relevant data
-        profile = User.objects.get(username=username).profile
+        profile = Profile.objects.get(user__username=username)
         own_techniques = OwnTechnique.objects.filter(profile=profile)
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
@@ -410,7 +410,7 @@ def edit_profile(request, username):
     "judo_profiles.change_profile", (Profile, "user__username", "username")
 )
 def manage_profile(request, username):
-    profile = User.objects.get(username=username).profile
+    profile = Profile.objects.get(user__username=username)
     # get all users where profile permission is allowed to be changed
     users = User.objects.exclude(
         Q(is_superuser=True)

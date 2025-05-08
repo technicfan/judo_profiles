@@ -106,7 +106,7 @@ def login_user(request):
         if user is not None:
             # delete token if it exists
             try:
-                user.token.delete()
+                Token.objects.get(user=user).delete()
             except Token.DoesNotExist:
                 pass
             # login the user
@@ -222,10 +222,10 @@ def new_user(request):
 
 @user_passes_test(is_staff)
 def manage_user(request, username):
-    # load available profile if user exists
+    # load available profiles if user exists
     try:
         user = User.objects.get(username=username)
-        if user.is_superuser:
+        if user.is_superuser or user == request.user:
             raise User.DoesNotExist
     except User.DoesNotExist:
         return redirect("users-manage")
@@ -236,12 +236,21 @@ def manage_user(request, username):
         if "add" in request.POST:
             Token(user=user).save()
         elif "renew" in request.POST:
-            user = user
-            user.token.delete()
+            try:
+                Token.objects.get(user=user).delete()
+            except Token.DoesNotExist:
+                pass
             Token(user=user).save()
         elif "delete_token" in request.POST:
-            user.token.delete()
+            try:
+                Token.objects.get(user=user).delete()
+            except Token.DoesNotExist:
+                pass
         elif "reset" in request.POST:
+            try:
+                Token.objects.get(user=user).delete()
+            except Token.DoesNotExist:
+                pass
             Token(user=user).save()
             # logout everywhere after creation of token to reset password
             logout_all(user)
@@ -261,9 +270,14 @@ def manage_user(request, username):
         # add user to trainers group
         elif "trainer" in request.POST:
             make_trainer(user)
+        elif "no_trainer" in request.POST:
+            pass
         # give user the staff status
         elif "staff" in request.POST:
             user.is_staff = True
+            user.save()
+        elif "no_staff" in request.POST:
+            user.is_staff = False
             user.save()
         # change permissions
         elif "update" in request.POST:
@@ -316,7 +330,7 @@ def manage_user(request, username):
     else:
         # get plural translation
         try:
-            count = user.token.valid_for
+            count = Token.objects.get(user=user).valid_for
             days = ngettext(
                 "Valid for %(count)d day", "Valid for %(count)d days", count
             ) % {"count": count}
