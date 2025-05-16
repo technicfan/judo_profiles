@@ -113,11 +113,14 @@ function get_rank_items() {
     return rank_items;
 }
 
-function post_data(action = "redirect") {
+function get_data() {
     let name = document.getElementById("name").value;
     let last_name = document.getElementById("last_name").value;
     let year = document.getElementById("year").value;
     let weight = document.getElementById("weight").value;
+    let user = document.getElementById("user")
+        ? document.getElementById("user").value
+        : null;
     let left = document.getElementById("side_left").checked;
     let right = document.getElementById("side_right").checked;
     var side = null;
@@ -128,29 +131,35 @@ function post_data(action = "redirect") {
     } else if (right) {
         var side = 2;
     }
-    if (name && last_name && year && weight && side != null) {
-        var data = {
-            name: name,
-            last_name: last_name,
-            year: year,
-            weight: weight,
-            side: side,
-            action: action,
-            positions: get_positions(),
-            own_techniques: get_own_techniques(),
-            rank_items: get_rank_items(),
-        };
-        const request = new Request(window.location.href, {
-            method: "POST",
-            headers: {
-                "X-CSRFToken": CSRF_TOKEN,
-                "Content-Type": "application/json; charset=utf-8",
-            },
-            mode: "same-origin",
-            body: JSON.stringify(data),
-        });
-        fetch(request).then((response) => {
-            location.href = response.url;
-        });
-    }
+    return {
+        name: name,
+        last_name: last_name,
+        year: year,
+        weight: weight,
+        user: user ? parseInt(user) : null,
+        side: side,
+        positions: get_positions(),
+        own_techniques: get_own_techniques(),
+        rank_items: get_rank_items(),
+    };
 }
+
+function post_data(action = "redirect") {
+    var data = get_data();
+    data["changed"] = JSON.stringify(data) != JSON.stringify(original_data);
+    data["action"] = action;
+    const request = new Request(window.location.href, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": CSRF_TOKEN,
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        mode: "same-origin",
+        body: JSON.stringify(data),
+    });
+    fetch(request).then((response) => {
+        location.href = response.url;
+    });
+}
+
+const original_data = get_data();

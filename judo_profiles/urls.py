@@ -39,7 +39,8 @@ urlpatterns = [
     ),
     # user related
     path("users", users.users, name="users-manage"),
-    path("users/new", users.new_user, name="users-new"),
+    path("users/new-trainer", users.new_trainer, name="users-new-trainer"),
+    path("users/new-staff", users.new_staff, name="users-new-staff"),
     path("login", users.login_user, name="users-login"),
     path("logout", users.logout_user, name="users-logout"),
     path("users/manage", users.change_pass, name="users-update"),

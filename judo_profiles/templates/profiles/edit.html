@@ -13,12 +13,14 @@
     {% if "manage_profile" in profile_perms %}
         <a class="nav-link" href="{% url "profiles-profile-manage" profile.user.username %}">{% translate "Manage" %}</a>
     {% endif %}
-    {% if request.user == profile.created_by %}
+    {% if request.user == profile.created_by or request.user.is_superuser %}
         <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#delete_modal">{% translate "Delete" %}</button>
     {% endif %}
     <input class="nav-link" type="submit" form="profile_form" data-type="save" value="{% translate "Save" %}">
     <input class="nav-link" type="submit" form="profile_form" value="{% translate "Finish" %}">
 {% endblock %}
+
+{% block user_select %}{% endblock %}
 
 {% block hidden_data2 %}
     <ul id="hidden_own">
@@ -70,23 +72,25 @@
 {% block opts_right %}{% if profile.primary_side != 1 %} checked {% endif %}{% endblock %}
 
 {% block script3 %}
-    <div class="modal fade" id="delete_modal" tabindex="-1" aria-labelledby="delete_modal_label" aria-hidden="true">
-        <div class="modal-dialog ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="delete_modal_label">{% translate "Delete" %}?</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    {% translate "Really delete profile permanently?" %}{% if profile.user.is_active %}<br>{% blocktranslate with username=profile.user.username %}The user {{ username }} won't ever be able to have a profile again.{% endblocktranslate %}{% endif %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                    <button type="button" class="btn btn-danger" onclick="post_data('delete')">{% translate "Ok" %}</button>
+    {% if request.user == profile.created_by or request.user.is_superuser %}
+        <div class="modal fade" id="delete_modal" tabindex="-1" aria-labelledby="delete_modal_label" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="delete_modal_label">{% translate "Delete" %}?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% translate "Really delete profile permanently?" %}{% if profile.user.is_active %}<br>{% blocktranslate with username=profile.user.username %}The user {{ username }} won't ever be able to have a profile again.{% endblocktranslate %}{% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                        <button type="button" class="btn btn-danger" onclick="post_data('delete')">{% translate "Ok" %}</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endif %}
     <script> 
         document.querySelectorAll(".pos_data").forEach(pos => {
             position = document.getElementById(pos.dataset["id"])

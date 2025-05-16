@@ -56,43 +56,45 @@
                                 <a class="nav-link {% block own %}{% endblock %}" href="{% url "profiles-profile" request.user.username %}">{% translate "Own profile"%}</a>
                                 {% endif %}
                                 {% block actions %}{% endblock %}
-                                {% if request.user.is_superuser %}
+                                {% if request.user.is_staff or request.user.is_superuser %}
                                     <a class="nav-link {% block manage %}{% endblock %}" href="{% url "users-manage" %}">{% translate "User management" %}</a>
                                 {% endif %}
                                 {% block admin_actions %}{% endblock %}
                             </div>
                             <div class="navbar-nav d-flex justify-content-end">
-                                <span class="nav-link me-1">{% translate "Hello" %} {{ request.user.first_name|default:request.user.username }}</span>
-                                <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()"></button>
+                                <span class="navbar-text me-3">{% translate "Hello" %} {{ request.user.first_name|default:request.user.username }}</span>
+                                <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="theme_selector_callback()"></button>
                                 <a class="nav-link {% block update %}{% endblock %}" href="{% url "users-update" %}">{% translate "Manage account" %}</a>
                                 <a class="nav-link" href="{% url "users-logout" %}">{% translate "Logout" %}</a>
                             {% else %}
                         </div>
                         <div class="navbar-nav d-flex">
-                            <form id="language_form" action="{% url "set_language" %}" method="post" class="me-2">
-                                {% csrf_token %}
-                                <input name="next" type="hidden" value="{{ redirect_to }}">
-                                <select id="languages" name="language" class="form-select" style="background-color: rgba(var(--bs-tertiary-bg-rgb),var(--bs-bg-opacity));">
-                                    {% get_current_language as LANGUAGE_CODE %}
-                                    {% get_available_languages as LANGUAGES %}
-                                    {% get_language_info_list for LANGUAGES as languages %}
-                                    {% for language in languages %}
-                                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                                            {{ language.name_local }} ({{ language.code }})
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </form>
-                            <script>
-                                document.getElementById("languages").addEventListener("change", () => {
-                                    document.getElementById("language_form").submit();
-                                });
-                            </script>
-                            <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="change_color_theme()">Auto</button>
+                            <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="theme_selector_callback()">Auto</button>
                             <a class="nav-link {% block login %}{% endblock %}" href="{% url "users-login" %}">{% translate "Login" %}</a>
                             <a class="nav-link {% block register %}{% endblock %}" href="{% url "users-register" %}">{% translate "Register with key" %}</a>
                             {% endif %}
                             <a class="nav-link {% block about %}{% endblock %}" href="{% url "profiles-about" %}">{% translate "About" %}</a>
+                            {% if not request.user.is_authenticated %}
+                                <form id="language_form" action="{% url "set_language" %}" method="post" class="d-flex mx-2">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                                    <select id="languages" name="language" class="form-select" style="background-color: rgba(var(--bs-tertiary-bg-rgb),var(--bs-bg-opacity));">
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        {% get_available_languages as LANGUAGES %}
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        {% for language in languages %}
+                                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                                {{ language.name_local }} ({{ language.code }})
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                                <script>
+                                    document.getElementById("languages").addEventListener("change", () => {
+                                        document.getElementById("language_form").submit();
+                                    });
+                                </script>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

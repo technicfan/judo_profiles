@@ -20,6 +20,7 @@
     {% if "manage_profile" in profile_perms %}
         <a class="nav-link" href="{% url "profiles-profile-manage" profile.user.username %}">{% translate "Manage" %}</a>
     {% endif %}
+    <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#info_modal">{% translate "Info" %}</button>
 {% endblock %}
 
 {% block style2 %}
@@ -57,17 +58,18 @@
     </ul>
 {% endblock %}
 
-{% block name %}{{ profile.name }} {{ profile.last_name }}{% endblock %}
-
 {% block general_info %}
+    <div>
+        <p><b>{% translate "First name" %}:</b> {{ profile.name }}</p>
+    </div>
+    <div>
+        <p><b>{% translate "Last name" %}:</b> {{ profile.last_name }}</p>
+    </div>
     <div>
         <p><b>{% translate "Year group" %}:</b> {{ profile.year }}</p>
     </div>
     <div>
         <p><b>{% translate "Weight" %}:</b> {{ profile.weight }}kg</p>
-    </div>
-    <div>
-        <p><b>{% translate "changed" %}:</b> {{ profile.updated_on }}</p>
     </div>
 {% endblock %}
 
@@ -103,6 +105,23 @@
 {% endblock %}
 
 {% block script2 %}
+    <div class="modal fade" id="info_modal" tabindex="-1" aria-labelledby="info_modal_label" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="info_modal_label">{% translate "Info" %}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <b>{% translate "Created by" %}:</b> {{ profile.created_by }}<br>
+                    <b>{% translate "Last changed" %}:</b> {{ profile.changed_on }}{% if profile.changed_by %} <b>{% translate "by" %}</b> {{ profile.changed_by }}{% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Ok" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         document.querySelectorAll(".pos_data").forEach(pos => {
             position = document.getElementById(pos.dataset["id"])

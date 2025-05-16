@@ -40,7 +40,7 @@
                     {% csrf_token %}
                     <div class="d-flex justify-content-center">
                         {% if not profile.user.token and not profile.user.is_active %}
-                            <button class="btn btn-secondary text-nowrap" name="add">{% translate "Key for new user" %}</button>
+                            <button class="btn btn-secondary text-nowrap" name="add">{% translate "Key for connected user" %}</button>
                         {% else %}
                             {% if not profile.user.is_active %}
                                 <table class="text-center">
@@ -52,7 +52,7 @@
                                             <td class="pe-3">{{ days }}</td>
                                             <td class="pe-2"><button id="copy" class="btn btn-secondary text-nowrap" onclick="copy_token('{{ profile.user.token }}'); return false;">{% translate "Copy key" %}</button></td>
                                         {% endif %}
-                                        <td><button class="btn btn-secondary text-nowrap" name="delete_token">{% translate "Delete key" %}</button></td>
+                                        <td><button class="btn btn-secondary text-nowrap" name="delete">{% translate "Delete key" %}</button></td>
                                     </tr>
                                 </table>
                             {% endif %}

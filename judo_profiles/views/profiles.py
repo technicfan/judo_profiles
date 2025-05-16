@@ -10,10 +10,11 @@ from django.template.exceptions import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext
+from django.views.decorators.http import require_http_methods
 from guardian.decorators import permission_required as object_permission_required
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 
-from judo_profiles.models import (
+from ..models import (
     CombinationRank,
     OwnTechnique,
     Position,
@@ -22,20 +23,11 @@ from judo_profiles.models import (
     TechniqueRank,
     Token,
 )
-
-
-# create unique username for new user
-def unique_username(username: str) -> str:
-    # check how often initial name already exists
-    number = User.objects.filter(username__regex=rf"^{username}(_[0-9]*)?$").count()
-    # return unique username
-    if number != 0:
-        return f"{username}_{number}"
-    else:
-        return username
+from ..utils import token_actions, unique_username
 
 
 # landing page for non authorized and authorized users
+@require_http_methods(["GET"])
 @login_not_required
 def home(request):
     if request.user.is_authenticated:
@@ -44,6 +36,7 @@ def home(request):
         return redirect("profiles-about")
 
 
+@require_http_methods(["GET"])
 @login_not_required
 def about(request):
     try:
@@ -54,6 +47,7 @@ def about(request):
 
 
 # list all available profiles
+@require_http_methods(["GET", "POST"])
 def start(request):
     if request.method == "POST":
         # get profiles with search
@@ -72,6 +66,7 @@ def start(request):
         return render(request, "profiles.html")
 
 
+@require_http_methods(["GET", "POST"])
 @permission_required("judo_profiles.add_profile")
 def new_profile(request):
     if request.method == "POST":
@@ -85,15 +80,21 @@ def new_profile(request):
             primary_side=data["side"],
             created_by=request.user,
         )
-        # create new user for profile
-        username = unique_username(profile.name + "." + profile.last_name)
-        newuser = User(
-            username=username,
-            first_name=profile.name,
-            last_name=profile.last_name,
-            is_active=False,
-        )
-        newuser.save()
+        try:
+            if data["user"] is not None:
+                newuser = User.objects.get(id=data["user"])
+            else:
+                raise User.DoesNotExist
+        except User.DoesNotExist:
+            # create new user for profile
+            username = unique_username(profile.name + "." + profile.last_name)
+            newuser = User(
+                username=username,
+                first_name=profile.name,
+                last_name=profile.last_name,
+                is_active=False,
+            )
+            newuser.save()
         profile.user = newuser
         profile.save()
         # permissions
@@ -155,6 +156,10 @@ def new_profile(request):
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
         techniques = Technique.objects.all().order_by("name")
+        users = User.objects.exclude(is_superuser=True).exclude(id=request.user.id)
+        for user in users:
+            if Profile.objects.filter(user=user).exists():
+                users = users.exclude(username=user.username)
 
         # return template with techniques
         return render(
@@ -164,10 +169,12 @@ def new_profile(request):
                 "techniques": techniques,
                 "stechniques": stechniques,
                 "gtechniques": gtechniques,
+                "users": users,
             },
         )
 
 
+@require_http_methods(["GET"])
 @object_permission_required(
     "judo_profiles.view_profile", (Profile, "user__username", "username")
 )
@@ -201,6 +208,7 @@ def profile(request, username):
     )
 
 
+@require_http_methods(["GET", "POST"])
 @object_permission_required(
     "judo_profiles.change_profile", (Profile, "user__username", "username")
 )
@@ -210,7 +218,9 @@ def edit_profile(request, username):
 
         profile = Profile.objects.get(user__username=username)
 
-        if data["action"] == "delete" and request.user == profile.created_by:
+        if data["action"] == "delete" and (
+            request.user == profile.created_by or request.user.is_superuser
+        ):
             # delete profile and inactive user
             if profile.user.is_active:
                 profile.delete()
@@ -218,13 +228,14 @@ def edit_profile(request, username):
                 profile.user.delete()
 
             return redirect("profiles-profiles")
-        else:
+        elif data["changed"]:
             # profile
             profile.name = data["name"]
             profile.last_name = data["last_name"]
             profile.year = data["year"]
             profile.weight = data["weight"]
             profile.primary_side = data["side"]
+            profile.changed_by = request.user
             profile.save()
 
             # positions
@@ -367,12 +378,12 @@ def edit_profile(request, username):
                         if to_be_deleted.profile == profile:
                             to_be_deleted.delete()
 
-            if data["action"] == "save":
-                # reload page if "save" button was pressed
-                return redirect("profiles-profile-edit", username=profile.user.username)
-            else:
-                # otherwise redirect to edited profile
-                return redirect("profiles-profile", username=profile.user.username)
+        if data["action"] == "save":
+            # reload page if "save" button was pressed
+            return redirect("profiles-profile-edit", username=profile.user.username)
+        else:
+            # otherwise redirect to edited profile
+            return redirect("profiles-profile", username=profile.user.username)
 
     else:
         # collect relevant data
@@ -406,6 +417,7 @@ def edit_profile(request, username):
         )
 
 
+@require_http_methods(["GET", "POST"])
 @object_permission_required(
     "judo_profiles.change_profile", (Profile, "user__username", "username")
 )
@@ -470,23 +482,18 @@ def manage_profile(request, username):
             )
         # if the profiles user is not active manage token
         elif not profile.user.is_active:
-            if "add" in request.POST:
-                Token(user=profile.user).save()
-            elif "renew" in request.POST:
-                user = profile.user
-                user.token.delete()
-                Token(user=user).save()
-            elif "delete_token" in request.POST:
-                profile.user.token.delete()
+            token_actions(request.POST, profile.user)
 
-            # reload the page
-            return redirect("profiles-profile-manage", username=username)
+        # reload the page
+        return redirect("profiles-profile-manage", username=username)
     else:
         # get plural translation
         try:
-            count = profile.user.token.valid_for
+            count = Token.objects.get(user__username=username).valid_for
             days = ngettext(
-                "Valid for %(count)d day", "Valid for %(count)d days", count
+                "Valid for %(count)d day",
+                "Valid for %(count)d days",
+                count,
             ) % {"count": count}
         except Token.DoesNotExist:
             days = None

@@ -41,7 +41,14 @@ class Profile(models.Model):
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="profiles_created"
     )
-    updated_on = models.DateField(auto_now=True)
+    changed_on = models.DateField(auto_now=True)
+    changed_by = models.ForeignKey(
+        User,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="profiles_changed",
+    )
 
     def __str__(self):
         return f"{self.last_name}, {self.name}"

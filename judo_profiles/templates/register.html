@@ -36,12 +36,13 @@
             {% else %}
                 {% if wrong %}
                     <div class="alert alert-danger mx-auto" style="width: fit-content;">
-                        {% translate "This key does not exist or is expired" %}
+                        {% translate "This key-user-pair does not exist or is expired" %}
                     </div>
                 {% endif %}
-                <input class="form-control" type="text" name="token" placeholder="{% translate "Key" %}" required>
+                <input class="form-control" type="text" name="user" placeholder="{% translate "Username" %}" required>
+                <input class="form-control my-2" type="password" name="token" placeholder="{% translate "Key" %}" required>
                 <div class="d-flex justify-content-center">
-                    <input class="btn btn-secondary mt-4" type="submit" value="{% translate "Register with key" %}">
+                    <input class="btn btn-secondary mt-2" type="submit" value="{% translate "Register with key" %}">
                 </div>
             {% endif %}
         </form>

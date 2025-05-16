@@ -1,10 +1,13 @@
 {% extends "abstract/base.html" %}
 {% load i18n %}
 
-{% block title %}{% translate "New trainer" %}{% endblock %}
+{% block title %}{% if staff %}{% translate "New staff member" %}{% else %}{% translate "New trainer" %}{% endif %}{% endblock %}
 
 {% block admin_actions %}
-    <a class="nav-link active" href="">{% translate "New trainer" %}</a>
+    <a class="nav-link{% if not staff %} active{% endif %}" href="{% url "users-new-trainer" %}">{% translate "New trainer" %}</a>
+    {% if request.user.is_superuser %}
+        <a class="nav-link{% if staff %} active{% endif %}" href="{% url "users-new-staff" %}">{% translate "New staff member" %}</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

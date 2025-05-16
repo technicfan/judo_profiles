@@ -23,28 +23,37 @@
 {% block manage %}active" aria-current="page{% endblock %}
 
 {% block admin_actions %}
+    <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#trainer_modal">
     {% if not user|has_group:"Trainers" %}
-        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#trainer_modal">{% translate "Make trainer" %}</button>
+        {% translate "Add to trainers" %}
+    {% else %}
+        {% translate "Remove from trainers" %}
     {% endif %}
-    {% if not user.is_staff %}
-        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#staff_modal">{% translate "Make staff" %}</button>
+    </button>
+    {% if request.user.is_superuser %}
+        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#staff_modal">
+        {% if not user.is_staff %}
+            {% translate "Add to staff" %}
+        {% else %}
+            {% translate "Remove from staff" %}
+        {% endif %}
+        </button>
     {% endif %}
     {% if user.is_active %}
-        <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="deactivate" value="{{ user }}">
-            <input type="submit" class="nav-link" value="{% translate "Deactivate" %}">
-        </form>
+        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#deactivate_modal">{% translate "Deactivate" %}</button>
     {% endif %}
-    <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#delete_modal">{% translate "Delete" %}</button>
+    {% if request.user.is_superuser %}
+        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#delete_modal">{% translate "Delete" %}</button>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row mb-3">
             <h2 class="col text-center">{% blocktranslate with user=user %}Permissions of {{ user }}{% endblocktranslate %}</h2>
-            <form method="post" class="col">
+        <form method="post" class="col">
                 {% csrf_token %}
+                <input type="hidden" name="token">
                 <div class="d-flex justify-content-center">
                     {% if not user.token and not user.is_active %}
                         <button class="btn btn-secondary text-nowrap" name="add">{% translate "Create key" %}</button>
@@ -59,7 +68,7 @@
                                         <td class="pe-3">{{ days }}</td>
                                         <td class="pe-2"><button id="copy" class="btn btn-secondary text-nowrap" onclick="copy_token('{{ user.token }}'); return false;">{% translate "Copy key" %}</button></td>
                                     {% endif %}
-                                    <td><button class="btn btn-secondary text-nowrap" name="delete_token">{% translate "Delete key" %}</button></td>
+                                    <td><button class="btn btn-secondary text-nowrap" name="delete">{% translate "Delete key" %}</button></td>
                                 </tr>
                             </table>
                         {% else %}
@@ -131,7 +140,13 @@
             <div class="modal-dialog ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="trainer_modal_label">{% translate "Make trainer" %}?</h1>
+                        <h1 class="modal-title fs-5" id="trainer_modal_label">
+                            {% if not user|has_group:"Trainers" %}
+                                {% translate "Add to trainers" %}?
+                            {% else %}
+                                {% translate "Remove from trainers" %}?
+                            {% endif %}
+                        </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -141,56 +156,86 @@
                         <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
                         <form method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="trainer" value="{{ user }}">
-                            <input type="submit" class="btn btn-secondary" value="{% translate "Ok" %}">
+                            <input type="hidden" name="user">
+                            <input type="submit" name="trainer" class="btn btn-secondary" value="{% translate "Ok" %}">
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="staff_modal" tabindex="-1" aria-labelledby="staff_modal_label" aria-hidden="true">
+        <div class="modal fade" id="deactivate_modal" tabindex="-1" aria-labelledby="deactivate_modal_label" aria-hidden="true">
             <div class="modal-dialog ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staff_modal_label">{% translate "Make staff" %}?</h1>
+                        <h1 class="modal-title fs-5" id="deactivate_modal_label">{% translate "Deactivate" %}?</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {% blocktranslate with user=user %}{{ user }} will have access to all management pages{% endblocktranslate %}
+                        {% blocktranslate with user=user %}{{ user }} will be marked as inactive and won't be able to use his/her account until it's activated again (with a key).{% endblocktranslate %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
                         <form method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="staff" value="{{ user }}">
-                            <input type="submit" class="btn btn-secondary" value="{% translate "Ok" %}">
+                            <input type="hidden" name="user">
+                            <input type="submit" name="deactivate" class="btn btn-secondary" value="{% translate "Ok" %}">
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="delete_modal" tabindex="-1" aria-labelledby="delete_modal_label" aria-hidden="true">
-            <div class="modal-dialog ">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="delete_modal_label">{% translate "Delete" %}?</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {% blocktranslate with user=user %}Really delete {{ user }} permanently?{% endblocktranslate %}<br>{% if user|has_group:"Trainers" %}{% blocktranslate with user=user %}All profiles created by {{ user }} will be deleted!!{% endblocktranslate %}{% else %}{% blocktranslate with user=user %}The profile of {{ user }} will also be deleted!{% endblocktranslate %}{% endif %}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                        <form method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="delete" value="{{ user }}">
-                            <input type="submit" class="btn btn-danger" value="{% translate "Ok" %}">
-                        </form>
+        {% if request.user.is_superuser %}
+            <div class="modal fade" id="staff_modal" tabindex="-1" aria-labelledby="staff_modal_label" aria-hidden="true">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staff_modal_label">
+                                {% if not user.is_staff %}
+                                    {% translate "Add to staff" %}?
+                                {% else %}
+                                    {% translate "Remove from staff" %}?
+                                {% endif %}
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% blocktranslate with user=user %}{{ user }} will have access to all management pages{% endblocktranslate %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="user">
+                                <input type="submit" name="staff" class="btn btn-secondary" value="{% translate "Ok" %}">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="modal fade" id="delete_modal" tabindex="-1" aria-labelledby="delete_modal_label" aria-hidden="true">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="delete_modal_label">{% translate "Delete" %}?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% blocktranslate with user=user %}Really delete {{ user }} permanently?{% endblocktranslate %}<br>{% if user|has_group:"Trainers" %}{% blocktranslate with user=user %}All profiles created by {{ user }} will be deleted!!{% endblocktranslate %}{% else %}{% blocktranslate with user=user %}The profile of {{ user }} will also be deleted!{% endblocktranslate %}{% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="user">
+                                <input type="submit" name="delete" class="btn btn-danger" value="{% translate "Ok" %}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

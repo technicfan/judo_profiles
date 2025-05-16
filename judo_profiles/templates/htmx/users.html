@@ -22,7 +22,8 @@
                 {% endif %}
                 {% if user|has_group:"Trainers" %}
                     <span class="badge text-bg-warning">{% translate "trainer" %}</span>
-                {% elif not user.profile %}
+                {% endif %}
+                {% if not user.profile %}
                     <span class="badge text-bg-danger">{% translate "without profile" %}</span>
                 {% endif %}
                 {% if user.is_staff %}
