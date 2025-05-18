@@ -1,7 +1,11 @@
 import json
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_not_required, permission_required
+from django.contrib.auth.decorators import (
+    login_not_required,
+    permission_required,
+    user_passes_test,
+)
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponse
@@ -23,7 +27,7 @@ from ..models import (
     TechniqueRank,
     Token,
 )
-from ..utils import token_actions, unique_username
+from ..utils import is_admin, token_actions, unique_username
 
 
 # landing page for non authorized and authorized users
@@ -64,6 +68,59 @@ def start(request):
     else:
         # return template
         return render(request, "profiles.html")
+
+
+@require_http_methods(["GET", "POST"])
+@user_passes_test(is_admin)
+def techniques(request):
+    if request.method == "POST":
+        if "search" in request.POST:
+            # get profiles with search
+            techniques = Technique.objects.all()
+            search = request.POST["search"]
+            filtered = techniques.filter(
+                Q(name__icontains=search) | Q(codename__icontains=search)
+            ).order_by("codename")
+
+            # return html table for htmx
+            return render(request, "htmx/techniques.html", {"techniques": filtered})
+        elif "change" in request.POST:
+            technique = Technique.objects.get(id=int(request.POST["id"]))
+            if not (
+                technique.codename == request.POST["codename"]
+                and technique.name == request.POST["name"]
+                and technique.type == request.POST["type"]
+            ):
+                technique.codename = request.POST["codename"]
+                technique.name = request.POST["name"]
+                technique.type = request.POST["type"]
+                technique.save()
+
+            return render(
+                request,
+                "htmx/techniques.html",
+                {
+                    "techniques": Technique.objects.filter(id=technique.id),
+                    "changed": True,
+                },
+            )
+        elif "add" in request.POST:
+            if (
+                request.POST["codename"]
+                and request.POST["name"]
+                and request.POST["type"]
+            ):
+                Technique.objects.get_or_create(
+                    codename=request.POST["codename"],
+                    name=request.POST["name"],
+                    type=request.POST["type"],
+                )
+        elif "delete" in request.POST:
+            Technique.objects.get(id=int(request.POST["id"])).delete()
+        return HttpResponse()
+    else:
+        # return template
+        return render(request, "techniques.html")
 
 
 @require_http_methods(["GET", "POST"])

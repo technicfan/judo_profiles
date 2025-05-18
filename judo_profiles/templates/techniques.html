@@ -1,0 +1,57 @@
+{% extends "abstract/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Manage techniques" %}{% endblock %}
+
+{% block style %}
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <input class="form-control mx-auto" type="search"
+            name="search" placeholder="{% translate "Search techique"%}..."
+            hx-post=""
+            hx-trigger="input changed delay:500ms, keyup[key=='Enter'], click delay:50ms from:#refresh, load"
+            hx-target="#techniques"
+            hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'>
+        <button id="refresh" class="d-none"></button
+        <div class="table-responsive">
+            <table class="table mx-auto mt-4" style="max-width: 40rem;">
+                <thead>
+                    <th>{% translate "Codename" %}</th>
+                    <th>{% translate "Name" %}</th>
+                    <th class="text-center">{% translate "Type" %}</th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                <tbody id="techniques">
+                </tbody>
+            </table>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        function toggle_visibility(element){
+            if (element.classList.contains("d-none")){
+                element.classList.remove("d-none")
+            } else {
+                element.classList.add("d-none")
+            }
+        }
+
+        function toggle_delete(name){
+            document.querySelectorAll(name).forEach(button => {
+                toggle_visibility(button);
+            });
+
+        }
+
+        function toggle_edit(number){
+            document.getElementById(`technique_${number}`).querySelectorAll("td").forEach(cell => {
+                toggle_visibility(cell);
+            });
+        }
+    </script>
+{% endblock %}
