@@ -46,6 +46,8 @@ urlpatterns = [
     path("users/manage", users.change_pass, name="users-update"),
     path("register", users.register, name="users-register"),
     path("user/<str:username>", users.manage_user, name="users-user"),
+    # server administration
+    path("server/techniques", profiles.techniques, name="server-techniques"),
     # translation
     path("i18n/", include("django.conf.urls.i18n")),
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
