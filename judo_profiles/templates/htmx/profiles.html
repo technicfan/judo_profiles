@@ -5,7 +5,14 @@
     {% for i in profiles %}
         {% get_obj_perms request.user for i as "i_perms" %}
         <tr>
-            <td><a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile" i.user.username %}">{{ i }}</a>{% if request.user == i.user %} ({% translate "Own profile" %}){% endif %}</td>
+            <td><a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile" i.user.username %}">{{ i }}</a></td>
+            <td>
+                {% if request.user == i.user %}
+                    <span class="badge text-bg-info">{% translate "own" %}</span>
+                {% elif request.user == i.created_by %}
+                    <span class="badge text-bg-warning">{% translate "creator" %}</span>
+                {% endif %}
+            </td>
             <td class="text-end">
                 {% if "change_profile" in i_perms %}
                 <a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile-edit" i.user.username %}">{% translate "Edit" %}</a>

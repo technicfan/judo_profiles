@@ -6,20 +6,22 @@
         <td><input id="codename_new"type="text" name="codename" class="form-control" maxlength="3" placeholder="{% translate "Codename" %}"></td>
         <td><input id="name_new" type="text" name="name" class="form-control" placeholder="{% translate "Name" %}"></td>
         <td colspan="2">
-            <select id="type_new" name="type" class="form-control">
+            <select id="type_new" name="type" class="form-select">
                 <option value="S">{% translate "Standing" %}</option>
                 <option value="G">{% translate "Ground" %}</option>
             </select>
         </td>
-        <td><button class="btn btn-outline-secondary"
-            onclick="document.getElementById('refresh').click()"
-            name="add"
-            hx-post=""
-            hx-target="#refresh"
-            hx-trigger="click"
-            hx-include="#codename_new, #name_new, #type_new"
-            hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'
-        >{% translate "Add" %}</button></td>
+        <td colspan="2">
+            <button class="btn btn-outline-secondary"
+                onclick="document.getElementById('refresh').click()"
+                name="add"
+                hx-post=""
+                hx-target="#refresh"
+                hx-trigger="click"
+                hx-include="#codename_new, #name_new, #type_new"
+                hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'
+            >{% translate "Add" %}</button>
+        </td>
     </tr>
 {% endif %}
 
@@ -28,43 +30,55 @@
     {% if not changed %}
         <tr id="technique_{{ i.id }}">
     {% endif %}
-            <td class="d-auto">{{ i.codename }}</td>
-            <td class="text-nowrap d-auto">{{ i.name }}</td>
-            <td class="text-center d-auto">{% if i.type == "S" %}{% translate "Standing" %}{% else %}{% translate "Ground" %}{% endif %}</td>
-            <td class="d-auto">
-                <button class="btn btn-sm btn-outline-secondary btn_{{ i.id }}" onclick="toggle_edit('{{ i.id }}')">{% translate "Edit" %}</button>
-                <button class="btn btn-sm btn-outline-danger d-none btn_{{ i.id }}"
-                    onclick="document.getElementById('refresh').click()"
-                    name="delete"
-                    hx-post=""
-                    hx-trigger="click"
-                    hx-target="#technique_{{ i.id }}"
-                    hx-include="#id_{{ i.id }}"
-                    hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'
-                >{% translate "Ok" %}</button>
-            </td>
-            <td class="d-auto">
-                <button class="btn btn-sm btn-outline-danger me-2 btn_{{ i.id }}"{% if i|in_use %} disabled>{% translate "In use" %}{% else %} onclick="toggle_delete('.btn_{{ i.id }}')">{% translate "Delete" %}{% endif %}</button>
-                <button class="btn btn-sm btn-outline-secondary d-none btn_{{ i.id }}" onclick="toggle_delete('.btn_{{ i.id }}')">{% translate "Cancel" %}</button>
+            <td>{{ i.codename }}</td>
+            <td class="text-nowrap">{{ i.name }}</td>
+            <td class="text-center">{% if i.type == "S" %}{% translate "Standing" %}{% else %}{% translate "Ground" %}{% endif %}</td>
+            <td colspan="2">
+                <table class="table_{{ i.id }} ms-auto">
+                    <td class="pe-2">
+                        <button class="btn btn-sm btn-outline-secondary btn_{{ i.id }}" onclick="toggle_edit('{{ i.id }}')">{% translate "Edit" %}</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-danger btn_{{ i.id }}"{% if i|in_use %} disabled>{% translate "In use" %}{% else %} onclick="toggle_delete('.table_{{ i.id }}')">{% translate "Delete" %}{% endif %}</button>
+                    </td>
+                </table>
+                <table class="table_{{ i.id }} d-none ms-auto">
+                    <td class="pe-2">
+                        <button class="btn btn-sm btn-danger"
+                            onclick="document.getElementById('refresh').click()"
+                            name="delete"
+                            hx-post=""
+                            hx-trigger="click"
+                            hx-target="#technique_{{ i.id }}"
+                            hx-include="#id_{{ i.id }}"
+                            hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'
+                        >{% translate "Ok" %}</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="toggle_delete('.table_{{ i.id }}')">{% translate "Cancel" %}</button>
+                    </td>
+                </table>
             </td>
 
             <td class="d-none"><input id="codename_{{ i.id }}" type="text" name="codename" class="form-control" maxlength="3" value="{{ i.codename }}"></td>
             <td class="d-none"><input id="name_{{ i.id }}" type="text" name="name" class="form-control" value="{{ i.name }}"></td>
             <td class="d-none" colspan="2">
-                <select id="type_{{ i.id }}" name="type" class="form-control">
+                <select id="type_{{ i.id }}" name="type" class="form-select">
                     <option value="S">{% translate "Standing" %}</option>
                     <option value="G"{% if i.type == "G" %} selected{% endif %}>{% translate "Ground" %}</option>
                 </select>
             </td>
-            <td class="d-none"><input id="id_{{ i.id }}" type="hidden" name="id" value="{{ i.id }}">
-            <button class="btn btn-outline-secondary"
-                name="change"
-                hx-post=""
-                hx-trigger="click"
-                hx-target="#technique_{{ i.id }}"
-                hx-include="#id_{{ i.id }}, #codename_{{ i.id }}, #name_{{ i.id }}, #type_{{ i.id }}"
-                hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'
-            >{% translate "Save" %}</button></td>
+            <td colspan="2" class="d-none">
+                <input id="id_{{ i.id }}" type="hidden" name="id" value="{{ i.id }}">
+                <button class="btn btn-outline-secondary"
+                    name="change"
+                    hx-post=""
+                    hx-trigger="click"
+                    hx-target="#technique_{{ i.id }}"
+                    hx-include="#id_{{ i.id }}, #codename_{{ i.id }}, #name_{{ i.id }}, #type_{{ i.id }}"
+                    hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'
+                >{% translate "Save" %}</button>
+            </tdclass>
     {% if not changed %}
         </tr>
     {% endif %}

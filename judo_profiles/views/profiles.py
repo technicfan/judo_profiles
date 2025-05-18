@@ -100,7 +100,7 @@ def techniques(request):
                 request,
                 "htmx/techniques.html",
                 {
-                    "techniques": Technique.objects.filter(id=technique.id),
+                    "techniques": [technique],
                     "changed": True,
                 },
             )
@@ -156,6 +156,7 @@ def new_profile(request):
         profile.save()
         # permissions
         assign_perm("view_profile", newuser, profile)
+        assign_perm("manage_profile", newuser, profile)
         assign_perm("view_profile", request.user, profile)
         assign_perm("change_profile", request.user, profile)
         assign_perm("manage_profile", request.user, profile)
@@ -491,31 +492,36 @@ def manage_profile(request, username):
         # change permissions
         if "update" in request.POST:
             permission = request.POST["permission"]
-            permissions = ["view_profile", "change_profile", "manage_profile"]
-            # variable for users who shouldn't have the permission
-            remove = users
-            for id in request.POST:
-                # try only if element is an integer
-                if id.isdigit():
-                    try:
-                        user = User.objects.get(id=int(id))
-                        # check if user can have the permission
-                        if (
-                            permission == "view_profile"
-                            or user.groups.filter(name="Trainers").exists()
-                        ):
-                            # assign the permission and all of lower privilege
-                            for p in permissions[: permissions.index(permission) + 1]:
-                                assign_perm(p, user, profile)
-                            # remove user from remove list
-                            remove = remove.exclude(id=int(id))
-                    except (User.DoesNotExist, ValueError):
-                        pass
+            permissions = ["view_profile", "change_profile"]
+            if permission in permissions:
+                # variable for users who shouldn't have the permission
+                remove = users
+                for id in request.POST:
+                    # try only if element is an integer
+                    if id.isdigit():
+                        try:
+                            user = User.objects.get(id=int(id))
+                            # check if user can have the permission
+                            if (
+                                permission == "view_profile"
+                                or user.groups.filter(name="Trainers").exists()
+                            ):
+                                # assign the permission and all of lower privilege
+                                assign_perm(permission, user, profile)
+                                if permission != "view_profile":
+                                    assign_perm("view_profile", user, profile)
+                                # remove user from remove list
+                                remove = remove.exclude(id=int(id))
+                        except (User.DoesNotExist, ValueError):
+                            pass
 
-            # remove the permission and all of higher privilege from left users
-            for user in remove:
-                for p in permissions[permissions.index(permission) :]:
-                    remove_perm(p, user, profile)
+                # remove the permission and all of higher privilege from left users
+                for user in remove:
+                    if permission == "view_profile":
+                        for p in permissions:
+                            remove_perm(p, user, profile)
+                    else:
+                        remove_perm(permission, user, profile)
 
             # return success for htmx
             return HttpResponse(_("Saved"))

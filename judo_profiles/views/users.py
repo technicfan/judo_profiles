@@ -271,24 +271,28 @@ def manage_user(request, username):
             permissions = ["view_profile"]
             # more permissions if trainer
             if user.groups.filter(name="Trainers").exists():
-                permissions += ["change_profile", "manage_profile"]
+                permissions += ["change_profile"]
             # check if permission is allowed
             if permission in permissions:
-                # see "manage_profile" for functionality
+                # see "manage_profile" for explanation
                 remove = profiles
                 for id in request.POST:
                     if id.isdigit():
                         try:
                             profile = Profile.objects.get(id=int(id))
-                            for p in permissions[: permissions.index(permission) + 1]:
-                                assign_perm(p, user, profile)
+                            assign_perm(permission, user, profile)
+                            if permission != "view_profile":
+                                assign_perm("view_profile", user, profile)
                             remove = remove.exclude(id=int(id))
                         except (Profile.DoesNotExist, ValueError):
                             pass
 
                 for profile in remove:
-                    for p in permissions[permissions.index(permission) :]:
-                        remove_perm(p, user, profile)
+                    if permission == "view_profile":
+                        for p in permissions:
+                            remove_perm(p, user, profile)
+                    else:
+                        remove_perm(permission, user, profile)
 
                 return HttpResponse(_("Saved"))
             else:

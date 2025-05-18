@@ -1,12 +1,11 @@
 from django import template
-from django.contrib.admin.utils import NestedObjects
-from django.db import DEFAULT_DB_ALIAS
+from django.db.models.deletion import Collector
 
 register = template.Library()
 
 
 @register.filter
 def in_use(obj):
-    collector = NestedObjects(using=DEFAULT_DB_ALIAS)
+    collector = Collector(using="default")
     collector.collect([obj])
-    return len(collector.nested()) > 1
+    return not all([not i for i in collector.fast_deletes])

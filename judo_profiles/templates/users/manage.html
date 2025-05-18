@@ -119,7 +119,6 @@
                     <option value="view_profile">{% translate "View" %}</option>
                     {% if user|has_group:"Trainers" %}
                         <option value="change_profile">{% translate "Edit" %}</option>
-                        <option value="manage_profile">{% translate "Manage" %}</option>
                     {% endif %}
                 </select>
                 <input class="form-control mx-auto" id="search" type="search"
