@@ -12,7 +12,7 @@
 
 {% block actions %}
     {% if request.user|has_group:"Trainers" or request.user.is_superuser %}
-        <a class="nav-link" href="{% url "profiles-new" %}">{% translate "New profile" %}</a>
+        <a class="nav-link" href="{% url "new-profile" %}">{% translate "New profile" %}</a>
     {% endif %}
 {% endblock %}
 

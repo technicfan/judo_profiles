@@ -5,7 +5,7 @@
     {% for user in users %}
         <tr>
             <td>
-                <a class="link-body-emphasis link-underline-opacity-0" href="{% url "users-user" user %}">{{ user }}</a>
+                <a class="link-body-emphasis link-underline-opacity-0" href="{% url "manage-user" user %}">{{ user }}</a>
             </td>
             <td>
                 {% if not user.is_active %}

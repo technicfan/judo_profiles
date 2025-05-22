@@ -14,6 +14,7 @@ from ..utils import (
     is_admin,
     is_staff,
     logout_all,
+    new_token,
     toggle_trainer,
     token_actions,
     unique_username,
@@ -23,10 +24,8 @@ from ..utils import (
 
 def register_start(request):
     try:
-        token = Token.objects.get(
-            token=request.POST["token"], user__username=request.POST["user"]
-        )
-        if token.valid_for < 1:
+        token = Token.objects.get(user__username=request.POST["user"])
+        if not token.validate(request.POST["token"]):
             raise Token.DoesNotExist
     except Token.DoesNotExist:
         # reload with warning if the token is wrong or expired
@@ -34,7 +33,9 @@ def register_start(request):
 
     # return html for second step (see above)
     return render(
-        request, "register.html", {"username": request.POST["user"], "token": token}
+        request,
+        "register.html",
+        {"username": request.POST["user"], "token": request.POST["token"]},
     )
 
 
@@ -45,7 +46,7 @@ def register_finish(request):
         if request.POST["password"] == request.POST["password_repeat"]:
             token = Token.objects.get(user=user)
             # check if token is correct and still valid
-            if request.POST["token"] != token.token or token.valid_for < 1:
+            if not token.validate(request.POST["token"]):
                 raise Token.DoesNotExist
             user.set_password(request.POST["password"])
             user.is_active = True
@@ -62,12 +63,12 @@ def register_finish(request):
             token.delete()
 
             # redirect to start
-            return redirect("profiles-profiles")
+            return redirect("profiles")
         else:
             raise User.DoesNotExist
     except (User.DoesNotExist, Token.DoesNotExist):
         # reload if post data not correct
-        return redirect("users-register")
+        return redirect("register")
 
 
 @require_http_methods(["GET", "POST"])
@@ -75,7 +76,7 @@ def register_finish(request):
 def register(request):
     # not relevant for authenticated users
     if request.user.is_authenticated:
-        return redirect("profiles-profiles")
+        return redirect("profiles")
     else:
         if request.method == "POST":
             # register process
@@ -85,7 +86,7 @@ def register(request):
             elif "token" in request.POST:
                 return register_start(request)
 
-            return redirect("users-register")
+            return redirect("register")
         else:
             # return first step
             return render(request, "register.html", {})
@@ -115,7 +116,7 @@ def login_user(request):
                 return redirect(next)
             else:
                 # redirect to start
-                return redirect("profiles-profiles")
+                return redirect("profiles")
         else:
             # reload with warning
             return render(request, "login.html", {"next": next, "wrong": True})
@@ -129,7 +130,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
 
-    return redirect("profiles-home")
+    return redirect("index")
 
 
 @require_http_methods(["GET", "POST"])
@@ -139,7 +140,7 @@ def change_pass(request):
         if "delete" in request.POST:
             request.user.delete()
 
-            return redirect("profiles-home")
+            return redirect("index")
         # change the password
         else:
             user = authenticate(
@@ -156,7 +157,7 @@ def change_pass(request):
                 logout_all(request.user)
 
                 # redirect to start
-                return redirect("profiles-profiles")
+                return redirect("profiles")
             else:
                 # reload with warning
                 return render(request, "account.html", {"wrong": True})
@@ -221,10 +222,10 @@ def new_user(request, staff: bool):
         else:
             newuser.save()
             toggle_trainer(newuser)
-        Token(user=newuser).save()
+        new_token(newuser)
 
         # redirect to user managing page (see below)
-        return redirect("users-user", username=newusername)
+        return redirect("manage-user", username=newusername)
 
     # return template
     return render(request, "users/new.html", {"staff": staff})
@@ -255,13 +256,15 @@ def manage_user(request, username):
         ):
             raise User.DoesNotExist
     except User.DoesNotExist:
-        return redirect("users-manage")
+        return redirect("users")
     profiles = Profile.objects.exclude(user=user).order_by("last_name")
 
     if request.method == "POST":
         # manage token for user
         if "token" in request.POST:
-            token_actions(request.POST, user, True)
+            result = token_actions(request.POST, user, True)
+            if result is not None:
+                return render(request, "htmx/token.html", {"token": result})
         # manage user
         elif "user" in request.POST:
             user_actions(request.POST, user, request.user.is_superuser)
@@ -316,16 +319,16 @@ def manage_user(request, username):
             )
 
         # reload page
-        return redirect("users-user", username=username)
+        return redirect("manage-user", username=username)
     else:
         # get plural translation
         try:
             count = Token.objects.get(user=user).valid_for
-            days = ngettext(
-                "Valid for %(count)d day", "Valid for %(count)d days", count
-            ) % {"count": count}
         except Token.DoesNotExist:
-            days = None
+            count = 7
+        days = ngettext(
+            "Valid for %(count)d day", "Valid for %(count)d days", count
+        ) % {"count": count}
 
         # return template
         return render(request, "users/manage.html", {"user": user, "days": days})

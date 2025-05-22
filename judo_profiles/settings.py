@@ -142,7 +142,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_URL = "users-login"
+LOGIN_URL = "login"
 
 LOGIN_REQUIRED_EXCEPTIONS = [r"^/i18n/"]
 

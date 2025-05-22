@@ -1,14 +1,11 @@
-import binascii
-import os
+import hashlib
+import hmac
 from datetime import date, timedelta
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext as _
-
-
-def gen_token() -> str:
-    return binascii.hexlify(os.urandom(20)).decode()
 
 
 def calc_date():
@@ -16,9 +13,7 @@ def calc_date():
 
 
 class Token(models.Model):
-    token = models.CharField(
-        default=gen_token, max_length=40, editable=False, unique=True
-    )
+    token = models.CharField(editable=False, unique=True)
     valid_until = models.DateField(default=calc_date)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -28,6 +23,19 @@ class Token(models.Model):
     @property
     def valid_for(self):
         return (self.valid_until - date.today()).days
+
+    @property
+    def valid(self):
+        return self.valid_for > 0
+
+    def validate(self, token):
+        return (
+            self.valid
+            and self.token
+            == hmac.new(
+                settings.SECRET_KEY.encode(), token.encode(), hashlib.sha256
+            ).hexdigest()
+        )
 
 
 class Profile(models.Model):

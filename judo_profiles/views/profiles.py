@@ -33,11 +33,11 @@ from ..utils import is_admin, token_actions, unique_username
 # landing page for non authorized and authorized users
 @require_http_methods(["GET"])
 @login_not_required
-def home(request):
+def index(request):
     if request.user.is_authenticated:
-        return redirect("profiles-profiles")
+        return redirect("profiles")
     else:
-        return redirect("profiles-about")
+        return redirect("about")
 
 
 @require_http_methods(["GET"])
@@ -209,7 +209,7 @@ def new_profile(request):
             new_rank_item.save()
 
         # redirect to created profile
-        return redirect("profiles-profile", username=profile.user.username)
+        return redirect("profile", username=profile.user.username)
     else:
         stechniques = Technique.objects.filter(type="S").order_by("name")
         gtechniques = Technique.objects.filter(type="B").order_by("name")
@@ -285,7 +285,7 @@ def edit_profile(request, username):
             else:
                 profile.user.delete()
 
-            return redirect("profiles-profiles")
+            return redirect("profiles")
         elif data["changed"]:
             # profile
             profile.name = data["name"]
@@ -438,10 +438,10 @@ def edit_profile(request, username):
 
         if data["action"] == "save":
             # reload page if "save" button was pressed
-            return redirect("profiles-profile-edit", username=profile.user.username)
+            return redirect("edit-profile", username=profile.user.username)
         else:
             # otherwise redirect to edited profile
-            return redirect("profiles-profile", username=profile.user.username)
+            return redirect("profile", username=profile.user.username)
 
     else:
         # collect relevant data
@@ -477,7 +477,7 @@ def edit_profile(request, username):
 
 @require_http_methods(["GET", "POST"])
 @object_permission_required(
-    "judo_profiles.change_profile", (Profile, "user__username", "username")
+    "judo_profiles.manage_profile", (Profile, "user__username", "username")
 )
 def manage_profile(request, username):
     profile = Profile.objects.get(user__username=username)
@@ -545,21 +545,23 @@ def manage_profile(request, username):
             )
         # if the profiles user is not active manage token
         elif not profile.user.is_active:
-            token_actions(request.POST, profile.user)
+            result = token_actions(request.POST, profile.user)
+            if result is not None:
+                return render(request, "htmx/token.html", {"token": result})
 
         # reload the page
-        return redirect("profiles-profile-manage", username=username)
+        return redirect("manage-profile", username=username)
     else:
         # get plural translation
         try:
             count = Token.objects.get(user__username=username).valid_for
-            days = ngettext(
-                "Valid for %(count)d day",
-                "Valid for %(count)d days",
-                count,
-            ) % {"count": count}
         except Token.DoesNotExist:
-            days = None
+            count = 7
+        days = ngettext(
+            "Valid for %(count)d day",
+            "Valid for %(count)d days",
+            count,
+        ) % {"count": count}
 
         # return template with profile data
         return render(

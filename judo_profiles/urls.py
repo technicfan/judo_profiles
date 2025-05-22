@@ -21,33 +21,34 @@ from django.views.i18n import JavaScriptCatalog
 from .views import profiles, users
 
 urlpatterns = [
-    path("", profiles.home, name="profiles-home"),
-    path("about", profiles.about, name="profiles-about"),
-    # profile related
-    path("profiles", profiles.start, name="profiles-profiles"),
-    path("profiles/new", profiles.new_profile, name="profiles-new"),
-    path("profile/<str:username>", profiles.profile, name="profiles-profile"),
+    path("", profiles.index, name="index"),
+    path("about", profiles.about, name="about"),
+    # profiles
+    path("profiles", profiles.start, name="profiles"),
+    path("profiles/new", profiles.new_profile, name="new-profile"),
+    path("profiles/<str:username>", profiles.profile, name="profile"),
     path(
-        "profile/<str:username>/edit",
+        "profiles/<str:username>/edit",
         profiles.edit_profile,
-        name="profiles-profile-edit",
+        name="edit-profile",
     ),
     path(
-        "profile/<str:username>/manage",
+        "profiles/<str:username>/manage",
         profiles.manage_profile,
-        name="profiles-profile-manage",
+        name="manage-profile",
     ),
-    # user related
-    path("users", users.users, name="users-manage"),
-    path("users/new-trainer", users.new_trainer, name="users-new-trainer"),
-    path("users/new-staff", users.new_staff, name="users-new-staff"),
-    path("login", users.login_user, name="users-login"),
-    path("logout", users.logout_user, name="users-logout"),
-    path("users/manage", users.change_pass, name="users-update"),
-    path("register", users.register, name="users-register"),
-    path("user/<str:username>", users.manage_user, name="users-user"),
-    # server administration
-    path("server/techniques", profiles.techniques, name="server-techniques"),
+    # users
+    path("users", users.users, name="users"),
+    path("users/new-trainer", users.new_trainer, name="new-trainer"),
+    path("users/new-staff", users.new_staff, name="new-staff"),
+    path("users/<str:username>", users.manage_user, name="manage-user"),
+    # auth/account
+    path("login", users.login_user, name="login"),
+    path("logout", users.logout_user, name="logout"),
+    path("register", users.register, name="register"),
+    path("account/manage", users.change_pass, name="account"),
+    # admin stuff
+    path("server/techniques", profiles.techniques, name="techniques"),
     # translation
     path("i18n/", include("django.conf.urls.i18n")),
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),

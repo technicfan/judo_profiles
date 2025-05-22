@@ -61,54 +61,76 @@
                 <input type="hidden" name="token">
                 <div class="d-flex justify-content-center">
                     {% if not user.token and not user.is_active %}
-                        <button class="btn btn-secondary text-nowrap" name="add">{% translate "Create key" %}</button>
+                        <button class="btn btn-secondary text-nowrap" name="add"
+                            hx-post=""
+                            hx-trigger="click"
+                            hx-target="#token_group"
+                            hx-on::after-request="if(event.detail.successful) new bootstrap.Modal('#token_modal').show()"
+                            hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'
+                        >{% translate "Create key" %}</button>
                     {% else %}
                         {% if not user.is_active or user.token %}
                             <table class="text-center">
                                 <tr>
                                     {% if user.token.valid_for < 1 %}
                                         <td class="pe-3">{% translate "Key expired, without being used" %}</td>
-                                        <td><button class="btn btn-secondary text-nowrap" name="renew">{% translate "Renew key" %}</button></td>
-                                    {% else %}
-                                         <td class="pe-2"><button type="button" class="btn btn-secondary text-nowrap" data-bs-toggle="modal" data-bs-target="#token_modal">{% translate "Show key" %}</button></td>
-                                        <div class="modal fade" id="token_modal" tabindex="-1" aria-labelledby="token_modal_label" aria-hidden="true">
-                                            <div class="modal-dialog ">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="token_modal_label">{% translate "Key" %}</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <ul>
-                                                            <li>{{ days }}</li>
-                                                            <li>
-                                                                {% translate "Username" %}: {{ profile.user }}
-                                                            </li>
-                                                        </ul>
-                                                        <div class="input-group">
-                                                            <input id="token" type="password" class="form-control" value="{{ user.token }}" aria-label="Key" readonly>
-                                                            <button class="btn btn-outline-secondary" type="button" onclick="toggle_token(this)"><i class="bi bi-eye"></i></button>
-                                                            <button class="btn btn-outline-secondary" type="button" onclick="copy_token(this)"><i class="bi bi-clipboard"></i></button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Ok" %}</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <td><button class="btn btn-secondary text-nowrap" name="renew"
+                                                hx-post=""
+                                                hx-trigger="click"
+                                                hx-target="#token_group"
+                                                hx-on::after-request="if(event.detail.successful) new bootstrap.Modal('#token_modal').show()"
+                                                hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'
+                                            >{% translate "Renew key" %}</button></td>
                                     {% endif %}
                                     <td><button class="btn btn-secondary text-nowrap" name="delete">{% translate "Delete key" %}</button></td>
                                 </tr>
                             </table>
                         {% else %}
-                            <button class="btn btn-secondary text-nowrap" name="reset">{% translate "Create key to reset the password" %}</button>
+                            <button class="btn btn-secondary text-nowrap" name="reset"
+                                hx-post=""
+                                hx-trigger="click"
+                                hx-target="#token_group"
+                                hx-on::after-request="if(event.detail.successful) new bootstrap.Modal('#token_modal').show()"
+                                hx-headers='{"X-CSRFTOKEN": "{{ csrf_token }}"}'
+                            >{% translate "Create key to reset the password" %}</button>
                         {% endif %}
                     {% endif %}
                 </div>
             </form>
         </div>
     </div>
+
+    <div class="modal fade" id="token_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="token_modal_label" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="token_modal_label">{% translate "Generated key" %}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>{{ days }}</li>
+                        <li>
+                            {% translate "Username" %}: {{ user }}
+                        </li>
+                        <li>
+                            {% translate "Copy the key now - You won't able to see it key again" %}
+                        </li>
+                    </ul>
+                    <div id="token_group" class="input-group"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Ok" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("token_modal").addEventListener("hide.bs.modal", () => {
+            location.reload();
+        });
+    </script>
+
     <div class="container">
         {% if user.is_active %}
             <form hx-post=""

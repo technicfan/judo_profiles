@@ -5,7 +5,7 @@
     {% for i in profiles %}
         {% get_obj_perms request.user for i as "i_perms" %}
         <tr>
-            <td><a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile" i.user.username %}">{{ i }}</a></td>
+            <td><a class="link-body-emphasis link-underline-opacity-0" href="{% url "profile" i.user.username %}">{{ i }}</a></td>
             <td>
                 {% if request.user == i.user %}
                     <span class="badge text-bg-info">{% translate "own" %}</span>
@@ -15,12 +15,12 @@
             </td>
             <td class="text-end">
                 {% if "change_profile" in i_perms %}
-                <a class="link-body-emphasis link-underline-opacity-0" href="{% url "profiles-profile-edit" i.user.username %}">{% translate "Edit" %}</a>
+                <a class="link-body-emphasis link-underline-opacity-0" href="{% url "edit-profile" i.user.username %}">{% translate "Edit" %}</a>
                 {% endif %}
             </td>
             <td class="text-end">
                 {% if "manage_profile" in i_perms %}
-                <a class="link-body-emphasis link-underline-opacity-0 me-1" href="{% url "profiles-profile-manage" i.user.username %}">{% translate "Manage access" %}</a>
+                <a class="link-body-emphasis link-underline-opacity-0 me-1" href="{% url "manage-profile" i.user.username %}">{% translate "Manage access" %}</a>
                 {% endif %}
             </td>
         </tr>

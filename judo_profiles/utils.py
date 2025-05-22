@@ -1,3 +1,9 @@
+import binascii
+import hashlib
+import hmac
+import os
+
+from django.conf import settings
 from django.contrib.auth.models import Group, Permission, User
 from django.contrib.sessions.models import Session
 
@@ -6,12 +12,27 @@ from .models import Token
 
 # check if user is staff
 def is_staff(user):
-    return user.is_superuser or user.is_staff
+    return user.is_staff
 
 
 # check if user is admin
 def is_admin(user):
     return user.is_superuser
+
+
+def new_token(user):
+    if not Token.objects.filter(user=user).exists():
+        token = binascii.hexlify(os.urandom(20)).decode()
+        Token(
+            token=hmac.new(
+                settings.SECRET_KEY.encode(), token.encode(), hashlib.sha256
+            ).hexdigest(),
+            user=user,
+        ).save()
+
+        return token
+    else:
+        return None
 
 
 # create unique username for new user
@@ -46,26 +67,27 @@ def toggle_trainer(user):
 
 def token_actions(request, user, staff=False):
     if "add" in request:
-        Token(user=user).save()
+        return new_token(user)
     elif "renew" in request:
         try:
             Token.objects.get(user=user).delete()
         except Token.DoesNotExist:
             pass
-        Token(user=user).save()
+        return new_token(user)
     elif "delete" in request:
         try:
             Token.objects.get(user=user).delete()
         except Token.DoesNotExist:
             pass
+        return None
     elif "reset" in request and staff:
         try:
             Token.objects.get(user=user).delete()
         except Token.DoesNotExist:
             pass
-        Token(user=user).save()
         # logout everywhere after creation of token to reset password
         logout_all(user)
+        return new_token(user)
 
 
 def user_actions(request, user, superuser=False):

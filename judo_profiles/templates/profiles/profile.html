@@ -15,10 +15,10 @@
         <a class="nav-link active" href="">{% translate "Profile" %}</a>
     {% endif %}
     {% if "change_profile" in profile_perms %}
-        <a class="nav-link" href="{% url "profiles-profile-edit" profile.user.username %}">{% translate "Edit" %}</a>
+        <a class="nav-link" href="{% url "edit-profile" profile.user.username %}">{% translate "Edit" %}</a>
     {% endif %}
     {% if "manage_profile" in profile_perms %}
-        <a class="nav-link" href="{% url "profiles-profile-manage" profile.user.username %}">{% translate "Manage" %}</a>
+        <a class="nav-link" href="{% url "manage-profile" profile.user.username %}">{% translate "Manage" %}</a>
     {% endif %}
     <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#info_modal">{% translate "Info" %}</button>
 {% endblock %}

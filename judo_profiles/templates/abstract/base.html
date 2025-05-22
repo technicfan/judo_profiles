@@ -39,7 +39,7 @@
         <header class="sticky-top">
             <nav class="navbar navbar-expand-lg bg-body-tertiary mb-3">
                 <div class="container-fluid">
-                    <a class="navbar-brand" id="logo_container" href="{% url "profiles-home" %}">
+                    <a class="navbar-brand" id="logo_container" href="{% url "index" %}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" width="27" height="27" style="translate: 0 -.15rem;">
                             <circle cx="50" cy="50" r="45" />
                             <path d="M50 20L80 50L50 80L20 50Z" />
@@ -52,29 +52,29 @@
                     <div id="nav" class="collapse navbar-collapse">
                         <div class="navbar-nav me-auto d-flex justify-content-center">
                             {% if request.user.is_authenticated %}
-                                <a class="nav-link {% block profiles %}{% endblock %}" href="{% url "profiles-profiles" %}">{% translate "Dashboard" %}</a>
+                                <a class="nav-link {% block profiles %}{% endblock %}" href="{% url "profiles" %}">{% translate "Dashboard" %}</a>
                                 {% if request.user.profile %}
-                                <a class="nav-link {% block own %}{% endblock %}" href="{% url "profiles-profile" request.user.username %}">{% translate "Own profile"%}</a>
+                                    <a class="nav-link {% block own %}{% endblock %}" href="{% url "profile" request.user.username %}">{% translate "Own profile"%}</a>
                                 {% endif %}
                                 {% block actions %}{% endblock %}
-                                {% if request.user.is_staff or request.user.is_superuser %}
-                                    <a class="nav-link {% block manage %}{% endblock %}" href="{% url "users-manage" %}">{% translate "User management" %}</a>
+                                {% if request.user.is_staff %}
+                                    <a class="nav-link {% block manage %}{% endblock %}" href="{% url "users" %}">{% translate "User management" %}</a>
                                 {% endif %}
                                 {% block admin_actions %}{% endblock %}
                             </div>
                             <div class="navbar-nav d-flex justify-content-end">
                                 <span class="navbar-text me-3">{% translate "Hello" %} {{ request.user.first_name|default:request.user.username }}</span>
                                 <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="theme_selector_callback()"></button>
-                                <a class="nav-link {% block update %}{% endblock %}" href="{% url "users-update" %}">{% translate "Manage account" %}</a>
-                                <a class="nav-link" href="{% url "users-logout" %}">{% translate "Logout" %}</a>
+                                <a class="nav-link {% block update %}{% endblock %}" href="{% url "account" %}">{% translate "Manage account" %}</a>
+                                <a class="nav-link" href="{% url "logout" %}">{% translate "Logout" %}</a>
                             {% else %}
                         </div>
                         <div class="navbar-nav d-flex">
                             <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="theme_selector_callback()">Auto</button>
-                            <a class="nav-link {% block login %}{% endblock %}" href="{% url "users-login" %}">{% translate "Login" %}</a>
-                            <a class="nav-link {% block register %}{% endblock %}" href="{% url "users-register" %}">{% translate "Register with key" %}</a>
+                            <a class="nav-link {% block login %}{% endblock %}" href="{% url "login" %}">{% translate "Login" %}</a>
+                            <a class="nav-link {% block register %}{% endblock %}" href="{% url "register" %}">{% translate "Register with key" %}</a>
                             {% endif %}
-                            <a class="nav-link {% block about %}{% endblock %}" href="{% url "profiles-about" %}">{% translate "About" %}</a>
+                            <a class="nav-link {% block about %}{% endblock %}" href="{% url "about" %}">{% translate "About" %}</a>
                             {% if not request.user.is_authenticated %}
                                 <form id="language_form" action="{% url "set_language" %}" method="post" class="d-flex mx-2">
                                     {% csrf_token %}
