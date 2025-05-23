@@ -4,9 +4,9 @@
 
 {% block title %}{% blocktranslate with profile_name=profile.name %}Profile of {{ profile_name }}{% endblocktranslate %}{% endblock %}
 
-{% if request.user == profile.user %}
-    {% block own %}active" aria-current="page{% endblock %}
-{% endif %}
+{% block own %}
+    {% if request.user == profile.user %}active" aria-current="page{% endif %}
+{% endblock %}
 
 {% block actions %}
     {% load guardian_tags %}
@@ -113,7 +113,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <b>{% translate "Created by" %}:</b> {{ profile.created_by }}<br>
+                    <b>{% translate "Created by" %}:</b> {{ profile.creator }}<br>
+                    <b>{% translate "Managed by" %}:</b> {{ profile.manager }}<br>
                     <b>{% translate "Last changed" %}:</b> {{ profile.changed_on }}{% if profile.changed_by %} <b>{% translate "by" %}</b> {{ profile.changed_by }}{% endif %}
                 </div>
                 <div class="modal-footer">

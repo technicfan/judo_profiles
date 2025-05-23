@@ -1,5 +1,4 @@
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_not_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponse
@@ -13,157 +12,11 @@ from ..models import Profile, Token
 from ..utils import (
     is_admin,
     is_staff,
-    logout_all,
-    new_token,
     toggle_trainer,
     token_actions,
     unique_username,
     user_actions,
 )
-
-
-def register_start(request):
-    try:
-        token = Token.objects.get(user__username=request.POST["user"])
-        if not token.validate(request.POST["token"]):
-            raise Token.DoesNotExist
-    except Token.DoesNotExist:
-        # reload with warning if the token is wrong or expired
-        return render(request, "register.html", {"wrong": True})
-
-    # return html for second step (see above)
-    return render(
-        request,
-        "register.html",
-        {"username": request.POST["user"], "token": request.POST["token"]},
-    )
-
-
-def register_finish(request):
-    try:
-        user = User.objects.get(username=request.POST["username"])
-        # check if given passwords are equal
-        if request.POST["password"] == request.POST["password_repeat"]:
-            token = Token.objects.get(user=user)
-            # check if token is correct and still valid
-            if not token.validate(request.POST["token"]):
-                raise Token.DoesNotExist
-            user.set_password(request.POST["password"])
-            user.is_active = True
-            user.save()
-            login(
-                request,
-                authenticate(
-                    request,
-                    username=user.username,
-                    password=request.POST["password"],
-                ),
-            )
-            # delete now used token
-            token.delete()
-
-            # redirect to start
-            return redirect("profiles")
-        else:
-            raise User.DoesNotExist
-    except (User.DoesNotExist, Token.DoesNotExist):
-        # reload if post data not correct
-        return redirect("register")
-
-
-@require_http_methods(["GET", "POST"])
-@login_not_required
-def register(request):
-    # not relevant for authenticated users
-    if request.user.is_authenticated:
-        return redirect("profiles")
-    else:
-        if request.method == "POST":
-            # register process
-            if "username" in request.POST:
-                return register_finish(request)
-            # first step (token input)
-            elif "token" in request.POST:
-                return register_start(request)
-
-            return redirect("register")
-        else:
-            # return first step
-            return render(request, "register.html", {})
-
-
-@require_http_methods(["GET", "POST"])
-@login_not_required
-def login_user(request):
-    # get path to redirect after login
-    next = request.GET.get("next")
-    if request.method == "POST":
-        user = authenticate(
-            request, username=request.POST["user"], password=request.POST["pass"]
-        )
-        # check if input was correct
-        if user is not None:
-            # delete token if it exists
-            try:
-                Token.objects.get(user=user).delete()
-            except Token.DoesNotExist:
-                pass
-            # login the user
-            login(request, user)
-
-            if next:
-                # redirect to "next"
-                return redirect(next)
-            else:
-                # redirect to start
-                return redirect("profiles")
-        else:
-            # reload with warning
-            return render(request, "login.html", {"next": next, "wrong": True})
-    else:
-        # return template
-        return render(request, "login.html", {"next": next})
-
-
-# simple logout
-@require_http_methods(["GET"])
-def logout_user(request):
-    logout(request)
-
-    return redirect("index")
-
-
-@require_http_methods(["GET", "POST"])
-def change_pass(request):
-    if request.method == "POST":
-        # delete the user and all data around it
-        if "delete" in request.POST:
-            request.user.delete()
-
-            return redirect("index")
-        # change the password
-        else:
-            user = authenticate(
-                request, username=request.user.username, password=request.POST["pass"]
-            )
-            # check if request is valid
-            if (
-                user is not None
-                and request.POST["new_pass"] == request.POST["new_pass_confirm"]
-            ):
-                # update password and logout everywhere
-                request.user.set_password(request.POST["new_pass"])
-                request.user.save()
-                logout_all(request.user)
-
-                # redirect to start
-                return redirect("profiles")
-            else:
-                # reload with warning
-                return render(request, "account.html", {"wrong": True})
-    else:
-        # return template
-        return render(request, "account.html")
 
 
 @require_http_methods(["GET", "POST"])
@@ -222,7 +75,6 @@ def new_user(request, staff: bool):
         else:
             newuser.save()
             toggle_trainer(newuser)
-        new_token(newuser)
 
         # redirect to user managing page (see below)
         return redirect("manage-user", username=newusername)

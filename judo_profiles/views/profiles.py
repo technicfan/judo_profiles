@@ -1,17 +1,10 @@
 import json
 
-from django.conf import settings
-from django.contrib.auth.decorators import (
-    login_not_required,
-    permission_required,
-    user_passes_test,
-)
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.template.exceptions import TemplateDoesNotExist
-from django.template.loader import get_template
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext
 from django.views.decorators.http import require_http_methods
@@ -27,32 +20,12 @@ from ..models import (
     TechniqueRank,
     Token,
 )
-from ..utils import is_admin, token_actions, unique_username
-
-
-# landing page for non authorized and authorized users
-@require_http_methods(["GET"])
-@login_not_required
-def index(request):
-    if request.user.is_authenticated:
-        return redirect("profiles")
-    else:
-        return redirect("about")
-
-
-@require_http_methods(["GET"])
-@login_not_required
-def about(request):
-    try:
-        template = get_template(f"lang/{request.LANGUAGE_CODE}/about.html")
-    except TemplateDoesNotExist:
-        template = get_template(f"lang/{settings.LANGUAGE_CODE}/about.html")
-    return HttpResponse(template.render({}, request))
+from ..utils import token_actions, unique_username
 
 
 # list all available profiles
 @require_http_methods(["GET", "POST"])
-def start(request):
+def profiles(request):
     if request.method == "POST":
         # get profiles with search
         shown_profiles = get_objects_for_user(
@@ -71,59 +44,6 @@ def start(request):
 
 
 @require_http_methods(["GET", "POST"])
-@user_passes_test(is_admin)
-def techniques(request):
-    if request.method == "POST":
-        if "search" in request.POST:
-            # get profiles with search
-            techniques = Technique.objects.all()
-            search = request.POST["search"]
-            filtered = techniques.filter(
-                Q(name__icontains=search) | Q(codename__icontains=search)
-            ).order_by("codename")
-
-            # return html table for htmx
-            return render(request, "htmx/techniques.html", {"techniques": filtered})
-        elif "change" in request.POST:
-            technique = Technique.objects.get(id=int(request.POST["id"]))
-            if not (
-                technique.codename == request.POST["codename"]
-                and technique.name == request.POST["name"]
-                and technique.type == request.POST["type"]
-            ):
-                technique.codename = request.POST["codename"]
-                technique.name = request.POST["name"]
-                technique.type = request.POST["type"]
-                technique.save()
-
-            return render(
-                request,
-                "htmx/techniques.html",
-                {
-                    "techniques": [technique],
-                    "changed": True,
-                },
-            )
-        elif "add" in request.POST:
-            if (
-                request.POST["codename"]
-                and request.POST["name"]
-                and request.POST["type"]
-            ):
-                Technique.objects.get_or_create(
-                    codename=request.POST["codename"],
-                    name=request.POST["name"],
-                    type=request.POST["type"],
-                )
-        elif "delete" in request.POST:
-            Technique.objects.get(id=int(request.POST["id"])).delete()
-        return HttpResponse()
-    else:
-        # return template
-        return render(request, "techniques.html")
-
-
-@require_http_methods(["GET", "POST"])
 @permission_required("judo_profiles.add_profile")
 def new_profile(request):
     if request.method == "POST":
@@ -135,7 +55,8 @@ def new_profile(request):
             year=data["year"],
             weight=data["weight"],
             primary_side=data["side"],
-            created_by=request.user,
+            creator=request.user,
+            manager=request.user,
         )
         try:
             if data["user"] is not None:
@@ -277,7 +198,7 @@ def edit_profile(request, username):
         profile = Profile.objects.get(user__username=username)
 
         if data["action"] == "delete" and (
-            request.user == profile.created_by or request.user.is_superuser
+            request.user == profile.manager or request.user.is_superuser
         ):
             # delete profile and inactive user
             if profile.user.is_active:
@@ -484,7 +405,7 @@ def manage_profile(request, username):
     # get all users where profile permission is allowed to be changed
     users = User.objects.exclude(
         Q(is_superuser=True)
-        | Q(id__in=[request.user.id, profile.created_by.id, profile.user.id])
+        | Q(id__in=[request.user.id, profile.manager.id, profile.user.id])
         | Q(is_active=False)
     ).order_by("username")
 
@@ -543,6 +464,26 @@ def manage_profile(request, username):
                 "htmx/profile_permissions.html",
                 {"users": filtered, "profile": profile, "permission": permission},
             )
+        elif "manager" in request.POST and profile.manager == request.user:
+            try:
+                new_manager = User.objects.get(username=request.POST["manager"])
+                if (
+                    new_manager.is_superuser
+                    or new_manager.groups.filter(name="Trainers").exists()
+                ):
+                    profile.manager = new_manager
+                    profile.save()
+                    # remove_perm("view_profile", request.user, profile)
+                    remove_perm("change_profile", request.user, profile)
+                    remove_perm("manage_profile", request.user, profile)
+                    assign_perm("view_profile", new_manager, profile)
+                    assign_perm("change_profile", new_manager, profile)
+                    assign_perm("manage_profile", new_manager, profile)
+                else:
+                    raise User.DoesNotExist
+                return redirect("profiles")
+            except User.DoesNotExist:
+                pass
         # if the profiles user is not active manage token
         elif not profile.user.is_active:
             result = token_actions(request.POST, profile.user)
@@ -565,5 +506,13 @@ def manage_profile(request, username):
 
         # return template with profile data
         return render(
-            request, "profiles/manage.html", {"profile": profile, "days": days}
+            request,
+            "profiles/manage.html",
+            {
+                "profile": profile,
+                "days": days,
+                "trainers": User.objects.filter(
+                    Q(groups__name="Trainers") | Q(is_superuser=True)
+                ).exclude(Q(id=request.user.id) | Q(id=profile.user.id)),
+            },
         )

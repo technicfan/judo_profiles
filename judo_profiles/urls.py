@@ -18,13 +18,16 @@ Including another URLconf
 from django.urls import include, path
 from django.views.i18n import JavaScriptCatalog
 
-from .views import profiles, users
+from .views import auth, general, profiles, users
 
 urlpatterns = [
-    path("", profiles.index, name="index"),
-    path("about", profiles.about, name="about"),
+    # general/server stuff
+    path("", general.index, name="index"),
+    path("about", general.about, name="about"),
+    path("techniques", general.techniques, name="techniques"),
+    path("statistics", general.statistics, name="statistics"),
     # profiles
-    path("profiles", profiles.start, name="profiles"),
+    path("profiles", profiles.profiles, name="profiles"),
     path("profiles/new", profiles.new_profile, name="new-profile"),
     path("profiles/<str:username>", profiles.profile, name="profile"),
     path(
@@ -43,12 +46,10 @@ urlpatterns = [
     path("users/new-staff", users.new_staff, name="new-staff"),
     path("users/<str:username>", users.manage_user, name="manage-user"),
     # auth/account
-    path("login", users.login_user, name="login"),
-    path("logout", users.logout_user, name="logout"),
-    path("register", users.register, name="register"),
-    path("account/manage", users.change_pass, name="account"),
-    # admin stuff
-    path("server/techniques", profiles.techniques, name="techniques"),
+    path("login", auth.login_user, name="login"),
+    path("logout", auth.logout_user, name="logout"),
+    path("register", auth.register, name="register"),
+    path("account/manage", auth.account, name="account"),
     # translation
     path("i18n/", include("django.conf.urls.i18n")),
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),

@@ -34,13 +34,16 @@
         <a class="nav-link" href="{% url "edit-profile" profile.user.username %}">{% translate "Edit" %}</a>
     {% endif %}
     <a class="nav-link active" href="">{% translate "Manage" %}</a>
+    {% if profile.manager == request.user %}
+        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#manager_modal">{% translate "Transfer management rights" %}</button>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row mb-3">
             <h2 class="col text-nowrap text-center">{% blocktranslate with profile_name=profile.name %}Access to profile of {{ profile_name }}{% endblocktranslate %}</h2>
-            {% if request.user == profile.created_by or request.user.is_staff %}
+            {% if request.user == profile.manager or request.user.is_staff %}
                 <form method="post" class="col">
                     {% csrf_token %}
                     <div class="d-flex justify-content-center">
@@ -92,7 +95,7 @@
                             {% translate "Username" %}: {{ profile.user }}
                         </li>
                         <li>
-                            {% translate "Copy the key now - You won't able to see it key again" %}
+                            {% translate "Copy the key now - You won't able to see it again" %}
                         </li>
                     </ul>
                     <div id="token_group" class="input-group"></div>
@@ -108,6 +111,34 @@
             location.reload();
         });
     </script>
+
+    {% if profile.manager == request.user %}
+        <div class="modal fade" id="manager_modal" tabindex="-1" aria-labelledby="manager_modal_label" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="manager_modal_label">{% translate "Transfer management rights" %}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="manager_form" method="post">
+                            {% csrf_token %}
+                            <select class="form-select"name="manager" required>
+                                <option value="" selected>{% translate "Select new manager" %}</option>
+                                {% for i in trainers %}
+                                    <option value="{{ i.username }}">{{ i.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                        <button type="submit" form="manager_form" class="btn btn-secondary">{% translate "Ok" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     <div class="container">
         <form hx-post=""

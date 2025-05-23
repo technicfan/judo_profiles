@@ -13,7 +13,7 @@
     {% if "manage_profile" in profile_perms %}
         <a class="nav-link" href="{% url "manage-profile" profile.user.username %}">{% translate "Manage" %}</a>
     {% endif %}
-    {% if request.user == profile.created_by or request.user.is_superuser %}
+    {% if request.user == profile.manager or request.user.is_superuser %}
         <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#delete_modal">{% translate "Delete" %}</button>
     {% endif %}
     <input class="nav-link" type="submit" form="profile_form" data-type="save" value="{% translate "Save" %}">
@@ -72,7 +72,7 @@
 {% block opts_right %}{% if profile.primary_side != 1 %} checked {% endif %}{% endblock %}
 
 {% block script3 %}
-    {% if request.user == profile.created_by or request.user.is_superuser %}
+    {% if request.user == profile.manager or request.user.is_superuser %}
         <div class="modal fade" id="delete_modal" tabindex="-1" aria-labelledby="delete_modal_label" aria-hidden="true">
             <div class="modal-dialog ">
                 <div class="modal-content">

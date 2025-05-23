@@ -7,6 +7,10 @@
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 {% endblock %}
 
+{% block admin_actions %}
+    <a class="nav-link active" href="#">{% translate "Techniques" %}</a>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <input class="form-control mx-auto" type="search"

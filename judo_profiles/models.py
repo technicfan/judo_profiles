@@ -46,8 +46,11 @@ class Profile(models.Model):
     weight = models.FloatField()
     primary_side = models.PositiveIntegerField(choices=PRIMARY_SIDE_CHOICES)
     year = models.PositiveIntegerField()
-    created_by = models.ForeignKey(
+    creator = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="profiles_created"
+    )
+    manager = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="profiles_managed"
     )
     changed_on = models.DateField(auto_now=True)
     changed_by = models.ForeignKey(

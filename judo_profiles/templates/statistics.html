@@ -1,0 +1,46 @@
+{% extends "abstract/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Server statistics" %}{% endblock %}
+
+{% block server %}active" aria-current="page{% endblock %}
+
+{% block admin_actions %}
+    <a class="nav-link" href="{% url "techniques" %}">{% translate "Techniques" %}</a>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h3 class="text-center mb-5 mt-4">{% translate "Server statistics" %}</h3>
+        <table class="table mx-auto" style="max-width: 26rem;">
+            <tr>
+                <td>{% translate "Total profiles" %}:</td>
+                <td>{{ profiles }}</td>
+            </tr>
+            <tr>
+                <td>{% translate "Total (active) users" %}:</td>
+                <td>{{ users }}</td>
+            </tr>
+            <tr>
+                <td>{% translate "Trainers" %}:</td>
+                <td>{{ trainers }}</td>
+            </tr>
+            <tr>
+                <td>{% translate "Staff members" %}:</td>
+                <td>{{ staff }}</td>
+            </tr>
+            <tr>
+                <td>{% translate "Total techniques" %}:</td>
+                <td>{{ techniques }}</td>
+            </tr>
+            <tr>
+                <td>{% translate "Standing techniques" %}:</td>
+                <td>{{ standing }}</td>
+            </tr>
+            <tr>
+                <td>{% translate "Ground techniques" %}:</td>
+                <td>{{ ground }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

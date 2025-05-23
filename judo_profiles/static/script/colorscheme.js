@@ -1,5 +1,5 @@
 const dark_mode = window.matchMedia("(prefers-color-scheme: dark)");
-const button = document.getElementById("theme-selector");
+const icon = document.getElementById("theme-selector").children[0];
 
 function set_color_scheme(theme) {
     var other = theme == "light" ? "dark" : "light";
@@ -18,20 +18,20 @@ function change_color_scheme(theme) {
     switch (theme) {
         case "auto":
             localStorage.setItem("theme", "auto");
-            button.innerHTML = "Auto";
+            icon.className = "bi bi-circle-half";
             auto_color_scheme(dark_mode);
             dark_mode.addEventListener("change", auto_color_scheme);
             break;
         case "light":
             localStorage.setItem("theme", "light");
             dark_mode.removeEventListener("change", auto_color_scheme);
-            button.innerHTML = "Light";
+            icon.className = "bi bi-sun-fill";
             set_color_scheme(theme);
             break;
         case "dark":
             localStorage.setItem("theme", "dark");
             dark_mode.removeEventListener("change", auto_color_scheme);
-            button.innerHTML = "Dark";
+            icon.className = "bi bi-moon-fill";
             set_color_scheme(theme);
             break;
     }

@@ -58,19 +58,26 @@
                                 {% endif %}
                                 {% block actions %}{% endblock %}
                                 {% if request.user.is_staff %}
-                                    <a class="nav-link {% block manage %}{% endblock %}" href="{% url "users" %}">{% translate "User management" %}</a>
+                                    <a class="nav-link {% block manage %}{% endblock %}" href="{% url "users" %}">{% translate "Users" %}</a>
+                                {% endif %}
+                                {% if request.user.is_superuser %}
+                                    <a class="nav-link {% block server %}{% endblock %}" href="{% url "statistics" %}">{% translate "Server" %}</a>
                                 {% endif %}
                                 {% block admin_actions %}{% endblock %}
                             </div>
                             <div class="navbar-nav d-flex justify-content-end">
-                                <span class="navbar-text me-3">{% translate "Hello" %} {{ request.user.first_name|default:request.user.username }}</span>
-                                <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="theme_selector_callback()"></button>
-                                <a class="nav-link {% block update %}{% endblock %}" href="{% url "account" %}">{% translate "Manage account" %}</a>
+                                <span class="navbar-text me-2">{% translate "Hello" %} {{ request.user.first_name|default:request.user.username }}</span>
+                                <div class="d-flex">
+                                    <button id="theme-selector" class="btn" onclick="theme_selector_callback()"><i class="bi bi-circle-half"></i></button>
+                                </div>
+                                <a class="nav-link {% block update %}{% endblock %}" href="{% url "account" %}">{% translate "Account" %}</a>
                                 <a class="nav-link" href="{% url "logout" %}">{% translate "Logout" %}</a>
                             {% else %}
                         </div>
                         <div class="navbar-nav d-flex">
-                            <button id="theme-selector" class="btn btn-secondary btn-sm" onclick="theme_selector_callback()">Auto</button>
+                            <div class="d-flex">
+                                <button id="theme-selector" class="btn" onclick="theme_selector_callback()"><i class="bi bi-circle-half"></i></button>
+                            </div>
                             <a class="nav-link {% block login %}{% endblock %}" href="{% url "login" %}">{% translate "Login" %}</a>
                             <a class="nav-link {% block register %}{% endblock %}" href="{% url "register" %}">{% translate "Register with key" %}</a>
                             {% endif %}

@@ -9,8 +9,11 @@
             <td>
                 {% if request.user == i.user %}
                     <span class="badge text-bg-info">{% translate "own" %}</span>
-                {% elif request.user == i.created_by %}
+                {% elif request.user == i.creator %}
                     <span class="badge text-bg-warning">{% translate "creator" %}</span>
+                {% endif %}
+                {% if request.user == i.manager %}
+                    <span class="badge text-bg-success">{% translate "manager" %}</span>
                 {% endif %}
             </td>
             <td class="text-end">

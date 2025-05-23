@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth.models import Group, Permission, User
 from django.contrib.sessions.models import Session
 
-from .models import Token
+from .models import Profile, Token
 
 
 # check if user is staff
@@ -92,6 +92,12 @@ def token_actions(request, user, staff=False):
 
 def user_actions(request, user, superuser=False):
     if "delete" in request and superuser:
+        for i in Profile.objects.filter(creator=user):
+            i.creator = i.manager
+            i.save()
+        for i in Profile.objects.filter(manager=user):
+            i.manager = i.creator
+            i.save()
         user.delete()
     elif "deactivate" in request:
         try:
