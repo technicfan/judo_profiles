@@ -1,0 +1,68 @@
+{% extends "abstract/base.html" %}
+
+{% block title %}Datenschutz{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 50rem;">
+        <h2 class="text-center">Datenschutz</h2>
+        {% if contact %}
+            <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+            <h4 class="mb-3 mt-4">Datenschutzkontakt</h4>
+            <div id="contact">{{ contact }}</div>
+            <h4 class="mb-3 mt-5">
+            <script>
+                marked.use({
+                    breaks: true,
+                });
+                document.getElementById("contact").innerHTML = marked.parse(document.getElementById("contact").innerHTML)
+            </script>
+        {% else %}
+            <h4 class="mb-3 mt-4">
+        {% endif %}
+        Daten, die auf dem Server gespeichert werden</h4>
+        <ul>
+            <li>
+                Accountdaten:
+                <ul>
+                    <li>Vorname und Nachname</li>
+                    <li>Art des Accounts (Trainer*in/Verwalter*in)</li>
+                    <li>Berechtigungen für Profile</li>
+                </ul>
+            </li>
+            <li>
+                Sessions mit einer ID um im Browser angemeldet zu bleiben<br>
+                Diese kann durch einfaches Abmelden gelöscht werden
+            </li>
+            <li>
+                Profildaten (verknüpft mit einem Account):
+                <ul>
+                    <li>Vorname und Nachname</li>
+                    <li>Gewichtsklasse</li>
+                    <li>Jahrgang</li>
+                    <li>Rechts-/Linkshänder*in</li>
+                    <li>Griffpositionen</li>
+                    <li>Spezielle Techniken</li>
+                    <li>Rangfolgen von Techniken</li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            Nutzer*innen können jederzeit alle Daten, die mit ihrem Account verknüpft sind auf der "Konto" Seite sofort löschen.
+        </p>
+        <h4 class="mb-3 mt-5">Umgang mit und Zugang zu Daten</h4>
+        <p>
+            Standardmäßig haben nur der/die Trainer*in und der/die verbundene Nutzer*in Zugriff auf das Profil, wobei der/die Trainer*in es Zusätzlich noch bearbeiten kann.
+            Beide können einstellen, welche weiteren Nutzer*innen das Profil anschauen dürfen und welche weiteren Trainer*innen es auch bearbeiten können.
+            <b>Dabei sind also auch alle Benutzernamen für jede/n Benutzer*innen einsehbar.</b>
+        </p>
+        <h4 class="mb-3 mt-5">Daten, die im Browser gespeichert werden</h4>
+        <ul>
+            <li>Session ID um angemeldet zu bleiben</li>
+            <li>Sprachpräferenz falls abweichend von Standard (definiert durch Browsereinstellung)</li>
+            <li>Farbschemapräferenz (Hell, Dunkel, Auto)</li>
+        </ul>
+        <p>
+            Diese Daten können über den Browser gelöscht werden.
+        </p>
+    </div>
+{% endblock %}

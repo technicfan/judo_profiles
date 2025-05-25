@@ -13,6 +13,7 @@ from django.views.decorators.http import require_http_methods
 
 from ..models import (
     Profile,
+    Server,
     Technique,
 )
 from ..utils import is_admin
@@ -36,6 +37,48 @@ def about(request):
     except TemplateDoesNotExist:
         template = get_template(f"lang/{settings.LANGUAGE_CODE}/about.html")
     return HttpResponse(template.render({}, request))
+
+
+@require_http_methods(["GET"])
+@login_not_required
+def privacy(request):
+    try:
+        template = get_template(f"lang/{request.LANGUAGE_CODE}/privacy.html")
+    except TemplateDoesNotExist:
+        template = get_template(f"lang/{settings.LANGUAGE_CODE}/privacy.html")
+    return HttpResponse(
+        template.render({"contact": Server.objects.get(id=1).privacy_contact}, request)
+    )
+
+
+@require_http_methods(["GET"])
+@login_not_required
+def contact(request):
+    return render(
+        request, "contact.html", {"contact": Server.objects.get(id=1).legal_info}
+    )
+
+
+@require_http_methods(["GET", "POST"])
+@user_passes_test(is_admin)
+def setup(request):
+    info, _ = Server.objects.get_or_create(id=1)
+
+    if request.method == "POST":
+        if request.POST["info"] != info.legal_info:
+            info.legal_info = request.POST["info"]
+            print("1")
+        if request.POST["contact"] != info.privacy_contact:
+            info.privacy_contact = request.POST["contact"]
+        if not info.changed:
+            info.changed = True
+        info.save()
+        print(request.POST)
+        print(info.legal_info)
+
+        return redirect("setup")
+    else:
+        return render(request, "setup.html", {"info": info})
 
 
 @require_http_methods(["GET"])

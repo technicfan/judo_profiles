@@ -8,7 +8,8 @@
 {% endblock %}
 
 {% block admin_actions %}
-    <a class="nav-link active" href="#">{% translate "Techniques" %}</a>
+    <a class="nav-link" href="{% url "setup" %}">{% translate "Setup" %}</a>
+    <a class="nav-link active" href="">{% translate "Techniques" %}</a>
 {% endblock %}
 
 {% block content %}

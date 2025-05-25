@@ -1,0 +1,24 @@
+{% extends "abstract/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Contact" %}{% endblock %}
+
+{% block style %}
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 30rem;">
+        <h2 class="text-center my-5">{% translate "Contact" %}</h2>
+        <div id="contact">{{ contact }}</div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        marked.use({
+            breaks: true,
+        });
+        document.getElementById("contact").innerHTML = marked.parse(document.getElementById("contact").innerHTML);
+    </script>
+{% endblock %}

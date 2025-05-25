@@ -115,7 +115,7 @@
                 <div class="modal-body">
                     <b>{% translate "Created by" %}:</b> {{ profile.creator }}<br>
                     <b>{% translate "Managed by" %}:</b> {{ profile.manager }}<br>
-                    <b>{% translate "Last changed" %}:</b> {{ profile.changed_on }}{% if profile.changed_by %} <b>{% translate "by" %}</b> {{ profile.changed_by }}{% endif %}
+                    <b>{% translate "Last changed" %}:</b> {{ profile.changed_at }}{% if profile.changed_by %} <b>{% translate "by" %}</b> {{ profile.changed_by }}{% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Ok" %}</button>

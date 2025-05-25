@@ -1,0 +1,52 @@
+{% extends "abstract/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Server information" %}{% endblock %}
+
+{% block style %}
+    <style>
+        .form-control {
+            resize: both;
+            max-width: unset;
+            min-width: fit-content;
+        }
+    </style>
+{% endblock %}
+
+{% block admin_actions %}
+    <a class="nav-link active" href="">{% translate "Setup" %}</a>
+    <a class="nav-link" href="{% url "techniques" %}">{% translate "Techniques" %}</a>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="text-center mt-5 mb-4">{% translate "Server information" %}</h2>
+        <div class="d-flex justify-content-center">
+            <form method="post">
+                {% csrf_token %}
+                <label for="info">{% translate "Legal server owner information (markdown enabled)" %} <i class="bi bi-markdown-fill"></i></label>
+                <textarea id="info" name="info" class="form-control mt-1 mb-4" required>{% if info.legal_info %}{{ info.legal_info }}{% endif %}</textarea>
+                <label for="contact">{% translate "<i>Optional</i> privacy contact (markdown enabled)" %} <i class="bi bi-markdown-fill"></i></label>
+                <textarea id="contact" name="contact" class="form-control mt-1 mb-3">{% if info.privacy_contact %}{{ info.privacy_contact }}{% endif %}</textarea>
+                <div class="d-flex justify-content-center">
+                    <input class="btn btn-secondary" type="submit" value="Save">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.querySelectorAll("textarea").forEach(element => {
+            ["load", "input"].forEach(event => {
+                element.addEventListener(event, () => {
+                    element.style.height = "";
+                    element.style.height = element.scrollHeight + 3 + "px";
+                });
+            });
+            element.style.height = "";
+            element.style.height = element.scrollHeight + 3 + "px";
+        });
+    </script>
+{% endblock %}

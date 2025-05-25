@@ -6,6 +6,7 @@
 {% block server %}active" aria-current="page{% endblock %}
 
 {% block admin_actions %}
+    <a class="nav-link" href="{% url "setup" %}">{% translate "Setup" %}</a>
     <a class="nav-link" href="{% url "techniques" %}">{% translate "Techniques" %}</a>
 {% endblock %}
 

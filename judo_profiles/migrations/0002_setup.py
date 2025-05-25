@@ -14,12 +14,16 @@ class Migration(migrations.Migration):
             next(reader)
 
             for row in reader:
-                _, created = Technique.objects.get_or_create(
+                Technique.objects.get_or_create(
                     codename=row[0], name=row[1], type=row[2]
                 )
+
+    def create_server(apps, schema):
+        Server = apps.get_model("judo_profiles", "Server")
+        Server(id=1).save()
 
     dependencies = [
         ("judo_profiles", "0001_initial"),
     ]
 
-    operations = [migrations.RunPython(importcsv)]
+    operations = [migrations.RunPython(importcsv), migrations.RunPython(create_server)]

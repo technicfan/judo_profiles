@@ -8,13 +8,15 @@ from django.db import models
 from django.utils.translation import gettext as _
 
 
-def calc_date():
-    return date.today() + timedelta(days=7)
+class Server(models.Model):
+    legal_info = models.TextField(blank=True, null=True)
+    privacy_contact = models.TextField(blank=True, null=True)
+    changed = models.BooleanField(default=False)
 
 
 class Token(models.Model):
     token = models.CharField(editable=False, unique=True)
-    valid_until = models.DateField(default=calc_date)
+    created_at = models.DateField(auto_now_add=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -22,7 +24,7 @@ class Token(models.Model):
 
     @property
     def valid_for(self):
-        return (self.valid_until - date.today()).days
+        return (self.created_at + timedelta(days=7) - date.today()).days
 
     @property
     def valid(self):
@@ -52,7 +54,8 @@ class Profile(models.Model):
     manager = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="profiles_managed"
     )
-    changed_on = models.DateField(auto_now=True)
+    created_at = models.DateField(auto_now_add=True)
+    changed_at = models.DateField(auto_now=True)
     changed_by = models.ForeignKey(
         User,
         blank=True,

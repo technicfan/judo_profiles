@@ -24,8 +24,11 @@ urlpatterns = [
     # general/server stuff
     path("", general.index, name="index"),
     path("about", general.about, name="about"),
+    path("contact", general.contact, name="contact"),
+    path("privacy", general.privacy, name="privacy"),
     path("techniques", general.techniques, name="techniques"),
     path("statistics", general.statistics, name="statistics"),
+    path("setup", general.setup, name="setup"),
     # profiles
     path("profiles", profiles.profiles, name="profiles"),
     path("profiles/new", profiles.new_profile, name="new-profile"),

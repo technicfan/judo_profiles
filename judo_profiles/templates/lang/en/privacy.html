@@ -1,0 +1,71 @@
+{% extends "abstract/base.html" %}
+
+{% block title %}Privacy{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 50rem;">
+        <h2 class="text-center">Privacy</h2>
+        {% if contact %}
+            <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+            <h4 class="mb-3 mt-4">Privacy contact</h4>
+            <div id="contact">{{ contact }}</div>
+            <h4 class="mb-3 mt-5">
+            <script>
+                marked.use({
+                    breaks: true,
+                });
+                document.getElementById("contact").innerHTML = marked.parse(document.getElementById("contact").innerHTML);
+            </script>
+        {% else %}
+            <h4 class="mb-3 mt-4">
+        {% endif %}
+        Data that is stored on the server</h4>
+        <ul>
+            <li>
+                Account data:
+                <ul>
+                    <li>first and last name</li>
+                    <li>type of account (trainer/staff member)</li>
+                    <li>permissions for profiles</li>
+                </ul>
+            </li>
+            <li>
+                sessions with an id to stay logged in<br>
+                This can be simply deleted by logging out
+            </li>
+            <li>
+                Profile data (linked to an account):
+                <ul>
+                    <li>first and last name</li>
+                    <li>weight class</li>
+                    <li>year group</li>
+                    <li>left/right handed</li>
+                    <li>gripping positions</li>
+                    <li>special techniques</li>
+                    <li>rankings of techniques</li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            Users can always delete every data that is linked to their account on the "Account" site immediately.
+        </p>
+        <h4 class="mb-3 mt-5">Handling of and access to data</h4>
+        <p>
+            Standardmäßig haben nur der/die Trainer*in und der/die verbundene Nutzer*in Zugriff auf das Profil, wobei der/die Trainer*in es Zusätzlich noch bearbeiten kann.
+            Beide können einstellen, welche weiteren Nutzer*innen das Profil anschauen dürfen und welche weiteren Trainer*innen es auch bearbeiten können.
+            Dabei sind also auch alle Benutzernamen für jede/n Benutzer*innen einsehbar.
+            By default only the trainer and the linked user have access to the profile, while the trainer can also edit it.
+            Both of them can select, which other users should have access to it and which additional trainers can edit it.
+            <b>Through this all usernames are visible to all other users.</b>
+        </p>
+        <h4 class="mb-3 mt-5">Data that is stored in the browser</h4>
+        <ul>
+            <li>session id to stay logged in</li>
+            <li>language preference in case it differs from default (defined by browser setting)</li>
+            <li>color mode preference (light, dark, auto)</li>
+        </ul>
+        <p>
+            This data can be deleted through the browser.
+        </p>
+    </div>
+{% endblock %}

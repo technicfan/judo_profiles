@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-23 03:34+0200\n"
+"POT-Creation-Date: 2025-05-25 06:40+0200\n"
 "PO-Revision-Date: 2025-05-16 04:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,17 +19,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: judo_profiles/models.py:110
+#: judo_profiles/models.py:113
 #: judo_profiles/templates/abstract/profile_base.html:133
 msgid "Stable_short"
 msgstr "W"
 
-#: judo_profiles/models.py:112
+#: judo_profiles/models.py:115
 #: judo_profiles/templates/abstract/profile_base.html:133
 msgid "Training_short"
 msgstr "T"
 
-#: judo_profiles/models.py:114
+#: judo_profiles/models.py:117
 #: judo_profiles/templates/abstract/profile_base.html:133
 msgid "Learn_short"
 msgstr "Z"
@@ -153,7 +153,7 @@ msgid "Combinations"
 msgstr "Kombinationen"
 
 #: judo_profiles/templates/abstract/profile_base.html:156
-#: judo_profiles/templates/statistics.html:41
+#: judo_profiles/templates/statistics.html:42
 msgid "Ground techniques"
 msgstr "Bodentechniken"
 
@@ -248,6 +248,11 @@ msgstr "Abbrechen"
 msgid "Ok"
 msgstr "Ok"
 
+#: judo_profiles/templates/contact.html:4
+#: judo_profiles/templates/contact.html:12
+msgid "Contact"
+msgstr "Kontakt"
+
 #: judo_profiles/templates/htmx/profile_permissions.html:21
 #: judo_profiles/templates/htmx/users.html:38
 msgid "No matching users found"
@@ -285,13 +290,13 @@ msgid "No profiles found"
 msgstr "Keine Profile gefunden"
 
 #: judo_profiles/templates/htmx/techniques.html:6
-#: judo_profiles/templates/techniques.html:26
+#: judo_profiles/templates/techniques.html:27
 msgid "Codename"
 msgstr "Codename"
 
 #: judo_profiles/templates/htmx/techniques.html:7
 #: judo_profiles/templates/profiles.html:29
-#: judo_profiles/templates/techniques.html:27
+#: judo_profiles/templates/techniques.html:28
 msgid "Name"
 msgstr "Name"
 
@@ -578,38 +583,57 @@ msgstr "Dieses Schlüssel-Nutzer-Paar existiert nicht oder ist abgelaufen"
 msgid "Key"
 msgstr "Schlüssel"
 
-#: judo_profiles/templates/statistics.html:4
-#: judo_profiles/templates/statistics.html:14
-msgid "Server statistics"
-msgstr "Server Statistiken"
+#: judo_profiles/templates/setup.html:4 judo_profiles/templates/setup.html:23
+msgid "Server information"
+msgstr "Server Informationen"
 
+#: judo_profiles/templates/setup.html:17
 #: judo_profiles/templates/statistics.html:9
 #: judo_profiles/templates/techniques.html:11
+msgid "Setup"
+msgstr "Einrichtung"
+
+#: judo_profiles/templates/setup.html:18
+#: judo_profiles/templates/statistics.html:10
+#: judo_profiles/templates/techniques.html:12
 msgid "Techniques"
 msgstr "Techniken"
 
-#: judo_profiles/templates/statistics.html:17
+#: judo_profiles/templates/setup.html:27
+msgid "Legal server owner information (markdown enabled)"
+msgstr "Rechtliche Besitzerinformationen (markdown enabled)"
+
+#: judo_profiles/templates/setup.html:29
+msgid "<i>Optional</i> privacy contact (markdown enabled)"
+msgstr "<i>Optionaler</i> Datenschutzkontakt (markdown enabled)"
+
+#: judo_profiles/templates/statistics.html:4
+#: judo_profiles/templates/statistics.html:15
+msgid "Server statistics"
+msgstr "Server Statistiken"
+
+#: judo_profiles/templates/statistics.html:18
 msgid "Total profiles"
 msgstr "Profile"
 
-#: judo_profiles/templates/statistics.html:21
+#: judo_profiles/templates/statistics.html:22
 msgid "Total (active) users"
 msgstr "Aktive Nutzer*innen (gesamt)"
 
-#: judo_profiles/templates/statistics.html:25
+#: judo_profiles/templates/statistics.html:26
 #: judo_profiles/templates/users.html:30
 msgid "Trainers"
 msgstr "Trainer*innen"
 
-#: judo_profiles/templates/statistics.html:29
+#: judo_profiles/templates/statistics.html:30
 msgid "Staff members"
 msgstr "Teammitglieder"
 
-#: judo_profiles/templates/statistics.html:33
+#: judo_profiles/templates/statistics.html:34
 msgid "Total techniques"
 msgstr "Techniken (gesamt)"
 
-#: judo_profiles/templates/statistics.html:37
+#: judo_profiles/templates/statistics.html:38
 msgid "Standing techniques"
 msgstr "Standtechniken"
 
@@ -617,11 +641,11 @@ msgstr "Standtechniken"
 msgid "Manage techniques"
 msgstr "Techniken verwalten"
 
-#: judo_profiles/templates/techniques.html:17
+#: judo_profiles/templates/techniques.html:18
 msgid "Search techique"
 msgstr "Techniken suchen"
 
-#: judo_profiles/templates/techniques.html:28
+#: judo_profiles/templates/techniques.html:29
 msgid "Type"
 msgstr "Art"
 
@@ -742,17 +766,17 @@ msgstr "Das Profil von %(user)s wird auch gelöscht!"
 msgid "Create user"
 msgstr "Nutzer*in erstellen"
 
-#: judo_profiles/views/profiles.py:544 judo_profiles/views/users.py:298
+#: judo_profiles/views/profiles.py:448 judo_profiles/views/users.py:152
 msgid "Saved"
 msgstr "Gespeichert"
 
-#: judo_profiles/views/profiles.py:598 judo_profiles/views/users.py:328
+#: judo_profiles/views/profiles.py:502 judo_profiles/views/users.py:182
 #, python-format
 msgid "Valid for %(count)d day"
 msgid_plural "Valid for %(count)d days"
 msgstr[0] "Noch gültig für %(count)d Tag"
 msgstr[1] "Noch gültig für %(count)d Tage"
 
-#: judo_profiles/views/users.py:301
+#: judo_profiles/views/users.py:155
 msgid "Not allowed"
 msgstr "Nicht erlaubt"
