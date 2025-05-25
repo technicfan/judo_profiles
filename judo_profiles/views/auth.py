@@ -101,7 +101,7 @@ def login_user(request):
                 User.objects.get(username=request.POST["user"]).is_superuser
                 and not Server.objects.get(id=1).changed
             ):
-                pass
+                return redirect("setup")
 
             if next:
                 # redirect to "next"
