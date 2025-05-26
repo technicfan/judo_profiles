@@ -7,9 +7,9 @@
         <tr>
             <td>
                 {% if permission in profile_perms %}
-                    <input class="form-check-input" type="checkbox" name="{{ user.id }}" checked>
+                    <input class="form-check-input" type="checkbox" name="{{ user.id }}" aria-label="{{ user }}" checked>
                 {% else %}
-                    <input class="form-check-input" type="checkbox" name="{{ user.id }}">
+                    <input class="form-check-input" type="checkbox" name="{{ user.id }}" aria-label="{{ user }}">
                 {% endif %}
                 <span>{{ user }}</span>
             </td>

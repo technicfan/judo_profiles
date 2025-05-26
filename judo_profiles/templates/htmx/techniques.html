@@ -3,10 +3,10 @@
 
 {% if not changed %}
     <tr>
-        <td><input id="codename_new"type="text" name="codename" class="form-control" maxlength="3" placeholder="{% translate "Codename" %}"></td>
-        <td><input id="name_new" type="text" name="name" class="form-control" placeholder="{% translate "Name" %}"></td>
+        <td><input id="codename_new"type="text" name="codename" class="form-control" maxlength="3" placeholder="{% translate "Codename" %}" aria-label="{% translate "Codename" %}"></td>
+        <td><input id="name_new" type="text" name="name" class="form-control" placeholder="{% translate "Name" %}" aria-label="{% translate "Name" %}"></td>
         <td colspan="2">
-            <select id="type_new" name="type" class="form-select">
+            <select id="type_new" name="type" class="form-select" aria-label="{% translate "Type" %}">
                 <option value="S">{% translate "Standing" %}</option>
                 <option value="G">{% translate "Ground" %}</option>
             </select>
@@ -60,10 +60,10 @@
                 </table>
             </td>
 
-            <td class="d-none"><input id="codename_{{ i.id }}" type="text" name="codename" class="form-control" maxlength="3" value="{{ i.codename }}"></td>
-            <td class="d-none"><input id="name_{{ i.id }}" type="text" name="name" class="form-control" value="{{ i.name }}"></td>
+            <td class="d-none"><input id="codename_{{ i.id }}" type="text" name="codename" class="form-control" maxlength="3" value="{{ i.codename }}" aria-label="{% translate "Codename" %}"></td>
+            <td class="d-none"><input id="name_{{ i.id }}" type="text" name="name" class="form-control" value="{{ i.name }}" aria-label="{% translate "Name" %}"></td>
             <td class="d-none" colspan="2">
-                <select id="type_{{ i.id }}" name="type" class="form-select">
+                <select id="type_{{ i.id }}" name="type" class="form-select" aria-label="{% translate "Type" %}">
                     <option value="S">{% translate "Standing" %}</option>
                     <option value="G"{% if i.type == "G" %} selected{% endif %}>{% translate "Ground" %}</option>
                 </select>

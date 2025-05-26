@@ -28,7 +28,7 @@
                                             <label class="form-check-label" for="side_left">{% translate "Left-handed fighter" %}</label>
                                         </td>
                                         <td>
-                                            <input type="checkbox" class="form-check-input" id="side_left" name="left" value="L" {% block opts_left %}required{% endblock %}>
+                                            <input type="checkbox" class="form-check-input" id="side_left" name="left" value="L" aria-label="{% translate "Left-handed fighter" %}" {% block opts_left %}required{% endblock %}>
                                         </td>
                                     </tr>
                                     <tr>
@@ -36,7 +36,7 @@
                                             <label class="form-check-label" for="side_right">{% translate "Right-handed fighter" %}</label>
                                         </td>
                                         <td>
-                                            <input type="checkbox" class="form-check-input" id="side_right" name="right" value="R" {% block opts_right %}required{% endblock %}>
+                                            <input type="checkbox" class="form-check-input" id="side_right" name="right" value="R" aria-label="{% translate "Right-handed fighter" %}" {% block opts_right %}required{% endblock %}>
                                         </td>
                                     </tr>
                                 </table>

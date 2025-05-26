@@ -151,6 +151,7 @@
                 </select>
                 <input class="form-control mx-auto" id="search" type="search"
                     name="search" placeholder="{% translate "Search user" %}..."
+                    aria-label="{% translate "Search user" %}"
                     hx-post=""
                     hx-target="#users"
                     hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#permission, load"

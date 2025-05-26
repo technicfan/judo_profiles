@@ -20,6 +20,7 @@
     <div class="container">
         <input class="form-control mx-auto" type="search"
             name="search" placeholder="{% translate "Search profile"%}..."
+            aria-label="{% translate "Search profile"%}"
             hx-post=""
             hx-trigger="input changed delay:500ms, keyup[key=='Enter'], load"
             hx-target="#profiles"

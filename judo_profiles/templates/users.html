@@ -33,6 +33,7 @@
         </div>
         <input class="form-control mx-auto" type="search"
             name="search" placeholder="{% translate "Search user" %}..."
+            aria-label="{% translate "Search user" %}"
             hx-post=""
             hx-trigger="input changed delay:500ms, keyup[key=='Enter'], change from:#type, change from:#status, load"
             hx-target="#users"

@@ -26,12 +26,12 @@
     <div class="d-flex justify-content-center">
         <form method="post" style="width: 27rem;">
             {% csrf_token %}
-            <input class="form-control" type="text" name="user" placeholder="{% translate "Username" %}" required>
-            <input class="form-control my-2" type="password" name="pass" placeholder="{% translate "Password" %}" required>
+            <input class="form-control" type="text" name="user" placeholder="{% translate "Username" %}" aria-label="{% translate "Username" %}" required>
+            <input class="form-control my-2" type="password" name="pass" placeholder="{% translate "Password" %}" aria-label="{% translate "Password" %}" required>
             <div class="d-flex justify-content-center">
             <input class="btn btn-secondary mt-2" type="submit" value="{% translate "Login" %}">
             </div>
-            <input type="hidden"name="next" value="{{ next }}">
+            <input type="hidden" name="next" value="{{ next }}">
         </form>
     </div>
 {% endblock %}
