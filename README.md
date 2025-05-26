@@ -1,3 +1,3 @@
-# **WIP** - Dot NOT use it yet, anything can change (especially database things)
+# **WIP** - Do NOT use it yet, anything can change (especially database things)
 
 Documentation will also come at some point
