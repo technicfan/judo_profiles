@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 
-from ..models import Profile, Server, Token
+from ..models import Profile, Token
 from ..utils import logout_all
 
 
@@ -96,12 +96,6 @@ def login_user(request):
                 pass
             # login the user
             login(request, user)
-
-            if (
-                User.objects.get(username=request.POST["user"]).is_superuser
-                and not Server.objects.get(id=1).changed
-            ):
-                return redirect("setup")
 
             if next:
                 # redirect to "next"

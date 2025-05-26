@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 06:40+0200\n"
+"POT-Creation-Date: 2025-05-26 04:40+0200\n"
 "PO-Revision-Date: 2025-05-16 04:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -46,55 +46,69 @@ msgstr "Dieser Pfad scheint nicht zu existieren"
 msgid "Judo Profiles"
 msgstr "Judo Profile"
 
-#: judo_profiles/templates/abstract/base.html:55
+#: judo_profiles/templates/abstract/base.html:66
 #: judo_profiles/templates/profiles.html:5
 msgid "Dashboard"
 msgstr "Übersicht"
 
-#: judo_profiles/templates/abstract/base.html:57
+#: judo_profiles/templates/abstract/base.html:68
 msgid "Own profile"
 msgstr "Eigenes Profil"
 
-#: judo_profiles/templates/abstract/base.html:61
+#: judo_profiles/templates/abstract/base.html:72
 msgid "Users"
 msgstr "Benutzer*innen"
 
-#: judo_profiles/templates/abstract/base.html:64
+#: judo_profiles/templates/abstract/base.html:75
 msgid "Server"
 msgstr "Server"
 
-#: judo_profiles/templates/abstract/base.html:69
+#: judo_profiles/templates/abstract/base.html:80
 msgid "Hello"
 msgstr "Hallo"
 
-#: judo_profiles/templates/abstract/base.html:73
+#: judo_profiles/templates/abstract/base.html:84
 msgid "Account"
 msgstr "Konto"
 
-#: judo_profiles/templates/abstract/base.html:74
+#: judo_profiles/templates/abstract/base.html:85
 msgid "Logout"
 msgstr "Abmelden"
 
-#: judo_profiles/templates/abstract/base.html:81
+#: judo_profiles/templates/abstract/base.html:92
 #: judo_profiles/templates/login.html:4 judo_profiles/templates/login.html:32
 msgid "Login"
 msgstr "Anmelden"
 
-#: judo_profiles/templates/abstract/base.html:82
+#: judo_profiles/templates/abstract/base.html:93
 #: judo_profiles/templates/register.html:4
 #: judo_profiles/templates/register.html:45
 msgid "Register with key"
 msgstr "Mit Schlüssel Registrieren"
 
-#: judo_profiles/templates/abstract/base.html:84
+#: judo_profiles/templates/abstract/base.html:95
 msgid "About"
 msgstr "Über"
 
-#: judo_profiles/templates/abstract/base.html:113
+#: judo_profiles/templates/abstract/base.html:124
 msgid "This site only works with Javascript - to use this please activate it"
 msgstr ""
 "Diese Seite funktioniert nur mit Javascript - für die Nutzung bitte "
 "aktivieren"
+
+#: judo_profiles/templates/abstract/base.html:131
+msgid "Source code"
+msgstr "Quellcode"
+
+#: judo_profiles/templates/abstract/base.html:133
+msgid "Privacy"
+msgstr "Datenschutz"
+
+#: judo_profiles/templates/abstract/base.html:135
+#: judo_profiles/templates/contact.html:4
+#: judo_profiles/templates/contact.html:12
+msgid "Contact"
+msgstr "Impressum"
 
 #: judo_profiles/templates/abstract/profile_base.html:21
 msgid "Fighter profile of"
@@ -247,11 +261,6 @@ msgstr "Abbrechen"
 #: judo_profiles/templates/users/manage.html:284
 msgid "Ok"
 msgstr "Ok"
-
-#: judo_profiles/templates/contact.html:4
-#: judo_profiles/templates/contact.html:12
-msgid "Contact"
-msgstr "Kontakt"
 
 #: judo_profiles/templates/htmx/profile_permissions.html:21
 #: judo_profiles/templates/htmx/users.html:38
