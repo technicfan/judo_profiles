@@ -114,7 +114,7 @@
                 </div>
                 <div class="modal-body">
                     <b>{% translate "Managed by" %}:</b> {{ profile.manager }}<br>
-                    <b>{% translate "Created" %}:</b> {{ profile.created_at }}{% if profile.changed_by %} <b>{% translate "by" %}</b> {{ profile.creator }}{% endif %}<br>
+                    <b>{% translate "Created" %}:</b> {{ profile.created_at }} <b>{% translate "by" %}</b> {{ profile.creator }}<br>
                     <b>{% translate "Last changed" %}:</b> {{ profile.changed_at }}{% if profile.changed_by %} <b>{% translate "by" %}</b> {{ profile.changed_by }}{% endif %}
                 </div>
                 <div class="modal-footer">
