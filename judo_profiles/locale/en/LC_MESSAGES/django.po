@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 05:23+0200\n"
+"POT-Creation-Date: 2025-06-14 05:07+0200\n"
 "PO-Revision-Date: 2025-05-16 04:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -579,20 +579,21 @@ msgid "Right_short"
 msgstr "R"
 
 #: judo_profiles/templates/profiles/profile.html:116
-msgid "Created by"
-msgstr "Created by"
-
-#: judo_profiles/templates/profiles/profile.html:117
 msgid "Managed by"
 msgstr "Managed by"
+
+#: judo_profiles/templates/profiles/profile.html:117
+msgid "Created"
+msgstr "Created"
+
+#: judo_profiles/templates/profiles/profile.html:117
+#: judo_profiles/templates/profiles/profile.html:118
+msgid "by"
+msgstr "by"
 
 #: judo_profiles/templates/profiles/profile.html:118
 msgid "Last changed"
 msgstr "Last changed"
-
-#: judo_profiles/templates/profiles/profile.html:118
-msgid "by"
-msgstr "by"
 
 #: judo_profiles/templates/register.html:24
 msgid "Repeat password"

@@ -113,8 +113,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <b>{% translate "Created by" %}:</b> {{ profile.creator }}<br>
                     <b>{% translate "Managed by" %}:</b> {{ profile.manager }}<br>
+                    <b>{% translate "Created" %}:</b> {{ profile.created_at }}{% if profile.changed_by %} <b>{% translate "by" %}</b> {{ profile.creator }}{% endif %}<br>
                     <b>{% translate "Last changed" %}:</b> {{ profile.changed_at }}{% if profile.changed_by %} <b>{% translate "by" %}</b> {{ profile.changed_by }}{% endif %}
                 </div>
                 <div class="modal-footer">
