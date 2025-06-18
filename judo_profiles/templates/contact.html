@@ -1,7 +1,7 @@
 {% extends "abstract/base.html" %}
 {% load i18n %}
 
-{% block title %}{% translate "Contact" %}{% endblock %}
+{% block title %}{% translate "Imprint" %}{% endblock %}
 
 {% block style %}
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -9,7 +9,7 @@
 
 {% block content %}
     <div class="container" style="max-width: 30rem;">
-        <h2 class="text-center my-5">{% translate "Contact" %}</h2>
+        <h2 class="text-center my-5">{% translate "Imprint" %}</h2>
         <div id="contact">{{ contact }}</div>
     </div>
 {% endblock %}

@@ -107,7 +107,7 @@ msgstr "Datenschutz"
 #: judo_profiles/templates/abstract/base.html:134
 #: judo_profiles/templates/contact.html:4
 #: judo_profiles/templates/contact.html:12
-msgid "Contact"
+msgid "Imprint"
 msgstr "Impressum"
 
 #: judo_profiles/templates/abstract/profile_base.html:21

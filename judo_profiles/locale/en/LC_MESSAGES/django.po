@@ -105,8 +105,8 @@ msgstr "Privacy"
 #: judo_profiles/templates/abstract/base.html:134
 #: judo_profiles/templates/contact.html:4
 #: judo_profiles/templates/contact.html:12
-msgid "Contact"
-msgstr "Contact"
+msgid "Imprint"
+msgstr "Imprint"
 
 #: judo_profiles/templates/abstract/profile_base.html:21
 msgid "Fighter profile of"

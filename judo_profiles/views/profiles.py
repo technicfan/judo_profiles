@@ -473,7 +473,8 @@ def manage_profile(request, username):
                 ):
                     profile.manager = new_manager
                     profile.save()
-                    # remove_perm("view_profile", request.user, profile)
+                    if not request.user == profile.creator:
+                        remove_perm("view_profile", request.user, profile)
                     remove_perm("change_profile", request.user, profile)
                     remove_perm("manage_profile", request.user, profile)
                     assign_perm("view_profile", new_manager, profile)
