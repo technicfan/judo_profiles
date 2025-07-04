@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <input id="token" type="password" class="form-control" value="{{ token }}" aria-label="{% translate "Key" %}" readonly>
 <button class="btn btn-outline-secondary" type="button" onclick="toggle_token(this)"><i class="bi bi-eye"></i></button>
 <button class="btn btn-outline-secondary" type="button" onclick="copy_token(this)"><i class="bi bi-clipboard"></i></button>
