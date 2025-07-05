@@ -24,7 +24,7 @@ urlpatterns = [
     # general/server stuff
     path("", general.index, name="index"),
     path("about", general.about, name="about"),
-    path("contact", general.contact, name="contact"),
+    path("imprint", general.imprint, name="imprint"),
     path("privacy", general.privacy, name="privacy"),
     path("techniques", general.techniques, name="techniques"),
     path("statistics", general.statistics, name="statistics"),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-14 05:07+0200\n"
+"POT-Creation-Date: 2025-07-05 04:43+0200\n"
 "PO-Revision-Date: 2025-05-16 04:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,17 +20,17 @@ msgstr ""
 "X-Generator: Poedit 3.6\n"
 
 #: judo_profiles/models.py:113
-#: judo_profiles/templates/abstract/profile_base.html:133
+#: judo_profiles/templates/abstract/profile_base.html:132
 msgid "Stable_short"
 msgstr "S"
 
 #: judo_profiles/models.py:115
-#: judo_profiles/templates/abstract/profile_base.html:133
+#: judo_profiles/templates/abstract/profile_base.html:132
 msgid "Training_short"
 msgstr "T"
 
 #: judo_profiles/models.py:117
-#: judo_profiles/templates/abstract/profile_base.html:133
+#: judo_profiles/templates/abstract/profile_base.html:132
 msgid "Learn_short"
 msgstr "L"
 
@@ -46,127 +46,127 @@ msgstr "This path seems to not exist"
 msgid "Judo Profiles"
 msgstr "Judo Profiles"
 
-#: judo_profiles/templates/abstract/base.html:66
+#: judo_profiles/templates/abstract/base.html:68
 #: judo_profiles/templates/profiles.html:5
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: judo_profiles/templates/abstract/base.html:68
+#: judo_profiles/templates/abstract/base.html:70
 msgid "Own profile"
 msgstr "Own profile"
 
-#: judo_profiles/templates/abstract/base.html:72
+#: judo_profiles/templates/abstract/base.html:74
 msgid "Users"
 msgstr "Users"
 
-#: judo_profiles/templates/abstract/base.html:75
+#: judo_profiles/templates/abstract/base.html:77
 msgid "Server"
 msgstr "Server"
 
-#: judo_profiles/templates/abstract/base.html:80
+#: judo_profiles/templates/abstract/base.html:82
 msgid "Hello"
 msgstr "Hello"
 
-#: judo_profiles/templates/abstract/base.html:84
+#: judo_profiles/templates/abstract/base.html:86
 msgid "Account"
 msgstr "Account"
 
-#: judo_profiles/templates/abstract/base.html:85
+#: judo_profiles/templates/abstract/base.html:87
 msgid "Logout"
 msgstr "Logout"
 
-#: judo_profiles/templates/abstract/base.html:92
+#: judo_profiles/templates/abstract/base.html:94
 #: judo_profiles/templates/login.html:4 judo_profiles/templates/login.html:32
 msgid "Login"
 msgstr "Login"
 
-#: judo_profiles/templates/abstract/base.html:93
+#: judo_profiles/templates/abstract/base.html:95
 #: judo_profiles/templates/register.html:4
 #: judo_profiles/templates/register.html:45
 msgid "Register with key"
 msgstr "Register with key"
 
-#: judo_profiles/templates/abstract/base.html:95
-msgid "About"
-msgstr "About"
-
-#: judo_profiles/templates/abstract/base.html:123
+#: judo_profiles/templates/abstract/base.html:122
 msgid "This site only works with Javascript - to use this please activate it"
 msgstr "This site only works with Javascript - to use this please activate it"
 
-#: judo_profiles/templates/abstract/base.html:130
-msgid "Source code"
-msgstr "Source code"
-
-#: judo_profiles/templates/abstract/base.html:132
+#: judo_profiles/templates/abstract/base.html:129
 msgid "Privacy"
 msgstr "Privacy"
 
-#: judo_profiles/templates/abstract/base.html:134
-#: judo_profiles/templates/contact.html:4
-#: judo_profiles/templates/contact.html:12
+#: judo_profiles/templates/abstract/base.html:131
+#: judo_profiles/templates/imprint.html:4
+#: judo_profiles/templates/imprint.html:8
 msgid "Imprint"
 msgstr "Imprint"
 
-#: judo_profiles/templates/abstract/profile_base.html:21
+#: judo_profiles/templates/abstract/base.html:133
+msgid "Source code"
+msgstr "Source code"
+
+#: judo_profiles/templates/abstract/base.html:135
+msgid "About"
+msgstr "About"
+
+#: judo_profiles/templates/abstract/profile_base.html:20
 msgid "Fighter profile of"
 msgstr "Fighter profile of"
 
-#: judo_profiles/templates/abstract/profile_base.html:28
-#: judo_profiles/templates/abstract/profile_base.html:31
+#: judo_profiles/templates/abstract/profile_base.html:27
+#: judo_profiles/templates/abstract/profile_base.html:30
 msgid "Left-handed fighter"
 msgstr "Left-handed fighter"
 
-#: judo_profiles/templates/abstract/profile_base.html:36
-#: judo_profiles/templates/abstract/profile_base.html:39
+#: judo_profiles/templates/abstract/profile_base.html:35
+#: judo_profiles/templates/abstract/profile_base.html:38
 msgid "Right-handed fighter"
 msgstr "Right-handed fighter"
 
-#: judo_profiles/templates/abstract/profile_base.html:54
+#: judo_profiles/templates/abstract/profile_base.html:53
 msgid "Gripping positions"
 msgstr "Gripping positions"
 
-#: judo_profiles/templates/abstract/profile_base.html:58
+#: judo_profiles/templates/abstract/profile_base.html:57
 msgid "Right hand"
 msgstr "Right hand"
 
-#: judo_profiles/templates/abstract/profile_base.html:65
+#: judo_profiles/templates/abstract/profile_base.html:64
 msgid "Left hand"
 msgstr "Left hand"
 
-#: judo_profiles/templates/abstract/profile_base.html:88
+#: judo_profiles/templates/abstract/profile_base.html:87
 msgid "Own techniques"
 msgstr "Own techniques"
 
-#: judo_profiles/templates/abstract/profile_base.html:133
+#: judo_profiles/templates/abstract/profile_base.html:132
 msgid "Stable in competition"
 msgstr "Stable in competition"
 
-#: judo_profiles/templates/abstract/profile_base.html:133
+#: judo_profiles/templates/abstract/profile_base.html:132
 msgid "Training"
 msgstr "Training"
 
-#: judo_profiles/templates/abstract/profile_base.html:133
+#: judo_profiles/templates/abstract/profile_base.html:132
 msgid "to Learn"
 msgstr "to Learn"
 
-#: judo_profiles/templates/abstract/profile_base.html:134
+#: judo_profiles/templates/abstract/profile_base.html:133
 msgid "Left stance"
 msgstr "Left stance"
 
-#: judo_profiles/templates/abstract/profile_base.html:135
+#: judo_profiles/templates/abstract/profile_base.html:134
 msgid "Right stance"
 msgstr "Right stance"
 
-#: judo_profiles/templates/abstract/profile_base.html:144
+#: judo_profiles/templates/abstract/profile_base.html:143
 msgid "Special techniques"
 msgstr "Special techniques"
 
-#: judo_profiles/templates/abstract/profile_base.html:150
+#: judo_profiles/templates/abstract/profile_base.html:149
 msgid "Combinations"
 msgstr "Combinations"
 
-#: judo_profiles/templates/abstract/profile_base.html:156
+#: judo_profiles/templates/abstract/profile_base.html:155
 #: judo_profiles/templates/statistics.html:42
 msgid "Ground techniques"
 msgstr "Ground techniques"
@@ -228,8 +228,8 @@ msgstr "Delete account and data"
 #: judo_profiles/templates/profiles/edit.html:17
 #: judo_profiles/templates/profiles/edit.html:80
 #: judo_profiles/templates/profiles/new.html:71
-#: judo_profiles/templates/users/manage.html:51
-#: judo_profiles/templates/users/manage.html:274
+#: judo_profiles/templates/users/manage.html:50
+#: judo_profiles/templates/users/manage.html:273
 msgid "Delete"
 msgstr "Delete"
 
@@ -244,25 +244,25 @@ msgstr ""
 #: judo_profiles/templates/account.html:88
 #: judo_profiles/templates/htmx/techniques.html:58
 #: judo_profiles/templates/profiles/edit.html:87
-#: judo_profiles/templates/profiles/manage.html:135
-#: judo_profiles/templates/users/manage.html:208
-#: judo_profiles/templates/users/manage.html:230
-#: judo_profiles/templates/users/manage.html:259
-#: judo_profiles/templates/users/manage.html:281
+#: judo_profiles/templates/profiles/manage.html:134
+#: judo_profiles/templates/users/manage.html:207
+#: judo_profiles/templates/users/manage.html:229
+#: judo_profiles/templates/users/manage.html:258
+#: judo_profiles/templates/users/manage.html:280
 msgid "Cancel"
 msgstr "Cancel"
 
 #: judo_profiles/templates/account.html:91
 #: judo_profiles/templates/htmx/techniques.html:55
 #: judo_profiles/templates/profiles/edit.html:88
-#: judo_profiles/templates/profiles/manage.html:104
-#: judo_profiles/templates/profiles/manage.html:136
+#: judo_profiles/templates/profiles/manage.html:103
+#: judo_profiles/templates/profiles/manage.html:135
 #: judo_profiles/templates/profiles/profile.html:121
-#: judo_profiles/templates/users/manage.html:123
-#: judo_profiles/templates/users/manage.html:212
-#: judo_profiles/templates/users/manage.html:234
-#: judo_profiles/templates/users/manage.html:263
-#: judo_profiles/templates/users/manage.html:285
+#: judo_profiles/templates/users/manage.html:122
+#: judo_profiles/templates/users/manage.html:211
+#: judo_profiles/templates/users/manage.html:233
+#: judo_profiles/templates/users/manage.html:262
+#: judo_profiles/templates/users/manage.html:284
 msgid "Ok"
 msgstr "Ok"
 
@@ -286,10 +286,10 @@ msgstr "manager"
 #: judo_profiles/templates/htmx/profiles.html:21
 #: judo_profiles/templates/htmx/techniques.html:39
 #: judo_profiles/templates/profiles/edit.html:12
-#: judo_profiles/templates/profiles/manage.html:34
-#: judo_profiles/templates/profiles/manage.html:150
+#: judo_profiles/templates/profiles/manage.html:33
+#: judo_profiles/templates/profiles/manage.html:149
 #: judo_profiles/templates/profiles/profile.html:18
-#: judo_profiles/templates/users/manage.html:143
+#: judo_profiles/templates/users/manage.html:142
 msgid "Edit"
 msgstr "Edit"
 
@@ -304,20 +304,20 @@ msgstr "No profiles found"
 
 #: judo_profiles/templates/htmx/techniques.html:6
 #: judo_profiles/templates/htmx/techniques.html:63
-#: judo_profiles/templates/techniques.html:28
+#: judo_profiles/templates/techniques.html:24
 msgid "Codename"
 msgstr "Codename"
 
 #: judo_profiles/templates/htmx/techniques.html:7
 #: judo_profiles/templates/htmx/techniques.html:64
-#: judo_profiles/templates/profiles.html:30
-#: judo_profiles/templates/techniques.html:29
+#: judo_profiles/templates/profiles.html:26
+#: judo_profiles/templates/techniques.html:25
 msgid "Name"
 msgstr "Name"
 
 #: judo_profiles/templates/htmx/techniques.html:9
 #: judo_profiles/templates/htmx/techniques.html:66
-#: judo_profiles/templates/techniques.html:30
+#: judo_profiles/templates/techniques.html:26
 msgid "Type"
 msgstr "Type"
 
@@ -352,8 +352,8 @@ msgstr "In use"
 
 #: judo_profiles/templates/htmx/techniques.html:80
 #: judo_profiles/templates/profiles/edit.html:19
-#: judo_profiles/templates/profiles/manage.html:169
-#: judo_profiles/templates/users/manage.html:163
+#: judo_profiles/templates/profiles/manage.html:168
+#: judo_profiles/templates/users/manage.html:162
 msgid "Save"
 msgstr "Save"
 
@@ -361,7 +361,7 @@ msgstr "Save"
 msgid "No techniques found"
 msgstr "No techniques found"
 
-#: judo_profiles/templates/htmx/token.html:1
+#: judo_profiles/templates/htmx/token.html:3
 #: judo_profiles/templates/register.html:43
 msgid "Key"
 msgstr "Key"
@@ -411,10 +411,10 @@ msgid "Wrong password or username"
 msgstr "Wrong password or username"
 
 #: judo_profiles/templates/login.html:29
-#: judo_profiles/templates/profiles/manage.html:95
+#: judo_profiles/templates/profiles/manage.html:94
 #: judo_profiles/templates/register.html:42
-#: judo_profiles/templates/users.html:44
-#: judo_profiles/templates/users/manage.html:114
+#: judo_profiles/templates/users.html:40
+#: judo_profiles/templates/users/manage.html:113
 msgid "Username"
 msgstr "Username"
 
@@ -423,15 +423,15 @@ msgstr "Username"
 msgid "Password"
 msgstr "Password"
 
-#: judo_profiles/templates/profiles.html:15
+#: judo_profiles/templates/profiles.html:11
 #: judo_profiles/templates/profiles/new.html:12
 msgid "New profile"
 msgstr "New profile"
 
-#: judo_profiles/templates/profiles.html:22
-#: judo_profiles/templates/profiles.html:23
+#: judo_profiles/templates/profiles.html:18
+#: judo_profiles/templates/profiles.html:19
+#: judo_profiles/templates/users/manage.html:146
 #: judo_profiles/templates/users/manage.html:147
-#: judo_profiles/templates/users/manage.html:148
 msgid "Search profile"
 msgstr "Search profile"
 
@@ -441,14 +441,14 @@ msgid "Edit profile of %(profile_name)s"
 msgstr "Edit profile of %(profile_name)s"
 
 #: judo_profiles/templates/profiles/edit.html:10
-#: judo_profiles/templates/profiles/manage.html:31
+#: judo_profiles/templates/profiles/manage.html:30
 #: judo_profiles/templates/profiles/profile.html:15
-#: judo_profiles/templates/users/manage.html:156
+#: judo_profiles/templates/users/manage.html:155
 msgid "Profile"
 msgstr "Profile"
 
 #: judo_profiles/templates/profiles/edit.html:14
-#: judo_profiles/templates/profiles/manage.html:36
+#: judo_profiles/templates/profiles/manage.html:35
 #: judo_profiles/templates/profiles/profile.html:21
 msgid "Manage"
 msgstr "Manage"
@@ -472,61 +472,61 @@ msgstr "The user %(username)s won't ever be able to have a profile again."
 msgid "Manage profile of %(profile_name)s"
 msgstr "Manage profile of %(profile_name)s"
 
-#: judo_profiles/templates/profiles/manage.html:38
-#: judo_profiles/templates/profiles/manage.html:120
+#: judo_profiles/templates/profiles/manage.html:37
+#: judo_profiles/templates/profiles/manage.html:119
 msgid "Transfer management rights"
 msgstr "Transfer management rights"
 
-#: judo_profiles/templates/profiles/manage.html:45
+#: judo_profiles/templates/profiles/manage.html:44
 #, python-format
 msgid "Access to profile of %(profile_name)s"
 msgstr "Access to profile of %(profile_name)s"
 
-#: judo_profiles/templates/profiles/manage.html:57
+#: judo_profiles/templates/profiles/manage.html:56
 msgid "Key for connected user"
 msgstr "Key for connected user"
 
-#: judo_profiles/templates/profiles/manage.html:64
-#: judo_profiles/templates/users/manage.html:76
+#: judo_profiles/templates/profiles/manage.html:63
+#: judo_profiles/templates/users/manage.html:75
 msgid "Key expired, without being used"
 msgstr "Key expired, without being used"
 
-#: judo_profiles/templates/profiles/manage.html:71
-#: judo_profiles/templates/users/manage.html:83
+#: judo_profiles/templates/profiles/manage.html:70
+#: judo_profiles/templates/users/manage.html:82
 msgid "Renew key"
 msgstr "Renew key"
 
-#: judo_profiles/templates/profiles/manage.html:73
-#: judo_profiles/templates/users/manage.html:85
+#: judo_profiles/templates/profiles/manage.html:72
+#: judo_profiles/templates/users/manage.html:84
 msgid "Delete key"
 msgstr "Delete key"
 
-#: judo_profiles/templates/profiles/manage.html:88
-#: judo_profiles/templates/users/manage.html:107
+#: judo_profiles/templates/profiles/manage.html:87
+#: judo_profiles/templates/users/manage.html:106
 msgid "Generated key"
 msgstr "Generated key"
 
-#: judo_profiles/templates/profiles/manage.html:98
-#: judo_profiles/templates/users/manage.html:117
+#: judo_profiles/templates/profiles/manage.html:97
+#: judo_profiles/templates/users/manage.html:116
 msgid "Copy the key now - You won't able to see it again"
 msgstr "Copy the key now - You won't able to see it again"
 
-#: judo_profiles/templates/profiles/manage.html:127
+#: judo_profiles/templates/profiles/manage.html:126
 msgid "Select new manager"
 msgstr "Select new manager"
 
-#: judo_profiles/templates/profiles/manage.html:149
-#: judo_profiles/templates/users/manage.html:141
+#: judo_profiles/templates/profiles/manage.html:148
+#: judo_profiles/templates/users/manage.html:140
 msgid "View"
 msgstr "View"
 
+#: judo_profiles/templates/profiles/manage.html:152
 #: judo_profiles/templates/profiles/manage.html:153
-#: judo_profiles/templates/profiles/manage.html:154
-#: judo_profiles/templates/users.html:35 judo_profiles/templates/users.html:36
+#: judo_profiles/templates/users.html:31 judo_profiles/templates/users.html:32
 msgid "Search user"
 msgstr "Search user"
 
-#: judo_profiles/templates/profiles/manage.html:162
+#: judo_profiles/templates/profiles/manage.html:161
 msgid "User"
 msgstr "User"
 
@@ -613,23 +613,23 @@ msgstr "Server information"
 
 #: judo_profiles/templates/setup.html:17
 #: judo_profiles/templates/statistics.html:9
-#: judo_profiles/templates/techniques.html:11
+#: judo_profiles/templates/techniques.html:7
 msgid "Setup"
 msgstr "Setup"
 
 #: judo_profiles/templates/setup.html:18
 #: judo_profiles/templates/statistics.html:10
-#: judo_profiles/templates/techniques.html:12
+#: judo_profiles/templates/techniques.html:8
 msgid "Techniques"
 msgstr "Techniques"
 
-#: judo_profiles/templates/setup.html:27
-msgid "Legal server owner information (markdown enabled)"
-msgstr "Legal server owner information (markdown enabled)"
+#: judo_profiles/templates/setup.html:28
+msgid "Imprint <i>Required</i>"
+msgstr "Imprint <i>Required</i>"
 
-#: judo_profiles/templates/setup.html:29
-msgid "<i>Optional</i> privacy contact (markdown enabled)"
-msgstr "<i>Optional</i> privacy contact (markdown enabled)"
+#: judo_profiles/templates/setup.html:32
+msgid "Privacy contact <i>Optional</i>"
+msgstr "Privacy contact <i>Optional</i>"
 
 #: judo_profiles/templates/statistics.html:4
 #: judo_profiles/templates/statistics.html:15
@@ -645,7 +645,7 @@ msgid "Total (active) users"
 msgstr "Total (active) users"
 
 #: judo_profiles/templates/statistics.html:26
-#: judo_profiles/templates/users.html:30
+#: judo_profiles/templates/users.html:26
 msgid "Trainers"
 msgstr "Trainers"
 
@@ -665,8 +665,8 @@ msgstr "Standing techniques"
 msgid "Manage techniques"
 msgstr "Manage techniques"
 
-#: judo_profiles/templates/techniques.html:18
-#: judo_profiles/templates/techniques.html:19
+#: judo_profiles/templates/techniques.html:14
+#: judo_profiles/templates/techniques.html:15
 msgid "Search techique"
 msgstr "Search techniques"
 
@@ -686,75 +686,75 @@ msgstr "New trainer"
 msgid "New staff member"
 msgstr "New staff member"
 
-#: judo_profiles/templates/users.html:23 judo_profiles/templates/users.html:28
+#: judo_profiles/templates/users.html:19 judo_profiles/templates/users.html:24
 msgid "All"
 msgstr "All"
 
-#: judo_profiles/templates/users.html:24
+#: judo_profiles/templates/users.html:20
 msgid "Active"
 msgstr "Active"
 
-#: judo_profiles/templates/users.html:25
+#: judo_profiles/templates/users.html:21
 msgid "Inactive"
 msgstr "Inactive"
 
-#: judo_profiles/templates/users.html:29
+#: judo_profiles/templates/users.html:25
 msgid "Judoka"
 msgstr "Judoka"
 
-#: judo_profiles/templates/users.html:31
+#: judo_profiles/templates/users.html:27
 msgid "Staff"
 msgstr "Staff"
 
 #: judo_profiles/templates/users/manage.html:5
-#: judo_profiles/templates/users/manage.html:58
+#: judo_profiles/templates/users/manage.html:57
 #, python-format
 msgid "Permissions of %(user)s"
 msgstr "Permissions of %(user)s"
 
-#: judo_profiles/templates/users/manage.html:33
-#: judo_profiles/templates/users/manage.html:197
+#: judo_profiles/templates/users/manage.html:32
+#: judo_profiles/templates/users/manage.html:196
 msgid "Add to trainers"
 msgstr "Add to trainers"
 
-#: judo_profiles/templates/users/manage.html:35
-#: judo_profiles/templates/users/manage.html:199
+#: judo_profiles/templates/users/manage.html:34
+#: judo_profiles/templates/users/manage.html:198
 msgid "Remove from trainers"
 msgstr "Remove from trainers"
 
-#: judo_profiles/templates/users/manage.html:41
-#: judo_profiles/templates/users/manage.html:248
+#: judo_profiles/templates/users/manage.html:40
+#: judo_profiles/templates/users/manage.html:247
 msgid "Add to staff"
 msgstr "Add to staff"
 
-#: judo_profiles/templates/users/manage.html:43
-#: judo_profiles/templates/users/manage.html:250
+#: judo_profiles/templates/users/manage.html:42
+#: judo_profiles/templates/users/manage.html:249
 msgid "Remove from staff"
 msgstr "Remove from staff"
 
-#: judo_profiles/templates/users/manage.html:48
-#: judo_profiles/templates/users/manage.html:223
+#: judo_profiles/templates/users/manage.html:47
+#: judo_profiles/templates/users/manage.html:222
 msgid "Deactivate"
 msgstr "Deactivate"
 
-#: judo_profiles/templates/users/manage.html:70
+#: judo_profiles/templates/users/manage.html:69
 msgid "Create key"
 msgstr "Create key"
 
-#: judo_profiles/templates/users/manage.html:95
+#: judo_profiles/templates/users/manage.html:94
 msgid "Create key to reset the password"
 msgstr "Create key to reset the password"
 
-#: judo_profiles/templates/users/manage.html:185
+#: judo_profiles/templates/users/manage.html:184
 msgid "Permissions can only be changed for active users"
 msgstr "Permissions can only be changed for active users"
 
-#: judo_profiles/templates/users/manage.html:205
+#: judo_profiles/templates/users/manage.html:204
 #, python-format
 msgid "%(user)s will be able to create profiles in the future"
 msgstr "%(user)s will be able to create profiles in the future"
 
-#: judo_profiles/templates/users/manage.html:227
+#: judo_profiles/templates/users/manage.html:226
 #, python-format
 msgid ""
 "%(user)s will be marked as inactive and won't be able to use his/her account "
@@ -763,22 +763,22 @@ msgstr ""
 "%(user)s will be marked as inactive and won't be able to use his/her account "
 "until it's activated again (with a key)."
 
-#: judo_profiles/templates/users/manage.html:256
+#: judo_profiles/templates/users/manage.html:255
 #, python-format
 msgid "%(user)s will have access to all management pages"
 msgstr "%(user)s will have access to all management pages"
 
-#: judo_profiles/templates/users/manage.html:278
+#: judo_profiles/templates/users/manage.html:277
 #, python-format
 msgid "Really delete %(user)s permanently?"
 msgstr "Really delete %(user)s permanently?"
 
-#: judo_profiles/templates/users/manage.html:278
+#: judo_profiles/templates/users/manage.html:277
 #, python-format
 msgid "All profiles created by %(user)s will be deleted!!"
 msgstr "All profiles created by %(user)s will be deleted!!"
 
-#: judo_profiles/templates/users/manage.html:278
+#: judo_profiles/templates/users/manage.html:277
 #, python-format
 msgid "The profile of %(user)s will also be deleted!"
 msgstr "The profile of %(user)s will also be deleted!"
@@ -791,7 +791,7 @@ msgstr "Create user"
 msgid "Saved"
 msgstr "Saved"
 
-#: judo_profiles/views/profiles.py:502 judo_profiles/views/users.py:182
+#: judo_profiles/views/profiles.py:503 judo_profiles/views/users.py:182
 #, python-format
 msgid "Valid for %(count)d day"
 msgid_plural "Valid for %(count)d days"

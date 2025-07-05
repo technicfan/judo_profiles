@@ -53,30 +53,27 @@ def privacy(request):
 
 @require_http_methods(["GET"])
 @login_not_required
-def contact(request):
+def imprint(request):
     return render(
-        request, "contact.html", {"contact": Server.objects.get(id=1).legal_info}
+        request, "imprint.html", {"imprint": Server.objects.get(id=1).imprint}
     )
 
 
 @require_http_methods(["GET", "POST"])
 @user_passes_test(is_admin)
 def setup(request):
-    info, _ = Server.objects.get_or_create(id=1)
+    info, created = Server.objects.get_or_create(id=1)
 
     if request.method == "POST":
-        if request.POST["info"] != info.legal_info:
-            info.legal_info = request.POST["info"]
-            print("1")
+        if request.POST["imprint"] != info.imprint:
+            info.imprint = request.POST["imprint"]
         if request.POST["contact"] != info.privacy_contact:
             info.privacy_contact = request.POST["contact"]
         if not info.changed:
             info.changed = True
         info.save()
-        print(request.POST)
-        print(info.legal_info)
 
-        return redirect("setup")
+        return redirect("") if created else redirect("setup")
     else:
         return render(request, "setup.html", {"info": info})
 

@@ -4,7 +4,6 @@
 {% block title %}{% blocktranslate with profile_name=profile.name %}Manage profile of {{ profile_name }}{% endblocktranslate %}{% endblock %}
 
 {% block style %}
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <script>
         async function copy_token(button){
             let token = button.parentElement.children[0].value

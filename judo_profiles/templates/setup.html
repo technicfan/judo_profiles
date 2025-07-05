@@ -7,8 +7,8 @@
     <style>
         .form-control {
             resize: both;
-            max-width: unset;
-            min-width: fit-content;
+            max-width: 95%;
+            width: 35rem;
         }
     </style>
 {% endblock %}
@@ -21,13 +21,17 @@
 {% block content %}
     <div class="container">
         <h2 class="text-center mt-5 mb-4">{% translate "Server information" %}</h2>
-        <div class="d-flex justify-content-center">
+        <div class="form-floating">
             <form method="post">
                 {% csrf_token %}
-                <label for="info">{% translate "Legal server owner information (markdown enabled)" %} <i class="bi bi-markdown-fill"></i></label>
-                <textarea id="info" name="info" class="form-control mt-1 mb-4" required>{% if info.legal_info %}{{ info.legal_info }}{% endif %}</textarea>
-                <label for="contact">{% translate "<i>Optional</i> privacy contact (markdown enabled)" %} <i class="bi bi-markdown-fill"></i></label>
-                <textarea id="contact" name="contact" class="form-control mt-1 mb-3">{% if info.privacy_contact %}{{ info.privacy_contact }}{% endif %}</textarea>
+                <div class="text-center">
+                    <label for="info">{% translate "Imprint <i>Required</i>" %} <i class="bi bi-markdown-fill" title="Markdown"></i></label>
+                </div>
+                <textarea id="imprint" name="imprint" class="form-control mt-1 mb-4 mx-auto" required>{% if info.imprint %}{{ info.imprint }}{% endif %}</textarea>
+                <div class="text-center">
+                    <label for="contact">{% translate "Privacy contact <i>Optional</i>" %} <i class="bi bi-markdown-fill" title="Markdown"></i></label>
+                </div>
+                <textarea id="contact" name="contact" class="form-control mt-1 mb-3 mx-auto">{% if info.privacy_contact %}{{ info.privacy_contact }}{% endif %}</textarea>
                 <div class="d-flex justify-content-center">
                     <input class="btn btn-secondary" type="submit" value="Save">
                 </div>

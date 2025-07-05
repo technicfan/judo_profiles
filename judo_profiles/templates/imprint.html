@@ -3,14 +3,10 @@
 
 {% block title %}{% translate "Imprint" %}{% endblock %}
 
-{% block style %}
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-{% endblock %}
-
 {% block content %}
     <div class="container" style="max-width: 30rem;">
         <h2 class="text-center my-5">{% translate "Imprint" %}</h2>
-        <div id="contact">{{ contact }}</div>
+        <div id="imprint">{{ imprint }}</div>
     </div>
 {% endblock %}
 
@@ -19,6 +15,6 @@
         marked.use({
             breaks: true,
         });
-        document.getElementById("contact").innerHTML = marked.parse(document.getElementById("contact").innerHTML);
+        document.getElementById("imprint").innerHTML = marked.parse(document.getElementById("imprint").innerHTML);
     </script>
 {% endblock %}

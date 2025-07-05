@@ -3,10 +3,6 @@
 
 {% block title %}{% translate "Manage techniques" %}{% endblock %}
 
-{% block style %}
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-{% endblock %}
-
 {% block admin_actions %}
     <a class="nav-link" href="{% url "setup" %}">{% translate "Setup" %}</a>
     <a class="nav-link active" href="">{% translate "Techniques" %}</a>
@@ -34,6 +30,7 @@
                 <tbody id="techniques">
                 </tbody>
             </table>
+        </div>
     </div>
 {% endblock %}
 

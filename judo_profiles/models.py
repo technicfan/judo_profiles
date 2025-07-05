@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 
 
 class Server(models.Model):
-    legal_info = models.TextField(blank=True, null=True)
+    imprint = models.TextField(blank=True, null=True)
     privacy_contact = models.TextField(blank=True, null=True)
     changed = models.BooleanField(default=False)
 

@@ -11,6 +11,7 @@ class SetupRequiredMiddleware:
     def __call__(self, request):
         if (
             request.path != reverse("setup")
+            and request.path != reverse("logout")
             and request.user.is_superuser
             and not Server.objects.get(id=1).changed
         ):
