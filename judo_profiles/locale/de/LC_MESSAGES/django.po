@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-05 04:43+0200\n"
+"POT-Creation-Date: 2025-07-05 05:17+0200\n"
 "PO-Revision-Date: 2025-05-16 04:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -177,55 +177,51 @@ msgstr "Bodentechniken"
 msgid "Manage account"
 msgstr "Konto verwalten"
 
-#: judo_profiles/templates/account.html:15
-msgid "Select language"
-msgstr "Sprache wählen"
-
-#: judo_profiles/templates/account.html:44
+#: judo_profiles/templates/account.html:14
 msgid "Wrong password"
 msgstr "Falsches Passwort"
 
-#: judo_profiles/templates/account.html:48
+#: judo_profiles/templates/account.html:18
 #: judo_profiles/templates/register.html:14
 msgid "The passwords don't match"
 msgstr "Die Passwörter stimmen nicht überein"
 
-#: judo_profiles/templates/account.html:50
+#: judo_profiles/templates/account.html:20
 msgid "Current password"
 msgstr "Aktuelles Passwort"
 
-#: judo_profiles/templates/account.html:52
+#: judo_profiles/templates/account.html:22
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: judo_profiles/templates/account.html:54
+#: judo_profiles/templates/account.html:24
 #: judo_profiles/templates/register.html:20
 msgid "8 characters minimum"
 msgstr "mindestens 8 Zeichen"
 
-#: judo_profiles/templates/account.html:55
+#: judo_profiles/templates/account.html:25
 #: judo_profiles/templates/register.html:21
 msgid "one lower and one upper case character minimum"
 msgstr "mindestens ein Groß- und ein Kleinbuchstabe"
 
-#: judo_profiles/templates/account.html:56
+#: judo_profiles/templates/account.html:26
 #: judo_profiles/templates/register.html:22
 msgid "one number minimum"
 msgstr "mindestens eine Nummer"
 
-#: judo_profiles/templates/account.html:58
+#: judo_profiles/templates/account.html:28
 msgid "Repeat new password"
 msgstr "Neues Passwort wiederholen"
 
-#: judo_profiles/templates/account.html:60
+#: judo_profiles/templates/account.html:30
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: judo_profiles/templates/account.html:75
+#: judo_profiles/templates/account.html:45
 msgid "Delete account and data"
 msgstr "Konto und Daten löschen"
 
-#: judo_profiles/templates/account.html:81
+#: judo_profiles/templates/account.html:51
 #: judo_profiles/templates/htmx/techniques.html:42
 #: judo_profiles/templates/profiles/edit.html:17
 #: judo_profiles/templates/profiles/edit.html:80
@@ -235,7 +231,7 @@ msgstr "Konto und Daten löschen"
 msgid "Delete"
 msgstr "Löschen"
 
-#: judo_profiles/templates/account.html:85
+#: judo_profiles/templates/account.html:55
 msgid ""
 "This will delete all data that is linked to this account permanently! Really "
 "delete everything?"
@@ -243,7 +239,7 @@ msgstr ""
 "Alle Daten, die mit diesem Konto verknüpft sind, werden unwiederruflich "
 "gelöscht! Wirklich alles löschen?"
 
-#: judo_profiles/templates/account.html:88
+#: judo_profiles/templates/account.html:58
 #: judo_profiles/templates/htmx/techniques.html:58
 #: judo_profiles/templates/profiles/edit.html:87
 #: judo_profiles/templates/profiles/manage.html:134
@@ -254,7 +250,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: judo_profiles/templates/account.html:91
+#: judo_profiles/templates/account.html:61
 #: judo_profiles/templates/htmx/techniques.html:55
 #: judo_profiles/templates/profiles/edit.html:88
 #: judo_profiles/templates/profiles/manage.html:103
@@ -395,6 +391,10 @@ msgstr "ohne profil"
 #: judo_profiles/templates/htmx/users.html:30
 msgid "staff"
 msgstr "staff"
+
+#: judo_profiles/templates/license.html:4
+msgid "License"
+msgstr "Lizenz"
 
 #: judo_profiles/templates/login.html:13
 msgid ""
@@ -805,3 +805,6 @@ msgstr[1] "Noch gültig für %(count)d Tage"
 #: judo_profiles/views/users.py:155
 msgid "Not allowed"
 msgstr "Nicht erlaubt"
+
+#~ msgid "Select language"
+#~ msgstr "Sprache wählen"

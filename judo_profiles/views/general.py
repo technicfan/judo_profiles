@@ -59,6 +59,12 @@ def imprint(request):
     )
 
 
+@require_http_methods(["GET"])
+@login_not_required
+def license(request):
+    return render(request, "license.html", {})
+
+
 @require_http_methods(["GET", "POST"])
 @user_passes_test(is_admin)
 def setup(request):
