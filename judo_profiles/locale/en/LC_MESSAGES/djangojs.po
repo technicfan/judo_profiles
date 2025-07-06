@@ -1,6 +1,6 @@
 # English translation
 # Copyright (C) 2025 technicfan
-# This file is distributed under the MIT license.
+# This file is distributed under the GPL-3.0.
 # technicfan, 2025
 #
 #, fuzzy

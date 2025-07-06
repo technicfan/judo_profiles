@@ -57,7 +57,7 @@
     </div>
     {% block user_select %}
         <div>
-            <select id="user" class="form-select">
+            <select id="user" class="form-select" aria-label="{% translate "User" %}">
                 <option value="">{% translate "Create new user" %}</option>
                 {% for user in users %}
                     <option value="{{ user.id }}">{{ user }}</option>

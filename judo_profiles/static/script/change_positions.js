@@ -6,7 +6,7 @@ document.querySelectorAll("button").forEach((button) => {
 });
 
 // only post if form is valid
-document.querySelector("form").addEventListener("submit", (event) => {
+document.querySelector("#profile_form").addEventListener("submit", (event) => {
     event.preventDefault();
     if (document.activeElement.dataset.type) {
         post_data(document.activeElement.dataset.type);
@@ -92,7 +92,9 @@ function mouseDownPos(e) {
     move = document.getElementById(e.target.id);
     if (delete_mode) {
         move.classList.remove("active");
-        document.getElementById(getMatchingId(move.id)).classList.remove("active");
+        document
+            .getElementById(getMatchingId(move.id))
+            .classList.remove("active");
         if (move.classList.contains("l")) {
             var side = "left";
         } else {

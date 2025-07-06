@@ -68,7 +68,7 @@ def license(request):
 @require_http_methods(["GET", "POST"])
 @user_passes_test(is_admin)
 def setup(request):
-    info, created = Server.objects.get_or_create(id=1)
+    info = Server.objects.get(id=1)
 
     if request.method == "POST":
         if request.POST["imprint"] != info.imprint:
@@ -77,9 +77,10 @@ def setup(request):
             info.privacy_contact = request.POST["contact"]
         if not info.changed:
             info.changed = True
+            info.save()
+            return redirect("index")
         info.save()
-
-        return redirect("") if created else redirect("setup")
+        return redirect("setup")
     else:
         return render(request, "setup.html", {"info": info})
 
