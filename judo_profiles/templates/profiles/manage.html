@@ -41,7 +41,7 @@
 {% block content %}
     <div class="container">
         <div class="row mb-3">
-            <h2 class="col text-nowrap text-center">{% blocktranslate with profile_name=profile.name %}Access to profile of {{ profile_name }}{% endblocktranslate %}</h2>
+            <h2 class="col text-nowrap text-center">{% blocktranslate with profile_name=profile.user.username %}Access to profile of {{ profile_name }}{% endblocktranslate %}</h2>
             {% if request.user == profile.manager or request.user.is_staff %}
                 <form method="post" class="col">
                     {% csrf_token %}
