@@ -1,3 +1,18 @@
+// Copyright (C) 2025 technicfan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 const image = document.getElementById("image_container");
 
 function placeRelative(object, relativeY, relativeX) {
@@ -20,9 +35,13 @@ function placeRelative(object, relativeY, relativeX) {
     }
 
     object.style.top =
-        relativeY * 100 - (object_rect.height / 2 / image_rect.height) * 100 + "%";
+        relativeY * 100 -
+        (object_rect.height / 2 / image_rect.height) * 100 +
+        "%";
     object.style.left =
-        relativeX * 100 - (object_rect.width / 2 / image_rect.width) * 100 + "%";
+        relativeX * 100 -
+        (object_rect.width / 2 / image_rect.width) * 100 +
+        "%";
 }
 
 function getMatchingId(id) {

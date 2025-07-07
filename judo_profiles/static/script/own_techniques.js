@@ -1,3 +1,18 @@
+// Copyright (C) 2025 technicfan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 let own0 = 0,
     own1 = 0,
     own2 = 0,
@@ -116,7 +131,13 @@ function add_own(field, context = null) {
         document.querySelectorAll(".move").forEach((position) => {
             if (position.classList.contains("active")) {
                 $(
-                    "#" + "own" + field + "_" + "p" + position.className[0] + number,
+                    "#" +
+                    "own" +
+                    field +
+                    "_" +
+                    "p" +
+                    position.className[0] +
+                    number,
                 ).append(
                     '<option value="' +
                     position.dataset.number +
