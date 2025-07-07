@@ -22,7 +22,7 @@ def is_admin(user):
 
 def new_token(user):
     if not Token.objects.filter(user=user).exists():
-        token = binascii.hexlify(os.urandom(20)).decode()
+        token = binascii.hexlify(os.urandom(8), "-", 2).decode().upper()
         Token(
             token=hmac.new(
                 settings.SECRET_KEY.encode(), token.encode(), hashlib.sha256

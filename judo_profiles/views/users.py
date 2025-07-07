@@ -8,7 +8,7 @@ from django.utils.translation import ngettext
 from django.views.decorators.http import require_http_methods
 from guardian.shortcuts import assign_perm, remove_perm
 
-from ..models import Profile, Token
+from ..models import Profile
 from ..utils import (
     is_admin,
     is_staff,
@@ -174,13 +174,9 @@ def manage_user(request, username):
         return redirect("manage-user", username=username)
     else:
         # get plural translation
-        try:
-            count = Token.objects.get(user=user).valid_for
-        except Token.DoesNotExist:
-            count = 7
-        days = ngettext(
-            "Valid for %(count)d day", "Valid for %(count)d days", count
-        ) % {"count": count}
+        days = ngettext("Valid for %(count)d day", "Valid for %(count)d days", 2) % {
+            "count": 2
+        }
 
         # return template
         return render(request, "users/manage.html", {"user": user, "days": days})

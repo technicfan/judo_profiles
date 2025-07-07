@@ -18,7 +18,6 @@ from ..models import (
     Profile,
     Technique,
     TechniqueRank,
-    Token,
 )
 from ..utils import token_actions, unique_username
 
@@ -495,15 +494,9 @@ def manage_profile(request, username):
         return redirect("manage-profile", username=username)
     else:
         # get plural translation
-        try:
-            count = Token.objects.get(user__username=username).valid_for
-        except Token.DoesNotExist:
-            count = 7
-        days = ngettext(
-            "Valid for %(count)d day",
-            "Valid for %(count)d days",
-            count,
-        ) % {"count": count}
+        days = ngettext("Valid for %(count)d day", "Valid for %(count)d days", 2) % {
+            "count": 2
+        }
 
         # return template with profile data
         return render(

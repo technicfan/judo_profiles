@@ -24,7 +24,7 @@ class Token(models.Model):
 
     @property
     def valid_for(self):
-        return (self.created_at + timedelta(days=7) - date.today()).days
+        return (self.created_at + timedelta(days=2) - date.today()).days
 
     @property
     def valid(self):
@@ -35,7 +35,7 @@ class Token(models.Model):
             self.valid
             and self.token
             == hmac.new(
-                settings.SECRET_KEY.encode(), token.encode(), hashlib.sha256
+                settings.SECRET_KEY.encode(), token.upper().encode(), hashlib.sha256
             ).hexdigest()
         )
 
