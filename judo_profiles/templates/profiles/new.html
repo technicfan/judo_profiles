@@ -49,7 +49,7 @@
         <input class="form-control" type="text" id="last_name" placeholder="{% translate "Last name" %}" value="{{ profile.last_name|default:"" }}" aria-label="{% translate "Last name" %}" required>
     </div>
     <div>
-        <input class="form-control" type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="{% translate "Year group" %}" size="5" aria-label="{% translate "Year group" %}" required>
+        <input class="form-control" type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="{% translate "Year group" %}" size="9" aria-label="{% translate "Year group" %}" required>
     </div>
     <div>
         <input class="form-control" type="number" id="weight" min="20" max="500" step="1" placeholder="{% translate "Weight" %} (kg)" size="9" aria-label="{% translate "Weight" %} (kg)" required>

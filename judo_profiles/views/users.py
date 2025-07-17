@@ -23,7 +23,7 @@ from django.utils.translation import ngettext
 from django.views.decorators.http import require_http_methods
 from guardian.shortcuts import assign_perm, remove_perm
 
-from ..models import Profile
+from ..models import Profile, Server
 from ..utils import (
     is_admin,
     is_staff,
@@ -189,9 +189,11 @@ def manage_user(request, username):
         return redirect("manage-user", username=username)
     else:
         # get plural translation
-        days = ngettext("Valid for %(count)d day", "Valid for %(count)d days", 2) % {
-            "count": 2
-        }
+        days = ngettext(
+            "Valid for %(count)d day",
+            "Valid for %(count)d days",
+            Server.objects.get(id=1).token_expiration,
+        ) % {"count": Server.objects.get(id=1).token_expiration}
 
         # return template
         return render(request, "users/manage.html", {"user": user, "days": days})

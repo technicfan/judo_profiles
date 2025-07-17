@@ -31,6 +31,7 @@ from ..models import (
     OwnTechnique,
     Position,
     Profile,
+    Server,
     Technique,
     TechniqueRank,
 )
@@ -509,9 +510,11 @@ def manage_profile(request, username):
         return redirect("manage-profile", username=username)
     else:
         # get plural translation
-        days = ngettext("Valid for %(count)d day", "Valid for %(count)d days", 2) % {
-            "count": 2
-        }
+        days = ngettext(
+            "Valid for %(count)d day",
+            "Valid for %(count)d days",
+            Server.objects.get(id=1).token_expiration,
+        ) % {"count": Server.objects.get(id=1).token_expiration}
 
         # return template with profile data
         return render(

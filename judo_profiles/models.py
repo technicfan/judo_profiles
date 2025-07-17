@@ -26,16 +26,17 @@ from django.utils.translation import gettext as _
 class Server(models.Model):
     imprint = models.TextField(blank=True, null=True)
     privacy_contact = models.TextField(blank=True, null=True)
+    token_expiration = models.PositiveIntegerField(default=2)
     changed = models.BooleanField(default=False)
 
 
 class Token(models.Model):
-    token = models.CharField(editable=False, unique=True)
+    hash = models.CharField(editable=False, unique=True)
     created_at = models.DateField(auto_now_add=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.token
+        return self.hash
 
     @property
     def valid_for(self):
@@ -48,7 +49,7 @@ class Token(models.Model):
     def validate(self, token):
         return (
             self.valid
-            and self.token
+            and self.hash
             == hmac.new(
                 settings.SECRET_KEY.encode(), token.upper().encode(), hashlib.sha256
             ).hexdigest()

@@ -13,9 +13,9 @@ then
 elif ! [[ -d "data" ]]
 then
     echo "No remote database given - falling back to sqlite"
-    echo "make sure you configured a volume at /data"
+    echo "make sure you configured a volume at /data if running with docker"
     mkdir data
 fi
 
 python manage.py migrate
-exec uwsgi --http 0.0.0.0:"$APP_PORT" uwsgi.ini
+exec uwsgi --http 0.0.0.0:"${APP_PORT:-8000}" uwsgi.ini

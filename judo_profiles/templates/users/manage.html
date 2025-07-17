@@ -201,7 +201,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {% blocktranslate with user=user %}{{ user }} will be able to create profiles in the future{% endblocktranslate %}
+                        {% if user|has_group:"Trainers" %}
+                            {% blocktranslate with user=user %}{{ user }} won't be able to create and manage profiles in the anymore{% endblocktranslate %}
+                        {% else %}
+                            {% blocktranslate with user=user %}{{ user }} will be able to create and manage profiles in the future{% endblocktranslate %}
+                        {% endif %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
@@ -252,7 +256,11 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            {% blocktranslate with user=user %}{{ user }} will have access to all management pages{% endblocktranslate %}
+                            {% if user.is_staff %}
+                                {% blocktranslate with user=user %}{{ user }} won't have access to management pages anymore{% endblocktranslate %}
+                            {% else %}
+                                {% blocktranslate with user=user %}{{ user }} will have access to all management pages{% endblocktranslate %}
+                            {% endif %}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
@@ -274,7 +282,9 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            {% blocktranslate with user=user %}Really delete {{ user }} permanently?{% endblocktranslate %}<br>{% if user|has_group:"Trainers" %}{% blocktranslate with user=user %}All profiles created by {{ user }} will be deleted!!{% endblocktranslate %}{% else %}{% blocktranslate with user=user %}The profile of {{ user }} will also be deleted!{% endblocktranslate %}{% endif %}
+                            {% blocktranslate with user=user %}Really delete {{ user }} permanently?{% endblocktranslate %}<br>
+                            {% if user|has_group:"Trainers" %}{% blocktranslate with user=user %}All profiles created by {{ user }} will be deleted!!{% endblocktranslate %}<br>{% endif %}
+                            {% if user.profile %}{% blocktranslate with user=user %}The profile of {{ user }} will also be deleted!{% endblocktranslate %}{% endif %}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
