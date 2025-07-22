@@ -81,7 +81,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {% translate "Really delete profile permanently?" %}{% if profile.user.is_active %}<br>{% blocktranslate with username=profile.user.username %}The user {{ username }} won't ever be able to have a profile again.{% endblocktranslate %}{% endif %}
+                        {% translate "Really delete profile permanently?" %}{% if not profile.user.is_active %}<br>{% blocktranslate with username=profile.user.username %}The user {{ username }} will also be deleted!{% endblocktranslate %}{% endif %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-dark" data-bs-dismiss="modal">{% translate "Cancel" %}</button>

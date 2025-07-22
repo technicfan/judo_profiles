@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-17 20:28+0200\n"
+"POT-Creation-Date: 2025-07-22 06:23+0200\n"
 "PO-Revision-Date: 2025-05-16 04:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,17 +19,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: judo_profiles/models.py:128
+#: judo_profiles/models.py:129
 #: judo_profiles/templates/abstract/profile_base.html:133
 msgid "Stable_short"
 msgstr "S"
 
-#: judo_profiles/models.py:130
+#: judo_profiles/models.py:131
 #: judo_profiles/templates/abstract/profile_base.html:133
 msgid "Training_short"
 msgstr "T"
 
-#: judo_profiles/models.py:132
+#: judo_profiles/models.py:133
 #: judo_profiles/templates/abstract/profile_base.html:133
 msgid "Learn_short"
 msgstr "L"
@@ -464,8 +464,8 @@ msgstr "Really delete profile permanently?"
 
 #: judo_profiles/templates/profiles/edit.html:84
 #, python-format
-msgid "The user %(username)s won't ever be able to have a profile again."
-msgstr "The user %(username)s won't ever be able to have a profile again."
+msgid "The user %(username)s will also be deleted!"
+msgstr "The user %(username)s will also be deleted!"
 
 #: judo_profiles/templates/profiles/manage.html:4
 #, python-format
@@ -798,11 +798,11 @@ msgstr "The profile of %(user)s will also be deleted!"
 msgid "Create user"
 msgstr "Create user"
 
-#: judo_profiles/views/profiles.py:462 judo_profiles/views/users.py:167
+#: judo_profiles/views/profiles.py:463 judo_profiles/views/users.py:167
 msgid "Saved"
 msgstr "Saved"
 
-#: judo_profiles/views/profiles.py:512 judo_profiles/views/users.py:192
+#: judo_profiles/views/profiles.py:514 judo_profiles/views/users.py:193
 #, python-format
 msgid "Valid for %(count)d day"
 msgid_plural "Valid for %(count)d days"
