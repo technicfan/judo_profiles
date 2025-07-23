@@ -2,15 +2,15 @@
 
 # Description
 
-This is a project that tries to make it easier for trainers of judo clubs to manage their fighter profiles.
-It is intended to be hosted by the club and used by all the trainers and features management functions that should satisfy all needs for that purpose.
+This is a project that tries to make it easier for trainers of judo clubs to manage their fighter profiles.<br>
+It is intended to be hosted by the club and used by all the trainers and features management functions that should satisfy all needs for that purpose.<br>
 This is my first django project so expect not everything to work perfectly fine.
 
 # Features
 
 - Djangos secure user system
 - Django-Guardian for managing user permissions
-- editing of the imprint/contact informantion at runtime
+- editing of the imprint/contact information at runtime
 - an admin that can create users and staff members to help them
     - a registration token is used for registration instead of the admin setting a password
     - such a token can also be created to reset the password for a user
@@ -67,7 +67,7 @@ python manage.py createsuperuser
 2. Paste the contents of the file from this repository
 3. Replace "context: ." with "context: https://github.com/technicfan/judo_profiles.git"
 4. Adjust and add required environment variables
-   4.1 If you want to use sqlite remove the database container and mount the data volume at "/app/data"
+    - If you want to use sqlite remove the database container and mount the data volume at "/app/data"
 5. Run `docker compose up`
 
 ## Environment Variables
@@ -87,10 +87,10 @@ python manage.py createsuperuser
 
 # Contributing
 
-If you find any bugs/missing features feel free to create an issue here.
-If you want/can fix it yourself, I'd be happy to also see pull reqests.
-Unless you know how to properly handle django migrations, the database probably won't change after the first release which means no major features.
-I would especially be happy if someone with knowledge would look if the privacy page is sufficient.
+If you find any bugs/missing features feel free to create an issue here.<br>
+If you want/can fix it yourself, I'd be happy to also see pull reqests.<br>
+Unless you know how to properly handle django migrations, the database probably won't change after the first release which means no major features.<br>
+I would especially be happy if someone with knowledge would look if the privacy page is sufficient.<br>
 I will look at everything and try to answer all open questions.
 
 # License
