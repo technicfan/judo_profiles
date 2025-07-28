@@ -51,9 +51,13 @@ def new_token(user):
 
 
 # create unique username for new user
-def unique_username(username: str) -> str:
+def unique_username(username: str, old_username=None) -> str:
     # check how often initial name already exists
-    number = User.objects.filter(username__regex=rf"^{username}([0-9]*)?$").count()
+    number = (
+        User.objects.exclude(username=old_username)
+        .filter(username__regex=rf"^{username}[0-9]*$")
+        .count()
+    )
     # return unique username
     if number != 0:
         return f"{username}{number}"

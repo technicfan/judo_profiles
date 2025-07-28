@@ -6,6 +6,29 @@
 {% block update %}active" aria-current="page{% endblock %}
 
 {% block content %}
+    <h3 class="text-center mb-4">{{ request.user }}</h3>
+    <h5 class="text-center">{% translate "Change your name" %}</h5>
+    <div class="d-flex justify-content-center mt-4">
+        <form id="name_form" method="post" style="width: 27rem;">
+            {% csrf_token %}
+            <input type="text" class="form-control mb-3" name="new_first_name" value="{{ request.user.first_name }}" placeholder="{% translate "New first name" %}" aria-label="{% translate "New first name" %}" required>
+            <input type="text" class="form-control" name="new_last_name" value="{{ request.user.last_name }}" placeholder="{% translate "New last name" %}" aria-label="{% translate "New last name" %}" required>
+            <div class="alert alert-info mx-auto p-1 mt-3 text-center">{% translate "Keep in mind that you won't be able to use your old name for login" %}</div>
+            <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-secondary mt-1" value="{% translate "Change name" %}">
+            </div>
+        </form>
+        <script>
+            document.getElementById("form").onsubmit = function(){
+                if (document.getElementById("pass1").value != document.getElementById("pass2").value){
+                    document.getElementById("pass_warn").classList.remove("d-none")
+                    return false
+                }
+            }
+        </script>
+    </div>
+    <hr class="mx-auto mt-4"style="max-width: 29rem;">
+    <h5 class="text-center">{% translate "Change your password" %}</h5>
     <div class="d-flex justify-content-center mt-4">
         <form id="form" method="post" style="width: 27rem;">
             {% csrf_token %}
@@ -17,17 +40,16 @@
             <div id="pass_warn" class="alert alert-warning mx-auto d-none" style="width: fit-content;">
                 {% translate "The passwords don't match" %}
             </div>
-            <input type="password" class="form-control"name="pass" placeholder="{% translate "Current password" %}" aria-label="{% translate "Current password" %}" required>
-            <br>
+            <input type="password" class="form-control mb-3" name="pass" placeholder="{% translate "Current password" %}" aria-label="{% translate "Current password" %}" required>
             <input id="pass1" type="password" class="form-control" name="new_pass" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="{% translate "New password" %}" aria-label="{% translate "New password" %}" required>
-            <ul>
+            <ul class="my-2">
                 <li>{% translate "8 characters minimum" %}</li>
                 <li>{% translate "one lower and one upper case character minimum" %}</li>
                 <li>{% translate "one number minimum" %}</li>
             </ul>
             <input id="pass2" type="password" class="form-control" name="new_pass_confirm" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="{% translate "Repeat new password" %}" aria-label="{% translate "Repeat new password" %}" required>
             <div class="d-flex justify-content-center">
-                <input type="submit" class="btn btn-secondary mt-4" value="{% translate "Change password" %}">
+                <input type="submit" class="btn btn-secondary mt-3" value="{% translate "Change password" %}">
             </div>
         </form>
         <script>
@@ -40,7 +62,7 @@
         </script>
     </div>
     {% if not request.user.is_superuser %}
-        <hr class="mx-auto" style="width: 30rem;">
+        <hr class="mx-auto mt-4 mb-4" style="max-width: 29rem;">
         <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_modal">{% translate "Delete account and data" %}</button>
         </div>

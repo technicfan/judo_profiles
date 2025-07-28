@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import json
+from datetime import date
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
@@ -161,6 +162,7 @@ def new_profile(request):
                 "techniques": techniques,
                 "stechniques": stechniques,
                 "gtechniques": gtechniques,
+                "current_year": date.today().year,
                 "users": users,
             },
         )
@@ -403,6 +405,7 @@ def edit_profile(request, username):
                 "positions": positions,
                 "technique_ranks": technique_ranks,
                 "combination_rank": combination_rank,
+                "current_year": date.today().year,
             },
         )
 

@@ -20,7 +20,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 
 from ..models import Profile, Token
-from ..utils import logout_all
+from ..utils import logout_all, unique_username
 
 
 def register_start(request):
@@ -149,6 +149,18 @@ def account(request):
             request.user.delete()
 
             return redirect("index")
+        # change username
+        elif "new_first_name" in request.POST and "new_last_name" in request.POST:
+            if request.POST["new_first_name"] and request.POST["new_last_name"]:
+                request.user.first_name = request.POST["new_first_name"]
+                request.user.last_name = request.POST["new_last_name"]
+                request.user.username = unique_username(
+                    f"{request.POST['new_first_name']}.{request.POST['new_last_name']}",
+                    request.user.username,
+                )
+                request.user.save()
+
+            return redirect("account")
         # change the password
         else:
             user = authenticate(

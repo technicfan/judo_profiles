@@ -16,7 +16,7 @@
                 <input class="form-control-plaintext" type="text" name="username" value="{{ username }}" aria-readonly="true" readonly>
                 <input type="hidden" name="token" value="{{ token }}" readonly>
                 <input id="pass1" class="form-control" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="{% translate "Password" %}" aria-label="{% translate "Password" %}" required>
-                <ul>
+                <ul class="my-2">
                     <li>{% translate "8 characters minimum" %}</li>
                     <li>{% translate "one lower and one upper case character minimum" %}</li>
                     <li>{% translate "one number minimum" %}</li>
