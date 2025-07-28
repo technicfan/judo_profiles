@@ -1,7 +1,7 @@
 {% extends "profiles/new.html" %}
 {% load i18n %}
 
-{% block title %}{% blocktranslate with profile_name=profile.name %}Edit profile of {{ profile_name }}{% endblocktranslate %}{% endblock %}
+{% block title %}{% blocktranslate with profile_name=profile.user.last_name %}Edit profile of {{ profile_name }}{% endblocktranslate %}{% endblock %}
 
 {% block actions %}
     {% load guardian_tags %}

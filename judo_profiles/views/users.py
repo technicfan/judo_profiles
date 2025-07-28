@@ -124,7 +124,7 @@ def manage_user(request, username):
             raise User.DoesNotExist
     except User.DoesNotExist:
         return redirect("users")
-    profiles = Profile.objects.exclude(user=user).order_by("last_name")
+    profiles = Profile.objects.exclude(user=user).order_by("user__last_name")
 
     if request.method == "POST":
         # manage token for user
@@ -173,7 +173,8 @@ def manage_user(request, username):
             search = request.POST["search"]
             permission = request.POST["permission"]
             filtered = profiles.filter(
-                Q(name__icontains=search) | Q(last_name__icontains=search)
+                Q(user__first_name__icontains=search)
+                | Q(user__last_name__icontains=search)
             )
             if filtered.count() == 0:
                 filtered = None

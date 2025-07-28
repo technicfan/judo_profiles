@@ -129,7 +129,7 @@ function get_rank_items() {
 }
 
 function get_data() {
-    let name = document.getElementById("name").value;
+    let name = document.getElementById("first_name").value;
     let last_name = document.getElementById("last_name").value;
     let year = document.getElementById("year").value;
     let weight = document.getElementById("weight").value;
@@ -147,7 +147,7 @@ function get_data() {
         var side = 2;
     }
     return {
-        name: name,
+        first_name: name,
         last_name: last_name,
         year: year,
         weight: weight,

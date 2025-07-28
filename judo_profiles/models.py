@@ -58,8 +58,6 @@ class Token(models.Model):
 
 class Profile(models.Model):
     PRIMARY_SIDE_CHOICES = [(1, "Left"), (2, "Right"), (3, "Both")]
-    name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     weight = models.FloatField()
     primary_side = models.PositiveIntegerField(choices=PRIMARY_SIDE_CHOICES)
@@ -81,7 +79,7 @@ class Profile(models.Model):
     )
 
     def __str__(self):
-        return f"{self.last_name}, {self.name}"
+        return f"{self.user.last_name}, {self.user.first_name}"
 
     class Meta:
         permissions = (("manage_profile", "Manage Permissions"),)

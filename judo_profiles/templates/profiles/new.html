@@ -43,10 +43,10 @@
 
 {% block general_info %}
     <div>
-        <input class="form-control" type="text" id="name" placeholder="{% translate "First name" %}" value="{{ profile.name|default:"" }}" aria-label="{% translate "First name" %}" required>
+        <input class="form-control" type="text" id="first_name" placeholder="{% translate "First name" %}" value="{{ profile.user.first_name|default:"" }}" aria-label="{% translate "First name" %}" {% if profile %}readonly{% endif %} required>
     </div>
     <div>
-        <input class="form-control" type="text" id="last_name" placeholder="{% translate "Last name" %}" value="{{ profile.last_name|default:"" }}" aria-label="{% translate "Last name" %}" required>
+        <input class="form-control" type="text" id="last_name" placeholder="{% translate "Last name" %}" value="{{ profile.user.last_name|default:"" }}" aria-label="{% translate "Last name" %}" {% if profile %}readonly{% endif %} required>
     </div>
     <div>
         <input class="form-control" type="number" id="year" min="1900" max="2099" step="1" value="{{ profile.year|default:2007 }}" placeholder="{% translate "Year group" %}" size="9" aria-label="{% translate "Year group" %}" required>

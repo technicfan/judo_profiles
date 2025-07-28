@@ -45,10 +45,10 @@ def profiles(request):
         # get profiles with search
         shown_profiles = get_objects_for_user(
             request.user, "judo_profiles.view_profile"
-        ).order_by("last_name")
+        ).order_by("user__last_name")
         search = request.POST["search"]
         filtered = shown_profiles.filter(
-            Q(name__icontains=search) | Q(last_name__icontains=search)
+            Q(user__first_name__icontains=search) | Q(user__last_name__icontains=search)
         )
 
         # return html table for htmx
@@ -65,8 +65,6 @@ def new_profile(request):
         data = json.loads(request.body)
         # general data
         profile = Profile(
-            name=data["name"],
-            last_name=data["last_name"],
             year=data["year"],
             weight=data["weight"],
             primary_side=data["side"],
@@ -80,11 +78,11 @@ def new_profile(request):
                 raise User.DoesNotExist
         except User.DoesNotExist:
             # create new user for profile
-            username = unique_username(profile.name + "." + profile.last_name)
+            username = unique_username(data["first_name"] + "." + data["last_name"])
             newuser = User(
                 username=username,
-                first_name=profile.name,
-                last_name=profile.last_name,
+                first_name=data["first_name"],
+                last_name=data["last_name"],
                 is_active=False,
             )
             newuser.save()
@@ -224,8 +222,6 @@ def edit_profile(request, username):
             return redirect("profiles")
         elif data["changed"]:
             # profile
-            profile.name = data["name"]
-            profile.last_name = data["last_name"]
             profile.year = data["year"]
             profile.weight = data["weight"]
             profile.primary_side = data["side"]

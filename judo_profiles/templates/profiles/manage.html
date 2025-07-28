@@ -1,7 +1,7 @@
 {% extends "abstract/base.html" %}
 {% load i18n %}
 
-{% block title %}{% blocktranslate with profile_name=profile.name %}Manage profile of {{ profile_name }}{% endblocktranslate %}{% endblock %}
+{% block title %}{% blocktranslate with profile_name=profile.user.first_name %}Manage profile of {{ profile_name }}{% endblocktranslate %}{% endblock %}
 
 {% block style %}
     <script>

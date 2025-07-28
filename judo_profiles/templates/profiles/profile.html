@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% blocktranslate with profile_name=profile.name %}Profile of {{ profile_name }}{% endblocktranslate %}{% endblock %}
+{% block title %}{% blocktranslate with profile_name=profile.user.first_name %}Profile of {{ profile_name }}{% endblocktranslate %}{% endblock %}
 
 {% block own %}
     {% if request.user == profile.user %}active" aria-current="page{% endif %}
@@ -60,10 +60,10 @@
 
 {% block general_info %}
     <div>
-        <p><b>{% translate "First name" %}:</b> {{ profile.name }}</p>
+        <p><b>{% translate "First name" %}:</b> {{ profile.user.first_name }}</p>
     </div>
     <div>
-        <p><b>{% translate "Last name" %}:</b> {{ profile.last_name }}</p>
+        <p><b>{% translate "Last name" %}:</b> {{ profile.user.last_name }}</p>
     </div>
     <div>
         <p><b>{% translate "Year group" %}:</b> {{ profile.year }}</p>
