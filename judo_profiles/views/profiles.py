@@ -47,13 +47,26 @@ def profiles(request):
         shown_profiles = get_objects_for_user(
             request.user, "judo_profiles.view_profile"
         ).order_by("user__last_name")
-        search = request.POST["search"]
-        filtered = shown_profiles.filter(
-            Q(user__first_name__icontains=search) | Q(user__last_name__icontains=search)
-        )
+        if (
+            not request.POST["search"]
+            and Profile.objects.filter(user=request.user).exists()
+        ):
+            filtered = [Profile.objects.get(user=request.user)]
+            shown_profiles = shown_profiles.exclude(user=request.user)
+        else:
+            filtered = []
+        for profile in shown_profiles.filter(
+            Q(user__first_name__icontains=request.POST["search"])
+            | Q(user__last_name__icontains=request.POST["search"])
+        ):
+            filtered.append(profile)
 
         # return html table for htmx
-        return render(request, "htmx/profiles.html", {"profiles": filtered})
+        return render(
+            request,
+            "htmx/profiles.html",
+            {"profiles": filtered},
+        )
     else:
         # return template
         return render(request, "profiles.html")
