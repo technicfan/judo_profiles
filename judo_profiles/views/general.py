@@ -41,7 +41,7 @@ def index(request):
     if request.user.is_authenticated:
         return redirect("profiles")
     else:
-        return redirect("about")
+        return redirect("login")
 
 
 @require_http_methods(["GET"])
