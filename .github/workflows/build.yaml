@@ -39,5 +39,4 @@ jobs:
                       ghcr.io/technicfan/judo_profiles:latest
                       ghcr.io/technicfan/judo_profiles:${{ env.version }}
                       ghcr.io/technicfan/judo_profiles:${{ env.commit }}
-                  target: judo_profiles
                   push: true
