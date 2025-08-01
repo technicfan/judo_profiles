@@ -28,7 +28,6 @@ jobs:
               with:
                   context: .
                   file: ./Dockerfile
-                  file: ./docker/default.Dockerfile
                   platforms: linux/amd64,linux/arm64,linux/arm/v7
                   tags: |
                       ghcr.io/technicfan/judo_profiles:latest
