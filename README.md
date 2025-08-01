@@ -63,10 +63,14 @@ python manage.py createsuperuser
 
 1. Create a "docker-compose.yml" file
 2. Paste the contents of the file from this repository
-3. Replace "context: ." with "context: https://github.com/technicfan/judo_profiles.git"
-4. Adjust and add required environment variables
+3. Adjust and add required environment variables
     - If you want to use sqlite remove the database container and mount the data volume at "/app/data"
-5. Run `docker compose up`
+4. Run `docker compose up`
+5. Create an admin account
+
+```
+docker exec -it <container name> python manage.py createsuperuser
+```
 
 ## Environment Variables
 
