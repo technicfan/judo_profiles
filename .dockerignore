@@ -2,6 +2,7 @@ __pycache__
 db.sqlite3
 staticfiles
 .git*
+.github*
 docker-compose.yml
 .env
 *.md

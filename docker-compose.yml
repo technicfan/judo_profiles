@@ -1,31 +1,30 @@
 services:
-  judo-postgres:
-    image: postgres:16
-    volumes:
-      - data:/var/lib/postgresql/data
-    restart: unless-stopped
-    environment:
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_USER=${DATABASE_USER:-admin}
-      - POSTGRES_DB=${DATABASE_NAME:-judo}
-  judo-app:
-    build:
-      context: .
-    depends_on:
-      - judo-postgres
-    restart: unless-stopped
-    environment:
-      - ALLOWED_URLS=${ALLOWED_URLS}
-      - SECRET_KEY=${SECRET_KEY}
-      - APP_PORT=${APP_PORT:-8000}
-      - DATABASE_ENGINE=postgresql
-      - DATABASE_NAME=${DATABASE_NAME:-judo}
-      - DATABASE_USER=${DATABASE_USER:-admin}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_HOST=${DATABASE_HOST:-judo-postgres}
-      - DATABASE_PORT=5432
-    ports:
-      - 8000:8000
+    judo-postgres:
+        image: postgres:16
+        volumes:
+            - data:/var/lib/postgresql/data
+        restart: unless-stopped
+        environment:
+            - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+            - POSTGRES_USER=${DATABASE_USER:-admin}
+            - POSTGRES_DB=${DATABASE_NAME:-judo}
+    judo-app:
+        image: ghcr.io/technicfan/judo_profiles:latest
+        depends_on:
+            - judo-postgres
+        restart: unless-stopped
+        environment:
+            - ALLOWED_URLS=${ALLOWED_URLS}
+            - SECRET_KEY=${SECRET_KEY}
+            - APP_PORT=${APP_PORT:-8000}
+            - DATABASE_ENGINE=postgresql
+            - DATABASE_NAME=${DATABASE_NAME:-judo}
+            - DATABASE_USER=${DATABASE_USER:-admin}
+            - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+            - DATABASE_HOST=${DATABASE_HOST:-judo-postgres}
+            - DATABASE_PORT=5432
+        ports:
+            - 8000:8000
 
 volumes:
-  data: {}
+    data: {}

@@ -1,5 +1,3 @@
-# **WIP** - Do NOT use it (apart from testing) until the first release, anything can change (especially database things)
-
 # Description
 
 This is a project that tries to make it easier for trainers of judo clubs to manage their fighter profiles.<br>
