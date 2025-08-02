@@ -243,6 +243,10 @@ def edit_profile(request, username):
             profile.changed_by = request.user
             profile.save()
 
+            # positions have to be created before own_techniques update
+            # but cannot be deleted before to prevent unintended deletion of own_techniques
+            positions_to_be_deleted: list[Position] = []
+
             # positions
             for position in data["positions"]:
                 match position["action"]:
@@ -269,7 +273,7 @@ def edit_profile(request, username):
                     case "delete":
                         to_be_deleted = Position.objects.get(id=position["id"])
                         if to_be_deleted.profile == profile:
-                            to_be_deleted.delete()
+                            positions_to_be_deleted.append(to_be_deleted)
 
             # own_techniques
             for own_technique in data["own_techniques"]:
@@ -320,6 +324,10 @@ def edit_profile(request, username):
                         to_be_deleted = OwnTechnique.objects.get(id=own_technique["id"])
                         if to_be_deleted.profile == profile:
                             to_be_deleted.delete()
+
+            # now we can safely remove deleted positions
+            for position in positions_to_be_deleted:
+                position.delete()
 
             # ranks
             for rank_item in data["rank_items"]:
