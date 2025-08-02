@@ -13,7 +13,7 @@ jobs:
             - name: Read version
               id: get_version
               run: |
-                  echo "version=$(git describe --t | sed 's/v//')" >> $GITHUB_ENV
+                  echo "version=$(git describe --tags --abbrev=0 | sed 's/v//')" >> $GITHUB_ENV
                   echo "commit=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
             - name: Set up QEMU
