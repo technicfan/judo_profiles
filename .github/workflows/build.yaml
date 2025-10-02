@@ -1,6 +1,6 @@
 name: Build and push docker image
 permissions:
-    content: read
+    contents: read
     packages: write
 
 on: workflow_dispatch
