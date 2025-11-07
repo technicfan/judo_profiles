@@ -1,4 +1,4 @@
-django==5.2.7
+django==5.2.8
 django-guardian==3.2.0
-psycopg==3.2.10
-uwsgi==2.0.30
+psycopg==3.2.12
+uwsgi==2.0.31
